@@ -3,6 +3,24 @@
 This repository is a long-term project for understanding and auditing
 *Refractive Cosmology and Continuum Mechanics* (RCCM).
 
+## Run the executable experiment
+
+On macOS with CMake 3.25 or newer and a C++23 compiler:
+
+```bash
+make demo
+```
+
+That one command builds a small RCCM-v0 universe, measures a propagating
+pressure-density wave, repeats the experiment at three resolutions, proves an
+exact deterministic replay, creates a ledgered time branch, and—when visible
+to the process—cross-examines the Apple Metal result against the
+double-precision CPU oracle.
+
+The demo is deliberately more demanding than a visual toy and more modest than
+a declaration of physical truth. Its final card says exactly what the run
+demonstrates and what remains unproven.
+
 The destination is not merely being able to repeat the document. It is being
 able to:
 

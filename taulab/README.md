@@ -36,6 +36,21 @@ The immutable RCCM-v0 theory identity is:
 0159d804fc8b186e3707f1264a56f56abffa395ebc8ae0bcfacf7858d432f503
 ```
 
+## One-command executable demo
+
+From the repository root:
+
+```bash
+make demo
+```
+
+The terminal report is generated from a live solver run. It measures acoustic
+phase speed, conservation residuals, spatial refinement order, deterministic
+state replay, a provenance-bearing intervention branch, and live CPU/Metal
+parity when a Metal device is visible. The executable returns nonzero if a
+required gate fails; Metal absence is reported as a skip because the
+double-precision CPU solver remains the scientific oracle.
+
 ## Scientific claim boundary
 
 This is a validated **engine foundation**, not yet a validated physical
