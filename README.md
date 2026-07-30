@@ -106,6 +106,11 @@ RCCM claim.
 
 ## Focused Guides
 
+- [LK-99, room-temperature superconductivity, and tau fluidics](LK-99-Room-Temperature-Superconductivity-and-Tau-Fluidics.md)
+  — explains the viral 2023 claim, the independent impurity/transport
+  falsification, the failed RCCM no-go attempt, and the Hyperslice map of
+  room-temperature superconductivity routes that current tau fluidics cannot
+  close.
 - [TauLab scientific engine](taulab/README.md) — the executable RCCM-v0
   hypothesis bundle, scientific governance boundary, deterministic CPU oracle,
   initial Apple Metal parity kernel, validation commands, and stateless resume
@@ -961,6 +966,10 @@ These are the present highest-value unknowns:
 14. Which proposed laboratory devices have raw data, calibration records, and
     independent replication?
 15. Which transcript claims are later corrections of earlier claims?
+16. What material-response law maps composition, lattice, carriers, defects,
+    temperature, and pressure into tau-fluid transport observables such as
+    longitudinal resistance, magnetic shielding, phase coherence, and a
+    derived superconducting \(T_c\)?
 
 ## Falsifiers and Redraw Conditions
 

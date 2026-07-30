@@ -4,7 +4,7 @@
 
 | Attack | Tempting conclusion | Adversarial break |
 |---|---|---|
-| Set \(E=k_BT\) in \(De=\alpha E/(m_ec^2)\). | At 300 K, \(De\approx3.69\times10^{-10}\) and \(\tan\delta\approx2.71\times10^9\), so room-temperature currents must be maximally lossy. | Cooling makes \(De\) still smaller and the predicted loss still larger—the opposite of ordinary superconducting transitions. The identification \(E=k_BT\) is not derived. |
+| Set \(E=k_BT\) in \(De=\alpha E/(m_ec^2)\). | At 300 K, \(De\approx3.69\times10^{-10}\) and \(\tan\delta\approx2.71\times10^9\), so the response is viscous-dominated and cannot be superconducting. | Cooling makes \(De\) still smaller and the loss/storage **ratio** still larger—the opposite of the desired phase story. More decisively, both \(G'\sim\mu_sDe^2\) and \(G''\sim\mu_sDe\) approach zero as \(De\to0\); a divergent ratio is not divergent absolute dissipation. The identification \(E=k_BT\) is also not derived. |
 | Require \(De\ge1\) for an elastic/lossless state. | The implied threshold is \(E\approx70.0\ \mathrm{MeV}\), or \(T\approx8.13\times10^{11}\ \mathrm K\), so room-temperature superconductivity is impossible. | This is RCCM’s proposed vacuum/hadronization scale, not a material \(T_c\). It would also fail to describe known low-temperature superconductors. |
 | Use \(Z_{\tau(\perp)}=h/q^2>0\). | The tau medium has irreducible electrical resistance, so \(R=0\) is impossible. | \(h/e^2\) is a quantum/topological impedance scale, not a derivation of a sample’s longitudinal bulk \(R_{xx}\). Quantum Hall systems themselves separate transverse and longitudinal response. |
 | Use \(\mu=\rho_\tau\hbar/(2m)>0\). | Every current must dissipate energy. | The stated force is proportional to \(\nu\nabla^2\mathbf v\). Uniform flow has \(\nabla^2\mathbf v=0\); positive constitutive coefficients do not guarantee an active loss channel. |
@@ -48,4 +48,3 @@
 Every tau-fluidic no-go route breaks before reaching a material-independent
 contradiction. The result triggers the Hyperslice map in
 [`07-HYPERSLICE-MAP.md`](07-HYPERSLICE-MAP.md).
-

@@ -49,6 +49,7 @@ Primary sources:
 |---|---|---|
 | `[SUPPORTS]` | \(H_3S\) showed zero resistance, magnetic-field suppression of \(T_c\), magnetic susceptibility, and an isotope shift at \(203\ \mathrm K\) under high pressure. | Thermal disorder does not impose a known low universal ceiling on superconductivity. |
 | `[SUPPORTS]` | \(LaH_{10}\) showed superconductivity around \(250\ \mathrm K\) at about 170 GPa. | Confirmed superconductivity already lies within roughly 50 K of ordinary room temperature, though not at ambient pressure. |
+| `[SUPPORTS]` | Pressure-quenched \(HgBa_2Ca_2Cu_3O_{8+\delta}\) reached a reported ambient-pressure record \(T_c=151\ \mathrm K\) in 2026. | Ambient-pressure \(T_c\) is an empirical materials frontier, not a fixed ceiling supplied by RCCM. |
 | `[SUPPORTS]` | The hydride papers state that the relevant conventional theories allow room-temperature superconductivity for favorable material parameters. | A universal no-go requires a stronger, independently tested bound than RCCM currently gives. |
 
 Primary sources:
@@ -59,6 +60,9 @@ Primary sources:
 - Drozdov et al.,
   [*Superconductivity at 250 K in lanthanum hydride under high pressures*](https://doi.org/10.1038/s41586-019-1201-8),
   *Nature* 569, 528–531 (2019).
+- Deng et al.,
+  [*Ambient-pressure 151-K superconductivity in \(HgBa_2Ca_2Cu_3O_{8+\delta}\) via pressure quench*](https://doi.org/10.1073/pnas.2536178123),
+  *PNAS* 123, e2536178123 (2026).
 
 ## RCCM corpus evidence
 
@@ -71,5 +75,4 @@ Primary sources:
 | `[SUPPORTS]` | RCCM maps \(h/q^2\) to the transverse quantum resistance \(R_K\). | [`RCCM-Condensed.tex`, lines 1880–1889](../../RCCM-Condensed.tex#L1880-L1889) | A tempting no-go would equate this with unavoidable sample resistance. |
 | `[FALSIFIES]` | The same section labels \(R_K\) a transverse/topological impedance, while material effective mass and refraction are separate projections. | [`RCCM-Condensed.tex`, lines 1880–1957](../../RCCM-Condensed.tex#L1880-L1957) | Equating \(R_K\) with longitudinal four-probe resistance is not derived. |
 | `[FALSIFIES]` | RCCM’s current map from current density to tau fields is Maxwell-shaped but supplies no Ohm law, carrier collision term, condensate field, energy gap, penetration depth, coherence length, or \(T_c\). | [`RCCM-Condensed.tex`, lines 3135–3216](../../RCCM-Condensed.tex#L3135-L3216) | The theory cannot yet calculate a material’s superconducting transition. |
-| `[FALSIFIES]` | The root atlas already identifies the missing constitutive link among density, moduli, relaxation time, and temperature. | [`README.md`, lines 931–938](../../README.md#L931-L938) | The missing temperature/response bridge is a known structural gap, not a detail. |
-
+| `[FALSIFIES]` | The root atlas already identifies the missing constitutive link among density, moduli, relaxation time, and temperature. | [`README.md`, lines 936–943](../../README.md#L936-L943) | The missing temperature/response bridge is a known structural gap, not a detail. |
