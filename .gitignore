@@ -1,0 +1,14 @@
+.DS_Store
+
+# TauLab build and generated outputs
+taulab/build/
+taulab/dist/
+taulab/.cache/
+taulab/validation-output/
+taulab/checkpoints/
+taulab/datasets/
+
+# Tooling
+node_modules/
+compile_commands.json
+

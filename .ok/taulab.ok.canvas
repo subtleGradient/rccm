@@ -1,0 +1,267 @@
+{
+  "nodes": [
+    {
+      "id": "taulab",
+      "type": "text",
+      "text": "# TauLab\nScientific theory-development engine\n\nEvergreen OK source: `.ok/taulab.ok.md`",
+      "x": 0,
+      "y": 300,
+      "width": 320,
+      "height": 180,
+      "color": "5"
+    },
+    {
+      "id": "purpose",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Purpose and scientific boundary",
+      "x": 480,
+      "y": 0,
+      "width": 360,
+      "height": 180,
+      "color": "6"
+    },
+    {
+      "id": "hyperslices",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Cardinal hyperslices",
+      "x": 480,
+      "y": 220,
+      "width": 360,
+      "height": 180,
+      "color": "6"
+    },
+    {
+      "id": "governance",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Quads-PREP governance",
+      "x": 480,
+      "y": 440,
+      "width": 360,
+      "height": 180,
+      "color": "3"
+    },
+    {
+      "id": "compiler",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Formal theory compiler",
+      "x": 1000,
+      "y": 0,
+      "width": 380,
+      "height": 180,
+      "color": "4"
+    },
+    {
+      "id": "theory",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#RCCM-v0 candidate continuum",
+      "x": 1000,
+      "y": 220,
+      "width": 380,
+      "height": 180,
+      "color": "4"
+    },
+    {
+      "id": "solver",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Reference and Metal solvers",
+      "x": 1000,
+      "y": 440,
+      "width": 380,
+      "height": 180,
+      "color": "4"
+    },
+    {
+      "id": "control",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#God control and experiment execution",
+      "x": 1520,
+      "y": 0,
+      "width": 400,
+      "height": 180,
+      "color": "2"
+    },
+    {
+      "id": "surrogate",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Learned acceleration",
+      "x": 1520,
+      "y": 220,
+      "width": 400,
+      "height": 180,
+      "color": "2"
+    },
+    {
+      "id": "validation",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Validation ladder",
+      "x": 1520,
+      "y": 440,
+      "width": 400,
+      "height": 180,
+      "color": "1"
+    },
+    {
+      "id": "scope",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Scope and staged destination",
+      "x": 2040,
+      "y": 110,
+      "width": 400,
+      "height": 180,
+      "color": "5"
+    },
+    {
+      "id": "resumption",
+      "type": "file",
+      "file": ".ok/taulab.ok.md",
+      "subpath": "#Stateless resumption protocol",
+      "x": 2040,
+      "y": 370,
+      "width": 400,
+      "height": 180,
+      "color": "5"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-taulab-purpose",
+      "fromNode": "taulab",
+      "toNode": "purpose",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "defines why"
+    },
+    {
+      "id": "edge-taulab-hyperslices",
+      "fromNode": "taulab",
+      "toNode": "hyperslices",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "preserves boundaries"
+    },
+    {
+      "id": "edge-taulab-governance",
+      "fromNode": "taulab",
+      "toNode": "governance",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "governs evidence"
+    },
+    {
+      "id": "edge-purpose-compiler",
+      "fromNode": "purpose",
+      "toNode": "compiler",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "requires formal contracts"
+    },
+    {
+      "id": "edge-hyperslices-theory",
+      "fromNode": "hyperslices",
+      "toNode": "theory",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "separates state and observables"
+    },
+    {
+      "id": "edge-governance-solver",
+      "fromNode": "governance",
+      "toNode": "solver",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "versions execution"
+    },
+    {
+      "id": "edge-compiler-control",
+      "fromNode": "compiler",
+      "toNode": "control",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "types experiments"
+    },
+    {
+      "id": "edge-theory-surrogate",
+      "fromNode": "theory",
+      "toNode": "surrogate",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "versions training truth"
+    },
+    {
+      "id": "edge-solver-validation",
+      "fromNode": "solver",
+      "toNode": "validation",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "produces marks"
+    },
+    {
+      "id": "edge-control-scope",
+      "fromNode": "control",
+      "toNode": "scope",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "bounds first milestone"
+    },
+    {
+      "id": "edge-surrogate-scope",
+      "fromNode": "surrogate",
+      "toNode": "scope",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "cannot outrun authority"
+    },
+    {
+      "id": "edge-validation-resumption",
+      "fromNode": "validation",
+      "toNode": "resumption",
+      "fromSide": "right",
+      "toSide": "left",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "makes progress inspectable"
+    },
+    {
+      "id": "edge-scope-resumption",
+      "fromNode": "scope",
+      "toNode": "resumption",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "fromEnd": "none",
+      "toEnd": "arrow",
+      "label": "enables restart"
+    }
+  ]
+}
