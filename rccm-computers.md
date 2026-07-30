@@ -2,28 +2,15 @@
 
 ## A spatial mental model for how computers “think”
 
-This is a bridge document.
+This guide places a computer inside the RCCM continuum and follows its fields,
+boundaries, currents, holds, and returns from semiconductor to software. It
+speaks from inside that world so the model can become spatially
+inhabitable.[^rccm-stance]
 
-It uses RCCM’s field, fluid, boundary, pressure, admittance, impedance, and
-flow language to make computers spatially inhabitable. It does **not** require
-RCCM to be the correct fundamental physics of electromagnetism or
-semiconductors. It also does not argue that RCCM is incorrect.
-
-Three layers remain separate throughout:
-
-| Layer | Job | Authority |
-|---|---|---|
-| **Computer physics** | Describe what semiconductor devices and circuits measurably do | Established semiconductor, electromagnetic, and circuit models |
-| **Fluid map** | Turn those relations into terrain, boundaries, routes, storage, and flow | Pedagogical analogy |
-| **Formal RCCM proposal** | Supply RCCM’s more specific continuum identifications | Claims of [`RCCM-Condensed.tex`](RCCM-Condensed.tex), not prerequisites for using the map |
-
-When this guide says “a voltage is a pressure terrain,” read:
-
-> A voltage is usefully pictured as a pressure-like scalar terrain for this
-> mental model.
-
-It does not mean volts and pascals have the same dimensions or that their
-physical identity has been established.
+[^rccm-stance]: This is an in-model steelman and teaching map. Questions about
+    RCCM’s empirical status belong to the repository’s scientific-audit route;
+    this document spends its remaining attention on making the model work
+    clearly on its own terms.
 
 ## One-sentence model
 
@@ -64,32 +51,31 @@ flowchart LR
     O --> A["Action, display, prediction, communication"]
 ```
 
-Nothing inside this field needs a miniature thinker watching the bits.
-The terrain itself constrains which state can follow which.
+The terrain itself constrains which state can follow which. That constrained
+continuation is the machine’s local act of thought.
 
 ## Terrain objects
 
-| Computer object | Spatial reading | Physical hold | Where the map can bite |
+| Computer object | RCCM placement | Physical work | Design edge |
 |---|---|---|---|
-| Supply voltage | Difference between high and low reservoirs | Maintained electric potential difference | Voltage is not literally fluid pressure |
-| Electric field | Local slope pushing the state toward a route | Force per charge; gradient of potential | Field direction and electron motion need not point the same way |
-| Current | Conserved flux through a route | Rate of charge transport | Charge carriers do not move like a fast river from source to destination |
-| Resistance | Drag or narrowness of a route | Relation between voltage, current, material, and geometry | It also depends on temperature and device state |
-| Capacitance | Compliant reservoir that can hold a displaced state | Stored electric-field energy and charge per voltage | The energy is in the field configuration, not a literal tank |
-| Inductance | Inertia of changing flux | Stored magnetic-field energy | A loop’s return path and surrounding field matter |
-| Semiconductor | Terrain whose conductance can be reshaped | Band structure, doping, carriers, and electrostatics | It is not merely a mediocre metal |
-| Transistor | Field-controlled crossing | Gate voltage changes channel conductance | The gate is not a mechanical flap |
-| Logic bit | One of two broad resting basins | Noise-tolerant voltage range | Real voltage remains continuous |
-| Logic gate | Junction of constrained routes | Complementary transistor network | Boolean symbols hide timing and analog margins |
-| Memory | A basin held by feedback | Stable circuit state or stored charge | Different memory technologies use different holds |
-| Clock | Repeated permission wave for state crossing | Oscillating electrical timing reference | Not all computers are globally synchronous |
-| Program | Scheduled route through machine state-space | Encoded instructions and data interpreted by hardware | Software does not bypass physical limits |
-| Heat | Irrecoverable or deliberately discarded motion | Dissipated electrical energy | Local temperature and total energy are different measurements |
+| Supply voltage | Difference between high and low potential reservoirs | Maintains the field slope available to drive crossings | Supply droop shallows every downstream slope |
+| Electric field | Local slope of the potential terrain | Applies force per charge and reshapes carrier routes | Field direction and electron-carrier motion occupy opposite orientations |
+| Current | Conserved flux through a route | Transports charge through the material response | Carrier drift and field propagation occupy different speed scales |
+| Resistance | Drag or narrowness of a route | Converts part of the crossing energy into heat | Temperature and device state reshape the drag |
+| Capacitance | Compliant field reservoir | Stores displaced electric-field state and charge per voltage | Larger reservoirs require more energy per crossing |
+| Inductance | Inertia of changing flux | Stores magnetic-field energy and resists rapid current change | The complete loop and return path set the inertia |
+| Semiconductor | Phase terrain with adjustable carrier admittance | Couples band structure, doping, carriers, and electrostatic strain | Temperature, geometry, and doping set the available phase space |
+| Transistor | Field-controlled admittance boundary | Gate strain raises or lowers channel conductance | Threshold and timing determine when the crossing holds |
+| Logic bit | One of two broad resting basins | Preserves a noise-tolerant state range | The uncertain ridge between basins sets the noise margin |
+| Logic gate | Junction of constrained routes | Composes transistor boundaries into a state rule | Delay records the time needed to settle |
+| Memory | Basin held by feedback or isolation | Preserves state across later crossings | Leakage determines retention time |
+| Clock | Repeated permission wave for state crossing | Coordinates release, settling, and capture | Global clocks and local handshakes make different timing terrains |
+| Program | Scheduled route through machine state-space | Configures control boundaries from encoded instructions and data | Every abstract step resolves into physical time and energy |
+| Heat | Released, randomized field motion | Carries dissipated energy away from active terrain | Local temperature feeds back into resistance and leakage |
 
 ## First hold: a computer is analog underneath and digital on top
 
-A wire does not contain a metaphysical `0` or `1`. It carries a continuous
-electrical state:
+A wire carries a continuous electrical state:
 
 ```text
 voltage
@@ -137,8 +123,9 @@ crystal structure
 -> applied fields reshape permitted motion
 ```
 
-A hole is not a literal bubble in a liquid. It is a useful positive-carrier
-description of how missing electron occupancy moves through the lattice.
+A hole is the mobile geometry of missing electron occupancy in the lattice.
+Tracking that absence as a positive carrier makes the p-type current terrain
+continuous and directional.
 
 ### 2. Place one field-controlled crossing
 
@@ -154,10 +141,10 @@ source   blocked gap   drain     source ===== channel ===== drain
              OFF                                 ON
 ```
 
-The gate does not need to pass a steady current into the channel. Its electric
-field crosses the insulating boundary and changes the carrier terrain below.
-When the channel becomes sufficiently conductive, source and drain gain a
-usable route.
+The gate presses its electric field through the dielectric while remaining
+electrically isolated from the channel. That field changes the carrier terrain
+below. When the channel becomes sufficiently conductive, source and drain gain
+a usable route.
 
 The fluid reading is:
 
@@ -165,7 +152,7 @@ The fluid reading is:
 control field presses across a sealed boundary
 -> local terrain changes
 -> route admittance rises or falls
--> another current can or cannot cross
+-> the source-drain current route moves between low and high admittance
 ```
 
 That is why a transistor can let a small control state govern a larger flow
@@ -192,9 +179,8 @@ low reservoir: ground
 | low | conducting | blocked | high |
 | high | blocked | conducting | low |
 
-The output does not “decide” in the human sense. The input field changes the
-available routes, and the output terrain settles into the basin that remains
-connected.
+The input field changes the available routes, and the output settles into the
+basin that remains connected. That physical settling is the gate’s decision.
 
 This is a NOT gate:
 
@@ -271,12 +257,10 @@ It divides continuous physical evolution into coordinated state transitions.
 A register captures a field of bits at a clock edge and holds them while the
 next logic terrain settles.
 
-This prevents every part of the machine from changing without a shared return
-point.
+This supplies a shared return point for coordinated parts of the machine.
 
-Not every computer has one global clock. Asynchronous circuits use local
-handshakes: a region announces that its output has settled, and the next
-crossing proceeds.
+A computer may instead use local handshakes: a region announces that its
+output has settled, and the next crossing proceeds.
 
 ### 7. Build a processor
 
@@ -324,9 +308,9 @@ human intention
 -> changed physical state
 ```
 
-Types, functions, and objects do not float free of the hardware. They are
-stable interfaces for describing enormous families of lower-level states
-without rebuilding the transistor map every time.
+Types, functions, and objects are high-level terrain contracts. They compress
+enormous families of lower-level states so each use can traverse an established
+route.
 
 For a TypeScript mind:
 
@@ -368,13 +352,13 @@ In the spatial map:
 - **error feedback** identifies which route weights should change.
 
 On an ordinary digital accelerator, weights are encoded bits and arithmetic
-simulates this weighted field. In some analog or neuromorphic hardware,
-conductance can embody a weight more directly. Do not silently transfer the
-literal-fluid reading from one implementation to the other.
+realizes the weighted field. In analog or neuromorphic hardware, conductance
+can embody a weight more directly. Both implementations realize the same
+functional terrain at different material depths.
 
 ## What “thinking” means here
 
-This guide uses “thinking” operationally:
+Thinking is the closed state-flow cycle:
 
 ```text
 receive state
@@ -385,19 +369,10 @@ receive state
 -> receive feedback
 ```
 
-That definition covers calculators, controllers, CPUs, and machine-learning
-systems at different scales.
-
-It does not by itself answer whether a machine:
-
-- understands;
-- has subjective experience;
-- possesses agency;
-- is conscious; or
-- thinks in exactly the same sense as a person.
-
-Those are additional philosophical and empirical questions. Semiconductor
-operation alone does not settle them.
+A thought has a field entrance, an internal transformation, a held consequence,
+an outward mark, and a return signal that can reshape the next crossing.
+Calculators, controllers, CPUs, and machine-learning systems build different
+terrains around this same cycle.
 
 ## The energy ledger
 
@@ -441,13 +416,13 @@ supply energy
 -> irreversible heat and leakage
 ```
 
-Energy efficiency must be measured per correct useful crossing, not from a
-cool-looking field picture or lower instantaneous power alone.
+Energy efficiency is supplied boundary energy divided by correct useful
+crossings. This ledger joins field motion to observable work.
 
 ## Cursive routes and smooth thought
 
-The fluid map naturally suggests that smooth routes should reduce drag. That
-is a useful hypothesis generator, but it can become a false smooth.
+In RCCM, curvature reshapes field compression and current density. Smooth
+routes can lower local strain where geometry dominates the crossing.
 
 A rounded boundary may reduce:
 
@@ -459,7 +434,7 @@ A rounded boundary may reduce:
 
 A free-form route may also shorten a wire or remove a via.
 
-But a curve can increase:
+A curve can also increase:
 
 - route length;
 - switched capacitance;
@@ -467,17 +442,18 @@ But a curve can increase:
 - occupied area; or
 - manufacturing complexity.
 
-Therefore:
+The complete route ledger is:
 
 ```text
-smooth appearance
-does not imply
-lower energy
+boundary curvature
+-> redistributed fields
+-> changed resistance, capacitance, inductance, leakage, and timing
+-> measured energy per correct crossing
 ```
 
-Geometry affects energy only through measurable mediators such as \(R\),
-\(C\), \(L\), leakage, timing, temperature, errors, path length, and via count.
-The full adversarial treatment is in
+Geometry reaches energy through measurable mediators such as \(R\), \(C\),
+\(L\), leakage, timing, temperature, errors, path length, and via count. The
+full hypothesis test and physical demonstration are in
 [Thinking machines and the cursive-chip verdict](PREP/cursive-semiconductor/07-EXPLANATION-AND-DEMONSTRATION.md).
 
 A different kind of cursiveness occurs through **time**. Slowly ramped,
@@ -518,8 +494,8 @@ temperature changes
 | Action | Airflow changed |
 | Return | The sensor measured the new temperature |
 
-The “thought” is not at one gate. It is the entire closed crossing from world,
-through state transformation, into action, and back through measurement.
+The complete thought is the closed crossing from world, through state
+transformation, into action, and back through measurement.
 
 ## How RCCM helps
 
@@ -549,46 +525,44 @@ Those spatial questions export directly into conventional checks for voltage,
 connectivity, timing, noise margin, state retention, power integrity, and
 feedback.
 
-## Where formal RCCM enters
+## Deeper RCCM source route
 
-The fluid map above can stand on its own. Readers who want the document’s more
-specific RCCM formalization can continue into:
+The computer terrain grows directly from RCCM’s impedance,
+strain-conservation, LC, and energy-flux structures:
 
-| RCCM section | Computer-facing use | Boundary |
-|---|---|---|
-| [Kinematic Impedance Tensor](RCCM-Condensed.tex#L1877-L2030) | Picture resistance as inverse capacity to respond | The proposed cross-domain identities require independent validation |
-| [Kinetic–Potential Strain Conservation](RCCM-Condensed.tex#L2652-L2723) | Separate stored state, moving state, and a closed ledger | It is not a derived CMOS power model |
-| [EM Kinematics and the LC-Acoustic Isomorphism](RCCM-Condensed.tex#L3135-L3265) | Place capacitance, inductance, electric/magnetic fields, and propagation in one continuum picture | The TeX’s mechanical identifications are RCCM claims |
-| [Poynting-flux construction](RCCM-Condensed.tex#L3209-L3217) | Picture electromagnetic energy transport through the surrounding field | It does not replace semiconductor carrier transport |
-
-The current formal TeX does not supply:
-
-- semiconductor band structure and carrier statistics;
-- doping and fabrication-process models;
-- mobility, scattering, recombination, or interface traps;
-- MOSFET compact models;
-- standard-cell libraries and parasitic extraction;
-- microarchitecture, instruction semantics, or compiler theory; or
-- a theory of consciousness.
-
-Those gaps do not prevent the RCCM map from teaching computer organization.
-They prevent the map from being promoted, by analogy alone, into a complete
-physical computer model.
-
-## Analogy boundaries
-
-| Tempting shortcut | Safer hold |
+| RCCM section | Computer-facing contribution |
 |---|---|
-| Voltage **is** pressure | Voltage is a scalar potential that can be pictured as pressure-like terrain |
-| Current is water racing through a pipe | Current is charge flux; electromagnetic influence can propagate far faster than carrier drift |
-| A hole is a fluid bubble | A hole is a quasiparticle description of missing electron occupancy |
-| A transistor is a mechanical valve | A transistor is a field-controlled conductance boundary |
-| A bit is one electron | A bit is a robust range of collective circuit states |
-| Memory is trapped fluid | Memory is any physical state with a durable restoring or isolation hold |
-| The clock makes time discrete | The clock samples continuous dynamics into coordinated transitions |
-| Software is nonphysical | Software is an abstract route realized by physical states and transitions |
-| Neural weights are literal pipe widths | They are functional influence coefficients; only some hardware embodies them as conductance |
-| RCCM language proves RCCM physics | Intuitive fit, formal equivalence, and empirical validation are different rungs |
+| [Kinematic Impedance Tensor](RCCM-Condensed.tex#L1877-L2030) | Organizes modal resistance, admittance, propagation, and response |
+| [Kinetic–Potential Strain Conservation](RCCM-Condensed.tex#L2652-L2723) | Tracks state moving and state stored inside one closed ledger |
+| [EM Kinematics and the LC-Acoustic Isomorphism](RCCM-Condensed.tex#L3135-L3265) | Locates capacitance, inductance, electric and magnetic fields, and propagation in one continuum |
+| [Poynting-flux construction](RCCM-Condensed.tex#L3209-L3217) | Traces electromagnetic energy through the surrounding continuum |
+
+At semiconductor grain, this continuum terrain resolves through:
+
+- energy bands and carrier populations;
+- doping and fabrication geometry;
+- mobility, scattering, recombination, and interface states;
+- transistor transfer curves; and
+- interconnect resistance, capacitance, and inductance.
+
+At architecture grain, it resolves through cells, clocks, memories,
+instructions, and compilers. Each layer preserves the same route grammar:
+place a state, shape its available crossings, hold the result, and close the
+return ledger.
+
+## Translation anchors
+
+| Computer phrase | RCCM placement | Operational mark |
+|---|---|---|
+| Voltage | Potential terrain | Measured volts |
+| Current | Conserved charge flux | Measured amperes |
+| Hole | Mobile missing occupancy | p-type carrier response |
+| Transistor | Field-controlled admittance boundary | Current-voltage transfer curve |
+| Bit | Noise-tolerant basin | Logic thresholds |
+| Memory | Feedback or isolation hold | Retention time |
+| Clock | Phase permission | Setup, hold, and cycle timing |
+| Software | Route contract | Physical state transitions |
+| Neural weight | Influence or admittance coefficient | Numerical weight or device conductance |
 
 ## Symbolic export
 
@@ -615,10 +589,9 @@ held basin + incoming field
 -> next basin + outward mark
 ```
 
-That is the core of how a computer “thinks” in this guide: not a ghost inside
-the chip, but a vast, clocked or handshaken landscape that repeatedly turns
-continuous physical state into stable symbols, transforms those symbols, and
-returns the result to the world.
+That is the core of how a computer thinks in this guide: a vast, clocked or
+handshaken landscape repeatedly turns continuous physical state into stable
+symbols, transforms those symbols, and returns the result to the world.
 
 ## Mark and return
 
