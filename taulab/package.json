@@ -7,7 +7,8 @@
     "test": "bun test",
     "typecheck": "bunx tsc --noEmit",
     "theory:validate": "bun run src/cli.ts validate",
-    "theory:compile": "bun run src/cli.ts compile"
+    "theory:compile": "bun run src/cli.ts compile",
+    "validate": "bash scripts/validate.sh"
   },
   "devDependencies": {
     "@types/bun": "^1.3.14",
