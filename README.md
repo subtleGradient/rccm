@@ -116,6 +116,11 @@ RCCM claim.
 - [RCCM Magnets](rccm-magnets.md) — microscopic locked vortices, magnetic
   domains, attraction and repulsion, torque versus force, and magnetism's
   location in the antisymmetric sector of RCCM's unified tensor.
+- [RCCM Pilot Waves and the Double Slit](RCCM-Pilot-Wave-and-Double-Slit.md)
+  — a Topolect map of de Broglie–Bohm mechanics, its partial contact with
+  RCCM's continuum-wave/localized-vortex ontology, the double-slit route, and
+  the guidance, probability, configuration-space, and detector-coupling gaps
+  that prevent an identity claim.
 - [Refractive Cosmology reproduction package](Refractive_Cosmology/README.md)
   — an older Pantheon+SH0ES inversion, saturation-fit, residual-plot, and
   time-integration pipeline. Use the versioned route below before importing
