@@ -33,6 +33,10 @@ The HTML files are generated reading copies only:
 - `RCCM-Condensed.tex` is canonical over `RCCM-Condensed.html`.
 - `RCCM-GfX-2.tex` is canonical over `RCCM-GfX-2.html`.
 
+When either TeX changes, rebuild only its paired HTML through
+`convert-rccm.mjs` inside the `nixpkgs#pandoc` shell, using the commands in the
+root README. Keep the generated canonical-source notice intact.
+
 ### Triggered asymmetric-tensor route
 
 | Question or task | Read | When and why |

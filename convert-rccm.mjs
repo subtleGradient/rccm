@@ -8,8 +8,10 @@ import { fileURLToPath } from "node:url";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const inputPath = resolve(process.argv[2] ?? join(scriptDirectory, "RCCM-Condensed.tex"));
+const inputBasename = basename(inputPath);
+const documentBasename = basename(inputPath, ".tex");
 const outputPath = resolve(
-  process.argv[3] ?? join(dirname(inputPath), `${basename(inputPath, ".tex")}.html`),
+  process.argv[3] ?? join(dirname(inputPath), `${documentBasename}.html`),
 );
 
 const original = readFileSync(inputPath, "utf8");
@@ -141,7 +143,49 @@ function transformBoxes(source) {
   return output;
 }
 
-let source = transformBoxes(original);
+function transformBibliography(source) {
+  const bibliography = source.match(
+    /\\begin\{thebibliography\}\{[^}]*\}([\s\S]*?)\\end\{thebibliography\}/,
+  );
+  if (!bibliography) return source;
+
+  const entries = [
+    ...bibliography[1].matchAll(
+      /\\bibitem\{([^}]+)\}\s*([\s\S]*?)(?=\\bibitem\{|$)/g,
+    ),
+  ].map((match, index) => ({
+    key: match[1],
+    body: match[2].trim(),
+    number: index + 1,
+  }));
+  const entryByKey = new Map(entries.map((entry) => [entry.key, entry]));
+
+  let transformed = source.replace(/\\cite\{([^}]+)\}/g, (_, keys) =>
+    keys
+      .split(",")
+      .map((key) => key.trim())
+      .map((key) => {
+        const entry = entryByKey.get(key);
+        return entry
+          ? `\\hyperref[ref:${key}]{[${entry.number}]}`
+          : `[${key}]`;
+      })
+      .join(", "),
+  );
+
+  const replacement = [
+    "\\section*{References}",
+    "\\begin{enumerate}",
+    ...entries.map(
+      ({ key, body }) => `\\item \\hypertarget{ref:${key}}{} ${body}`,
+    ),
+    "\\end{enumerate}",
+  ].join("\n\n");
+
+  return transformed.replace(bibliography[0], replacement);
+}
+
+let source = transformBibliography(transformBoxes(original));
 
 source = source
   .replace(
@@ -171,6 +215,10 @@ source = source
   )
   .replace(/\\space\b/g, "\\,");
 
+// Pandoc's MathML reader does not support the visual \cancel macro. Preserve
+// the equation itself in the HTML reading copy; the TeX remains canonical.
+source = source.replace(/\\cancel\{([^{}]*)\}/g, "$1");
+
 for (const [label, number] of boxNumbers) {
   source = source.replaceAll(`\\ref{${label}}`, String(number));
 }
@@ -182,10 +230,10 @@ for (const [label, number] of equationNumbers) {
 }
 
 const temporaryDirectory = mkdtempSync(join(tmpdir(), "rccm-html-"));
-const preparedPath = join(temporaryDirectory, "RCCM-Condensed.prepared.tex");
+const preparedPath = join(temporaryDirectory, `${documentBasename}.prepared.tex`);
 const filterPath = join(temporaryDirectory, "semantic-boxes.lua");
 const templatePath = join(temporaryDirectory, "semantic.html");
-const draftPath = join(temporaryDirectory, "RCCM-Condensed.draft.html");
+const draftPath = join(temporaryDirectory, `${documentBasename}.draft.html`);
 
 const filter = String.raw`
 function BlockQuote(block)
@@ -251,6 +299,7 @@ $endfor$<title>$pagetitle$</title>
 $if(title)$<h1>$title$</h1>
 $endif$$for(author)$<p class="author">$author$</p>
 $endfor$$if(date)$<p class="date">$date$</p>
+$endif$$if(canonicalsource)$<p class="source-note">HTML reading copy. Canonical source: <a href="$canonicalsource$"><code>$canonicalsource$</code></a>.</p>
 $endif$</header>
 $if(toc)$<nav id="contents" aria-labelledby="contents-heading">
 <h2 id="contents-heading">Contents</h2>
@@ -279,6 +328,7 @@ const pandoc = spawnSync(
     "--toc-depth=3",
     "--section-divs",
     "--strip-comments",
+    `--metadata=canonicalsource:${inputBasename}`,
     `--lua-filter=${filterPath}`,
     `--template=${templatePath}`,
     `--output=${draftPath}`,
@@ -329,6 +379,7 @@ html = html.replace(
 html = html
   .replace(/\s+style="[^"]*"/g, "")
   .replace(/<div class="center">([\s\S]*?)<\/div>/g, "$1")
+  .replace(/[ \t]+$/gm, "")
   .replace(/\n{3,}/g, "\n\n");
 
 writeFileSync(outputPath, html);

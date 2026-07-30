@@ -60,6 +60,14 @@ formal specification.
 | [`RCCM-Condensed.html`](RCCM-Condensed.html) and [`RCCM-GfX-2.html`](RCCM-GfX-2.html) | When reading in a browser, following the contents, or navigating equation anchors | They are generated, readable MathML renderings of their same-named TeX files | Each paired `.tex` file is canonical. Never cite an HTML conversion artifact as if it were a newer equation or independent source |
 | [`binyamin-sim/asymmetricTensorFoam.c`](binyamin-sim/asymmetricTensorFoam.c) | After `RCCM-GfX-2.tex` Sections 2, 3, and 5.1, when tracing how part of the proposal was translated into finite-volume operators | It is a compact OpenFOAM-oriented prototype: it decomposes `grad(U)` with `symm`/`skew`, constructs a bounded capacity factor and asymmetric stress, then advances velocity and pressure with PISO | It is one translation unit, not a complete case or reproducible solver package. Required field declarations, case files, boundary/initial data, build metadata, units, and validation results are absent |
 
+Regenerate either reading copy from its canonical TeX with the repository
+converter and a pinned Nix-provided Pandoc:
+
+```bash
+nix shell nixpkgs#pandoc --command node convert-rccm.mjs RCCM-Condensed.tex RCCM-Condensed.html
+nix shell nixpkgs#pandoc --command node convert-rccm.mjs RCCM-GfX-2.tex RCCM-GfX-2.html
+```
+
 The narrow code-to-document bridge is:
 
 ```text
