@@ -51,8 +51,8 @@ nMOS route from the output to ground.
 
 | Input | pMOS high route | nMOS low route | Output basin |
 |---|---|---|---|
-| low | open | closed | high |
-| high | closed | open | low |
+| low | conducting | blocked | high |
+| high | blocked | conducting | low |
 
 Series and parallel transistor networks form NAND, NOR, and other functions.
 Feedback between gates forms latches and memory. Clocked state elements create
