@@ -1,0 +1,27 @@
+The Aether - Michaelson and Morley's false results
+==================================================
+
+Video: https://www.youtube.com/watch?v=HkAMX7SXZq0
+Video ID: HkAMX7SXZq0
+Upload date: 2026-04-22
+Duration: 5:25
+Caption source: 20260422 - The Aether - Michaelson and Morley's false results [HkAMX7SXZq0].en-orig.vtt
+
+Transcript
+----------
+
+We often think of space as an empty container where the laws of physics happen to play out, but refractive cosmology proposes a different architecture, one where macroscopic cosmology and localized quantum mechanics evaluate as deterministic consequences of continuum mechanics. This framework treats the vacuum as the tau metric, a compressible, elastic, refractive fluid medium. Under these terms, fundamental matter is defined strictly as a localized acoustic cavity, a topological defect existing within that medium. Testing this premise requires reevaluating two specific historical phenomena, the Michelson-Morley null result and Coulomb's law of electrostatic attraction.
+
+The derivation uses zero arbitrary parameters, relying entirely on macroscopic geometric boundary limits and classical fluid pressure gradients. In this view, the universe is a unified fluid system where complex physics collapses into fundamental classical hydrodynamics. Consider the kinematics of movement. Moving a topological boundary through the tau metric generates a fluid headwind pressing against its leading edge. To prevent a total fracture, the cavity must physically flatten in the direction of travel, adapting to the pressure of that wind. This structural contraction is acoustic kinematic covariance, a survival mechanism that allows the boundary to maintain its integrity as it moves.
+
+Equation 147 traces the exact relationship between this structural contraction and fluid transit delay. As the boundary's physical arm contracts, it does so in direct proportion to the temporal drag. Because the ruler's contraction matches the wind's delay, the differential phase shift evaluates to zero. This is why the Michelson-Morley interferometer failed to detect the ether. The instrument itself is constructed from atoms, fluid cavities, that contract as they move. The wave's round trip time remains invariant because the detectors physical arms have shortened to compensate. The null result doesn't disprove a background medium. It proves fluid observers cannot measure fluid whims using rulers also made of fluid.
+
+To understand the dynamics of charge, look at a stationary topological defect. This core is a localized source of continuous fluid circulation within the metric. Here, the discrete charge Q is defined by the fluid dynamics of the surrounding vacuum. Specifically, charge evaluates as the volumetric phase flux phi of transverse fluid circulation radiating from the core. This chart shows fluid velocity V is governed by the continuity equation. Because fluid radiates isotropically, its velocity decreases proportionally to the expanding spherical surface area. Bernoulli's principle tells us that this moving fluid possesses pressure calculated as 1/2 the density times the velocity squared.
+
+Because the velocity already falls off as 1/R squared and dynamic pressure squares that velocity, the pressure field actually drops off at a rate of 1/R to the fourth. Integrating this 1/R to the fourth pressure field across three-dimensional space gives us the total interaction energy, which scales as 1/R. When we take the spatial gradient of that energy field to find the mechanical force, we arrive at a result that scales as 1/R squared. This spatial gradient isolates the inverse square limit natively. Coulomb's law isn't a separate invisible force. It is the macroscopic hydrodynamic pressure gradient of the tau metric. This derivation also explains charge polarity.
+
+The interaction between two particles depends on their topological winding number, the direction their localized fluid spins. The physical force between them is determined by the geometric dot product of their local fluid vectors. When two defects have opposite chiralities, their fluid flows align in the same direction. This co-directional flow increases local fluid velocity. According to Bernoulli, higher velocity drops the static pressure. The higher pressure of the surrounding vacuum physically crushes the two boundaries together. Mathematically, when the dot product of the velocities is greater than zero, the resulting pressure drop creates attraction. If the winding numbers are identical, the fluid flows between the particles collide head-on.
+
+This collision forces the fluid to stagnate, dropping the velocity to zero. This causes the localized static pressure to spike, forcefully driving the boundaries apart. In this case, the dot product is less than zero, and the resulting pressure spike creates repulsion. Electromagnetic attraction and repulsion are therefore purely mechanical consequences of the vacuum seeking hydrostatic equilibrium. These two mechanics, one for moving boundaries and one for stationary charges, intersect at a single point. Under the tau metric, relativistic rules and electromagnetic forces cease to be disparate axioms. Both are mathematical inevitabilities of a continuous fluid topology.
+
+Length contraction is boundary survival against aerodynamic drag, and electromagnetic force is macroscopic hydrostatic pressure. By recognizing the vacuum as an elastic continuum, the complex fragmented architecture of physics resolves into deterministic continuum mechanics.

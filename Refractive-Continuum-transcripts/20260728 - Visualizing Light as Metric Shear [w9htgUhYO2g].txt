@@ -1,0 +1,25 @@
+Visualizing Light as Metric Shear
+=================================
+
+Video: https://www.youtube.com/watch?v=w9htgUhYO2g
+Video ID: w9htgUhYO2g
+Upload date: 2026-07-28
+Duration: 4:28
+Caption source: 20260728 - Visualizing Light as Metric Shear [w9htgUhYO2g].en-orig.vtt
+
+Transcript
+----------
+
+The standard model of physics treats an electromagnetic wave as an excitation of a gauge field propagating across a static empty space-time background. This architecture leaves the physical medium of the wave undefined, treating the field and the vacuum as separate independent entities. Carmouche's asymmetric metric tensor unifies these elements into a single mathematical framework. Here, space-time is defined as a micropolar Cosserat continuum, a continuous fluid that possesses both translational and internal rotational degrees of freedom. Light functions as a specific propagating mechanical deformation of the void itself. The foundational equation of this unified field splits the total geometry of the metric into two sectors.
+
+The symmetric component S sub mu nu dictates volumetric strain, the compression and expansion responsible for macroscopic gravity. The anti-symmetric component A mu nu captures transverse shear, the twisting and sliding deformations that generate electromagnetism. To understand light, we must examine the mechanical shear dynamics of this anti-symmetric tensor. Mapping classical electromagnetic fields to specific coordinate deformations reveals the internal mechanics of the continuous metric. This 4 by 4 asymmetric metric tensor matrix categorizes every possible geometric strain the vacuum can experience. The symmetric diagonals govern the volumetric packing of the metric, which produces the ambient gravitational field.
+
+The kinematics of light emerge from the off-diagonals, beginning with the space-time components. These matrix slots dictate transverse slip, the rate at which localized planes of the metric slide past one another. This sliding motion defines the structural origin of the electric field. The space-space off-diagonals track a different motion. These components represent club vorticity, the internal spatial curl or topological twisting of the metric. This localized rotation defines the structural origin of the magnetic field. The electric and magnetic fields represent two orthogonal kinematic states, slip and spin, within the same continuous medium. These localized deformations self-propagate across the vacuum through a continuous exchange of energy.
+
+This propagation relies first on the continuum's conservation of momentum, as seen in equation 170, a time-varying transverse slip mechanically forces the adjacent metric coordinates to rotate. The second half of this engine is governed by a geometric constraint called the Bianchi identity. Equation 171 shows that a time-varying rotation acts as an induction mechanism, throwing the next coordinate plane into a sideways slip. These mechanisms form a harmonic exchange. A sliding plane generates rotation, which induces a new slide, driving the wave forward along a single axis. Because this specific wave is volume-preserving, it moves through the vacuum without depleting the baseline capacity of the metric.
+
+The physical constants in this unified wave equation determine the maximum speed at which this exchange can occur. The speed of light, c, represents the acoustic phase limit of a rotational shear wave moving through this space-time fluid. Scaling these mechanics up to the cosmological level allows us to test the model against classical astrophysical observations. We observe this at the largest scales through gravitational lensing, where starlight bends as it passes massive objects. While general relativity describes this bending as light following the curvature of space, the tensor framework identifies a thermodynamic mechanism for this trajectory.
+
+This mechanism relies on total scalar admittance, a parameter tracking the available thermodynamic capacity of the metric. Macroscopic gravity represents a state of high dynamic pressure, where massive bodies pre-strain the metric and lowers its available capacity. This pre-strained saturated metric alters the behavior of any shear wave passing through it. The vacuum surrounding massive bodies acts as a continuous gradient index optical medium. Per equation 154, apparent wave velocity drops where the metric is most compressed, slowing the inner edge. This pivots the wave, mirroring light refracting through a glass lens.
+
+Localized mass alters the fluid impedance of the metric, refracting the mechanical shear wave of light along the path of highest structural capacity.

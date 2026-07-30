@@ -1,0 +1,27 @@
+What is the Gravitational Constant (G)?
+=======================================
+
+Video: https://www.youtube.com/watch?v=1RFy9FKbNlk
+Video ID: 1RFy9FKbNlk
+Upload date: 2026-04-29
+Duration: 5:44
+Caption source: 20260429 - What is the Gravitational Constant (G)？ [1RFy9FKbNlk].en-orig.vtt
+
+Transcript
+----------
+
+Within the mechanics of a continuous universe, the gravitational constant G does not appear as a foundational physical parameter. Instead, the model identifies G as a translation error, a conversion factor required only because of the specific way we defined our measurement systems. We measure the universe using arbitrary macroscopic human artifacts, the meter, the kilogram, and the second. The kilogram, for example, is not a fundamental property of nature. It is a mass standard defined by a specific block of platinum and iridium. The meter and the second were established using similarly localized phenomena, the physical circumference and the rotation rate of the Earth.
+
+These units are disconnected from the native microscopic grid of the vacuum. They project a human-centric scale onto the continuum. To find a foundational scale, we must look past these yardsticks and toward the absolute yield limits of the vacuum fluid. Because we use these unnormalized arbitrary units, our models require G to scale our macroscopic measurements back down to the fundamental grid of the metric. We can replace these artifacts with the native Eulerian grid of the continuous vacuum metric. This grid is defined by three absolute limits, the spatial yield limit LP, the mass saturation limit MP, and the temporal limit TP.
+
+These represent the absolute physical boundaries of the compressible, refractive vacuum fluid. We will now translate Newton's variables into this native grid. Once the units are measured natively, G evaluates to exactly one. When G is removed through this normalization, gravity is no longer represented as an independent force, but as an emergent mechanical consequence of the fluid metric. This table identifies the kinematic nomenclature of the tau metric. Constants like the absolute spatial boundary, LP, and the macroscopic advection velocity, V0, establish the parameters of the expanding continuum. In this framework, empirical constants emerge as measurement artifacts, rather than independent foundational parameters.
+
+The most significant of these limits is the speed of light, C. We redefine C as the kinematic acoustic limit of the fluid, calculated by dividing the spatial limit, LP, by the temporal limit, TP. By setting this ratio to unity, we establish that one unit of time is equal to one unit of space. Time is now evaluated simply as distance divided by the acoustic limit. In a continuous fluid, space and time are dimensionally identical, removing the first layer of arbitrary SI dimensionality. We can now set aside the human definitions of meters and kilograms.
+
+Normalized distance is defined as a geometric ratio, the radius of an object relative to the spatial yield limit, LP. We apply the same logic to mass, defining it as a ratio against the fundamental saturation limit, MP. This reveals the underlying structure of the gravitational constant, G equals LP times C squared divided by MP. This algebraic ratio is bounded by the absolute invariants of the macroscopic fluid. Substituting these geometric ratios into classical equations removes the need for dimensional balancing factors. By mapping localized measurements against the absolute boundaries of the fluid, empirical constants are reduced to pure geometry.
+
+When we plug these normalized dimensionless ratios back into the Newtonian force equation, the SI dimensions, kilograms, meters, and seconds, cancel out entirely. Only unity remains. G has been eliminated from the expression. The result is a dimensionless evaluation of force. Without G acting as a free parameter, gravity is no longer described as a mediating force. Instead, it is identified as geometric advection, the scale invariant flow of the fluid metric toward a localized sink. From the perspective of the metric itself, gravitational mechanics operate as deterministic fluid dynamics. While dimensionless ratios describe physical reality, they do not directly output a macroscopic unit of force.
+
+A Newton is a strictly human invention defined by kilograms, meters, and seconds. To return to these units, we must map our dimensionless result back onto the SI system. This requires the fundamental yield force, FP. FP represents the maximum mechanical tension the tau metric can sustain. This is the force of a fundamental mass MP accelerated to the acoustic limit across the spatial yield limit. It evaluates to 1.21 * 10^44 N. To convert geometric advection back into Newtons, we scale the normalized result by the physical limit of the vacuum. To see how G emerges from these mechanics, we reverse the normalization process.
+
+We multiply the non-dimensional advection equation by the fundamental yield force. The SI dimensions of mass, distance, and time reenter the equation. As these units reassemble, they form the exact numerical value and dimensional structure of G. The mathematical results align. Normalization removes G and scaling by the vacuum tension reconstructs it. G is revealed as a product of fundamental fluid tension. The constant functions as a translation tool for human yardsticks. Within this framework, the transition from legacy mechanics to absolute fluid advection is self-consistent.
