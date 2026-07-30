@@ -12,3 +12,5 @@ taulab/datasets/
 node_modules/
 compile_commands.json
 
+*.vtt
+Refractive-Continuum-transcripts/*.info.json
