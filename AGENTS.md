@@ -17,6 +17,55 @@ then choose the smallest foundational skill with the greatest unlock value.
 Keep refining that map with concrete probes; do not treat this file's initial
 hypotheses as a fixed judgment of the user.
 
+## Refractive Cosmology Source Precedence
+
+`RCCM-Condensed.tex` is newer than the
+`Refractive_Cosmology/` submodule. The current checked-in TeX snapshot is dated
+2026-07-30; the submodule is pinned to `b965be0`, dated 2026-02-10. Treat the
+TeX as the current formal RCCM source and the submodule as a historical
+reproduction package for *The Cosmological Lensing Effect*.
+
+For a current cosmology question, read the relevant TeX section first. Use the
+submodule only to reproduce the older empirical branch, trace provenance, or
+compare model evolution. Never silently use an older code constant or equation
+to complete, repair, or reinterpret the newer TeX. Record conflicts as version
+boundaries.
+
+The complete reader-facing package map and pinned-run findings are in the root
+README section
+[`Refractive Cosmology: Version Boundary and Reading Route`](README.md#refractive-cosmology-version-boundary-and-reading-route).
+
+### Triggered reading route
+
+| Question or task | Read | When and why |
+|---|---|---|
+| Current age, high-redshift time, or causal radius | TeX sections `Macroscopic Kinematics and the Causal Boundary` and `The High-Redshift Chronometer` | Read first. These define the current `t(z)=τ₀/(1+z)` and `R_h(z)` model. Read `Refractive_Cosmology/code/calc_time_dilation.py` afterward only to compare the older, different radial-integral chronometer. |
+| Current `v₀(r)`, `H(z)`, coordinate distance, or luminosity distance | TeX sections `The Geometric Spacetime Bridge`, `Kinematic Gradients`, and `Optical Dilatation` | These are the current formal equations and use `R_{h,0}=4224 Mpc`. The submodule's fitted and hard-coded scales do not override them. |
+| What the old package claims to reproduce | `Refractive_Cosmology/README.md`, then `run_pipeline.py` | The README maps manuscript appendices; the driver reveals the real execution order. Neither is a scientific source of truth. |
+| Dataset provenance or row grain | `Refractive_Cosmology/data/Pantheon+SH0ES.dat` | Inspect before any fit. It has 1,701 observations, 47 columns, and 1,543 unique `CID` values. Keep `zHD` and `zCMB` distinct. |
+| Inverse construction of the old velocity-distance cloud | `Refractive_Cosmology/code/generate_clean_v0_data.py`, then `Refractive_Cosmology/code/compare_physical_models.py` | The first transforms `zHD` and `MU_SH0ES` into both axes; the second fits exponential and Hill curves to that derived cloud. Use them to audit target reuse and same-dataset fit, never as independent prediction. |
+| Forward-fit or robustness claim | `Refractive_Cosmology/code/verify_robustness.py`, then both `Refractive_Cosmology/code/plot_robustness.py` and `Refractive_Cosmology/code/plot_robustness_v0.py` | The verifier performs a weighted Hill fit. The byte-identical plot files use hard-coded parameters and do not consume verifier output. At the pinned revision, the plot's forward constants match an unweighted fit, not the checked-in weighted verifier. |
+| Hubble residual or optical-delay claim | `Refractive_Cosmology/code/plot_standard_hubble.py` | Read its independent `K_LOG`, refractive-index formula, low-redshift linear baseline fit, and magnitude alignment. Do not describe its baseline as a full ΛCDM comparison. |
+| Old high-redshift time-window or horizon-tail claim | `Refractive_Cosmology/code/calc_time_dilation.py` | Read its fixed parameters, `n=1+(v/c)²`, Lorentz factor, integration bounds, and asymptotic behavior. Do not merge its `n` with the different law in `plot_standard_hubble.py` or with the current TeX. |
+| Reproducing the old package | `Refractive_Cosmology/requirements.txt`, `Refractive_Cosmology/run_pipeline.py`, and `Refractive_Cosmology/.gitignore` | Dependencies are unpinned. Run from the package root in a disposable path without spaces: `run_pipeline.py` uses unquoted command strings, and generated `produced/` and `plots/` directories are not ignored. Record resolved dependency versions and keep the submodule clean. |
+| Redistribution or modification | `Refractive_Cosmology/LICENSE` plus the root Git-submodule invariant | The package is MIT-licensed. Any deliberate source change must be committed and pushed inside the submodule before committing the parent gitlink. |
+
+There is no single shared parameter registry in the submodule. Trace constants,
+redshift choice, refractive law, weighting, and objective in every script
+before connecting results across files. In particular:
+
+- `generate_clean_v0_data.py` uses `zHD` plus a fixed progenitor correction;
+- the robustness verifier and plot use `zCMB`;
+- `plot_standard_hubble.py` and `calc_time_dilation.py` use different
+  refractive-index formulas; and
+- the later TeX's direct chronometer is not the same observable as the older
+  radial proper-time integral.
+
+Classify these outputs as target-aware, same-dataset reproduction until an
+explicit holdout or external replication is demonstrated. A high `R²`,
+optimizer convergence, or inverse/forward resemblance is not by itself an
+independent prediction.
+
 ## Learner Context
 
 - The user identifies as a spatial thinker and prefers Topolect English.

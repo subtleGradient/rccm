@@ -37,6 +37,11 @@ transcripts in
 [`Refractive-Continuum-transcripts/`](Refractive-Continuum-transcripts/).
 The transcript folder has its own
 [dependency-aware reading map](Refractive-Continuum-transcripts/README.md).
+The older
+[`Refractive_Cosmology/`](Refractive_Cosmology/)
+submodule is a version-pinned executable reproduction package for one earlier
+cosmology branch; it is evidence about that branch, not the current formal
+source of RCCM.
 
 This README is the root learning map. It is deliberately not a declaration
 that RCCM is correct or incorrect.
@@ -53,6 +58,97 @@ that RCCM is correct or incorrect.
 - [RCCM Magnets](rccm-magnets.md) — microscopic locked vortices, magnetic
   domains, attraction and repulsion, torque versus force, and magnetism's
   location in the antisymmetric sector of RCCM's unified tensor.
+- [Refractive Cosmology reproduction package](Refractive_Cosmology/README.md)
+  — an older Pantheon+SH0ES inversion, saturation-fit, residual-plot, and
+  time-integration pipeline. Use the versioned route below before importing
+  any of its equations or parameters into the current TeX.
+
+## Refractive Cosmology: Version Boundary and Reading Route
+
+The source clocks establish a clear precedence boundary:
+
+| Artifact | Pinned revision | Git date | Role in this atlas |
+|---|---|---|---|
+| [`RCCM-Condensed.tex`](RCCM-Condensed.tex) | Parent snapshot `cf18d84` | 2026-07-30 | Current formal statement of RCCM |
+| [`Refractive_Cosmology/`](Refractive_Cosmology/) | Submodule `b965be0` | 2026-02-10 | Historical reproduction package for *The Cosmological Lensing Effect* |
+
+Therefore, read the TeX first for a current RCCM claim. Read the submodule when
+reproducing or auditing the older data-analysis branch, or when asking how an
+earlier equation evolved. If they disagree, preserve the disagreement as a
+version boundary; do not silently replace the TeX with the code or use the
+code to fill a missing TeX premise.
+
+The later TeX currently fixes `R_{h,0}=4224 Mpc` and states
+
+```text
+t(z) = τ₀/(1+z)
+R_h(z) = R_{h,0}/(1+z)
+v₀(r) = c(1 - exp(-r/R_{h,0}))
+r_true(z) = R_{h,0} ln(1+z)
+D_L(z) = R_{h,0}(1+z)ln(1+z)
+```
+
+The older package instead contains several partially independent branches with
+different fixed scales, redshift columns, refractive-index laws, and fitting
+objectives:
+
+```mermaid
+flowchart TD
+    T["Current TeX<br/>formal claim first"]
+    D["Pantheon+SH0ES.dat<br/>1701 observations"]
+    G["generate_clean_v0_data.py<br/>zHD + fixed progenitor correction"]
+    C["compare_physical_models.py<br/>inverse-cloud fits"]
+    V["verify_robustness.py<br/>weighted forward Hill fit"]
+    P["plot_robustness.py<br/>hard-coded comparison"]
+    H["plot_standard_hubble.py<br/>separate optical-residual branch"]
+    A["calc_time_dilation.py<br/>separate proper-time integral"]
+
+    T -. "historical comparison only" .-> G
+    D --> G --> C
+    D --> V
+    D --> P
+    D --> H
+    P -. "does not consume verifier output" .-> V
+    C -. "parameters copied by hand" .-> A
+```
+
+### File router
+
+| File | Read it when | Why read it |
+|---|---|---|
+| [`Refractive_Cosmology/README.md`](Refractive_Cosmology/README.md) | First entry into the submodule or when mapping a manuscript appendix to code | It states the package's intended narrative and output manifest. Treat it as orientation, then verify every claim against the scripts because it omits important branch differences. |
+| [`data/Pantheon+SH0ES.dat`](Refractive_Cosmology/data/Pantheon+SH0ES.dat) | Before interpreting any fit, residual, `R²`, or robustness claim | It is the common 1,701-row, 47-column observational input. It contains 1,543 unique `CID` values, so rows are observations rather than guaranteed unique supernovae. The code alternates between `zHD` and `zCMB`; 1,692 rows have different values in those columns. |
+| [`code/generate_clean_v0_data.py`](Refractive_Cosmology/code/generate_clean_v0_data.py) | When tracing the provenance of `v0_derived_km_s`, `dL_Mpc`, or `r_Mpc` | It performs the inverse map from `zHD` and `MU_SH0ES`, including the fixed `Z_STAR_MASS=0.0003` correction. This is the place to detect target reuse: both fitted coordinates are transformations of the same observed redshift and distance modulus. |
+| [`code/compare_physical_models.py`](Refractive_Cosmology/code/compare_physical_models.py) | After the inversion, when asking where the exponential and Hill scales or reported `R²` values came from | It applies unweighted curve fits to the derived cloud and writes the Appendix B report and saturation plot. It tests same-dataset fit shape; it is not an independent prediction. |
+| [`code/verify_robustness.py`](Refractive_Cosmology/code/verify_robustness.py) | Before accepting the words “forward fit,” “blind fit,” or “robustness” | It fits only the Hill model directly in magnitude space, using `zCMB` and diagonal magnitude errors. Read its actual optimizer result rather than taking constants from a figure. |
+| [`code/plot_robustness.py`](Refractive_Cosmology/code/plot_robustness.py) and [`code/plot_robustness_v0.py`](Refractive_Cosmology/code/plot_robustness_v0.py) | When reproducing Figure H1 or tracing the plotted comparison | The two files are byte-identical at the pinned revision. They hard-code inverse and forward parameters and recompute display-space `R²`; neither imports nor reads the verifier's result. They are visualization evidence, not an independent verification stage. |
+| [`code/plot_standard_hubble.py`](Refractive_Cosmology/code/plot_standard_hubble.py) | When auditing the optical-delay/dark-energy or Hubble-residual claim | It is a separate “blue line” branch with `K_LOG=4645.42`, an integrated optical distance, a locally fitted linear-Hubble baseline, and a post-fit magnitude alignment. Its “Standard” curve is a linear baseline, not a complete ΛCDM calculation. |
+| [`code/calc_time_dilation.py`](Refractive_Cosmology/code/calc_time_dilation.py) | When reproducing the package's `z=20 → 14` window or finite/eternal horizon calculation | It uses hand-copied model parameters, `n=1+(v/c)²`, a Lorentz factor, and radial quadrature. Compare it to the later TeX's direct chronometer before drawing a current RCCM conclusion. |
+| [`run_pipeline.py`](Refractive_Cosmology/run_pipeline.py) | Immediately before executing the package | It supplies execution order only. It is not a parameter registry or scientific specification. It requires the submodule root as the working directory, and its unquoted `os.system` command strings fail when the checkout path contains spaces. |
+| [`requirements.txt`](Refractive_Cosmology/requirements.txt) | Before constructing a reproduction environment | It lists NumPy, pandas, SciPy, and Matplotlib without version pins. Record resolved versions with any reproduced numbers. |
+| [`LICENSE`](Refractive_Cosmology/LICENSE) and [`.gitignore`](Refractive_Cosmology/.gitignore) | Before redistributing/modifying the package or running it in place | The code is MIT-licensed. Generated `produced/` and `plots/` directories are not ignored at this revision, so prefer a disposable, space-free copy for reproduction and keep the pinned submodule clean. |
+
+### Audit marks at the pinned revision
+
+- A complete run succeeded in a disposable space-free checkout on 2026-07-30
+  with Python 3.12.13, NumPy 2.5.1, pandas 3.0.5, SciPy 1.18.0, and
+  Matplotlib 3.11.1. The same command failed from this iCloud path because the
+  path contains spaces.
+- The weighted implementation in `verify_robustness.py` returned
+  `K=3524.27 Mpc`, `eta=1.04778`, and `chi²=961.90`. The robustness plot
+  instead hard-codes `K=3299.99 Mpc`, `eta=1.06833`; those hard-coded values
+  reproduce the **unweighted** forward fit. Therefore the figure does not
+  visualize the checked-in verifier's weighted result.
+- `plot_standard_hubble.py` defines
+  `n=sqrt((1+β²)/(1-β²))`, while `calc_time_dilation.py` defines
+  `n=1+β²`. Neither may be treated as the later TeX's refractive law without an
+  explicit bridge.
+- The package's radial proper-time integration and the later TeX's
+  `t(z)=τ₀/(1+z)` are different chronometers. Compare their premises and
+  observables before comparing their numbers.
+
+These are code-provenance findings. They do not, by themselves, establish or
+refute the physical cosmology.
 
 ## Current Position
 
@@ -113,7 +209,7 @@ the same physical object.
 | Field | Answer |
 |---|---|
 | Terrain | The concepts, mathematics, physics, translations, and tests needed to deeply understand RCCM |
-| Source object | `RCCM-Condensed.tex` plus 42 Refractive Continuum transcripts |
+| Source object | Current `RCCM-Condensed.tex` plus 42 Refractive Continuum transcripts; the older `Refractive_Cosmology/` package is a versioned historical executable |
 | Scope edge | Understanding and critically evaluating the framework, not merely summarizing it |
 | Non-goal | Accepting or rejecting the entire framework by vibe, reputation, or one isolated error |
 | Decision supported | What to learn next and what mark will prove that the learning holds |
@@ -702,9 +798,13 @@ Use sources in this order:
 4. **Caption `.vtt`:** confirmation when a transcript term is suspicious.
 5. **Formal TeX:** [`RCCM-Condensed.tex`](RCCM-Condensed.tex) for exact symbols
    and derivations.
-6. **Conventional primary/reference source:** the target theory or experiment
+6. **Versioned historical code, when relevant:** use the
+   [`Refractive_Cosmology/` route](#refractive-cosmology-version-boundary-and-reading-route)
+   only after locating the current TeX claim. Map equations, constants,
+   redshift columns, and objectives explicitly before comparing outputs.
+7. **Conventional primary/reference source:** the target theory or experiment
    on its own terms.
-7. **Executable mark:** our reproduction, simulation, or test.
+8. **Executable mark:** our reproduction, simulation, or test.
 
 Caption errors visible in the corpus include names and terms such as
 “Debra/deer number,” “towmetric,” “Calegarinas theorem,” and “club
