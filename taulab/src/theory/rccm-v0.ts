@@ -1,0 +1,315 @@
+import {
+  DIMENSIONLESS,
+  LENGTH,
+  TIME,
+  add,
+  addDimensions,
+  curl,
+  divergence,
+  multiply,
+  negate,
+  scaleDimension,
+  symbol,
+  timeDerivative,
+  type Dimension,
+} from "../dimensions"
+import type { TheoryBundle } from "../types"
+
+const dim = (
+  mass: number,
+  length: number,
+  time: number,
+  temperature = 0,
+  charge = 0,
+): Dimension => [mass, length, time, temperature, charge]
+
+const VELOCITY = addDimensions(LENGTH, scaleDimension(TIME, -1))
+const DENSITY = dim(1, -3, 0)
+const MOMENTUM_DENSITY = dim(1, -2, -1)
+const ENERGY_DENSITY = dim(1, -1, -2)
+const PRESSURE = ENERGY_DENSITY
+const ANGULAR_MOMENTUM_DENSITY = dim(1, -1, -1)
+const MOMENTUM_RATE_DENSITY = dim(1, -2, -2)
+const ENERGY_FLUX = dim(1, 0, -3)
+const ENERGY_RATE_DENSITY = dim(1, -1, -3)
+const SPIN_FLUX = dim(1, 0, -2)
+const TORQUE_RATE_DENSITY = dim(1, -1, -2)
+const INVERSE_TIME = dim(0, 0, -1)
+
+export const rccmV0: TheoryBundle = {
+  schemaVersion: 1,
+  id: "rccm-v0",
+  version: "0.1.0",
+  title: "RCCM-v0 Micropolar Viscoelastic Diffuse-Interface Candidate",
+  status: "implementation-hypothesis",
+  description:
+    "Minimal executable completion of RCCM as a compressible micropolar viscoelastic diffuse-interface continuum.",
+  normalization: {
+    c: 1,
+    rho0: 1,
+    referenceLength: 1,
+    siAdapterRequired: true,
+  },
+  symbols: [
+    { id: "rho", description: "Mass density", dimension: DENSITY, shape: "scalar", kind: "state" },
+    { id: "momentumDensity", description: "Linear momentum density", dimension: MOMENTUM_DENSITY, shape: "vector", kind: "state" },
+    { id: "totalEnergyDensity", description: "Total energy density", dimension: ENERGY_DENSITY, shape: "scalar", kind: "state" },
+    { id: "intrinsicAngularMomentumDensity", description: "Intrinsic angular-momentum density", dimension: ANGULAR_MOMENTUM_DENSITY, shape: "vector", kind: "state" },
+    { id: "conformation", description: "Symmetric elastic memory", dimension: DIMENSIONLESS, shape: "symmetricTensor", kind: "state" },
+    { id: "cavityPhase", description: "Diffuse cavity order parameter", dimension: DIMENSIONLESS, shape: "scalar", kind: "state" },
+    { id: "velocity", description: "Derived linear velocity", dimension: VELOCITY, shape: "vector", kind: "derived" },
+    { id: "fluidVorticity", description: "Curl of velocity", dimension: INVERSE_TIME, shape: "vector", kind: "derived" },
+    { id: "rotationalVelocity", description: "Dimensionally repaired rotational speed vector", dimension: VELOCITY, shape: "vector", kind: "derived" },
+    { id: "momentumFlux", description: "Conservative momentum flux", dimension: PRESSURE, shape: "tensor", kind: "flux" },
+    { id: "totalStress", description: "Pressure plus reversible and dissipative stresses", dimension: PRESSURE, shape: "tensor", kind: "derived" },
+    { id: "momentumSource", description: "Declared external momentum source density", dimension: MOMENTUM_RATE_DENSITY, shape: "vector", kind: "source" },
+    { id: "energyFlux", description: "Total energy flux", dimension: ENERGY_FLUX, shape: "vector", kind: "flux" },
+    { id: "energySource", description: "Declared external energy source density", dimension: ENERGY_RATE_DENSITY, shape: "scalar", kind: "source" },
+    { id: "spinFlux", description: "Intrinsic angular-momentum flux", dimension: SPIN_FLUX, shape: "tensor", kind: "flux" },
+    { id: "torqueSource", description: "Declared torque source density", dimension: TORQUE_RATE_DENSITY, shape: "vector", kind: "source" },
+    { id: "conformationRate", description: "Objective elastic-memory evolution", dimension: INVERSE_TIME, shape: "symmetricTensor", kind: "source" },
+    { id: "phaseRate", description: "Advective diffuse-interface phase evolution", dimension: INVERSE_TIME, shape: "scalar", kind: "source" },
+    { id: "pressure", description: "Pressure derived from shared free energy", dimension: PRESSURE, shape: "scalar", kind: "derived" },
+    { id: "microrotation", description: "Independent local microrotation", dimension: INVERSE_TIME, shape: "vector", kind: "derived" },
+    { id: "chemicalPotential", description: "Cavity phase chemical potential per unit mass", dimension: dim(0, 2, -2), shape: "scalar", kind: "derived" },
+  ],
+  stateVariableIds: [
+    "rho",
+    "momentumDensity",
+    "totalEnergyDensity",
+    "intrinsicAngularMomentumDensity",
+    "conformation",
+    "cavityPhase",
+  ],
+  parameters: [
+    {
+      id: "c",
+      role: "axiom",
+      value: 1,
+      dimension: VELOCITY,
+      dependsOn: [],
+      fittedFrom: [],
+      description: "Normalized maximum acoustic/shear speed",
+    },
+    {
+      id: "rho0",
+      role: "axiom",
+      value: 1,
+      dimension: DENSITY,
+      dependsOn: [],
+      fittedFrom: [],
+      description: "Normalized baseline density",
+    },
+    {
+      id: "L0",
+      role: "axiom",
+      value: 1,
+      dimension: LENGTH,
+      dependsOn: [],
+      fittedFrom: [],
+      description: "Normalized reference length",
+    },
+    {
+      id: "ellRot",
+      role: "closure",
+      value: 1,
+      dimension: LENGTH,
+      dependsOn: ["L0"],
+      fittedFrom: [],
+      description: "Characteristic length converting vorticity to rotational velocity",
+    },
+    {
+      id: "elasticRelaxationTime",
+      role: "closure",
+      value: 1,
+      dimension: TIME,
+      dependsOn: ["L0", "c"],
+      fittedFrom: [],
+    },
+    {
+      id: "shearModulus",
+      role: "closure",
+      value: 1,
+      dimension: PRESSURE,
+      dependsOn: ["rho0", "c"],
+      fittedFrom: [],
+    },
+    {
+      id: "cavityMobility",
+      role: "closure",
+      value: 0.01,
+      dimension: INVERSE_TIME,
+      dependsOn: ["L0", "c"],
+      fittedFrom: [],
+    },
+  ],
+  equations: [
+    {
+      id: "mass-balance",
+      lhs: timeDerivative(symbol("rho")),
+      rhs: negate(divergence(symbol("momentumDensity"))),
+      domain: "all resolved cells",
+      boundaryAssumptions: ["boundary mass flux is declared by the experiment"],
+      provenance: { class: "reference-physics", source: "local mass conservation" },
+    },
+    {
+      id: "linear-momentum-balance",
+      lhs: timeDerivative(symbol("momentumDensity")),
+      rhs: add(
+        negate(divergence(symbol("momentumFlux"))),
+        add(divergence(symbol("totalStress")), symbol("momentumSource")),
+      ),
+      domain: "all resolved cells",
+      boundaryAssumptions: ["boundary traction and momentum flux are declared"],
+      provenance: { class: "implementation-hypothesis", source: "RCCM-v0 continuum closure" },
+    },
+    {
+      id: "energy-balance",
+      lhs: timeDerivative(symbol("totalEnergyDensity")),
+      rhs: add(negate(divergence(symbol("energyFlux"))), symbol("energySource")),
+      domain: "all resolved cells",
+      boundaryAssumptions: ["boundary heat and mechanical work are declared"],
+      provenance: { class: "reference-physics", source: "total energy conservation" },
+    },
+    {
+      id: "intrinsic-angular-momentum-balance",
+      lhs: timeDerivative(symbol("intrinsicAngularMomentumDensity")),
+      rhs: add(negate(divergence(symbol("spinFlux"))), symbol("torqueSource")),
+      domain: "all resolved cells",
+      boundaryAssumptions: ["couple traction and torque flux are declared"],
+      provenance: { class: "implementation-hypothesis", source: "micropolar angular-momentum balance" },
+    },
+    {
+      id: "elastic-memory-evolution",
+      lhs: timeDerivative(symbol("conformation")),
+      rhs: symbol("conformationRate"),
+      domain: "all fluid-phase cells",
+      boundaryAssumptions: ["conformation boundary state is declared"],
+      provenance: { class: "implementation-hypothesis", source: "Maxwell-type objective relaxation" },
+    },
+    {
+      id: "cavity-phase-evolution",
+      lhs: timeDerivative(symbol("cavityPhase")),
+      rhs: symbol("phaseRate"),
+      domain: "all resolved cells",
+      boundaryAssumptions: ["phase flux or phase value is declared"],
+      provenance: { class: "implementation-hypothesis", source: "advective diffuse-interface evolution" },
+    },
+    {
+      id: "rotational-velocity-repair",
+      lhs: symbol("rotationalVelocity"),
+      rhs: multiply(symbol("ellRot"), curl(symbol("velocity"))),
+      domain: "all cells with a declared ellRot",
+      boundaryAssumptions: ["velocity is sufficiently differentiable for the discrete curl"],
+      provenance: { class: "implementation-hypothesis", source: "dimensional repair of RCCM modal saturation" },
+    },
+  ],
+  constitutiveLaws: [
+    {
+      id: "shared-free-energy",
+      formula:
+        "psi = psiBulk(rho,E,phi) + psiElastic(C) + psiMicro(microrotation,curl(velocity)) + psiPhase(phi,gradient(phi))",
+      inputs: ["rho", "totalEnergyDensity", "cavityPhase", "conformation", "microrotation", "velocity"],
+      outputs: ["pressure", "chemicalPotential", "totalStress"],
+      provenance: { class: "implementation-hypothesis", source: "RCCM-v0 thermodynamic closure" },
+    },
+    {
+      id: "maxwell-elastic-relaxation",
+      formula:
+        "objectiveRate(C) = deformationProduction(C,velocity) - (C-I)/elasticRelaxationTime",
+      inputs: ["conformation", "velocity", "elasticRelaxationTime"],
+      outputs: ["conformationRate"],
+      provenance: { class: "implementation-hypothesis", source: "Maxwell viscoelastic bridge" },
+    },
+    {
+      id: "microrotation-couple-response",
+      formula:
+        "torque = coupleStressGradient + spinCoupling*(0.5*curl(velocity)-microrotation)",
+      inputs: ["velocity", "microrotation", "intrinsicAngularMomentumDensity"],
+      outputs: ["spinFlux", "torqueSource"],
+      provenance: { class: "implementation-hypothesis", source: "micropolar bridge" },
+    },
+    {
+      id: "diffuse-cavity-evolution",
+      formula:
+        "phaseRate = -advection(phi,velocity) + cavityMobility*phaseOperator(chemicalPotential)",
+      inputs: ["cavityPhase", "velocity", "chemicalPotential", "cavityMobility"],
+      outputs: ["phaseRate"],
+      provenance: { class: "implementation-hypothesis", source: "diffuse-interface cavitation bridge" },
+    },
+  ],
+  invariants: [
+    { id: "mass", description: "Integrated mass plus boundary/source ledger", dimension: dim(1, 0, 0), scope: "controlled-ledger" },
+    { id: "linearMomentum", description: "Integrated linear momentum plus impulse ledger", dimension: dim(1, 1, -1), scope: "controlled-ledger" },
+    { id: "angularMomentum", description: "Orbital plus intrinsic angular momentum and torque ledger", dimension: dim(1, 2, -1), scope: "controlled-ledger" },
+    { id: "totalEnergy", description: "Integrated total energy plus heat/work ledger", dimension: dim(1, 2, -2), scope: "controlled-ledger" },
+  ],
+  observableExtractors: [
+    {
+      id: "candidateMass",
+      description: "Control-volume mass-energy associated with a localized defect",
+      inputs: ["rho", "totalEnergyDensity", "cavityPhase"],
+      outputDimension: dim(1, 0, 0),
+      outputShape: "scalar",
+      status: "candidate",
+      referenceTarget: "relativistic inertial mass",
+      feedsBackIntoEvolution: false,
+    },
+    {
+      id: "candidateCharge",
+      description: "Signed transverse/topological flux associated with a defect",
+      inputs: ["velocity", "microrotation", "cavityPhase"],
+      outputDimension: dim(0, 0, 0, 0, 1),
+      outputShape: "scalar",
+      status: "candidate",
+      referenceTarget: "gauge charge and conservation",
+      feedsBackIntoEvolution: false,
+    },
+    {
+      id: "candidateSpin",
+      description: "Integrated orbital plus intrinsic angular momentum",
+      inputs: ["momentumDensity", "intrinsicAngularMomentumDensity"],
+      outputDimension: dim(1, 2, -1),
+      outputShape: "vector",
+      status: "candidate",
+      referenceTarget: "quantum spin representations and measurements",
+      feedsBackIntoEvolution: false,
+    },
+    {
+      id: "candidateGravity",
+      description: "Pressure/compliance terrain and stress-derived probe acceleration",
+      inputs: ["pressure", "rho", "totalStress"],
+      outputDimension: dim(0, 1, -2),
+      outputShape: "vector",
+      status: "candidate",
+      referenceTarget: "gravitational acceleration, clocks, and lensing",
+      feedsBackIntoEvolution: false,
+    },
+    {
+      id: "candidateElectric",
+      description: "Transverse strain-rate observable",
+      inputs: ["velocity", "conformation"],
+      outputDimension: dim(0, 1, -2),
+      outputShape: "vector",
+      status: "candidate",
+      referenceTarget: "electric field equations and force",
+      feedsBackIntoEvolution: false,
+    },
+    {
+      id: "candidateMagnetic",
+      description: "Rotational/microrotation observable",
+      inputs: ["fluidVorticity", "microrotation"],
+      outputDimension: INVERSE_TIME,
+      outputShape: "vector",
+      status: "candidate",
+      referenceTarget: "magnetic field equations and torque",
+      feedsBackIntoEvolution: false,
+    },
+  ],
+  provenance: [
+    { class: "rccm-source-claim", source: "RCCM-Condensed.tex" },
+    { class: "implementation-hypothesis", source: "PREP/05-THEORETICAL-FRAMEWORK.md" },
+    { class: "normalization", source: "c = rho0 = L0 = 1" },
+  ],
+}
+

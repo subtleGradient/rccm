@@ -1,7 +1,7 @@
 ---
 id: task-build-theory-compiler
 level: low
-status: in-progress
+status: done
 blocked_by: []
 ok_refs: [".ok/taulab.ok.md#Formal theory compiler", ".ok/taulab.ok.md#RCCM-v0 candidate continuum", ".ok/taulab.ok.md#God control and experiment execution"]
 gap_refs: ["gap-theory-compiler", "gap-rccm-v0", "gap-control"]
