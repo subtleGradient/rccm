@@ -647,7 +647,7 @@ and
 |---|---|---|
 | Mechanical metric test | High-voltage asymmetric capacitor on a shielded torsion pendulum in vacuum | Preregistered force prediction, calibrated artifacts, polarity controls, blind analysis, replication |
 | Optical metric test | Interferometer measuring phase shift across a high-voltage gradient | Full thermal, atmospheric, electro-optic, vibration, and electromagnetic control budget |
-| Geometric computing | Logic through acoustic or optical interference in structured media | A working device with measured energy, error, bandwidth, and comparison baseline |
+| Geometric computing | Logic through acoustic/optical interference in structured media; curvilinear CMOS as a separate path/via-optimization hypothesis | A working device with measured energy, error, bandwidth, and comparison baseline; for curvilinear CMOS, same-die Manhattan, radius-only, free-form, and temporal-adiabatic controls must separate curvature from wire length, via count, waveform, and correctness |
 | Vacuum motor | Metamaterial converts metric shear into torque | Closed energy ledger and independent replication |
 | Cooling | Solid-state routing of strain or waves | Measured coefficient of performance and heat accounting |
 | Propulsion | Controlled metric strain produces thrust | Momentum accounting, null rigs, orientation reversals, vacuum tests, independent labs |
