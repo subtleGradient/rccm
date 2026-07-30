@@ -1,5 +1,9 @@
 # De Broglie–Bohm Pilot Waves, RCCM, and the Double Slit
 
+> General companion:
+> [`RCCM × Bohmian Mechanics`](./RCCM-and-Bohmian-Mechanics.md). This document
+> remains the focused double-slit crossing.
+
 ## Core answer
 
 De Broglie–Bohm theory and RCCM occupy neighboring terrain:
