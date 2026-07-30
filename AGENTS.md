@@ -19,11 +19,15 @@ hypotheses as a fixed judgment of the user.
 
 ## Refractive Cosmology Source Precedence
 
-`RCCM-Condensed.tex` is newer than the
+`RCCM-Condensed.tex` is newer than the scientific model inherited by the
 `Refractive_Cosmology/` submodule. The current checked-in TeX snapshot is dated
-2026-07-30; the submodule is pinned to `b965be0`, dated 2026-02-10. Treat the
-TeX as the current formal RCCM source and the submodule as a historical
-reproduction package for *The Cosmological Lensing Effect*.
+2026-07-30. The active submodule points to the user's
+`subtleGradient/Refractive_Cosmology` fork at `619ebf3`, whose equations,
+parameters, data, and objectives remain the February 10 scientific baseline
+`b965be0`. The newer fork commit repairs execution and tests; it does not
+promote the older model to the current formal source. Treat the TeX as the
+current formal RCCM source and the submodule as a historical reproduction
+package for *The Cosmological Lensing Effect*.
 
 For a current cosmology question, read the relevant TeX section first. Use the
 submodule only to reproduce the older empirical branch, trace provenance, or
@@ -47,7 +51,7 @@ README section
 | Forward-fit or robustness claim | `Refractive_Cosmology/code/verify_robustness.py`, then both `Refractive_Cosmology/code/plot_robustness.py` and `Refractive_Cosmology/code/plot_robustness_v0.py` | The verifier performs a weighted Hill fit. The byte-identical plot files use hard-coded parameters and do not consume verifier output. At the pinned revision, the plot's forward constants match an unweighted fit, not the checked-in weighted verifier. |
 | Hubble residual or optical-delay claim | `Refractive_Cosmology/code/plot_standard_hubble.py` | Read its independent `K_LOG`, refractive-index formula, low-redshift linear baseline fit, and magnitude alignment. Do not describe its baseline as a full ΛCDM comparison. |
 | Old high-redshift time-window or horizon-tail claim | `Refractive_Cosmology/code/calc_time_dilation.py` | Read its fixed parameters, `n=1+(v/c)²`, Lorentz factor, integration bounds, and asymptotic behavior. Do not merge its `n` with the different law in `plot_standard_hubble.py` or with the current TeX. |
-| Reproducing the old package | `Refractive_Cosmology/requirements.txt`, `Refractive_Cosmology/run_pipeline.py`, and `Refractive_Cosmology/.gitignore` | Dependencies are unpinned. Run from the package root in a disposable path without spaces: `run_pipeline.py` uses unquoted command strings, and generated `produced/` and `plots/` directories are not ignored. Record resolved dependency versions and keep the submodule clean. |
+| Reproducing the old package | `Refractive_Cosmology/requirements.txt`, `Refractive_Cosmology/run_pipeline.py`, and `Refractive_Cosmology/.gitignore` | Dependencies are unpinned, so record resolved versions. Fork `619ebf3` supports paths containing spaces and launch from any working directory; generated `produced/` and `plots/` directories are ignored. Run the unit regressions, execute the full pipeline in place, and confirm the submodule remains clean except for deliberate source changes. |
 | Redistribution or modification | `Refractive_Cosmology/LICENSE` plus the root Git-submodule invariant | The package is MIT-licensed. Any deliberate source change must be committed and pushed inside the submodule before committing the parent gitlink. |
 
 There is no single shared parameter registry in the submodule. Trace constants,

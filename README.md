@@ -70,13 +70,20 @@ The source clocks establish a clear precedence boundary:
 | Artifact | Pinned revision | Git date | Role in this atlas |
 |---|---|---|---|
 | [`RCCM-Condensed.tex`](RCCM-Condensed.tex) | Parent snapshot `cf18d84` | 2026-07-30 | Current formal statement of RCCM |
-| [`Refractive_Cosmology/`](Refractive_Cosmology/) | Submodule `b965be0` | 2026-02-10 | Historical reproduction package for *The Cosmological Lensing Effect* |
+| [`Refractive_Cosmology/`](Refractive_Cosmology/) | Fork `619ebf3`; scientific baseline `b965be0` | Baseline 2026-02-10; runner repair 2026-07-30 | Historical reproduction package for *The Cosmological Lensing Effect* |
 
 Therefore, read the TeX first for a current RCCM claim. Read the submodule when
 reproducing or auditing the older data-analysis branch, or when asking how an
 earlier equation evolved. If they disagree, preserve the disagreement as a
 version boundary; do not silently replace the TeX with the code or use the
 code to fill a missing TeX premise.
+
+The active submodule points to
+[`subtleGradient/Refractive_Cosmology`](https://github.com/subtleGradient/Refractive_Cosmology).
+Fork commit `619ebf3` repairs path-safe execution, generated-artifact hygiene,
+Python warnings, tests, and run documentation. It does not change the inherited
+February equations, parameters, dataset, fitting objectives, or scientific
+interpretation.
 
 The later TeX currently fixes `R_{h,0}=4224 Mpc` and states
 
@@ -124,16 +131,20 @@ flowchart TD
 | [`code/plot_robustness.py`](Refractive_Cosmology/code/plot_robustness.py) and [`code/plot_robustness_v0.py`](Refractive_Cosmology/code/plot_robustness_v0.py) | When reproducing Figure H1 or tracing the plotted comparison | The two files are byte-identical at the pinned revision. They hard-code inverse and forward parameters and recompute display-space `R²`; neither imports nor reads the verifier's result. They are visualization evidence, not an independent verification stage. |
 | [`code/plot_standard_hubble.py`](Refractive_Cosmology/code/plot_standard_hubble.py) | When auditing the optical-delay/dark-energy or Hubble-residual claim | It is a separate “blue line” branch with `K_LOG=4645.42`, an integrated optical distance, a locally fitted linear-Hubble baseline, and a post-fit magnitude alignment. Its “Standard” curve is a linear baseline, not a complete ΛCDM calculation. |
 | [`code/calc_time_dilation.py`](Refractive_Cosmology/code/calc_time_dilation.py) | When reproducing the package's `z=20 → 14` window or finite/eternal horizon calculation | It uses hand-copied model parameters, `n=1+(v/c)²`, a Lorentz factor, and radial quadrature. Compare it to the later TeX's direct chronometer before drawing a current RCCM conclusion. |
-| [`run_pipeline.py`](Refractive_Cosmology/run_pipeline.py) | Immediately before executing the package | It supplies execution order only. It is not a parameter registry or scientific specification. It requires the submodule root as the working directory, and its unquoted `os.system` command strings fail when the checkout path contains spaces. |
+| [`run_pipeline.py`](Refractive_Cosmology/run_pipeline.py) | Immediately before executing the package | It supplies execution order only, not a parameter registry or scientific specification. Fork `619ebf3` uses argv-safe subprocess calls, resolves scripts from the checkout, and supplies the repository root as every child's working directory, so it can be launched from another directory or a path containing spaces. |
 | [`requirements.txt`](Refractive_Cosmology/requirements.txt) | Before constructing a reproduction environment | It lists NumPy, pandas, SciPy, and Matplotlib without version pins. Record resolved versions with any reproduced numbers. |
-| [`LICENSE`](Refractive_Cosmology/LICENSE) and [`.gitignore`](Refractive_Cosmology/.gitignore) | Before redistributing/modifying the package or running it in place | The code is MIT-licensed. Generated `produced/` and `plots/` directories are not ignored at this revision, so prefer a disposable, space-free copy for reproduction and keep the pinned submodule clean. |
+| [`LICENSE`](Refractive_Cosmology/LICENSE) and [`.gitignore`](Refractive_Cosmology/.gitignore) | Before redistributing/modifying the package or running it in place | The code is MIT-licensed. Fork `619ebf3` ignores generated `produced/` and `plots/` directories, so an in-place reproduction can leave the pinned source checkout clean. |
 
-### Audit marks at the pinned revision
+### Audit marks across the baseline and active fork
 
-- A complete run succeeded in a disposable space-free checkout on 2026-07-30
-  with Python 3.12.13, NumPy 2.5.1, pandas 3.0.5, SciPy 1.18.0, and
-  Matplotlib 3.11.1. The same command failed from this iCloud path because the
-  path contains spaces.
+- The upstream baseline failed from this iCloud path because its shell command
+  construction split paths containing spaces. Fork `619ebf3` completed all six
+  stages directly in the real submodule when launched from the parent
+  directory. No temporary checkout was used.
+- The passing in-place environment was Python 3.12.13, NumPy 2.5.1,
+  pandas 3.0.5, SciPy 1.18.0, and Matplotlib 3.11.1. Three regressions cover
+  argv path safety, ignored generated artifacts, and warning-free Python source
+  compilation.
 - The weighted implementation in `verify_robustness.py` returned
   `K=3524.27 Mpc`, `eta=1.04778`, and `chi²=961.90`. The robustness plot
   instead hard-codes `K=3299.99 Mpc`, `eta=1.06833`; those hard-coded values
