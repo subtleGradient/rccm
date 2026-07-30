@@ -16,8 +16,13 @@ void check(bool condition, const std::string& message) {
   }
 }
 
+const taulab::DemoReport& demo_report() {
+  static const taulab::DemoReport report = taulab::run_demo_experiments();
+  return report;
+}
+
 void test_live_acoustic_measurement() {
-  const auto report = taulab::run_demo_experiments();
+  const auto& report = demo_report();
   const auto& wave = report.acoustic;
 
   check(wave.cells >= 64, "demo wave must use a meaningful resolved grid");
@@ -37,7 +42,7 @@ void test_live_acoustic_measurement() {
 }
 
 void test_refinement_and_replay_gates() {
-  const auto report = taulab::run_demo_experiments();
+  const auto& report = demo_report();
 
   check(report.refinement.samples.size() == 3,
         "demo must report three grid resolutions");
@@ -67,7 +72,7 @@ void test_refinement_and_replay_gates() {
 }
 
 void test_metal_oracle_boundary() {
-  const auto report = taulab::run_demo_experiments();
+  const auto& report = demo_report();
   if (!report.metal.available) return;
 
   check(!report.metal.device_name.empty(),
@@ -82,7 +87,7 @@ void test_metal_oracle_boundary() {
 }
 
 void test_reader_facing_claim_boundary() {
-  const auto report = taulab::run_demo_experiments();
+  const auto& report = demo_report();
   const std::string rendered = taulab::render_demo_report(report, false);
 
   check(rendered.contains("Create a universe"),
@@ -122,4 +127,3 @@ int main() {
   std::cerr << failures << " TauLab executable-demo test(s) failed\n";
   return EXIT_FAILURE;
 }
-
