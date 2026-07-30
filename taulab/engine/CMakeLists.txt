@@ -38,3 +38,41 @@ if(BUILD_TESTING)
   add_test(NAME taulab_solver_tests COMMAND taulab_solver_tests)
 endif()
 
+if(APPLE)
+  enable_language(OBJCXX)
+  find_library(FOUNDATION_FRAMEWORK Foundation REQUIRED)
+  find_library(METAL_FRAMEWORK Metal REQUIRED)
+
+  add_library(taulab_metal
+    src/metal_solver.mm
+  )
+  target_include_directories(taulab_metal
+    PUBLIC
+      ${CMAKE_CURRENT_SOURCE_DIR}/include
+  )
+  target_compile_options(taulab_metal
+    PRIVATE
+      -fobjc-arc
+      -Wall
+      -Wextra
+      -Wpedantic
+  )
+  target_link_libraries(taulab_metal
+    PUBLIC
+      ${FOUNDATION_FRAMEWORK}
+      ${METAL_FRAMEWORK}
+  )
+
+  if(BUILD_TESTING)
+    add_executable(taulab_metal_tests
+      tests/metal_solver_tests.cpp
+    )
+    target_link_libraries(taulab_metal_tests
+      PRIVATE
+        taulab_reference
+        taulab_metal
+    )
+    add_test(NAME taulab_metal_tests COMMAND taulab_metal_tests)
+    set_tests_properties(taulab_metal_tests PROPERTIES SKIP_RETURN_CODE 77)
+  endif()
+endif()
