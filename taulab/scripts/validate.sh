@@ -15,8 +15,8 @@ echo "== CPU and Metal build =="
 cmake -S engine -B build/engine -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cmake --build build/engine --parallel
 
-echo "== CPU oracle gates =="
-ctest --test-dir build/engine --output-on-failure -R taulab_solver_tests
+echo "== CPU oracle and executable-demo gates =="
+ctest --test-dir build/engine --output-on-failure -E taulab_metal_tests
 
 echo "== Metal parity gate =="
 metal_status=0
@@ -37,4 +37,4 @@ echo "== Deterministic research-engine smoke =="
   --steps 40 \
   --dt 0.0005
 
-echo "TauLab foundation validation completed."
+echo "TauLab validation completed."

@@ -1,7 +1,7 @@
 ---
 id: task-build-executable-demo
 level: low
-status: in-progress
+status: done
 blocked_by: []
 ok_refs:
   - ".ok/taulab.ok.md#Reference and Metal solvers"
@@ -35,3 +35,12 @@ Acceptance evidence:
 3. The displayed results come from the run in progress, not stored fixtures.
 4. The ordinary `taulab` validation suite remains green.
 
+Completed with the root `Makefile`, the `taulab-demo` C++23 executable, a
+typed `DemoReport`, live measurement and rendering code, executable acceptance
+tests, reader-facing documentation, and the evidence report at
+`.tasks/artifacts/validation-20260730-executable-demo.md`.
+
+The committed archive path and live Apple M1 path both passed. The live Metal
+cross-check evolved 65,536 cells across nine conformation/microrotation fields,
+replayed bit-for-bit, and stayed within `6.64e-08` of the double-precision CPU
+oracle against a declared `2e-6` tolerance.

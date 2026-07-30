@@ -37,6 +37,14 @@ target_include_directories(taulab_demo
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(taulab_demo PUBLIC taulab_reference)
+target_compile_options(taulab_demo
+  PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wconversion
+    -Wshadow
+)
 
 add_executable(taulab-demo
   src/demo_main.cpp
