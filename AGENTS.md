@@ -10,12 +10,53 @@ checkpoint.
 ## Durable Goal
 
 Help the user gradually develop every skill needed to deeply understand and
-critically evaluate `RCCM-Condensed.tex`.
+critically evaluate the broad `RCCM-Condensed.tex` reference and the focused
+asymmetric-tensor formalization in `RCCM-GfX-2.tex`.
 
 The immediate goal is to map the edge of the user's present understanding,
 then choose the smallest foundational skill with the greatest unlock value.
 Keep refining that map with concrete probes; do not treat this file's initial
 hypotheses as a fixed judgment of the user.
+
+## Formal Source Router and Implementation Boundary
+
+`RCCM-Condensed.tex` remains the broad integrated reference. Read it first for
+cross-domain RCCM questions and for current cosmology. `RCCM-GfX-2.tex` is a
+focused 15-section forward-modeling branch for the asymmetric tensor
+`Ûμν = Sμν + Aμν`. Read it first when a question targets that tensor's
+construction or downstream operations, then compare the corresponding
+condensed derivation. Neither file silently overrides or completes the other;
+record conflicts, symbol drift, or missing bridges explicitly.
+
+The HTML files are generated reading copies only:
+
+- `RCCM-Condensed.tex` is canonical over `RCCM-Condensed.html`.
+- `RCCM-GfX-2.tex` is canonical over `RCCM-GfX-2.html`.
+
+### Triggered asymmetric-tensor route
+
+| Question or task | Read | When and why |
+|---|---|---|
+| Clebsch field, nested Bernoulli ledger, total scalar admittance, or the `4 × 4` asymmetric matrix | `RCCM-GfX-2.tex` Sections 1–3 | These sections define the focused document's state variables, `α_s² = P_static/P_c`, covariant split, and explicit Cartesian matrix |
+| Stress/energy mapping, metric density, cosmological constant, or claimed Einstein reduction | `RCCM-GfX-2.tex` Section 4, then the matching condensed Rosetta-stone and cosmology sections | The focused TeX defines `T̂μν = P_c(Ûμν-ημν)` and its proposed reductions. Keep definition, dimensional compatibility, structural analogy, and physical identity on separate rungs |
+| Equation of motion, effective density, pressure force, or admittance-modified Navier–Stokes | `RCCM-GfX-2.tex` Section 5 before any code | This is the formal provenance for the stress-divergence argument and the focused document's motion equation |
+| Action, compatibility/curvature, fourth-order Poisson equation, or wave operator | `RCCM-GfX-2.tex` Section 6 | It contains the contraction, strain-incompatibility bridge, proposed higher-derivative Lagrangian, and source-free wave split; audit every proportionality and variational step |
+| Conformal/Poincaré symmetry, mass yield, electromagnetic eigenstates, Deborah number, covariance/CPT, galactic lensing, or force hierarchy | `RCCM-GfX-2.tex` Sections 7–15 selected by the question | These are downstream corollaries of the earlier tensor and pressure premises. Trace dependencies back before treating a recovered familiar equation or value as independent evidence |
+| What the new C file attempts to implement | `RCCM-GfX-2.tex` Sections 2, 3, and 5.1, then `binyamin-sim/asymmetricTensorFoam.c` | Read theory before translation. The code maps `grad(U)` to symmetric/skew parts, builds coefficient and stress fields, and embeds them in a PISO momentum/pressure loop |
+| Whether the C file reproduces RCCM or is ready to run | `binyamin-sim/asymmetricTensorFoam.c`, its directory contents, and the pinned OpenFOAM environment/case if later supplied | Currently it is a single incomplete translation unit: no `createFields.H`, case, boundary/initial conditions, build files, distribution pin, compile record, conservation ledger, convergence study, or validation output is present |
+
+Do not equate code identifiers with TeX symbols by spelling alone. In
+`asymmetricTensorFoam.c`, `alphaSq = max(1-|U|²/c², 10⁻²)` is closest to the
+TeX's `α_s²`, while the code identifier `alpha_s` is
+`alpha_bare/De = c²/|U|²` under its own definitions. `skew(gradU)` is also not
+automatically identical to the independently parameterized Clebsch vorticity
+`∇λ_Ω × ∇β_Ω`. Record these as implementation boundaries, not harmless
+renamings.
+
+Treat this C file as an implementation hypothesis until it is completed and
+tested. A successful compile, stable animation, or PISO convergence would
+still establish only numerical behavior of the encoded PDE; it would not
+establish the TeX's physical identifications.
 
 ## Refractive Cosmology Source Precedence
 

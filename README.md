@@ -32,7 +32,8 @@ able to:
 6. decide which claims survive independent mathematical and empirical tests.
 
 This atlas is built from the complete 4,052-line
-[`RCCM-Condensed.tex`](RCCM-Condensed.tex) and all 42 unique `.txt`
+[`RCCM-Condensed.tex`](RCCM-Condensed.tex), the focused asymmetric-tensor
+formalization in [`RCCM-GfX-2.tex`](RCCM-GfX-2.tex), and all 42 unique `.txt`
 transcripts in
 [`Refractive-Continuum-transcripts/`](Refractive-Continuum-transcripts/).
 The transcript folder has its own
@@ -45,6 +46,55 @@ source of RCCM.
 
 This README is the root learning map. It is deliberately not a declaration
 that RCCM is correct or incorrect.
+
+## Formal Sources and Executable Reading Route
+
+The two TeX documents have different jobs. Neither HTML file is an independent
+source, and the OpenFOAM file is an implementation sketch rather than a third
+formal specification.
+
+| Artifact | Read it when | Why read it | Boundary |
+|---|---|---|---|
+| [`RCCM-Condensed.tex`](RCCM-Condensed.tex) | First for the integrated RCCM model, its current cosmology, the cheat-sheet/formal-derivation pairs, or a claim spanning several physical domains | It is the broad formal reference used by this learning atlas | It does not automatically supply the premises or field closure required by the more focused asymmetric-tensor construction |
+| [`RCCM-GfX-2.tex`](RCCM-GfX-2.tex) | First when the question is specifically about `Ûμν`, its symmetric/antisymmetric split, the nested pressure ledger, its stress equation and divergence, eigenstates, affine connection, galactic tensor, or claimed force projections | It assembles those objects into one 15-section forward-modeling proposal, from Clebsch variables and Bernoulli capacity through field equations, motion, action, symmetry, mass, gauge behavior, frame changes, lensing, and pressure dynamics | Treat its derivations and physical identifications as claims of this focused document. Compare overlaps with the condensed TeX explicitly; do not silently use either file to repair the other |
+| [`RCCM-Condensed.html`](RCCM-Condensed.html) and [`RCCM-GfX-2.html`](RCCM-GfX-2.html) | When reading in a browser, following the contents, or navigating equation anchors | They are generated, readable MathML renderings of their same-named TeX files | Each paired `.tex` file is canonical. Never cite an HTML conversion artifact as if it were a newer equation or independent source |
+| [`binyamin-sim/asymmetricTensorFoam.c`](binyamin-sim/asymmetricTensorFoam.c) | After `RCCM-GfX-2.tex` Sections 2, 3, and 5.1, when tracing how part of the proposal was translated into finite-volume operators | It is a compact OpenFOAM-oriented prototype: it decomposes `grad(U)` with `symm`/`skew`, constructs a bounded capacity factor and asymmetric stress, then advances velocity and pressure with PISO | It is one translation unit, not a complete case or reproducible solver package. Required field declarations, case files, boundary/initial data, build metadata, units, and validation results are absent |
+
+The narrow code-to-document bridge is:
+
+```text
+RCCM-GfX-2.tex
+  velocity-gradient split: symmetric strain S + antisymmetric rotation A
+  bounded pressure/admittance ledger
+  stress divergence -> equation of motion
+        |
+        | partial implementation hypothesis
+        v
+asymmetricTensorFoam.c
+  gradU -> symm(gradU) + skew(gradU)
+  |U|²/c² -> floored capacity and coefficient fields
+  T = S_ii S + alpha_visc Omega
+  finite-volume momentum equation + PISO pressure correction
+```
+
+Keep the names separated while auditing. In the C file, `alphaSq` is the
+quantity closest in form to the TeX's
+`α_s² = 1 - |v|²/c²`, but it is floored at `10⁻²`. The C variable named
+`alpha_s` is instead computed as `alpha_bare / De`; with
+`De = alpha_bare * |U|²/c²`, this reduces algebraically to
+`c²/|U|²`. It is therefore not a direct implementation of the TeX variable
+having the same name. Likewise, `skew(gradU)` is a velocity-gradient tensor,
+not by itself the TeX's independently parameterized Clebsch field
+`∇λ_Ω × ∇β_Ω`.
+
+Do not describe the file as an OpenFOAM reproduction until a pinned
+distribution, `createFields.H`, complete case, dimensional regime,
+constitutive closure, and declared observables are present and the solver has
+passed conservation, convergence, and comparison tests. Until then it is
+valuable as a provenance-bearing implementation hypothesis: it shows which
+parts of the formal text the author attempted to make computational, but it
+does not demonstrate that the equations compile, converge, or reproduce any
+RCCM claim.
 
 ## Focused Guides
 
@@ -220,7 +270,7 @@ the same physical object.
 | Field | Answer |
 |---|---|
 | Terrain | The concepts, mathematics, physics, translations, and tests needed to deeply understand RCCM |
-| Source object | Current `RCCM-Condensed.tex` plus 42 Refractive Continuum transcripts; the older `Refractive_Cosmology/` package is a versioned historical executable |
+| Source object | Broad `RCCM-Condensed.tex`, focused `RCCM-GfX-2.tex`, plus 42 Refractive Continuum transcripts; implementations retain separate evidence status |
 | Scope edge | Understanding and critically evaluating the framework, not merely summarizing it |
 | Non-goal | Accepting or rejecting the entire framework by vibe, reputation, or one isolated error |
 | Decision supported | What to learn next and what mark will prove that the learning holds |
