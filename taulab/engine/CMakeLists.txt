@@ -29,6 +29,20 @@ add_executable(taulab-cli
 )
 target_link_libraries(taulab-cli PRIVATE taulab_reference)
 
+add_library(taulab_demo
+  src/demo.cpp
+)
+target_include_directories(taulab_demo
+  PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+target_link_libraries(taulab_demo PUBLIC taulab_reference)
+
+add_executable(taulab-demo
+  src/demo_main.cpp
+)
+target_link_libraries(taulab-demo PRIVATE taulab_demo)
+
 include(CTest)
 if(BUILD_TESTING)
   add_executable(taulab_solver_tests
@@ -36,6 +50,12 @@ if(BUILD_TESTING)
   )
   target_link_libraries(taulab_solver_tests PRIVATE taulab_reference)
   add_test(NAME taulab_solver_tests COMMAND taulab_solver_tests)
+
+  add_executable(taulab_demo_tests
+    tests/demo_tests.cpp
+  )
+  target_link_libraries(taulab_demo_tests PRIVATE taulab_demo)
+  add_test(NAME taulab_demo_tests COMMAND taulab_demo_tests)
 endif()
 
 if(APPLE)
@@ -62,6 +82,8 @@ if(APPLE)
       ${FOUNDATION_FRAMEWORK}
       ${METAL_FRAMEWORK}
   )
+  target_link_libraries(taulab_demo PUBLIC taulab_metal)
+  target_compile_definitions(taulab_demo PRIVATE TAULAB_HAS_METAL=1)
 
   if(BUILD_TESTING)
     add_executable(taulab_metal_tests
@@ -75,4 +97,6 @@ if(APPLE)
     add_test(NAME taulab_metal_tests COMMAND taulab_metal_tests)
     set_tests_properties(taulab_metal_tests PROPERTIES SKIP_RETURN_CODE 77)
   endif()
+else()
+  target_compile_definitions(taulab_demo PRIVATE TAULAB_HAS_METAL=0)
 endif()
