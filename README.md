@@ -117,9 +117,8 @@ RCCM claim.
   route.
 - [RCCM Computers](rccm-computers.md) — a standalone spatial mental model of
   semiconductor terrain, transistors, logic, memory, clocks, processors,
-  software, machine learning, and energy. It keeps established computer
-  physics, the fluid teaching map, and formal RCCM proposals on separate
-  layers.
+  software, machine learning, and energy. It follows the RCCM continuum
+  directly from field-controlled boundaries to machine-scale state flow.
 - [RCCM Gravity](RCCM-Gravity.md) — the pressure terrain, matter cavities,
   closed circulation, free fall, lensing, time dilation, and the distinction
   between a potential basin and a mass-flux sink.

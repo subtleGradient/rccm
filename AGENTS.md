@@ -178,6 +178,13 @@ Use diagrams when topology, containment, direction, or change is clearer
 spatially than in prose. Keep Topolect terms stable and functional; do not let
 decorative metaphor hide the actual mathematics.
 
+For a guide whose purpose is to steelman RCCM from inside the model, state its
+scientific-status boundary once in a concise opening footnote, then speak
+confidently in-model. Prefer positive placements—what an object is, where it
+sits, what crosses, and what mark it leaves—over recurring defensive
+qualifiers that stage an unnamed opponent. Keep scientific-status audits in
+their dedicated sections or documents.
+
 Keep three questions separate whenever reading a derivation:
 
 1. Does the symbolic manipulation follow from the stated premises?
