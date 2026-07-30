@@ -262,10 +262,12 @@ E_{\mathrm{op}} =
 Also extract wire length, via count, \(R,C,L\), leakage, delay, peak
 temperature, and errors.
 
-Predeclare a ±1% equivalence band:
+Predeclare a minimum worthwhile saving of 1%. For the paired fractional
+difference \(\Delta=(E_R-E_M)/E_M\):
 
-- If `R` is equal to or worse than `M`, curvature-only energy reduction is
-  invalidated at that scale.
+- If the 95% confidence interval for \(\Delta\) lies wholly above `−1%`,
+  reject the claim that rounding saves at least 1%; if it lies wholly inside
+  `[-1%, +1%]`, establish practical equivalence at that scale.
 - If `F` beats `M` while `R` does not, the winning mechanism is routing
   topology, not smoothness.
 - If `R` helps only at high current or voltage, keep the bounded hotspot claim.

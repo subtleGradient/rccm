@@ -216,9 +216,12 @@ Across at least 30 dies and a preregistered voltage/frequency/temperature grid:
 
 ### Falsification decisions
 
-- If `R − M ≥ 0` within a predeclared ±1% equivalence margin throughout the
-  operating envelope, the curvature-only energy hypothesis is invalidated at
-  that process and scale.
+- Preregister a minimum worthwhile saving \(\delta=1\%\). For
+  \(\Delta=(E_R-E_M)/E_M\), if the paired 95% confidence interval lies wholly
+  above \(-\delta\), reject the claim that rounding saves at least 1%. If the
+  interval lies wholly inside \([-\delta,+\delta]\), establish practical
+  equivalence at that process and scale; if it lies above zero, the rounded
+  treatment is worse.
 - If `F < M` but `R ≈ M`, free-form routing works through shorter paths/fewer
   vias; the naive “smooth flow” story is invalidated.
 - If `R < M` only in leakage, high-voltage, or high-current regimes, retain a
