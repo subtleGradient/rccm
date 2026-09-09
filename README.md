@@ -112,9 +112,9 @@ RCCM claim.
 
 - [A sensory atlas for the asymmetric tau tensor](docs/tau-sensory-atlas.md)
   — posture, taste, colour, touch and motion cues for simultaneous source
-  contributions; three imagined bodies, 26 sensory mappings, 18 Hyperslice
-  razors and tensor probes that distinguish capacity, slip and twist from
-  gradients, object response and stored state.
+  contributions; three imagined bodies, a soap/mould/toothpaste extension,
+  26 sensory mappings, 26 Hyperslice razors and tensor probes that distinguish
+  capacity, slip and twist from gradients, object response and stored state.
 - [Paused worlds: be the object and see its surroundings](docs/paused-world-pov.md)
   — the user's hybrid first-person/godlike viewpoint for a rock near a planet,
   an iron filing near a permanent magnet, a balloon in a thundercloud, and
@@ -300,6 +300,14 @@ probe rotates the sensing frame, reverses a sample's charge, and mutes a
 channel while distinguishing changes to observation from changes to physics.
 These are user-authored representation preferences, not evidence of a
 particular sensory condition or demonstrated tensor mastery.
+
+The user's soap, pea-pod and toothpaste imagery supplies an immediate entry
+into pressure: equal squeeze → unequal opposing pushes → constrained
+extrusion → container recoil. Keep the material and container viewpoints
+explicit, and distinguish physical pressure from the capacity/packing
+readouts. The proposed next probe adds the same amount to opposing pressure
+readings, then swaps from expelled paste to the remaining bottle. The user
+has supplied the analogy; these controlled predictions remain untested.
 
 ### Mathematical spine
 
