@@ -309,6 +309,20 @@ readouts. The proposed next probe adds the same amount to opposing pressure
 readings, then swaps from expelled paste to the remaining bottle. The user
 has supplied the analogy; these controlled predictions remain untested.
 
+The September 9 bus dialogue supplies observed qualitative progress: the
+user independently describes contact-force transmission through a Jenga/
+slinky body, combines support with forward propulsion, and maps unequal
+toothpaste squeeze to a smooth pressure slope. The active target is why
+standing near mass resembles sustained skyward support acceleration, rather
+than how to distinguish bus tilt from propulsion. The user's proposed wall
+samples around a proton provide a route into spatial derivatives. Keep
+ambient pressure, the proton's own field, circulation, and compliance as
+separate readings: "stormier" does not specify all four, and lower static
+pressure does not mean greater compliance in the stated scalar ledger.
+Use one scene and one prediction at a time, leaving the final connection to
+the user. Free-fall/support and tensor-gradient mastery remain untested.
+See the [session evidence](log/2026-09/2026-09-09-log.md).
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
