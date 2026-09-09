@@ -417,6 +417,18 @@ falls. This is RCCM's proposed mechanism, not a general theorem about two
 ordinary vortices; internal handedness is not bodily orientation. No charge
 probe response has yet established the user's next inference.
 
+The user now predicts attraction from the reinforcing-flow case and calls
+it intuitive. They extend this to shape-dependent annihilation and atomic
+stability; those extensions remain hypotheses. The next requested topic is
+**massless light and atomic energy states**, so advance without another
+charge or orbit drill. Use travelling transverse strain versus a persistent
+cavity, with zero rest mass distinct from zero energy or momentum. Then
+connect absorbed light to energy transferred into an allowed atomic wave
+pattern, and ask what can carry energy away on the reverse transition.
+Keep the established bound-state/transition rule separate from the proposed
+tau mechanism; the inspected light sections do not derive hydrogen's
+allowed spectrum from knot-shape incompatibility.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
