@@ -135,25 +135,18 @@ def format_duration(seconds: int | float | None) -> str:
 
 
 def audit(rows: list[dict[str, str]]) -> None:
-    playlist_files = list(ROOT.glob("NA - *.info.json"))
-    if len(playlist_files) != 1:
-        raise RuntimeError(
-            f"Expected one playlist metadata file, found {len(playlist_files)}"
-        )
-    playlist = json.loads(playlist_files[0].read_text(encoding="utf-8"))
-    expected_ids = {
-        metadata["id"]
-        for path in ROOT.glob("*.info.json")
-        if not path.name.startswith("NA - ")
-        for metadata in [json.loads(path.read_text(encoding="utf-8"))]
-        if metadata.get("id")
-    }
-    declared_count = playlist.get("playlist_count")
-    if declared_count != len(expected_ids):
-        raise RuntimeError(
-            f"Playlist declares {declared_count} videos, but found metadata for "
-            f"{len(expected_ids)} unique IDs"
-        )
+    inventory_path = ROOT / "source-inventory.json"
+    if inventory_path.exists():
+        inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
+        expected_ids = {video["id"] for video in inventory["videos"]}
+    else:
+        expected_ids = {
+            metadata["id"]
+            for path in ROOT.glob("*.info.json")
+            if not path.name.startswith("NA - ")
+            for metadata in [json.loads(path.read_text(encoding="utf-8"))]
+            if metadata.get("id")
+        }
     actual_ids = {row["video_id"] for row in rows}
     missing = sorted(expected_ids - actual_ids)
     unexpected = sorted(actual_ids - expected_ids)
@@ -173,7 +166,7 @@ def audit(rows: list[dict[str, str]]) -> None:
             raise RuntimeError(f"Unstripped VTT markup: {transcript_path.name}")
 
     print(
-        f"Audit passed: {len(rows)}/{len(expected_ids)} public videos have "
+        f"Audit passed: {len(rows)}/{len(expected_ids)} selected videos have "
         "nonempty text transcripts"
     )
 
