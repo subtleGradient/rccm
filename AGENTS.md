@@ -237,6 +237,11 @@ freely gravitating sources; retain their allowed motion, or name the actual
 support mechanism when a supported fixture is needed. Prefer the user's
 freely orbiting bodies and planet-tunnel scene for the current gravity probe.
 
+Keep introductory coverage balanced across topics. The user explicitly
+redirected from "gravity level 12" to "electric charge level 1.1"; do not
+require orbital or stability mastery before introducing charge. Follow the
+requested next concept with one small causal scene and one prediction.
+
 Default lesson route:
 
 `field -> examples -> forces -> manipulation -> invariant -> equation ->

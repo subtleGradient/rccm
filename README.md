@@ -405,6 +405,18 @@ line. Their merger remark is ambiguous, so do not assume an orbital
 misconception. Next preserve the test knot's existing sideways motion while
 adding inward acceleration; test the trajectory separately from the field.
 
+The user then explicitly redirects to **electric charge level 1.1**: gravity
+has become too deep relative to the missing electrical foundation. Pause
+the orbital probe. The active entry is the Condensed source's proposed
+charge interaction: internal handedness → neighboring transverse flows
+reinforce or oppose → static pressure changes in the gap → acceleration.
+For the same-sign case, frame the pressure rise as recovery from a flow
+deficit, rather than exceeding the stipulated still-fluid pressure ceiling.
+Then use opposite signs and ask which side presses harder when gap pressure
+falls. This is RCCM's proposed mechanism, not a general theorem about two
+ordinary vortices; internal handedness is not bodily orientation. No charge
+probe response has yet established the user's next inference.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
