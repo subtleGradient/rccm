@@ -24,6 +24,49 @@ These are addresses and textures for already computed contributions. The body lo
 
 **The membrane body:** spread your sensing skin over the whole object's boundary. Normal pressure feels like many little palms; tangential traction drags the skin sideways. Equal pushes on opposite sides can squeeze you while their translational effects cancel. Push the upper skin right and lower skin left: your center can remain still while a turning couple appears. This mode reveals why a single central arrow loses deformation and torque. It needs a surface traction field, geometry and the chosen stress-to-boundary law.
 
+**Soap, mould and toothpaste: the user's pressure body**
+
+The user supplies a more immediate pressure image: become a bar of soap, a pea in a pod, or toothpaste being squeezed toward an opening. Keep the view inside the material, then deliberately switch into the container to discover the opposite recoil.
+
+**Be the soap.** Surround yourself with palms, including above and below. Equal normal pressure over the whole closed skin gives a squeeze without a net translational pressure force. How much you shrink depends on compressibility; changing shape and losing volume are separate responses. A nearly incompressible material can reshape with little volume change. A mould provides contacts and available space; its shape constrains the eventual shape if the material can deform enough to fill it. Equal pressure alone does not choose a ball shape for every solid. [Bulk and shape deformation](https://openstax.org/books/university-physics-volume-1/pages/12-3-stress-strain-and-elastic-modulus)
+
+Now let the left side press harder than the right. Feel both palms, and feel the imbalance pushing right. The right-hand region need not suck or contain an actual hole. For a free fluid parcel's pressure contribution, the direction is down the pressure slope. Other loads and constraints can balance that contribution.
+
+**Be the toothpaste.** Your surroundings hold your sides while a passable outlet remains ahead. Pressure forces can drive you along that route if the material yields/flows under the applied conditions. An opening with no driving difference does not guarantee a jet, and real paste can resist flowing until the appropriate yield condition is met. Geometry, resistance and material state determine the flow rate. An initially moving parcel can also continue against the pressure-force direction while slowing.
+
+**Be the bottle.** Put the outlet at your head and eject paste headward; the freely floating bottle receives the opposite recoil. Put it at your feet: paste goes footward and the bottle receives a headward push. With a handheld tube, the reaction reaches you through your grip; an off-center thrust can also turn you. A sealed bottle retains pressure without producing sustained self-propulsion of the complete isolated system. For an idealized steady, pressure-matched jet, thrust magnitude is mass flow rate times relative exit speed; the more general ledger includes exit-pressure forces. [NASA thrust and momentum balance](https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/thrust-force/)
+
+Keep two arrows visible: **material leaving** and **reaction on the container**. A third arrow preserves existing velocity. Opening a foot nozzle gives a headward acceleration contribution; it does not instantly replace whatever motion the bottle already had.
+
+In that foot-nozzle example the outlet points footward. More generally, distinguish nozzle **location** from nozzle **aim**: a bent nozzle at your head can eject paste sideways. The exit direction sets the outgoing momentum direction; the thrust line's offset from your center sets its turning contribution. Two equal opposed jets can expel material while their translational thrusts cancel.
+
+| Hyperslice razor | Half A | Half B | Counterexample or useful switch |
+|---|---|---|---|
+| Pressure information | Common level | Spatial difference | Raise all face pressures equally: squeeze changes, net pressure force does not |
+| Deformation | Volume change | Shape change at fixed volume | Reshaping a nearly incompressible blob need not crush it smaller |
+| Boundary | No material crossing | Material crossing | A pressure gradient can push a closed body; extrusion requires a passage |
+| Viewpoint | Expelled material | Remaining container | Their momentum changes point oppositely in the isolated jet fixture |
+| Constraint | Free body | Held body | A grip or support can balance recoil |
+| Flow response | Applied drive supports flow | Material/constraints arrest flow | A visible opening alone does not establish a flow rate |
+| Force geometry | Line through center of mass | Offset line | The same thrust can add a turning moment when offset |
+| Readout | Pressure-force contribution | Total acceleration | Hydrostatic support or contact can balance a pressure gradient |
+
+Cross **pressure difference across a barrier** with **whether that barrier passes material**. The four fixtures are an equilibrated sealed chamber, a loaded closed valve, an open equilibrated passage, and a driven open passage. The last flows only when its response law permits it. Thus a pressure difference and an available passage carry distinct information. When existing motion, pumps or other driving forces matter, add them explicitly.
+
+For the scalar tau pressure scene, use the unequal-palms body:
+
+\[
+\mathbf a_P=-\frac{\nabla P_{static}}{\rho_\tau}
+=-\frac{c^2}{2}\nabla q
+\quad\text{in the selected pressure-only/weak-static reduction.}
+\]
+
+This supplies a felt direction for the proposed pressure mechanism without adding an exhaust to a falling rock. A finite cavity's boundary and inertia still need their specified laws. [GfX weak-static reduction](</Users/tom/Library/Mobile Documents/com~apple~CloudDocs/RCCM/RCCM-GfX-2.tex:387>)
+
+**Refine the earlier suit metaphor:** soap-skin squeeze reads physical pressure, the inner room/reserve reads remaining capacity \(q=P_{static}/P_c\), and the algebraic spatial cuffs read \(1/q\). At fixed \(P_c\), higher static pressure means higher \(q\), while lower \(q\) increases \(1/q\). Do not render both high physical pressure and low capacity as the same unlabelled tightness. More generally, the soap's material stress tensor is not automatically the RCCM metric tensor.
+
+**Return probe:** give equal-area left/right faces pressure readings of 9 and 7. The pressure force points right. Change them to 19 and 17: the common squeeze increases while that directional contribution stays the same. Then switch from being paste leaving a head nozzle to being the freely floating bottle: the recoil contribution points footward. These are proposed predictions, not yet answered by the user.
+
 **The sensory palette**
 
 | Quantity or distinction | Proposed subjective experience | What a controlled change should do | Data needed |
