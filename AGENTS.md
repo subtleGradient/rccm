@@ -227,6 +227,11 @@ Use tight feedback loops:
    rule.
 8. Update the learner map from observed work.
 
+Standing interaction preference: end every learning response with a concrete
+next step that expands or refines the user's understanding and intuition.
+Usually use one small scene change and a prediction question. Keep the steps
+brief and leave the final connecting inference for the user to make.
+
 Default lesson route:
 
 `field -> examples -> forces -> manipulation -> invariant -> equation ->

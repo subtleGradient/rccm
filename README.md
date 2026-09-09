@@ -362,6 +362,14 @@ not general vortex-ring results. Next isolate the extra surrounding-fluid
 acceleration required when the cavity changes speed; inertia remains the
 question to be inferred.
 
+The user correctly predicts continued motion after removing the shove in
+the uniform, drag-free fixture. They interpret this as lossless pattern
+transfer; keep that fixture assumption separate from a general claim about
+tau's dissipation. Their ocean-wave analogy distinguishes a pattern's long
+journey from the medium's local motion. Refine "parcels do not move" to
+"parcels need not travel the whole route with the pattern." Next keep speed
+fixed while bending the path, to test acceleration through direction change.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
