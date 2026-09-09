@@ -388,6 +388,15 @@ Whether it deforms depends on its own restoring response. Pressure capacity
 is a separate state reading, not the cancellation mechanism. Next displace
 the probe slightly toward one source and predict its initial acceleration.
 
+The user rejects pinning the sources and instead proposes a freely orbiting
+pair, comparing its midpoint with a planet's center. They predict a merged
+central pressure minimum and eventual rest in a tunnel through a planet.
+Keep those as hypotheses: overlapping deficits, zero slope, stability, and
+loss of existing motion are separate properties. Use their coherent moving
+scene; contrast the separated sources with a surrounding spherical mass
+distribution. Next track the tunnel traveller's existing velocity through
+the center and ask which way the pressure slope points just beyond it.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.

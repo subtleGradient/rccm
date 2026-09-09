@@ -232,6 +232,11 @@ next step that expands or refines the user's understanding and intuition.
 Usually use one small scene change and a prediction question. Keep the steps
 brief and leave the final connecting inference for the user to make.
 
+Use physically coherent scenes. The user rejects unexplained pinning of
+freely gravitating sources; retain their allowed motion, or name the actual
+support mechanism when a supported fixture is needed. Prefer the user's
+freely orbiting bodies and planet-tunnel scene for the current gravity probe.
+
 Default lesson route:
 
 `field -> examples -> forces -> manipulation -> invariant -> equation ->
