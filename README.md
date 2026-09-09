@@ -323,6 +323,27 @@ Use one scene and one prediction at a time, leaving the final connection to
 the user. Free-fall/support and tensor-gradient mastery remain untested.
 See the [session evidence](log/2026-09/2026-09-09-log.md).
 
+The user now reports a "level 1" gut understanding: falling no longer feels
+strange within the working tau premise. Their own summary places familiar
+matter as persistent cavitation/circulation patterns in a continuous medium.
+Preserve that provisional foothold while distinguishing pressure level,
+pressure slope, and inertia. The next small step is a stable cavity in
+uniform surroundings receiving a sideways shove: what surrounding fluid
+must also accelerate? Then return to support/free fall, signed transverse
+interaction, and only afterward particle binding and transformation.
+
+For their particle-pattern questions, [The Unified Topological
+Engine](<Refractive-Continuum-transcripts/20260429 - The Unified Topological Engine [Kh7A0tHZ6Xg].txt>)
+supplies the early closed-lepton/interlocked-baryon/directional-quark picture;
+[Breaking the Vacuum](<Refractive-Continuum-transcripts/20260430 - Breaking the Vacuum - The Structural Yield of Spacetime [f41BrwC925Y].txt>)
+supplies the electron–positron fracture narrative. These are source-specific
+models, and the older intake/exhaust language retains the version boundary
+documented below. Neither supplies a construction from identical Planck-sized
+knot segments. Keep the Planck yield scale, the Compton boundary, and the
+added-mass displacement volume distinct. Treat antiparticle geometry and
+atomic bound states as further questions rather than consequences of a
+reversed ordinary spin or unequal particle masses alone.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
