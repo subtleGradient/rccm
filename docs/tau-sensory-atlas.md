@@ -102,7 +102,7 @@ Read the matrix as three sensory families:
 
 For the spatial antisymmetric block, its algebraic action on a direction \(\mathbf n\) is \(\mathbf b\times\mathbf n\). Let \(\mathbf b\) point toward your head. A rightward test direction maps forward; a forward test direction maps left; a headward test direction maps to zero. Reverse \(\mathbf b\) and the sideways mappings reverse.
 
-This can be played as a sleeve nudging a probing arm sideways. It is an algebraic tensor probe, not a prediction that the magnetic field exerts that force on an ordinary arm. The force version additionally needs the arm's charge, motion and magnetic response. For example, the charged-particle magnetic law uses \(\mathbf v\times\mathbf B\), the opposite order from \(\mathbf B\times\mathbf v\).
+This can be played as a sleeve nudging a probing arm sideways. It is an algebraic tensor probe, not a prediction that the magnetic field exerts that force on an ordinary arm. The force version additionally needs the arm's charge, motion and magnetic response. For example, the charged-particle magnetic law uses \(\mathbf v\times\mathbf B\), the opposite order from \(\mathbf B\times\mathbf v\). [Feynman: magnetic force](https://www.feynmanlectures.caltech.edu/II_13.html)
 
 **Feel symmetry by swapping two probes**
 

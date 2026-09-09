@@ -110,6 +110,11 @@ RCCM claim.
 
 ## Focused Guides
 
+- [A sensory atlas for the asymmetric tau tensor](docs/tau-sensory-atlas.md)
+  — posture, taste, colour, touch and motion cues for simultaneous source
+  contributions; three imagined bodies, 26 sensory mappings, 18 Hyperslice
+  razors and tensor probes that distinguish capacity, slip and twist from
+  gradients, object response and stored state.
 - [Paused worlds: be the object and see its surroundings](docs/paused-world-pov.md)
   — the user's hybrid first-person/godlike viewpoint for a rock near a planet,
   an iron filing near a permanent magnet, a balloon in a thundercloud, and
@@ -283,6 +288,18 @@ force can lead to impact, orbit or escape depending on velocity; a filing's
 internal magnetization can change without bodily rotation; and a balloon's
 mechanical balance does not determine whether nearby air begins conducting.
 These are proposed teaching distinctions, pending the user's own predictions.
+
+The user supplied a more specific sensory vocabulary: Ender's battle-room
+orientation, posture changes, gut and clothing lag, positive sour/yellow and
+negative creamy/blue, with hair height encoding charge magnitude. Use the
+[sensory atlas](docs/tau-sensory-atlas.md) to keep force contributions
+simultaneously available through different textures and body locations.
+Begin with capacity, electric slip and magnetic orientation, then add the
+gradients and material state needed for force and torque. The next proposed
+probe rotates the sensing frame, reverses a sample's charge, and mutes a
+channel while distinguishing changes to observation from changes to physics.
+These are user-authored representation preferences, not evidence of a
+particular sensory condition or demonstrated tensor mastery.
 
 ### Mathematical spine
 
