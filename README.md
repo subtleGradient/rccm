@@ -33,11 +33,15 @@ able to:
 
 This atlas is built from the complete 4,052-line
 [`RCCM-Condensed.tex`](RCCM-Condensed.tex), the focused asymmetric-tensor
-formalization in [`RCCM-GfX-2.tex`](RCCM-GfX-2.tex), and all 42 unique `.txt`
+formalization in [`RCCM-GfX-2.tex`](RCCM-GfX-2.tex), and the original 42 unique `.txt`
 transcripts in
 [`Refractive-Continuum-transcripts/`](Refractive-Continuum-transcripts/).
 The transcript folder has its own
 [dependency-aware reading map](Refractive-Continuum-transcripts/README.md).
+The 2026-09-09 import expands the collection to all 51 publicly listed
+Refractive Continuum videos and 14 selected Binyamin Tsadik videos. The atlas
+below still reflects the original 42-transcript synthesis; the new imports
+have navigation notes but have not yet been integrated into its claim map.
 The older
 [`Refractive_Cosmology/`](Refractive_Cosmology/)
 submodule is a version-pinned executable reproduction package for one earlier

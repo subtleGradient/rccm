@@ -1,0 +1,25 @@
+The Eigenstate Architecture of the Unified Tensor
+=================================================
+
+Video: https://www.youtube.com/watch?v=USbmZFAx2fc
+Video ID: USbmZFAx2fc
+Upload date: 2026-08-05
+Duration: 4:31
+Caption source: 20260805 - The Eigenstate Architecture of the Unified Tensor [USbmZFAx2fc].en-orig.vtt
+
+Transcript
+----------
+
+General relativity models gravity through smooth continuous space time. Quantum mechanics models matter through discrete chaotic wave functions. Physics struggles to reconcile these two scales. The standard model treats properties like mass and spin as intrinsic unexplained postulates. They're viewed as fundamental inputs to the vacuum existing without a defined geometric origin. Modeling space time as a continuous thermodynamic fluid requires a different mathematical structure, the asymmetric metric tensor. The symmetric diagonals govern bulk volume, gravity. The anti-symmetric off-diagonals capture transverse shear, quantum kinematics. To evaluate the relationship between these two domains, we must calculate the characteristic determinant of the tensor and locate its principal axes of geometric strain.
+
+The goal is to determine if macroscopic gravity and quantum electromagnetism can be resolved as orthogonal decoupled orientations of the single space time metric. This characteristic determinant identifies eigen values, lambda, where space time reaches its yield limit. It populates a 4x4 matrix with three parameters. Total scalar admittance, alpha sub s, tracks vacuum capacity. Transverse slip tracks geometric strain generating electric fields. Dimensionless vorticity captures spatial curl producing magnetic fields. This matrix is aligned such that the primary axis of rotation is the Z coordinate. This orientation mathematically induces an orthogonal transverse slip along the X coordinate.
+
+Isolating these parameters allows us to factor the localized structural geometry of a discrete coordinate. Expanding the characteristic determinant generates a polynomial. Solving this equation identifies the independent physical states of the coordinate boundary. One specific spatial root, lambda sub one, decouples from the rest of the expansion. This root governs invariant volumetric expansion along the primary axis of vorticity. Because it factors completely out of the transverse side of the polynomial, it remains mathematically independent of the electromagnetic fields. This decoupled geometric strain constitutes the unperturbed inertial core. It demonstrates that macroscopic inertial gravity is orthogonally independent from transverse electromagnetic shear.
+
+The remaining polynomial restricts the temporal and transverse spatial states of the boundary. We evaluate this at the volume preserving constraint, where available capacity is at its maximum and alpha sub S equals 1. The math indicates a propagating electromagnetic wave cannot exist exclusively on real axes while conserving the baseline space-time metric volume. These electromagnetic states are confined to this 2 by 2 transverse submatrix. This matrix decomposes into a symmetric scalar amplitude and an anti-symmetric rotational generator. This structural configuration, the sum of an identity matrix and a rotational matrix, is isomorphic to the complex plane.
+
+The real scalar evaluates the longitudinal amplitude, while the anti-symmetric generator evaluates the rotational phase frequency. This identifies the origin of U1 unitary phase rotation. This gauge symmetry is a product of the asymmetric geometric strain of the metric. Calculating the eigenvectors for these complex conjugate roots produces a specific set of complex orthogonal vectors. These eigenvectors map directly to the Jones vectors for circular polarization. This derivation connects the metric directly to the work of Paul Dirac. These eigenvectors construct the two component SU2 bases used to model Weyl spinors.
+
+Quantum spin 1/2 states emerge not as magic, but as the mandatory geometric consequence of macroscopic shear along a continuous space-time boundary. We must evaluate the tensor at the absolute limit of localized dynamic pressure where the vacuum's static capacity is exhausted. In this state, the total scalar admittance drops to zero. This constraint forces the temporal eigenvalue to become exactly zero. At this zero root, the time coordinate is mathematically eliminated from the local frame. Kinematic advection halts and the continuum locks into a stable acoustic standing wave along the coupled eigenvectors.
+
+A fundamental particle is a topological yield boundary of space-time governed by the orthogonal eigenstates of the asymmetric metric tensor.
