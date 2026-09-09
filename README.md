@@ -370,6 +370,16 @@ journey from the medium's local motion. Refine "parcels do not move" to
 "parcels need not travel the whole route with the pattern." Next keep speed
 fixed while bending the path, to test acceleration through direction change.
 
+For the left-turn probe, the user correctly selects higher right-side
+pressure relative to the left, then notices that a right side already at
+the assumed static-pressure ceiling requires lowering the left instead.
+They also notice that a second gravitating structure should respond, rather
+than act as an automatically fixed background. Next separate that mutual
+response from a presumed attraction to a combined midpoint pressure minimum:
+use two equal weak-field sources and a tiny probe exactly halfway between
+them. Ask for the probe's acceleration before introducing cancellation or
+the midpoint's stability.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
