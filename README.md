@@ -451,6 +451,15 @@ Correct the earlier displacement cue: a parcel's position is not itself
 the electric entry. Next ask what reverses physically when one signed
 electric reading reverses, keeping charge sign distinct from slip direction.
 
+The user now asks whether a single photon is a wave or a particle in RCCM.
+The Condensed source explicitly places photons among open propagating
+transverse waves. It does not specify a separate cavity core accompanying
+each photon, and its classical shear-wave picture does not yet derive
+single-photon quantization and detection. Keep wave propagation and a
+localized quantum absorption event as distinct descriptions to connect,
+rather than a claimed alternation of substance. Next use a real beam
+splitter with a detector at each exit and ask what one photon produces.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
