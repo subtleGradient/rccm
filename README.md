@@ -110,6 +110,12 @@ RCCM claim.
 
 ## Focused Guides
 
+- [RCCM Data: what files preserve and make possible](rccm-data.md) — tensor
+  samples, fields, recipes, observations, and complete simulation state;
+  minimum data by goal; 36 conventions across games, engineering, science,
+  and interactive learning; 16 Hyperslice razors, 12 proposed artifacts, and
+  six learning-toy designs. Separates storage, reconstruction, and dynamical
+  sufficiency while preserving the two TeX sources' definition boundaries.
 - [LK-99, room-temperature superconductivity, and tau fluidics](LK-99-Room-Temperature-Superconductivity-and-Tau-Fluidics.md)
   — explains the viral 2023 claim, the independent impurity/transport
   falsification, the failed RCCM no-go attempt, and the Hyperslice map of
