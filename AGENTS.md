@@ -133,6 +133,64 @@ independent prediction.
 - Optimize for depth without artificial simplification. Introduce notation
   explicitly, then move as quickly as demonstrated understanding permits.
 
+### Standing Preference: Embodied Mental Models
+
+The user explicitly asks us to remember and reuse the following analogies.
+Use them proactively when discussing concepts with suitable spatial or
+dynamical structure, especially tau fluidics, forces and tensors. Begin with
+one concrete bodily scene, preserve its sensory legend, and use Hyperslice
+to vary one feature at a time before introducing notation. Choose the cues
+needed for the current comparison rather than displaying the whole atlas.
+
+- **Paused first-person plus godlike view:** inhabit the object while seeing
+  its surroundings and internal state. Reuse a rock near a planet, an iron
+  filing near a permanent magnet, and a balloon in a thundercloud. Preserve
+  existing velocity, material response, contacts and evolving event state
+  when predicting what happens after unpausing.
+- **Ender's battle room:** make a selected influence's direction feel like
+  "down." Try standing, lying face up, handstands and rotated body frames.
+  Keep several influences distinguishable at once. Rotating the sensing
+  frame changes presentation; rotating the physical object can change its
+  interaction with the world.
+- **Separate simultaneous force sensations:** use the deep pelvic belt for
+  gravity, silk on the skin for electric response, vest seams for magnetic
+  translation, a shoulder–hip couple for torque, and local patches for
+  contact. Opposing contributions remain vivid when net acceleration is
+  zero. Keep magnetic-field axis, internal magnetic moment and bodily
+  orientation separate.
+- **Soap, mould, pea pod and toothpaste:** feel pressure over the whole
+  skin. Equal squeeze differs from unequal pushes; volume compression
+  differs from shape change. Walls and moulds reveal allowed movement;
+  openings permit extrusion when the material response allows it. Switch
+  explicitly between being the expelled paste and being the remaining
+  bottle: their momentum changes oppose in the isolated jet fixture.
+  Reuse head/foot/mouth/butt outlets or a handheld toothpaste nozzle; track
+  nozzle aim separately from its location, and recoil separately from jet
+  direction. Keep a fluid parcel, finite cavity and ejecting container's
+  respective boundaries and dynamics explicit.
+- **Charge flavour and colour:** positive is sour/neon yellow; negative is
+  creamy/milky blue. Hair height represents charge magnitude independently
+  of sign. Imagine sampling places with mouth and hands. Charge, voltage
+  relative to a reference, electric-field direction and force on a chosen
+  object retain separate readings; a charge-neutral sample can sit in a
+  strong field.
+- **Motion, support and stored response:** use gut-drop, rollercoaster and
+  trampoline sensations, flesh lag and shirt/kilt tug or lift. Give existing
+  velocity its own leading ghost and inertia its response to a standard
+  shove. Keep augmented gravity sensing distinct from support sensations.
+  Use rebound for recoverable storage and aftertaste for material memory.
+
+These are authored imagination cues. Name each cue's input: field value,
+gradient, body state, response or resultant. In particular, physical pressure
+squeeze, remaining capacity `q = P_static/P_c`, and spatial weights `1/q`
+need distinguishable readings. Carry the stated model and boundary conditions
+through the analogy; assess understanding through the user's predictions.
+
+Detailed reusable scenes and mappings:
+[sensory atlas](docs/tau-sensory-atlas.md),
+[paused worlds](docs/paused-world-pov.md), and
+[mental laboratory](docs/tau-mental-laboratory.md).
+
 ## Current Starting Hypothesis
 
 Begin with **dimensional analysis as dimension-space**, assuming only the
