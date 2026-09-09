@@ -397,6 +397,14 @@ scene; contrast the separated sources with a surrounding spherical mass
 distribution. Next track the tunnel traveller's existing velocity through
 the center and ask which way the pressure slope points just beyond it.
 
+The user now correctly predicts that tunnel "down" reverses after crossing
+the center, whereas a probe displaced along the line between equal planets
+accelerates farther toward the nearer planet. This supports the qualitative
+distinction between a restoring center and an unstable midpoint along that
+line. Their merger remark is ambiguous, so do not assume an orbital
+misconception. Next preserve the test knot's existing sideways motion while
+adding inward acceleration; test the trajectory separately from the field.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
