@@ -110,6 +110,12 @@ RCCM claim.
 
 ## Focused Guides
 
+- [A mental laboratory for tau fluidics](docs/tau-mental-laboratory.md) —
+  eleven spatial experiments for pressure, deformation, circulation, cavities,
+  inertia, gravity, capacity, waves, electric/magnetic forces, and relaxation;
+  twelve adversarial Hyperslice razors and a circulation × cavity square.
+  Each scene separates the initial force prediction from the boundary and
+  response laws needed for later motion.
 - [OpenFOAM × RCCM: jobs, possibilities, and implementation gaps](docs/openfoam-rccm/README.md)
   — eight linked documents covering 18 job archetypes, 24 sourced practitioner
   cases, 34 conditional RCCM possibilities, adversarial Hyperslices, the actual
@@ -255,6 +261,15 @@ refute the physical cosmology.
 ## Current Position
 
 There are two foundational spines.
+
+For the user's present request to feel and predict tau-fluid forces, use the
+[mental laboratory](docs/tau-mental-laboratory.md) as a concrete entry route:
+pressure level versus slope → material cube → circulation → cavity inertia →
+gravity → waves and interacting structures. The first proposed probe is a
+parcel moving right while pressure increases to the right: distinguish its
+next displacement from its acceleration, then flatten the slope. This is a
+teaching hypothesis based on the user's stated need for manipulable spatial
+scenes; no probe response or new mathematical mastery has yet been observed.
 
 ### Mathematical spine
 
