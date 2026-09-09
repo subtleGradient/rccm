@@ -441,6 +441,16 @@ candidate tau guidance picture distinct from a derived Bohmian law.
 Next probe: equal transverse ripple contributions at one marked parcel,
 with opposite signs. Ask for the local motion before expanding the lesson.
 
+The user asks to locate this light/interference scene in the asymmetric
+tensor. Return to the displayed local Cartesian matrix: time–space
+antisymmetric pairs encode normalized transverse slip rate; spatial
+antisymmetric pairs encode normalized Clebsch vorticity. The diagonal
+capacity background remains a separate reading. A wavelength belongs to
+spatial repetition of the field, not to an extra cell of one local matrix.
+Correct the earlier displacement cue: a parcel's position is not itself
+the electric entry. Next ask what reverses physically when one signed
+electric reading reverses, keeping charge sign distinct from slip direction.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
