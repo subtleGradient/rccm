@@ -96,7 +96,7 @@ Unpause with one of these starting states:
 
 For a simple table model, ignore adhesion and tipping temporarily. With upward magnetic component \(F_{mag,z}\), the required normal support is \(N=mg-F_{mag,z}\). If it becomes negative, the table cannot supply it: contact opens. Sliding starts when the required horizontal holding force exceeds static friction's capacity \(\mu_sN\). For a jagged filing, also check torque about the actual contact points; it may tip before lifting bodily. These thresholds follow from the specified contact model.
 
-The conventional permanent-dipole fixture has
+In the dipole formulas, \(\mathbf B\) is the external field at the object, excluding its own field. The conventional permanent-dipole fixture has
 \(\boldsymbol\tau=\mathbf m\times\mathbf B\) and
 \(F_i=\sum_j m_j\partial_iB_j\), with the moment fixed during the spatial derivative. Exact antiparallel alignment has zero instantaneous torque but is unstable to a small tilt. [OpenStax dipole torque](https://openstax.org/books/university-physics-volume-2/pages/11-5-force-and-torque-on-a-current-loop)
 
@@ -115,7 +115,7 @@ Specify a balloon with known mass, displaced-air volume, charge distribution, di
 
 In the body view, show weight downward, buoyancy, aerodynamic loading and the net electrical load. For a small charged object in a nearly uniform imposed field, the net-charge term is \(Q\mathbf E\). Polarization requires resolving separated charge responses, especially in nonuniform fields; a neutral polarized object can experience opposing electrical loads with zero net translation in a uniform field. [MIT polarization and forces](https://ocw.mit.edu/courses/res-6-002-electromagnetic-field-theory-a-problem-solving-approach-spring-2008/2cccce322d387cccbc78c3ed65843f49_MITRES_6_002S08_chp03_text.pdf)
 
-Your godlike view then leaves the balloon and fills the air with a separate map: cloud charges carried by water/ice, electric-field vectors, air density, particle geometry, free charge carriers, and any existing conductive channels. This map determines where electrical activity can grow. Balloon acceleration is not its gauge. The balloon can be mechanically balanced while the surrounding electrical loading is strong.
+Your godlike view then leaves the balloon and fills the air with a separate map: cloud charges carried by water/ice, electric-field vectors, air density, temperature and composition (including humidity), particle geometry, free charge carriers, and any existing channels with their temperature and conductivity. This map determines where electrical activity can grow. Balloon acceleration is not its gauge. The balloon can be mechanically balanced while the surrounding electrical loading is strong.
 
 **A complete pause contains no continuing buildup.** To examine buildup, hold the balloon geometry fixed and advance the storm's charging drive through successive frozen states. That explicitly changes charge separation and the surrounding field. Then release the air's microscopic response.
 
@@ -130,7 +130,7 @@ seed electrons gain energy from the field
 → a sustained conducting channel may develop
 ```
 
-This is a reaction-and-field feedback process. Streamers, leaders and the bright return stroke are different stages/structures. For the common negative cloud-to-ground case, an advancing leader and an upward connecting discharge establish the connection used by the return stroke; other flash types have different geometry. [NOAA lightning types](https://www.nssl.noaa.gov/education/svrwx101/lightning/types/), [NOAA lightning questions](https://www.nssl.noaa.gov/education/svrwx101/lightning/faq/)
+This is a reaction-and-field feedback process. A streamer is an advancing ionization front; a leader is a sustained, much more conductive channel; the return stroke is a rapid current wave along the established connection. For the common negative cloud-to-ground case, an advancing leader and an upward connecting discharge establish the connection used by the return stroke; other flash types have different geometry. [NOAA lightning types](https://www.nssl.noaa.gov/education/svrwx101/lightning/types/), [NOAA lightning questions](https://www.nssl.noaa.gov/education/svrwx101/lightning/faq/)
 
 **The feel:** electrical load becomes an increasing opportunity for microscopic charge motion. The first conducting region changes the load on the next region. The path is made as the event grows. It is not a completed route already encoded by one static field line.
 
@@ -159,7 +159,7 @@ For the ideal isolated parallel plates (large area \(A\), negligible edge fields
 
 The charged-bead balancing fixture is especially useful. Set upward \(Q E_z=mg\). A bead already moving continues to move initially; balance sets its instantaneous acceleration to zero. In ideal uniform fields a vertical displacement supplies no restoring tendency, so this is not a stable trap. Change the field gradient or add a mechanical constraint before asserting stable levitation.
 
-The tau view assigns the electric loading to the proposed continuum strain channel, and matter's charge/polarization to its coupling. Ordinary electrical force is the macroscopic readout of that proposed mechanism. Count that force once. Atomic/contact forces hold the material together, so surface or volume stress must transmit the microscopic loading to the body's motion.
+The tau view assigns the electric loading to the proposed continuum strain channel, and matter's charge/polarization to its coupling. Ordinary electrical force is the macroscopic readout of that proposed mechanism. Count that force once, using constituent forces or their equivalent integrated stress rather than adding the two descriptions. Atomic/contact forces hold the material together, so surface or volume stress must transmit the microscopic loading to the body's motion.
 
 **The strongest Hyperslices exposed by these worlds**
 

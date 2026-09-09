@@ -110,6 +110,11 @@ RCCM claim.
 
 ## Focused Guides
 
+- [Paused worlds: be the object and see its surroundings](docs/paused-world-pov.md)
+  — the user's hybrid first-person/godlike viewpoint for a rock near a planet,
+  an iron filing near a permanent magnet, a balloon in a thundercloud, and
+  classic electrostatic experiments. Preserves momentum, distributed load,
+  material response, contact constraints, field feedback and event state.
 - [A mental laboratory for tau fluidics](docs/tau-mental-laboratory.md) —
   eleven spatial experiments for pressure, deformation, circulation, cavities,
   inertia, gravity, capacity, waves, electric/magnetic forces, and relaxation;
@@ -270,6 +275,14 @@ parcel moving right while pressure increases to the right: distinguish its
 next displacement from its acceleration, then flatten the slope. This is a
 teaching hypothesis based on the user's stated need for manipulable spatial
 scenes; no probe response or new mathematical mastery has yet been observed.
+
+The user then clarified that the desired view is a complete **paused state
+inhabited from inside the object and inspected from outside it**. Use the
+[paused-world guide](docs/paused-world-pov.md) for that route: the same inward
+force can lead to impact, orbit or escape depending on velocity; a filing's
+internal magnetization can change without bodily rotation; and a balloon's
+mechanical balance does not determine whether nearby air begins conducting.
+These are proposed teaching distinctions, pending the user's own predictions.
 
 ### Mathematical spine
 
