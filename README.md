@@ -344,6 +344,16 @@ added-mass displacement volume distinct. Treat antiparticle geometry and
 atomic bound states as further questions rather than consequences of a
 reversed ordinary spin or unequal particle masses alone.
 
+The cavity-shove response distinguishes a travelling pattern from a fixed
+collection of fluid, but tentatively leaves the fluid itself stationary and
+attributes inertia to a delay in transferring swirl. Insert a tagged-parcel
+step before advancing: put a marker immediately ahead of the cavity and
+predict its path as the cavity advances. Pattern motion, material motion,
+finite propagation, added mass, and dissipative drag need distinct controls.
+The user's translation/internal-cycle budget hypothesis resembles the TeX's
+phase-lock picture; local light-speed invariance across observers still
+requires the clock/ruler transformation, not merely absence of a pixel grid.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
