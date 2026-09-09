@@ -110,6 +110,12 @@ RCCM claim.
 
 ## Focused Guides
 
+- [OpenFOAM × RCCM: jobs, possibilities, and implementation gaps](docs/openfoam-rccm/README.md)
+  — eight linked documents covering 18 job archetypes, 24 sourced practitioner
+  cases, 34 conditional RCCM possibilities, adversarial Hyperslices, the actual
+  Foundation source tree, the incomplete tensor prototype, 11 formal findings,
+  and a staged implementation route. Separates tensor representation, field
+  evolution, material response, numerical verification, and physical validation.
 - [RCCM Data: what files preserve and make possible](rccm-data.md) — tensor
   samples, fields, recipes, observations, and complete simulation state;
   minimum data by goal; 36 conventions across games, engineering, science,
@@ -984,6 +990,14 @@ These are the present highest-value unknowns:
     temperature, and pressure into tau-fluid transport observables such as
     longitudinal resistance, magnetic shielding, phase coherence, and a
     derived superconducting \(T_c\)?
+17. Which reconciled asymmetric-tensor sector should become the first complete
+    OpenFOAM equation contract? The [formal audit](docs/openfoam-rccm/04-equation-contract-and-gaps.md)
+    records pressure-energy, inertia, source-sign, curl-sign, wave-stability,
+    spin-balance and yield gaps; the [code map](docs/openfoam-rccm/07-openfoam-code-map.md)
+    identifies reusable machinery and the [roadmap](docs/openfoam-rccm/06-implementation-roadmap.md)
+    defines the verification gates. Supporting an asymmetric spatial tensor
+    is already possible; specifying its physical evolution and material
+    observables remains a separate job.
 
 ## Falsifiers and Redraw Conditions
 
