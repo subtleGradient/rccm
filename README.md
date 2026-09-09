@@ -380,6 +380,14 @@ use two equal weak-field sources and a tiny probe exactly halfway between
 them. Ask for the probe's acceleration before introducing cancellation or
 the midpoint's stability.
 
+The midpoint answer predicts slight motion in both directions and possible
+internal loosening. Use that spatial intuition to distinguish center motion
+from a tidal stretching tendency: exact symmetry cancels the center's net
+acceleration, while opposite sides of an extended probe can be urged apart.
+Whether it deforms depends on its own restoring response. Pressure capacity
+is a separate state reading, not the cancellation mechanism. Next displace
+the probe slightly toward one source and predict its initial acceleration.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
