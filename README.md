@@ -354,6 +354,14 @@ The user's translation/internal-cycle budget hypothesis resembles the TeX's
 phase-lock picture; local light-speed invariance across observers still
 requires the clock/ruler transformation, not merely absence of a pixel grid.
 
+After "parcel" was defined as an arbitrarily marked region of fluid, the
+user predicts that pink tau swirls as the cavity passes and ends near its
+starting region, without a car-like wake. This now includes actual material
+motion. Treat near-return and absence of a wake as fixture assumptions,
+not general vortex-ring results. Next isolate the extra surrounding-fluid
+acceleration required when the cavity changes speed; inertia remains the
+question to be inferred.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
