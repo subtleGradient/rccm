@@ -429,6 +429,18 @@ Keep the established bound-state/transition rule separate from the proposed
 tau mechanism; the inspected light sections do not derive hydrogen's
 allowed spectrum from knot-shape incompatibility.
 
+The user next groups pilot waves, wave/particle duality, double slits,
+the electromagnetic spectrum, and butterfly structural colour. Existing
+entry points are the [focused double-slit guide](RCCM-Pilot-Wave-and-Double-Slit.md)
+and [general Bohmian map](RCCM-and-Bohmian-Mechanics.md). The next introductory
+bridge is wavelength as spatial repeat distance, then interference as
+addition of local wave contributions. Connect radio/infrared/visible bands
+to that spacing and wing structures to reflected-wave timing. Keep the
+electron's matter wave distinct from an electromagnetic wave, and the
+candidate tau guidance picture distinct from a derived Bohmian law.
+Next probe: equal transverse ripple contributions at one marked parcel,
+with opposite signs. Ask for the local motion before expanding the lesson.
+
 ### Mathematical spine
 
 Begin with **dimensional analysis as dimension-space**.
