@@ -100,6 +100,7 @@ This table inventories distinct engineering outcomes; related jobs share rows to
 | Electrostatics | Solve charge/potential configurations | Potential and electric field | S narrow legacy solver; device material response additional |
 | Permanent magnets | Calculate a prescribed magnet arrangement's field | Magnetic potential and flux pattern | S narrow legacy solver; hysteresis/dynamic magnetization additional |
 | Conducting-fluid MHD | Explore magnetic influence on a conducting flow | Velocity, magnetic field, pressure | S narrow legacy laminar incompressible formulation |
+| Plasmas and discharges | Study charged-species transport, ionization, discharges and plasma-material interfaces | Species, current, heating and field response | M/E; kinetic, ionization, sheath and electromagnetic closures exceed stock laminar MHD |
 | Induction and electrothermal process | Explore field-driven heating, reactors and melt stirring | Power deposition, temperature, flow | M/E; stock MHD is not the full induction-heating toolchain |
 | Rarefied gases | Study dilute molecular transport outside ordinary continuum assumptions | Molecular statistics, fluxes, stress | S legacy DSMC with scoped collision/species models |
 | Classical molecular fluid models | Explore particles interacting through prescribed potentials | Trajectories and statistical observables | S legacy MD examples; electronic structure/bond discovery separate |
