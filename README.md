@@ -132,6 +132,11 @@ RCCM claim.
   Foundation source tree, the incomplete tensor prototype, 11 formal findings,
   and a staged implementation route. Separates tensor representation, field
   evolution, material response, numerical verification, and physical validation.
+- [Run an OpenFOAM hello world](examples/openfoam-cavity/README.md) — a verified
+  sliding-lid cavity for the installed native OpenCFD v2512 runtime, with a
+  repeatable run script, 81 saved times, velocity-gradient/vorticity fields,
+  and a reproducible ParaView scene. This establishes the conventional CFD
+  visualization workflow; the RCCM tensor mapping remains a subsequent step.
 - [RCCM Data: what files preserve and make possible](rccm-data.md) — tensor
   samples, fields, recipes, observations, and complete simulation state;
   minimum data by goal; 36 conventions across games, engineering, science,
