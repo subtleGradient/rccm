@@ -3,6 +3,15 @@
 This repository is a long-term project for understanding and auditing
 *Refractive Cosmology and Continuum Mechanics* (RCCM).
 
+## Start small in Bend
+
+[`bend/`](bend/README.md) contains a one-location pressure-budget experiment:
+change a normalized speed, predict the dynamic/static split, then run it.
+It is the smallest current Bend foothold toward tau-fluidics simulations:
+one pure kernel, a ten-case numerical regression gate, and a dimensional
+reading route to both TeX sources. No time evolution or full-fluid
+implementation is implied.
+
 ## Run the executable experiment
 
 On macOS with CMake 3.25 or newer and a C++23 compiler:
