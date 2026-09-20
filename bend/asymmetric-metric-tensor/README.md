@@ -1,7 +1,7 @@
 # Learn the asymmetric metric tensor through Bend
 
 **Status: lessons 1–5 are implemented and checked with Bend 2.0.21.
-Lessons 6–9 remain planned.**
+Lessons 6–10 are being built from the [next-five plan](COURSE-6-10.md).**
 
 - [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address map,
   three slot-swap laws, their proofs, and a rejected no-op counterexample.
