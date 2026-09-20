@@ -2,6 +2,9 @@ import Base
 import ./tensor.bend as Tensor
 import ./LAWS.bend as Laws
 import ./exact.bend as Exact
+import ./rational-proof.bend as RationalProof
+import ./capacity-proof.bend as CapacityProof
+import ./matrix-proof.bend as MatrixProof
 
 def Laws.swap_row(s):
   match s:
