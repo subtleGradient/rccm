@@ -91,7 +91,7 @@ type Axis = "t" | "x" | "y" | "z";
 type Slot = { row: Axis; column: Axis };
 ```
 
-In [`tensor.bend`](../tensor.bend#L5), those are finite, copyable datatypes:
+In [`tensor.bend`](../tensor.bend#L6), those are finite, copyable datatypes:
 
 ```python
 type Axis is Data:
@@ -129,7 +129,7 @@ stages. The actual `swap` consumes its input once and returns a new address.
 
 ## 5. Read the contract
 
-[`LAWS.bend`](../LAWS.bend#L8) states three requirements:
+The lesson-1 section of [`LAWS.bend`](../LAWS.bend#L9) states three requirements:
 
 | Law | For every input slot… |
 |---|---|
@@ -164,7 +164,7 @@ bend bend/asymmetric-metric-tensor/PROOF.bend
 
 Expected: `All terms check.`
 
-[`PROOF.bend`](../PROOF.bend#L5) imports the laws and supplies this proof:
+[`PROOF.bend`](../PROOF.bend#L6) imports the laws and supplies this proof:
 
 ```python
 def Laws.swap_row(s):
@@ -245,5 +245,5 @@ weak. State where the row and column must go, not just that a journey returns.
    address labels?
 
 If you can answer and explain these, move on. If one catches, revisit only
-that section. Next: **mirror or reverse**—attach signed values to these
+that section. Next: [**mirror or reverse**](02-pairs.md)—attach signed values to these
 paired slots and prove what symmetry and antisymmetry require.

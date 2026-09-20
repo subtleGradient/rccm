@@ -15,7 +15,11 @@ Bend-checked proofs.
 [Lesson 1 — Find a slot](bend/asymmetric-metric-tensor/lessons/01-slots.md)
 is implemented: named axes, slot swapping, three universal contracts and
 checked proofs, plus a no-op counterexample showing why a return-to-start
-law alone is too weak. Later lessons remain planned; learner mastery is
+law alone is too weak.
+[Lesson 2 — Mirror or reverse](bend/asymmetric-metric-tensor/lessons/02-pairs.md)
+adds exact signed values, symmetric/antisymmetric pair constructors, and
+twelve laws including proof reuse for `Aᵀ = -A` at the pair level.
+Later lessons remain planned; learner mastery is
 assessed through the lesson's prediction and return probes, not inferred
 from the successful build.
 

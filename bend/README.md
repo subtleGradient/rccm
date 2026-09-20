@@ -8,12 +8,17 @@ is the central object; pressure capacity is one input to its construction.
 Each lesson will add a small piece of implementation and human-approved
 laws, with proofs checked by Bend.
 
-**[Lesson 1 — Find a slot](asymmetric-metric-tensor/lessons/01-slots.md)
-is ready.** Read the component map, predict an address swap, and follow the
-three universal proofs. Later lessons remain planned.
+- [Lesson 1 — Find a slot](asymmetric-metric-tensor/lessons/01-slots.md):
+  read the component map, predict an address swap, and follow its proofs.
+- [Lesson 2 — Mirror or reverse](asymmetric-metric-tensor/lessons/02-pairs.md):
+  attach exact signed values, compare symmetry with antisymmetry, and reuse
+  a proof to connect transposition with sign reversal.
+
+Lessons 3–9 remain planned.
 
 ```sh
 bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
+bend bend/asymmetric-metric-tensor/lessons/02-pairs.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 

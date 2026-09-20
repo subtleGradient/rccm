@@ -1,11 +1,16 @@
 # Learn the asymmetric metric tensor through Bend
 
-**Status: lesson 1 is implemented and checked with Bend 2.0.21.
-Lessons 2–9 remain planned.**
+**Status: lessons 1–2 are implemented and checked with Bend 2.0.21.
+Lessons 3–9 remain planned.**
 
-Start with [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address
-map, three universal slot-swap laws, their proofs, and a deliberately rejected
-no-op counterexample. The learner's exit probes are still to be answered.
+- [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address map,
+  three slot-swap laws, their proofs, and a rejected no-op counterexample.
+- [Lesson 2 — Mirror or reverse](lessons/02-pairs.md): exact signed values,
+  symmetric/antisymmetric pairs, twelve additional laws, proof reuse, and
+  a rejected copying counterexample.
+
+The user's lesson-1 run succeeded. The prediction and return probes remain
+the evidence of understanding, separate from successful execution.
 
 The destination is a tensor you can read, construct, interrogate, and eventually
 use in a simulation. Each lesson opens one part of that object, states a precise
@@ -80,7 +85,7 @@ with a short prediction; skip explanations the learner already owns.
 ## Lesson sequence
 
 These are incremental milestones, not a commitment to build the whole course
-at once. Lesson 1 has checked Bend declarations in [`LAWS.bend`](LAWS.bend).
+at once. Lessons 1–2 have checked Bend declarations in [`LAWS.bend`](LAWS.bend).
 The later laws below remain **mathematical specifications to draft and review**.
 
 | Lesson | Scene and programming foothold | Small artifact and candidate proof | Learner's prediction / exit gate |
@@ -101,7 +106,7 @@ local tensor assembler. Lessons 5–7 make it usable and interpretable. Lessons
 Games, GPU kernels, general frame changes and downstream physical reductions
 are later consumers, not prerequisites for the first lesson.
 
-### First lesson: the current implementation slice
+### First lesson: the address layer
 
 The [lesson](lessons/01-slots.md) keeps the component map visible and
 lights up one pair: `(t,x)` and
@@ -111,7 +116,7 @@ lights up one pair: `(t,x)` and
 2. If they are swapped again, where does it return?
 3. Does that operation alone require negating the stored value?
 
-The implementation contains only named axes, slot accessors, swapping and
+The lesson-1 slice contains named axes, slot accessors, swapping and
 a tiny demonstration. The agreed coordinate-swap laws and “for every slot,
 swap twice is identity” are proven by constructor cases. The broken
 candidate “leave the slot unchanged” satisfies double-swap identity but
@@ -124,6 +129,17 @@ matching and equality. No linear-algebra framework, exact-real library or
 renderer is needed.
 Keep this lesson short; move straight to signed pairs if the learner already
 predicts the slot operations correctly.
+
+### Second lesson: the signed-pair layer
+
+[Lesson 2](lessons/02-pairs.md) attaches exact integer values to paired
+entries. It proves the sign operation, pair contents, and the pair-level
+identities `Sᵀ = S` and `Aᵀ = -A`. The last proof reuses double negation via
+Bend's equality rewrite. The pair record does not yet assign values to axes.
+
+Predict a nonzero pair, reverse the input, then try zero. Zero shows why an
+example can hide a copying bug; the content laws prevent a constructor from
+passing merely by discarding every input and returning `(0,0)`.
 
 ## Package and law ownership
 
@@ -139,26 +155,32 @@ bend/
     LAWS.bend                 imports implementation; approved contracts
     PROOF.bend                imports LAWS; supplies proofs of its laws
     tensor.bend               implementation, grown one operation at a time
+    exact.bend                signed integers, Nat conversion, negation
     lessons/
       01-slots.md             scene, probe, law reading, proof walkthrough
       01-slots.bend           runnable demonstration
       01-noop.bend            wrong swap; valid proof of the weak law
+      02-pairs.md             signed pairs and proof reuse
+      02-pairs.bend           runnable sign/transpose comparison
       counterexamples/
         01-noop-row.bend      deliberately rejected equality claim
+        02-copy-rejected.bend deliberately rejected copying claim
 ```
 
-Add an exact-arithmetic module only when a later lesson needs it.
+The exact module adds only the missing sign operations. Fractions and other
+arithmetic wait until a lesson needs them.
 
 From the repository root:
 
 ```sh
 bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
+bend bend/asymmetric-metric-tensor/lessons/02-pairs.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-Both commands run now. The proof gate prints `All terms check.` Neither
-requires a separate JavaScript compilation step. The deliberately invalid
-counterexample is run separately as explained in the lesson, never imported
+All three commands run now. The proof gate prints `All terms check.`
+None requires a separate JavaScript compilation step. The deliberately invalid
+counterexamples are run separately as explained in the lessons, never imported
 by `PROOF.bend`.
 
 Law-driven loop:
