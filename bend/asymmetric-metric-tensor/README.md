@@ -1,7 +1,7 @@
 # Learn the asymmetric metric tensor through Bend
 
-**Status: lessons 1–8 are implemented and checked with Bend 2.0.21.
-Lessons 9–10 are being built from the [next-five plan](COURSE-6-10.md).**
+**Status: lessons 1–9 are implemented and checked with Bend 2.0.21.
+Lesson 10 is being built from the [next-five plan](COURSE-6-10.md).**
 
 - [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address map,
   three slot-swap laws, their proofs, and a rejected no-op counterexample.
@@ -20,6 +20,8 @@ Lessons 9–10 are being built from the [next-five plan](COURSE-6-10.md).**
   nominal units, baseline subtraction and the focused `P_c(U−η)` definition.
 - [Lesson 8 — Walk between samples](lessons/08-differences.md): positive
   spacing, force-density units and a frozen difference quotient.
+- [Lesson 9 — Balance the shared face](lessons/09-flux.md): two cells,
+  explicit tensor-flux orientation and exact interior cancellation.
 
 The user's runs of lessons 1–2 succeeded. One probe response correctly
 described an antisymmetric pair while substituting it for the supplied

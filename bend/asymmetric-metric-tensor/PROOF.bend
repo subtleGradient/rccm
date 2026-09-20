@@ -11,6 +11,7 @@ import ./units-proof.bend as UnitProof
 import ./stress-proof.bend as StressProof
 import ./balance-proof.bend as BalanceProof
 import ./differences-proof.bend as DifferenceProof
+import ./flux-proof.bend as FluxProof
 
 def Laws.swap_row(s):
   match s:

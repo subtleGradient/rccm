@@ -10,6 +10,7 @@ import ./units-laws.bend as UnitLaws
 import ./stress-laws.bend as StressLaws
 import ./balance-laws.bend as BalanceLaws
 import ./differences-laws.bend as DifferenceLaws
+import ./flux-laws.bend as FluxLaws
 
 # Lesson 1 contracts from the agreed course plan.
 # Treat future changes as specification changes requiring human review.
