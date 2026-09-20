@@ -4,6 +4,18 @@ import ./matrix.bend as M
 import ./probes.bend as P
 import ./rational.bend as R
 
+law basis_t:
+  {P.basis(Tensor.T{}) == P.Vector4{R.one(), R.zero(), R.zero(), R.zero()} : P.Vector4}
+
+law basis_x:
+  {P.basis(Tensor.X{}) == P.Vector4{R.zero(), R.one(), R.zero(), R.zero()} : P.Vector4}
+
+law basis_y:
+  {P.basis(Tensor.Y{}) == P.Vector4{R.zero(), R.zero(), R.one(), R.zero()} : P.Vector4}
+
+law basis_z:
+  {P.basis(Tensor.Z{}) == P.Vector4{R.zero(), R.zero(), R.zero(), R.one()} : P.Vector4}
+
 law symmetric_rule:
   for slot: Tensor.Slot
   for matrix: M.Matrix

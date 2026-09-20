@@ -129,7 +129,7 @@ stages. The actual `swap` consumes its input once and returns a new address.
 
 ## 5. Read the contract
 
-The lesson-1 section of [`LAWS.bend`](../LAWS.bend#L9) states three requirements:
+The lesson-1 section of [`LAWS.bend`](../LAWS.bend#L13) states three requirements:
 
 | Law | For every input slot… |
 |---|---|
@@ -164,7 +164,7 @@ bend bend/asymmetric-metric-tensor/PROOF.bend
 
 Expected: `All terms check.`
 
-[`PROOF.bend`](../PROOF.bend#L6) imports the laws and supplies this proof:
+[`PROOF.bend`](../PROOF.bend#L10) imports the laws and supplies this proof:
 
 ```python
 def Laws.swap_row(s):

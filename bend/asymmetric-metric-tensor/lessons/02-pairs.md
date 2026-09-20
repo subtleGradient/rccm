@@ -189,7 +189,7 @@ bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
 Expected: `All terms check.` The three lesson-1 laws remain unchanged.
-Lesson 2 adds twelve laws in [`LAWS.bend`](../LAWS.bend#L23):
+Lesson 2 adds twelve laws in [`LAWS.bend`](../LAWS.bend#L27):
 
 | Contract group | What it pins down |
 |---|---|
@@ -222,7 +222,7 @@ negate(antisymmetric_pair(v))     -> (-v, -(-v))
 The first entries match immediately. The second entries match by the fact
 we just proved: `-(-v) = v`.
 
-The [Bend proof](../PROOF.bend#L60) reuses that fact with `%`:
+The [Bend proof](../PROOF.bend#L64) reuses that fact with `%`:
 
 ```python
 def Laws.antisymmetric_transpose(value):
@@ -271,5 +271,5 @@ fortunate example.
 reverses values. Antisymmetry is the law connecting their results—not a
 claim that they are the same operation.
 
-Next: [lesson 3's capacity-to-diagonal bridge](../README.md#lesson-sequence),
+Next: [lesson 3's capacity-to-diagonal bridge](03-capacity.md),
 where a valid pressure fraction determines `-q` and `1/q`.

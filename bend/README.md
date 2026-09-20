@@ -13,12 +13,21 @@ laws, with proofs checked by Bend.
 - [Lesson 2 — Mirror or reverse](asymmetric-metric-tensor/lessons/02-pairs.md):
   attach exact signed values, compare symmetry with antisymmetry, and reuse
   a proof to connect transposition with sign reversal.
+- [Lesson 3 — Capacity sets the diagonals](asymmetric-metric-tensor/lessons/03-capacity.md):
+  turn a same-unit pressure budget into exact `-q` and `1/q`.
+- [Lesson 4 — Assemble the full sample](asymmetric-metric-tensor/lessons/04-assembly.md):
+  construct the full 4 × 4 tensor under a sixteen-slot contract.
+- [Lesson 5 — Ask the tensor a question](asymmetric-metric-tensor/lessons/05-probes.md):
+  recover the two parts and prove why a same-vector probe cannot see `A`.
 
-Lessons 3–9 remain planned.
+Lessons 6–9 remain planned.
 
 ```sh
 bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
 bend bend/asymmetric-metric-tensor/lessons/02-pairs.bend
+bend bend/asymmetric-metric-tensor/lessons/03-capacity.bend
+bend bend/asymmetric-metric-tensor/lessons/04-assembly.bend
+bend bend/asymmetric-metric-tensor/lessons/05-probes.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 

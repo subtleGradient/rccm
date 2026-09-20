@@ -1,16 +1,24 @@
 # Learn the asymmetric metric tensor through Bend
 
-**Status: lessons 1–2 are implemented and checked with Bend 2.0.21.
-Lessons 3–9 remain planned.**
+**Status: lessons 1–5 are implemented and checked with Bend 2.0.21.
+Lessons 6–9 remain planned.**
 
 - [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address map,
   three slot-swap laws, their proofs, and a rejected no-op counterexample.
 - [Lesson 2 — Mirror or reverse](lessons/02-pairs.md): exact signed values,
   symmetric/antisymmetric pairs, twelve additional laws, proof reuse, and
   a rejected copying counterexample.
+- [Lesson 3 — Capacity sets the diagonals](lessons/03-capacity.md): exact
+  fractions, a positive-capacity input type, the budget identity and reciprocal.
+- [Lesson 4 — Assemble the full sample](lessons/04-assembly.md): a stored
+  4 × 4 matrix, an independent sixteen-slot contract and the full `S+A` split.
+- [Lesson 5 — Ask the tensor a question](lessons/05-probes.md): recovery from
+  stored entries, all sixteen contraction terms, and same-vector cancellation.
 
-The user's lesson-1 run succeeded. The prediction and return probes remain
-the evidence of understanding, separate from successful execution.
+The user's runs of lessons 1–2 succeeded. One probe response correctly
+described an antisymmetric pair while substituting it for the supplied
+symmetric pair. The next lessons explicitly keep the starting state visible;
+successful execution alone is not evidence of completing their learning probes.
 
 The destination is a tensor you can read, construct, interrogate, and eventually
 use in a simulation. Each lesson opens one part of that object, states a precise
@@ -85,7 +93,7 @@ with a short prediction; skip explanations the learner already owns.
 ## Lesson sequence
 
 These are incremental milestones, not a commitment to build the whole course
-at once. Lessons 1–2 have checked Bend declarations in [`LAWS.bend`](LAWS.bend).
+at once. Lessons 1–5 have checked Bend declarations through [`LAWS.bend`](LAWS.bend).
 The later laws below remain **mathematical specifications to draft and review**.
 
 | Lesson | Scene and programming foothold | Small artifact and candidate proof | Learner's prediction / exit gate |
@@ -154,31 +162,52 @@ bend/
     README.md                 course map and lesson index
     LAWS.bend                 imports implementation; approved contracts
     PROOF.bend                imports LAWS; supplies proofs of its laws
-    tensor.bend               implementation, grown one operation at a time
+    tensor.bend               original axes, slots and integer pairs
     exact.bend                signed integers, Nat conversion, negation
+    rational.bend             exact noncanonical signed fractions
+    natural-proof.bend        constructive arithmetic induction lemmas
+    capacity.bend             positive capacity and its reciprocal
+    matrix.bend               full local Cartesian table and assembly
+    probes.bend               split recovery and bilinear contraction
+    *-laws.bend               layer contracts imported by LAWS.bend
+    *-proof.bend              layer proofs imported by PROOF.bend
+    format.bend               display unreduced exact values
     lessons/
       01-slots.md             scene, probe, law reading, proof walkthrough
       01-slots.bend           runnable demonstration
       01-noop.bend            wrong swap; valid proof of the weak law
       02-pairs.md             signed pairs and proof reuse
       02-pairs.bend           runnable sign/transpose comparison
+      03-capacity.md/.bend    pressure shares and the reciprocal boundary
+      04-assembly.md/.bend    all sixteen entries and the unloaded baseline
+      05-probes.md/.bend      selectors, recovery and cancellation
+      example.bend           shared algebraic input for lessons 4–5
       counterexamples/
         01-noop-row.bend      deliberately rejected equality claim
         02-copy-rejected.bend deliberately rejected copying claim
+        03-zero-reciprocal.bend rejected regular-state claim at zero capacity
+        04-wrong-twist.bend   rejected source-sign claim
+        05-two-probes.bend    rejected overextension to different probes
 ```
 
-The exact module adds only the missing sign operations. Fractions and other
-arithmetic wait until a lesson needs them.
+The rational layer was added when capacity required fractions. A fraction
+stores `(positive-negative)/(1+denominator_predecessor)`; `Same` compares
+values by cross multiplication rather than requiring identical records.
+The root gate imports all layer contracts and proofs, not separate competing
+specifications for each lesson.
 
 From the repository root:
 
 ```sh
 bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
 bend bend/asymmetric-metric-tensor/lessons/02-pairs.bend
+bend bend/asymmetric-metric-tensor/lessons/03-capacity.bend
+bend bend/asymmetric-metric-tensor/lessons/04-assembly.bend
+bend bend/asymmetric-metric-tensor/lessons/05-probes.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-All three commands run now. The proof gate prints `All terms check.`
+All six commands run now. The proof gate prints `All terms check.`
 None requires a separate JavaScript compilation step. The deliberately invalid
 counterexamples are run separately as explained in the lessons, never imported
 by `PROOF.bend`.
@@ -228,6 +257,21 @@ floating-point execution as a later checked approximation.**
 `LAWS`/`PROOF` therefore become the core mathematical contract, while numerical
 tests retain a different job. The existing pressure tests remain intact until
 their useful coverage is carried forward.
+
+### Reference-kernel limits
+
+The universal symbolic gates check, including semantic recovery and
+`xᵀAx = 0` for every rational vector and generated antisymmetric sample.
+Runtime results for all entries, both recovered parts, and signed probes were
+also compared with independent rational arithmetic. That is separate evidence
+about execution, not an extra physical claim.
+
+Fractions are not reduced, so denominators grow quickly. Evaluating a large
+closed full-probe equality inside the checker overflowed its machine stack;
+the IO demonstration instead runs the calculation natively, while the gate
+checks the general symbolic derivation. No unsafe bypass or new arithmetic
+axiom was introduced. Target overflow limits, error-controlled numerical
+adapters, performance and engine integration still need their own work.
 
 ## The lesson template
 

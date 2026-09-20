@@ -44,10 +44,15 @@ The rational values for our example are:
 
 | Question | Value |
 |---|---|
-| Row `T`, column `X`, full `U` | `-1/2` |
-| Row `X`, column `T`, full `U` | `+1/2` |
+| Row `T`, column `X`, antisymmetric `A` | `-1/2` |
+| Row `X`, column `T`, antisymmetric `A` | `+1/2` |
 | Row `w`, column `w`, full `U` | `7/12` |
 | Row `w`, column `w`, antisymmetric `A` | `0` |
+
+The off-diagonal basis results are also those of full `U` in this sample,
+because its symmetric off-diagonal entries vanish. The program may print
+`-18/36`, `18/36` and `2268/3888`; these are the same values as the reduced
+fractions above.
 
 For the full same-vector probe, the surviving entries are:
 
@@ -85,7 +90,8 @@ pair first. Transposition gives `(-4,-4)`, whereas negation gives
 
 ## 4. Export the operation
 
-`Vector4` carries four rational weights. The operation `bilinear(x,m,y)`
+[`Vector4`](../probes.bend#L6) carries four rational weights. The operation
+[`bilinear(x,m,y)`](../probes.bend#L47)
 uses every component:
 
 $$
@@ -101,7 +107,7 @@ are dimensionless. The row superscript in the conventional spelling
 `xᵀMy` arranges weights for multiplication; it does not silently insert a
 metric or raise an index.
 
-The recovery operations are `symmetric_entry(slot,m)` and
+The [recovery operations](../probes.bend#L9) are `symmetric_entry(slot,m)` and
 `antisymmetric_entry(slot,m)`. They return values, not claims that every
 arbitrary input matrix arose from our assembler.
 
@@ -111,7 +117,7 @@ arbitrary input matrix arose from our assembler.
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-The recovery laws cover every slot of every assembled sample, using
+The [recovery laws](../probes-laws.bend#L29) cover every slot of every assembled sample, using
 `R.Same` for semantic rational equality. The same-vector law covers every
 rational vector `x` and generated antisymmetric matrix `A`:
 
@@ -130,6 +136,14 @@ Commutativity brings the weights into the same order; the values are
 opposites. Six pair cancellations exhaust the off-diagonal entries.
 These are proved exact rational arithmetic steps, built on natural-number
 lemmas, not floating-point observations or unproved field axioms.
+
+The gate proves these identities symbolically. The IO demo evaluates concrete
+fractions through Bend's native runtime; its displayed results were also
+checked against an independent rational calculation. Do not turn a large
+native run into one giant `{==}` normalization: a closed version of this
+numerical probe overflowed the checker's stack. The universal proofs still
+check. Unreduced fractions also grow quickly; this is a reference calculation,
+not yet a fast or overflow-bounded engine kernel.
 
 ## 6. Reject an overextended law
 

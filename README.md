@@ -19,7 +19,13 @@ law alone is too weak.
 [Lesson 2 — Mirror or reverse](bend/asymmetric-metric-tensor/lessons/02-pairs.md)
 adds exact signed values, symmetric/antisymmetric pair constructors, and
 twelve laws including proof reuse for `Aᵀ = -A` at the pair level.
-Later lessons remain planned; learner mastery is
+[Lesson 3](bend/asymmetric-metric-tensor/lessons/03-capacity.md) supplies exact
+capacity and reciprocals; [lesson 4](bend/asymmetric-metric-tensor/lessons/04-assembly.md)
+constructs the full Cartesian tensor; [lesson 5](bend/asymmetric-metric-tensor/lessons/05-probes.md)
+recovers its parts and proves same-vector antisymmetric cancellation.
+Their arithmetic proofs are built on natural-number induction, with
+representation equality kept distinct from rational-value equality.
+Lessons 6–9 remain planned; learner mastery is
 assessed through the lesson's prediction and return probes, not inferred
 from the successful build.
 

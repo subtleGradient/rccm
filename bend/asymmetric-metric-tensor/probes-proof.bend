@@ -22,6 +22,18 @@ def difference_reverse(+a: R.Q) -> R.Same(R.half(R.sub(R.negate(a), a)), R.negat
   %RL.negate_twice(a) : R.Same(R.half(R.sub(R.negate(a), _)), R.negate(a))
   RL.difference_opposite(R.negate(a))
 
+def Laws.basis_t():
+  {==}
+
+def Laws.basis_x():
+  {==}
+
+def Laws.basis_y():
+  {==}
+
+def Laws.basis_z():
+  {==}
+
 def Laws.symmetric_rule(slot, matrix):
   {==}
 

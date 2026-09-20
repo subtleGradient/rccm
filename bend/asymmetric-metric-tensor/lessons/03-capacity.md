@@ -106,8 +106,9 @@ Run the accumulating gate:
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-The capacity contracts pin accepted and rejected inputs, all three formulas,
-and these semantic identities for every regular state:
+The [capacity contracts](../capacity-laws.bend#L5) pin accepted and rejected
+inputs, all three formulas, the numerator's bound by the total, and these
+semantic identities for every regular state:
 
 $$
 q+\mathrm{used\_fraction}=1,\qquad q\cdot\mathrm{inverse}=1.
@@ -125,10 +126,11 @@ than assuming field axioms or generalizing from the printed example.
 bend bend/asymmetric-metric-tensor/lessons/counterexamples/03-zero-reciprocal.bend
 ```
 
-This deliberately invalid fixture targets the claim that zero can have an
-ordinary rational reciprocal. For any rational `r`, `0*r` is zero, not one.
-That is the intended equality failure; no particular diagnostic wording is
-part of the lesson. Keep the fixture outside the successful proof gate.
+This deliberately invalid fixture claims `inspect(0n,4n)` supplies a regular
+state. It actually returns `None{}`, not `Some{...}`. That rejected equality
+keeps the exhausted endpoint outside the input type accepted by `inverse`.
+We never create a fraction with denominator zero or replace it with a floor.
+Keep the fixture outside the successful proof gate.
 
 ## 6. Return without the checker
 

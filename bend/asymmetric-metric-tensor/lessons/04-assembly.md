@@ -53,6 +53,9 @@ not merely their representation.
 Changing `bz` to `-1/3` swaps the signs at `xy` and `yx`, leaving the
 diagonals untouched. Here capacity is a supplied input, so changing a
 supplied twist does not automatically recompute a pressure ledger.
+Edit the shared [example recipe](example.bend#L8), which lessons 4 and 5
+both use. `R.fraction(1n,2n)` means `1/3`; the second argument is the
+denominator's predecessor.
 
 ## 3. Lock the starting state before moving it
 
@@ -74,9 +77,9 @@ the full `U` leaves `tt=-3/4`; negating `U` makes that entry `+3/4`.
 
 ## 4. Export the assembly into records
 
-The [matrix records](../matrix.bend#L6) store four named rows, each with four
-exact rational entries. The [sample record](../matrix.bend#L12) stores a
-validated capacity and six signed contributions. The [slot reader](../matrix.bend#L40)
+The [matrix records](../matrix.bend#L7) store four named rows, each with four
+exact rational entries. The [sample record](../matrix.bend#L13) stores a
+validated capacity and six signed contributions. The [slot reader](../matrix.bend#L38)
 selects a row, then a column: `at(slot,matrix)`.
 
 The seven effective scalar values have different jobs:
@@ -100,15 +103,17 @@ them; it does not construct the underlying velocity or vorticity fields.
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-The assembly contract independently pins every slot, then establishes:
+The [assembly contract](../matrix-laws.bend#L44) independently pins every
+slot, then establishes:
 
 $$
 S^T=S,\qquad A^T=-A,\qquad U_{ij}=S_{ij}+A_{ij}.
 $$
 
-The equalities of rational values use semantic equality where arithmetic
-can change the fraction representation. They are not promises that every
-equivalent expression produces the same record.
+These particular assembly identities preserve the chosen representations
+and check as structural equalities. The next lesson's averaging changes
+denominators and needs semantic `R.Same` instead. Equal rational values do
+not in general have identical records.
 
 Proof idea: split on the row and column labels. Diagonal cases read the
 capacity formulas; off-diagonal cases read the designated signed input.
