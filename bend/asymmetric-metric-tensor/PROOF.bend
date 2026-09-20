@@ -14,6 +14,7 @@ import ./differences-proof.bend as DifferenceProof
 import ./flux-proof.bend as FluxProof
 import ./evolution-proof.bend as EvolutionProof
 import ./ledger-proof.bend as LedgerProof
+import ./normalization-proof.bend as NormalizationProof
 
 def Laws.swap_row(s):
   match s:

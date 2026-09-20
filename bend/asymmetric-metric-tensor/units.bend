@@ -9,6 +9,8 @@ type UnitTag is Data:
   Time{}
   ForceDensity{}
   MomentumDensity{}
+  Speed{}
+  Frequency{}
 
 # The checker sees the unit parameter; native code erases it.
 type Quantity<-unit: UnitTag> is Data:
