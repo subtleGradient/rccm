@@ -20,6 +20,7 @@ import ./clebsch-proof.bend as ClebschProof
 import ./transport-proof.bend as TransportProof
 import ./indices-proof.bend as IndexProof
 import ./contraction-proof.bend as ContractionProof
+import ./compatibility-proof.bend as CompatibilityProof
 
 def Laws.swap_row(s):
   match s:
