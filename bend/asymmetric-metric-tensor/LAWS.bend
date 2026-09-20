@@ -8,6 +8,8 @@ import ./probes-laws.bend as ProbeLaws
 import ./coordinates-laws.bend as CoordinateLaws
 import ./units-laws.bend as UnitLaws
 import ./stress-laws.bend as StressLaws
+import ./balance-laws.bend as BalanceLaws
+import ./differences-laws.bend as DifferenceLaws
 
 # Lesson 1 contracts from the agreed course plan.
 # Treat future changes as specification changes requiring human review.
