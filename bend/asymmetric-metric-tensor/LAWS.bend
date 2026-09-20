@@ -16,6 +16,7 @@ import ./ledger-laws.bend as LedgerLaws
 import ./normalization-laws.bend as NormalizationLaws
 import ./fields-laws.bend as FieldLaws
 import ./clebsch-laws.bend as ClebschLaws
+import ./transport-laws.bend as TransportLaws
 
 # Lesson 1 contracts from the agreed course plan.
 # Treat future changes as specification changes requiring human review.
