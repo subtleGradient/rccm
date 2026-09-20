@@ -86,11 +86,11 @@ over a deliberately narrowed input type, not a function that throws on zero.
 
 ## Read the law before its proof
 
-[`quotient_contents`](../differences-laws.bend#L9) fixes the order `right−left`
+[`quotient_contents`](../differences-laws.bend#L8) fixes the order `right−left`
 and the reciprocal distance independently of the implementation. A function
 that always returns zero cannot pass it.
 
-[`constant_field`](../differences-laws.bend#L17) quantifies over every exact
+[`constant_field`](../differences-laws.bend#L16) quantifies over every exact
 rational value and positive spacing. Its proof has two moves:
 
 1. Subtracting the same value from itself has zero value.

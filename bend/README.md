@@ -5,8 +5,9 @@
 The [asymmetric metric tensor course](asymmetric-metric-tensor/README.md)
 is the route for programmers learning the mathematics. The tensor
 is the central object; pressure capacity is one input to its construction.
-Each lesson will add a small piece of implementation and human-approved
-laws, with proofs checked by Bend.
+Each lesson adds a small piece of shared implementation and explicit laws,
+with proofs checked by Bend. The new lesson contracts are AI-drafted for
+human review; checked does not mean already approved.
 
 - [Lesson 1 — Find a slot](asymmetric-metric-tensor/lessons/01-slots.md):
   read the component map, predict an address swap, and follow its proofs.
@@ -19,8 +20,19 @@ laws, with proofs checked by Bend.
   construct the full 4 × 4 tensor under a sixteen-slot contract.
 - [Lesson 5 — Ask the tensor a question](asymmetric-metric-tensor/lessons/05-probes.md):
   recover the two parts and prove why a same-vector probe cannot see `A`.
+- [Lesson 6 — Move the labels](asymmetric-metric-tensor/lessons/06-coordinates.md):
+  trace both indices through a passive spatial cycle.
+- [Lesson 7 — Restore pressure units](asymmetric-metric-tensor/lessons/07-stress.md):
+  apply the focused stress definition through nominal unit-tagged APIs.
+- [Lesson 8 — Walk between samples](asymmetric-metric-tensor/lessons/08-differences.md):
+  separate pressure levels, differences and slopes.
+- [Lesson 9 — Balance the shared face](asymmetric-metric-tensor/lessons/09-flux.md):
+  prove interior cancellation between independent cell gains.
+- [Lesson 10 — Unpause](asymmetric-metric-tensor/lessons/10-evolution.md):
+  consume affine state through a finite frozen-forcing run.
 
-Lessons 6–9 remain planned.
+All ten are implemented. The [next-five plan](asymmetric-metric-tensor/COURSE-6-10.md)
+records their learning jobs, Bend techniques and scientific boundaries.
 
 ```sh
 bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
@@ -28,10 +40,19 @@ bend bend/asymmetric-metric-tensor/lessons/02-pairs.bend
 bend bend/asymmetric-metric-tensor/lessons/03-capacity.bend
 bend bend/asymmetric-metric-tensor/lessons/04-assembly.bend
 bend bend/asymmetric-metric-tensor/lessons/05-probes.bend
+bend bend/asymmetric-metric-tensor/lessons/06-coordinates.bend
+bend bend/asymmetric-metric-tensor/lessons/07-stress.bend
+bend bend/asymmetric-metric-tensor/lessons/08-differences.bend
+bend bend/asymmetric-metric-tensor/lessons/09-flux.bend
+bend bend/asymmetric-metric-tensor/lessons/10-evolution.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
+python3 bend/asymmetric-metric-tensor/verify.py --mutations
 ```
 
-No JavaScript build step is part of the primary learning path.
+No JavaScript build step is part of the primary learning path. The final command
+checks native workflows, independent exact values and intentionally broken
+implementations in disposable copies. The frozen-face experiment is not a
+closed RCCM velocity/pressure solver.
 
 ## Existing warm-up: one pressure budget
 

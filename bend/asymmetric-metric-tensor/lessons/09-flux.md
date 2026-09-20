@@ -106,7 +106,7 @@ viscous shear stress.
 
 ## Bend: share the face, not mutable state
 
-Read [`rates`](../flux.bend#L43):
+Read [`rates`](../flux.bend#L42):
 
 ```python
 case Faces{left, +middle, right}:
@@ -125,7 +125,7 @@ The IO demo prints results only after the pure calls complete.
 
 ## Law, proof, and mutation
 
-[`shared_face_cancels`](../flux-laws.bend#L69) compares the **sum of the computed
+[`shared_face_cancels`](../flux-laws.bend#L63) compares the **sum of the computed
 cell gains** with the exterior-only expression for every signed rational face
 reading and positive width. It does not return a cached zero or define the
 total to be the boundary expression. The proof opens the `Faces` record and

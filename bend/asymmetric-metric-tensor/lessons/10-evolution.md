@@ -90,7 +90,7 @@ stability. A tiny step alone cannot supply the missing closure.
 
 ## Bend: one owner moves through a finite loop
 
-Read [`State` and `run`](../evolution.bend#L11):
+Read [`State`](../evolution.bend#L11) and [`run`](../evolution.bend#L37):
 
 ```python
 type State is Type:

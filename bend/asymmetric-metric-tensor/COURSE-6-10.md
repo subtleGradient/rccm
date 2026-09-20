@@ -5,6 +5,11 @@ in lessons 1–5. The destination is a reader who can track a tensor through
 coordinates, units, space and a small time update, and can explain which of
 those claims Bend checked.[^scope]
 
+**Delivery:** all five lessons are implemented. Start at the
+[lesson index](README.md#lesson-sequence); run the accumulated
+[`PROOF.bend`](PROOF.bend) and [native verification](verify.py).
+The following plan is retained as the design record, not unfinished status.
+
 [^scope]: The proofs establish the written contracts, within Bend's checker
     and runtime boundaries. Source correspondence, numerical convergence
     and independent physical validation are separate jobs. The new laws are
@@ -74,6 +79,19 @@ The exact reference is also a learning tool for source criticism:
 3. Which continuum equation is proposed?
 4. Which numerical or boundary rule did this course choose?
 5. What observation could test the physical identification?
+
+The completed audit preserves three visible gaps:
+
+- The focused [`T=P_c(U−η)` definition](../../RCCM-GfX-2.tex#L147-L170)
+  is not automatically the Condensed
+  [`T=sigma+rho u u` bridge](../../RCCM-Condensed.tex#L3730-L3738).
+- The focused [density/force argument](../../RCCM-GfX-2.tex#L322-L381)
+  and the Condensed [admittance cancellation](../../RCCM-Condensed.tex#L2317-L2324)
+  do not specify one unique executable closure.
+- The course chooses supplied frozen spatial faces, equal cell volumes and
+  negative-divergence gain. Its one-step identity is universal; its finite
+  recurrence is checked, but no separate all-fuel conservation theorem,
+  runtime magnitude bound or PDE convergence theorem is claimed.
 
 ## Incremental delivery
 

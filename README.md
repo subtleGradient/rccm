@@ -9,8 +9,9 @@ This repository is a long-term project for understanding and auditing
 [asymmetric metric tensor course](bend/asymmetric-metric-tensor/README.md)
 centres the tensor itself: named slots, signed pairs, pressure capacity,
 assembly, probes, coordinate changes, stress, fields and eventually motion.
-Each lesson will grow a shared implementation with human-approved laws and
-Bend-checked proofs.
+Each lesson grows a shared implementation with explicit laws and Bend-checked
+proofs. Newly drafted contracts need human review independently of their
+green proof result.
 
 [Lesson 1 — Find a slot](bend/asymmetric-metric-tensor/lessons/01-slots.md)
 is implemented: named axes, slot swapping, three universal contracts and
@@ -25,14 +26,31 @@ constructs the full Cartesian tensor; [lesson 5](bend/asymmetric-metric-tensor/l
 recovers its parts and proves same-vector antisymmetric cancellation.
 Their arithmetic proofs are built on natural-number induction, with
 representation equality kept distinct from rational-value equality.
-Lessons 6–9 remain planned; learner mastery is
-assessed through the lesson's prediction and return probes, not inferred
-from the successful build.
+
+The next five are also implemented:
+[6: passive coordinates](bend/asymmetric-metric-tensor/lessons/06-coordinates.md),
+[7: pressure-tagged stress](bend/asymmetric-metric-tensor/lessons/07-stress.md),
+[8: frozen spatial differences](bend/asymmetric-metric-tensor/lessons/08-differences.md),
+[9: shared-face balance](bend/asymmetric-metric-tensor/lessons/09-flux.md), and
+[10: finite momentum updates](bend/asymmetric-metric-tensor/lessons/10-evolution.md).
+They add erased nominal unit tags, domain-restricted pure operations,
+independent parallel calls, affine state and structurally decreasing fuel.
+The [build plan](bend/asymmetric-metric-tensor/COURSE-6-10.md) preserves the
+learning jobs and choices; the [repeatable verification](bend/asymmetric-metric-tensor/verify.py)
+checks the native workflows and exact numerical translations.
+
+The accumulated gate checks 112 laws, including a universal single-step
+boundary impulse. It does not establish a closed RCCM evolution model or
+independent physical validation. The focused stress map and the Condensed
+stress-energy/density/admittance bridges remain distinct source obligations.
+Learner mastery is assessed through prediction and return probes, not inferred
+from successful builds; no new learner responses have yet closed these gaps.
 
 The existing one-location pressure-budget warm-up and its ten numerical
 regressions remain runnable directly with Bend. Pressure capacity will feed
 the tensor's diagonals; numerical tests are distinct from exact proofs.
-No time evolution or full-fluid implementation is implied.
+The new time experiment uses explicitly supplied frozen faces, not a
+full-fluid implementation.
 
 ## Run the executable experiment
 

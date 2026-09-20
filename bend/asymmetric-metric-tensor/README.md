@@ -102,27 +102,38 @@ with a short prediction; skip explanations the learner already owns.
 
 ## Lesson sequence
 
-These are incremental milestones, not a commitment to build the whole course
-at once. Lessons 1–5 have checked Bend declarations through [`LAWS.bend`](LAWS.bend).
-The later laws below remain **mathematical specifications to draft and review**.
+All ten milestones now have checked declarations through [`LAWS.bend`](LAWS.bend).
+The new contracts are **AI-drafted for human review**, not automatically
+human-approved because their proofs pass. The gate contains 112 laws; the
+original 69 lesson-1–5 laws have not been weakened.
 
-| Lesson | Scene and programming foothold | Small artifact and candidate proof | Learner's prediction / exit gate |
+| Lesson | Scene and programming foothold | Implemented artifact and checked scope | Learner's prediction / exit gate |
 |---|---|---|---|
 | **1. Find a slot** | One sample; four named axes; `(row, column)` as an address | `Axis`, slot addressing and transpose-address operation. Prove that the output row is the input column, the output column is the input row, and swapping twice restores the slot | Point to `tx` versus `xt`; explain why swapping slots does not yet change a value's sign |
 | **2. Mirror or reverse** | Compare pairs across the diagonal; introduce symmetric and antisymmetric structure | Exact signed values and an antisymmetric pair constructor. Prove sign reversal twice restores a value and each generated pair has opposite values | Reverse one slip or twist component and identify both affected entries; distinguish symmetry from antisymmetry |
 | **3. Capacity sets the diagonals** | A finite pressure budget controls `-q` and `1/q`; units behave like types | Minimal exact fractions and a positive-capacity input contract. Prove the restricted ledger identity and reciprocal identity on their declared domains | Reduce `q`; predict both diagonals. Reject inversion at zero. Explain why `q` is squared admittance |
 | **4. Assemble the full sample** | Combine the existing diagonal and paired entries | Local Cartesian `assemble`, with an independent specification for every slot. Prove `Sᵀ = S`, `Aᵀ = -A`, `U = S + A`, and the unloaded result `diag(-1,1,1,1)` | Build a nonzero slip-and-twist example; a wrong sign or axis must fail the slot laws |
 | **5. Ask the tensor a question** | Two probe directions select or combine components; a tensor is more than its printed array | Component contractions and, over exact rationals, split recovery `(U+Uᵀ)/2 = S`, `(U-Uᵀ)/2 = A`; prove `xᵀAx = 0` | Explain why a same-vector probe misses `A`, while two different directions can reveal it |
-| **6. Change the coordinate labels** | The same object described using rotated/relabelled spatial axes | Start with a declared spatial-axis permutation and the covariant component rule `U' = Jᵀ U J`. Prove preservation of the symmetric/antisymmetric split for that transformation | Track a twist into its new slots; distinguish transposition from raising an index and from a change of frame |
-| **7. Turn strain into stress** | Subtract the baseline, then apply the pressure scale | Implement section 4's definition `T = P_c (U - eta)`. Prove zero deviation stress at the baseline and `T_00 = P_c(1-q)` | Separate dimensionless tensor entries from pressure/energy-density units; identify what was defined versus derived |
-| **8. Place neighbouring samples** | Several stationary locations; explicit spacing and boundaries | An exact discrete difference operator. Prove a constant field has zero difference and an interior-flux cancellation identity for the chosen stencil | Distinguish a sample from a field and a discrete operator from a continuum derivative |
-| **9. Choose a rule for motion** | A field changes through time under an explicit evolution hypothesis | Only after the motion-source audit: one bounded time step with stated constitutive/boundary rules. Prove the selected discrete bookkeeping invariant; measure numerical error separately | Name the evolved state, closure, boundary flux and time-step restriction; do not infer a solver from the matrix alone |
+| **6. Move the labels** | The same object under a passive spatial three-cycle | Two-index component mapping, three-cycle return, transpose/negation commutation and structural symmetry/skew preservation on arbitrary stored matrices | Track a twist into its new slots; distinguish relabelling, transposition and index raising |
+| **7. Put pressure units back** | Subtract the baseline, then apply the pressure scale | Nominal erased unit tags and positive scales; focused `T = P_c(U−η)`, zero baseline and both diagonal formulas | Separate dimensionless entries from pressure; compare this definition with the Condensed stress-energy bridge |
+| **8. Walk between samples** | Two stationary readings and their positive separation | Exact pressure difference quotient; independent content and constant-field-zero laws | Distinguish level, difference, secant slope and continuum derivative; halve the slope by doubling separation |
+| **9. Balance a shared face** | Two equal-width cells and three supplied faces | Spatial transport-index contract, independent parallel cell gains, actual sum equals exterior-only negative divergence | Predict both gains; explain why internal cancellation does not forbid boundary exchange |
+| **10. Unpause** | Existing signed momentum under supplied frozen fluxes | Affine state, nonnegative time, finite fuel; universal one-step boundary impulse and checked recurrence | Preserve old momentum, identify the omitted feedback/closure, and distinguish termination from stability |
 
 Lessons 1–4 yield the first useful package: a readable, exactly specified
 local tensor assembler. Lessons 5–7 make it usable and interpretable. Lessons
-8–9 begin a simulation, conditional on the required equations being closed.
+8–10 add a frozen-field experiment with explicitly chosen discrete rules.
 Games, GPU kernels, general frame changes and downstream physical reductions
-are later consumers, not prerequisites for the first lesson.
+are later consumers. The full RCCM dynamics remain an open closure problem.
+
+### Bend mastery track
+
+The same route deliberately opens more of the language:
+`discriminated unions -> equality/rewrite -> recursive Nat proofs ->
+reusable Data -> erased nominal tags -> total domain-restricted functions ->
+parallel calls -> affine state -> fuel-bounded recursion and native IO`.
+Arrays, GPU calls, templates and foreign effects are deferred until they serve
+a larger workload; they are not prerequisites for understanding the tensor.
 
 ### First lesson: the address layer
 
@@ -170,7 +181,7 @@ Current layout:
 bend/
   asymmetric-metric-tensor/
     README.md                 course map and lesson index
-    LAWS.bend                 imports implementation; approved contracts
+    LAWS.bend                 accumulates contracts for human review
     PROOF.bend                imports LAWS; supplies proofs of its laws
     tensor.bend               original axes, slots and integer pairs
     exact.bend                signed integers, Nat conversion, negation
@@ -179,9 +190,18 @@ bend/
     capacity.bend             positive capacity and its reciprocal
     matrix.bend               full local Cartesian table and assembly
     probes.bend               split recovery and bilinear contraction
+    coordinates.bend          passive two-index spatial cycle
+    units.bend                erased nominal tags and positive magnitudes
+    stress.bend               focused pressure-scaled deviation
+    differences.bend          positive-spacing pressure quotient
+    flux.bend                 spatial face selection and two-cell balance
+    evolution.bend            affine state and fuel-bounded frozen forcing
+    balance-helpers.bend      proved polynomial certificates, not axioms
     *-laws.bend               layer contracts imported by LAWS.bend
     *-proof.bend              layer proofs imported by PROOF.bend
     format.bend               display unreduced exact values
+    verify.py                 native workflow, exact oracle and mutations
+    COURSE-6-10.md            next-five design decisions and source gates
     lessons/
       01-slots.md             scene, probe, law reading, proof walkthrough
       01-slots.bend           runnable demonstration
@@ -191,13 +211,24 @@ bend/
       03-capacity.md/.bend    pressure shares and the reciprocal boundary
       04-assembly.md/.bend    all sixteen entries and the unloaded baseline
       05-probes.md/.bend      selectors, recovery and cancellation
-      example.bend           shared algebraic input for lessons 4–5
+      06-coordinates.md/.bend both indices move; no physical rotation
+      07-stress.md/.bend      reference subtraction and pressure units
+      08-differences.md/.bend levels, spacing and slope
+      09-flux.md/.bend        shared-face cancellation
+      10-evolution.md/.bend   old momentum plus finite impulse
+      example.bend           shared algebraic input for lessons 4–7
+      field.bend             shared frozen-face fixture for lessons 9–10
       counterexamples/
         01-noop-row.bend      deliberately rejected equality claim
         02-copy-rejected.bend deliberately rejected copying claim
         03-zero-reciprocal.bend rejected regular-state claim at zero capacity
         04-wrong-twist.bend   rejected source-sign claim
         05-two-probes.bend    rejected overextension to different probes
+        06-one-index.bend     rejected one-index coordinate change
+        07-wrong-units.bend   rejected length-as-pressure argument
+        08-no-spacing.bend    rejected difference-as-slope claim
+        09-row-column.bend    rejected transposed transport index
+        10-zero-time-resets.bend rejected loss of initial momentum
 ```
 
 The rational layer was added when capacity required fractions. A fraction
@@ -214,13 +245,32 @@ bend bend/asymmetric-metric-tensor/lessons/02-pairs.bend
 bend bend/asymmetric-metric-tensor/lessons/03-capacity.bend
 bend bend/asymmetric-metric-tensor/lessons/04-assembly.bend
 bend bend/asymmetric-metric-tensor/lessons/05-probes.bend
+bend bend/asymmetric-metric-tensor/lessons/06-coordinates.bend
+bend bend/asymmetric-metric-tensor/lessons/07-stress.bend
+bend bend/asymmetric-metric-tensor/lessons/08-differences.bend
+bend bend/asymmetric-metric-tensor/lessons/09-flux.bend
+bend bend/asymmetric-metric-tensor/lessons/10-evolution.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-All six commands run now. The proof gate prints `All terms check.`
+All eleven commands run now. The proof gate prints `All terms check.`
 None requires a separate JavaScript compilation step. The deliberately invalid
 counterexamples are run separately as explained in the lessons, never imported
 by `PROOF.bend`.
+
+Repeatable validation (Python standard library plus installed Bend):
+
+```sh
+python3 bend/asymmetric-metric-tensor/verify.py --mutations
+```
+
+This runs all ten native demos and intended failures, the weak-law example,
+the accumulated proof gate, and the earlier pressure regressions. It also
+compiles 284 independently calculated exact API readings and compares them
+with Python `Fraction` under one and two CPU threads. Twelve well-typed
+implementation mutations and a missing proof must be rejected in temporary
+copies. Builds live in ignored `bend/build`, never in the source package.
+The two-thread check is execution parity, not a speed benchmark or GPU test.
 
 Law-driven loop:
 
@@ -276,6 +326,13 @@ Runtime results for all entries, both recovered parts, and signed probes were
 also compared with independent rational arithmetic. That is separate evidence
 about execution, not an extra physical claim.
 
+The field extensions prove exact shared-face cancellation and a universal
+single-step boundary impulse. Their polynomial helper proves normalization
+soundness and correspondence to the original rational operations; certificates
+are not assumed arithmetic facts. Fuel recurrence and termination are checked,
+but there is no separate all-fuel conservation theorem. See
+[lesson 10's exact proof scope](lessons/10-evolution.md#what-the-proof-gate-establishes).
+
 Fractions are not reduced, so denominators grow quickly. Evaluating a large
 closed full-probe equality inside the checker overflowed its machine stack;
 the IO demonstration instead runs the calculation natively, while the gate
@@ -312,8 +369,10 @@ Compare the matching condensed derivations rather than silently merging them.
 | Local matrix versus covariant construction | Section 3.3 supplies the displayed component table; section 3 also supplies a covariant expression with `u_mu` and `h_mu_nu`. Proving the component assembler does not prove their equivalence in arbitrary moving frames. Keep that bridge as a separate obligation |
 | Coordinate/version boundary | The [condensed Rosetta-stone metric](../../RCCM-Condensed.tex#L3637) is diagonal with spherical-coordinate entries `r²` and `r² sin²(theta)`. It is not the same component table as the focused local Cartesian asymmetric matrix; require an explicit derivation before asserting equivalence |
 | Zero capacity | The ledger can reach `q = 0`; the displayed matrix contains `1/q`. Separate exhausted-ledger state from regular tensor state. Do not import an arbitrary floor to make the reciprocal run |
-| Motion-source audit | Section 5.1 moves from `rho_dyn` in the grouped momentum terms to `rho_eff`; the identification needs justification. Dividing its force equation by `rho_tau / alpha_a` also appears to multiply the ambient-pressure force by `alpha_a`, whereas `eq:kinematic_ns` omits that factor. Resolve or explicitly choose and label an implementation hypothesis before lesson 9 |
-| Physical identifications | Section 4's stress definition is an initial algebra target; Einstein reduction, electromagnetic identities and later corollaries need their own premise and evidence audits. They are not earned by passing the assembler laws |
+| Stress definition | The focused [definition](../../RCCM-GfX-2.tex#L147-L170) is implemented. The Condensed [Rosetta bridge](../../RCCM-Condensed.tex#L3730-L3738) instead writes `T = sigma + rho u u`; equality between these identifications remains an obligation |
+| Motion-source audit | Focused [§5.1](../../RCCM-GfX-2.tex#L322-L381) moves from `rho_dyn` to `rho_eff`; the identification needs justification. Its ambient-force admittance factor also needs comparison with the Condensed [cancellation and kinematic equation](../../RCCM-Condensed.tex#L2317-L2363). Lessons 9–10 choose an explicitly frozen spatial-flux balance, not a resolution of that gap |
+| Discrete choices | Positive spacing, equal cell volumes, supplied faces, first-index spatial transport and `−div F` are explicit. No interpolation, implicit boundary wrap, pressure solve or velocity closure is inherited from the continuous equations |
+| Physical identifications | Einstein reduction, electromagnetic identities and later corollaries need their own premise and evidence audits. They are not earned by the assembler or boundary-balance proofs |
 
 This ledger is part of the course: a blocked proof can expose a missing premise,
 a false translation, or an unresolved source step. Record the gap rather than

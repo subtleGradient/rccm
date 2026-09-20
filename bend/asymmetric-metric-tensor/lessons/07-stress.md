@@ -174,3 +174,5 @@ discarding the tag and relabelling the numeric value.
 **Return probe:** freeze `q`, `ex`, and `bz`; change only `Pc` from `12 Pa`
 to `24 Pa`. Predict `Ttt`, `Txx`, `Ttx`, and `Txy`, then identify which
 dimensionless gauges stayed still while the pressure readings changed.
+
+[Continue to lesson 8: spatial differences](08-differences.md).

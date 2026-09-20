@@ -176,3 +176,5 @@ Multiply only the selectors needed to find `(J^T U J)_zx`. Then show that
 **Next return probe:** leave the same field fixed and cycle labels a second
 time. Where does the original `xy=-1/3` reading now live? Track both indices
 before checking with another call to `cycle`.
+
+[Continue to lesson 7: pressure units](07-stress.md).
