@@ -18,6 +18,7 @@ import ./fields-laws.bend as FieldLaws
 import ./clebsch-laws.bend as ClebschLaws
 import ./transport-laws.bend as TransportLaws
 import ./indices-laws.bend as IndexLaws
+import ./contraction-laws.bend as ContractionLaws
 
 # Lesson 1 contracts from the agreed course plan.
 # Treat future changes as specification changes requiring human review.
