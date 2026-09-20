@@ -1,4 +1,5 @@
 import Base
+import ./exact.bend as Exact
 
 # Coordinate labels, not lengths, times, or component values.
 # Row/column order follows RCCM-GfX-2.tex section 3.3: t, x, y, z.
@@ -26,3 +27,25 @@ def swap(s: Slot) -> Slot:
   match s:
     case Slot{r, c}:
       Slot{c, r}
+
+# Values at a chosen off-diagonal slot and its transposed address, in order.
+# This record carries no addresses; the full matrix assembler comes later.
+type ComponentPair is Data:
+  ComponentPair{here: Exact.Signed, across: Exact.Signed}
+
+def symmetric_pair(+value: Exact.Signed) -> ComponentPair:
+  ComponentPair{value, value}
+
+def antisymmetric_pair(+value: Exact.Signed) -> ComponentPair:
+  ComponentPair{value, Exact.negate(value)}
+
+# Transposing a pair exchanges values. Negating a pair reverses both signs.
+def transpose_pair(pair: ComponentPair) -> ComponentPair:
+  match pair:
+    case ComponentPair{here, across}:
+      ComponentPair{across, here}
+
+def negate_pair(pair: ComponentPair) -> ComponentPair:
+  match pair:
+    case ComponentPair{here, across}:
+      ComponentPair{Exact.negate(here), Exact.negate(across)}
