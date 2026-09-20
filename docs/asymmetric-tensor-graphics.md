@@ -54,27 +54,35 @@ This is an end-state storyboard, not a claim that these graphics or a complete
 solver already exist.
 
 1. **Enter the world.** A bounded transparent volume contains a pressure-capacity
-   landscape, sparse flow markers and a highlighted sampling patch. Start with
-   few visual channels. Any apparatus, forcing and boundary exchange are visible;
-   a sampling cube is not a solid wall or an unexplained pinned body.
+   landscape, sparse flow markers and a highlighted sampling patch. A labelled
+   macro-load contour overlay can be separated from the total-capacity map.
+   Start with few visual channels. Any apparatus, forcing and boundary exchange
+   are visible; a sampling cube is not a solid wall or an unexplained pinned body.
 2. **Pause and fork the view.** Compare two authored field snapshots with the
-   same `q` and opposite selected twist. Their capacity maps agree. State exactly
-   what the intervention holds fixed. This comparison does not promise that
+   same `q` and opposite selected twist in a marked region. Before opening any
+   local inspector, predict where the whole-volume directional marks reverse
+   and where they stay unchanged. Reveal that difference map beside the
+   unchanged capacity landscape. State exactly what the intervention holds
+   fixed. This comparison does not promise that
    arbitrary sign edits preserve a coupled PDE solution or its later pressure.
 3. **Cut open the patch.** Show the signed transverse momentum-flux arrows on
    selected faces. They reverse while the diagonal readings stay fixed. The
    visitor sees a sideways exchange, not merely a changed number.
 4. **Ask the hidden question.** A same-direction probe cannot distinguish
-   the two antisymmetric contributions. Give the probe a second, different
-   direction; the selected cross-reading reveals the difference. The matrix
-   appears here as a compact record of something already visible.
+   the two snapshots' sign-reversed antisymmetric parts. Give the probe a
+   second, different direction; the selected cross-reading reveals the
+   difference. The matrix appears here as a compact record of something
+   already visible.
 5. **Reveal the other channel.** Switch between a spatial pair, such as `xy`,
    and a time-space pair, such as `tx`. This distinguishes the twist channel
    from the transverse-slip channel rather than calling every curl “magnetism.”
 6. **Unpause with a ledger.** Under an explicitly selected dynamics mode, show
-   local exchanges building the next state. The exact frozen-face fixture can
-   already explain equal-and-opposite cell momentum gains. A coupled field
-   evolution must carry its own closure, boundary and numerical evidence.
+   exchanges accumulating over multiple steps across spatially separated
+   regions. A visitor should be able to follow a declared boundary impulse
+   into the changing momentum map, not just watch one cube's arrows update.
+   The exact frozen-face fixture can explain the local exchange, but is not
+   the whole-volume dynamics gate. Coupled evolution must carry its own
+   closure, boundary and numerical evidence.
 7. **Return the control to the visitor.** Ask them to predict a different
    axis-pair reversal before revealing it. Replay restores the saved state,
    including existing momentum; it does not erase inertia or reverse dissipation.
@@ -98,6 +106,10 @@ the initial map:
 The gravity-related view opens the macroscopic compartment of the
 [nested pressure ledger](../RCCM-GfX-2.tex#L49-L85). It does not relabel every
 change in `q` as gravitational: local loads also consume capacity.
+Its world-scale mark is a distinct `Delta P_macro/P_c` contour overlay, tied
+to the same compartment in each local budget. The overlay states which
+macro-load source is supplied; it does not hide local loading inside a
+generic “gravity” color.
 The electromagnetic view opens the proposed electric/slip and magnetic/twist
 identifications in [section 3.2](../RCCM-GfX-2.tex#L117-L141).
 
@@ -210,12 +222,22 @@ has been collected yet.
 
 The demo succeeds when a visitor can:
 
-1. identify capacity, slip and twist without memorizing a matrix;
-2. predict a new cross-pair reversal and name what stays fixed;
-3. explain that a same-direction probe hides `A`, not that `A` is absent;
-4. connect a selected face exchange to cell momentum gain without erasing
+1. distinguish the world-scale macro-load overlay from total remaining
+   capacity, then predict the changed and unchanged regions of a prescribed
+   twist-reversal map before opening the microscope;
+2. follow a declared boundary intervention through a multi-step momentum
+   redistribution across separated regions, with the boundary ledger visible;
+3. identify capacity, slip and twist without memorizing a matrix;
+4. predict a new cross-pair reversal and name what stays fixed;
+5. explain that a same-direction probe hides `A`, not that `A` is absent;
+6. connect a selected face exchange to cell momentum gain without erasing
    existing motion or confusing a local field value with its divergence;
-5. distinguish a prescribed comparison from a coupled simulation result.
+7. distinguish a prescribed comparison from a coupled simulation result.
+
+The first two are mandatory world-level gates for the complete destination.
+A local probe bench, even inside attractive 3D scenery, cannot satisfy them.
+The second remains blocked on the declared dynamics and numerical evidence;
+a storyboard can test its legibility but cannot certify its implementation.
 
 The strongest counterargument is that the microscope will dominate and the
 experience will still feel like a matrix lesson. Reject or redesign this
