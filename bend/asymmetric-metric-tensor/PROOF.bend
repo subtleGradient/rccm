@@ -18,6 +18,7 @@ import ./normalization-proof.bend as NormalizationProof
 import ./fields-proof.bend as FieldProof
 import ./clebsch-proof.bend as ClebschProof
 import ./transport-proof.bend as TransportProof
+import ./indices-proof.bend as IndexProof
 
 def Laws.swap_row(s):
   match s:
