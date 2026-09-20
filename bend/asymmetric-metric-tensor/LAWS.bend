@@ -6,6 +6,8 @@ import ./capacity-laws.bend as CapacityLaws
 import ./matrix-laws.bend as MatrixLaws
 import ./probes-laws.bend as ProbeLaws
 import ./coordinates-laws.bend as CoordinateLaws
+import ./units-laws.bend as UnitLaws
+import ./stress-laws.bend as StressLaws
 
 # Lesson 1 contracts from the agreed course plan.
 # Treat future changes as specification changes requiring human review.

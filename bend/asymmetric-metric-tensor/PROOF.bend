@@ -7,6 +7,8 @@ import ./capacity-proof.bend as CapacityProof
 import ./matrix-proof.bend as MatrixProof
 import ./probes-proof.bend as ProbeProof
 import ./coordinates-proof.bend as CoordinateProof
+import ./units-proof.bend as UnitProof
+import ./stress-proof.bend as StressProof
 
 def Laws.swap_row(s):
   match s:

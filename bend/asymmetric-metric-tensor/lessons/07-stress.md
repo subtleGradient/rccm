@@ -1,7 +1,9 @@
 # Lesson 7 — Give the changed reading a pressure scale
 
 **Goal:** subtract a reference table, then attach a pressure scale to every
-remaining component. Lesson 6 supplied the unit boundary; now use it.
+remaining component. This lesson introduces the unit boundary.
+
+[Previous: coordinate labels](06-coordinates.md) · [Course](../README.md)
 
 ## 1. Place the body and its reference
 
@@ -97,8 +99,9 @@ bend bend/asymmetric-metric-tensor/lessons/07-stress.bend
 For an explicit native binary, choose an output path in the workspace:
 
 ```sh
-bend bend/asymmetric-metric-tensor/lessons/07-stress.bend -o ./stress-demo
-./stress-demo
+mkdir -p bend/build
+bend bend/asymmetric-metric-tensor/lessons/07-stress.bend -o bend/build/stress-demo
+./bend/build/stress-demo
 ```
 
 Expected output:
@@ -124,8 +127,8 @@ bend bend/asymmetric-metric-tensor/units-proof.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-Each should report `All terms check.` The standalone stress gate is necessary
-until integration adds it to the root gate.
+Each should report `All terms check.` The root gate imports both the units
+and stress contracts and their proofs.
 
 The new [laws](../stress-laws.bend#L9) are **AI-drafted for human review**:
 

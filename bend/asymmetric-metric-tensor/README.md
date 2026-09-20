@@ -1,7 +1,7 @@
 # Learn the asymmetric metric tensor through Bend
 
-**Status: lessons 1–6 are implemented and checked with Bend 2.0.21.
-Lessons 7–10 are being built from the [next-five plan](COURSE-6-10.md).**
+**Status: lessons 1–7 are implemented and checked with Bend 2.0.21.
+Lessons 8–10 are being built from the [next-five plan](COURSE-6-10.md).**
 
 - [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address map,
   three slot-swap laws, their proofs, and a rejected no-op counterexample.
@@ -16,6 +16,8 @@ Lessons 7–10 are being built from the [next-five plan](COURSE-6-10.md).**
   stored entries, all sixteen contraction terms, and same-vector cancellation.
 - [Lesson 6 — Move the labels, not the field](lessons/06-coordinates.md):
   a passive spatial cycle, two-index mapping and preserved symmetry/skew.
+- [Lesson 7 — Give the changed reading a pressure scale](lessons/07-stress.md):
+  nominal units, baseline subtraction and the focused `P_c(U−η)` definition.
 
 The user's runs of lessons 1–2 succeeded. One probe response correctly
 described an antisymmetric pair while substituting it for the supplied
