@@ -21,6 +21,7 @@ import ./transport-proof.bend as TransportProof
 import ./indices-proof.bend as IndexProof
 import ./contraction-proof.bend as ContractionProof
 import ./compatibility-proof.bend as CompatibilityProof
+import ./operators-proof.bend as OperatorProof
 
 def Laws.swap_row(s):
   match s:

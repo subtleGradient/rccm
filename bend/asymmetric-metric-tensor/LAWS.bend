@@ -20,6 +20,7 @@ import ./transport-laws.bend as TransportLaws
 import ./indices-laws.bend as IndexLaws
 import ./contraction-laws.bend as ContractionLaws
 import ./compatibility-laws.bend as CompatibilityLaws
+import ./operators-laws.bend as OperatorLaws
 
 # Lesson 1 contracts from the agreed course plan.
 # Treat future changes as specification changes requiring human review.
