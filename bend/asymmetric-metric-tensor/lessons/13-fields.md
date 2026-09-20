@@ -52,6 +52,9 @@ are not automatically **balanced** parallel work.
 The [universal laws](../fields-laws.bend#L7) specify interpreter constructors
 and derivative rewrites. `diff_self` uses exhaustive cases; product/sum rules
 reduce directly. `derivative_fixture` and `cross_coordinate` are closed checks.
+The additional [`diff_coordinate`](../fields-laws.bend#L51) law specifies the
+whole four-by-four identity table: each coordinate differentiates to one in
+its own direction and zero in all twelve ordered cross-axis cases.
 There is no mechanized real-analysis limit theorem here: these are an exact
 polynomial interpreter and its formal differentiation rules.
 

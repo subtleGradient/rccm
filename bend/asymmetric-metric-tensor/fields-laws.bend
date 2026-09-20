@@ -45,3 +45,15 @@ law derivative_fixture:
     M.Row{R.zero(), R.fraction(3n, 0n), R.fraction(2n, 0n), R.zero()}), R.fraction(8n, 0n))
 law cross_coordinate:
   {F.diff(F.Coord{T.Y{}}, T.X{}) == F.Const{R.zero()} : F.Expr}
+
+# Every ordered coordinate/differentiation pair, independently specified by I4.
+# Other cross-axis cases are not inferred from one example.
+law diff_coordinate:
+  for coordinate: T.Axis
+  for axis: T.Axis
+  {F.diff(F.Coord{coordinate}, axis) == F.Const{M.at(T.Slot{coordinate,axis},
+    M.Matrix{
+      M.Row{R.one(),R.zero(),R.zero(),R.zero()},
+      M.Row{R.zero(),R.one(),R.zero(),R.zero()},
+      M.Row{R.zero(),R.zero(),R.one(),R.zero()},
+      M.Row{R.zero(),R.zero(),R.zero(),R.one()}})} : F.Expr}

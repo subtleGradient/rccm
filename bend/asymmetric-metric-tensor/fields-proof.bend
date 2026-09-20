@@ -30,3 +30,38 @@ def Laws.derivative_fixture():
   {==}
 def Laws.cross_coordinate():
   {==}
+
+def Laws.diff_coordinate(coordinate,axis):
+  match coordinate axis:
+    case T.T{} T.T{}:
+      {==}
+    case T.T{} T.X{}:
+      {==}
+    case T.T{} T.Y{}:
+      {==}
+    case T.T{} T.Z{}:
+      {==}
+    case T.X{} T.T{}:
+      {==}
+    case T.X{} T.X{}:
+      {==}
+    case T.X{} T.Y{}:
+      {==}
+    case T.X{} T.Z{}:
+      {==}
+    case T.Y{} T.T{}:
+      {==}
+    case T.Y{} T.X{}:
+      {==}
+    case T.Y{} T.Y{}:
+      {==}
+    case T.Y{} T.Z{}:
+      {==}
+    case T.Z{} T.T{}:
+      {==}
+    case T.Z{} T.X{}:
+      {==}
+    case T.Z{} T.Y{}:
+      {==}
+    case T.Z{} T.Z{}:
+      {==}

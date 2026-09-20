@@ -46,6 +46,14 @@ zero. For supplied `rho=1,v=x`, `C=1`. At x=2 the left side is 4, while
 to **automatic continuity**, not a mass-conserving fluid solution.
 Density-to-velocity feedback remains unspecified.
 
+There is a second source boundary here: the coefficient of acceleration is
+[`rho_dyn` before continuity is applied](../../../RCCM-GfX-2.tex#L336-L338),
+but becomes [`rho_eff` afterward](../../../RCCM-GfX-2.tex#L341-L351), with
+`rho_eff=rho_tau/alpha_a`. Continuity cancels the bracket; it does **not**
+change the density multiplying acceleration. Equating these densities needs
+an additional premise. Our generic `rho` calculation does not derive or
+silently make that substitution.
+
 ## A coefficient is another field unless declared constant
 
 For `a=x`, `g=x²`, at x=2:
