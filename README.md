@@ -69,6 +69,20 @@ the tensor's diagonals; numerical tests are distinct from exact proofs.
 The new time experiment uses explicitly supplied frozen faces, not a
 full-fluid implementation.
 
+## Graphical lessons: destination before dependency route
+
+The next planning direction is **end-goal first**: choose a compelling
+graphical experience, then recursively map its requirements, gaps and task
+dependencies before parallel implementation. The twenty Bend lessons are
+reusable foundations, not a prerequisite queue for discussing that destination.
+
+[Pressure & Twist](docs/asymmetric-tensor-graphics.md#L1) proposes a transparent
+continuum laboratory with pause, slice, ordered probes and visible face
+exchanges. Its key contrast is equal pressure capacity with different
+directional structure. This is a recommendation for discussion; audience,
+scene selection, coupled-physics closure and performance targets remain open.
+No new graphical application or complete asymmetric-tensor solver is claimed.
+
 ## Run the executable experiment
 
 On macOS with CMake 3.25 or newer and a C++23 compiler:
