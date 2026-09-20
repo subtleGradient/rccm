@@ -5,6 +5,7 @@ import ./exact.bend as Exact
 import ./rational-proof.bend as RationalProof
 import ./capacity-proof.bend as CapacityProof
 import ./matrix-proof.bend as MatrixProof
+import ./probes-proof.bend as ProbeProof
 
 def Laws.swap_row(s):
   match s:

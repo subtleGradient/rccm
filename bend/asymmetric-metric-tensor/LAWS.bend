@@ -4,6 +4,7 @@ import ./exact.bend as Exact
 import ./rational-laws.bend as RationalLaws
 import ./capacity-laws.bend as CapacityLaws
 import ./matrix-laws.bend as MatrixLaws
+import ./probes-laws.bend as ProbeLaws
 
 # Lesson 1 contracts from the agreed course plan.
 # Treat future changes as specification changes requiring human review.
