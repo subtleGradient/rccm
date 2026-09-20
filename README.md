@@ -5,12 +5,17 @@ This repository is a long-term project for understanding and auditing
 
 ## Start small in Bend
 
-[`bend/`](bend/README.md) contains a one-location pressure-budget experiment:
-change a normalized speed, predict the dynamic/static split, then run it.
-It is the smallest current Bend foothold toward tau-fluidics simulations:
-one pure kernel, a ten-case numerical regression gate, and a dimensional
-reading route to both TeX sources. No time evolution or full-fluid
-implementation is implied.
+[`bend/`](bend/README.md) is the Bend learning entry point. The proposed
+[asymmetric metric tensor course](bend/asymmetric-metric-tensor/README.md)
+centres the tensor itself: named slots, signed pairs, pressure capacity,
+assembly, probes, coordinate changes, stress, fields and eventually motion.
+Each lesson will grow a shared implementation with human-approved laws and
+Bend-checked proofs. This is a plan, not an implemented proof library.
+
+The existing one-location pressure-budget warm-up and its ten numerical
+regressions remain runnable directly with Bend. Pressure capacity will feed
+the tensor's diagonals; numerical tests are distinct from exact proofs.
+No time evolution or full-fluid implementation is implied.
 
 ## Run the executable experiment
 

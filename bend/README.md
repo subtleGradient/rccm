@@ -1,4 +1,20 @@
-# Bend lab 01: one pressure budget
+# Bend tau-fluidics learning lab
+
+## Active direction: learn the asymmetric tensor through laws
+
+The [asymmetric metric tensor lesson plan](asymmetric-metric-tensor/README.md)
+is the proposed route for programmers learning the mathematics. The tensor
+is the central object; pressure capacity is one input to its construction.
+Each lesson will add a small piece of implementation and human-approved
+laws, with proofs checked by Bend. The plan is not yet an implemented course.
+
+Use `bend file.bend` to run examples and `bend PROOF.bend` to check the future
+proof package. No JavaScript build step is part of the primary learning path.
+
+## Existing warm-up: one pressure budget
+
+This earlier numerical experiment remains runnable. It will inform the
+capacity lesson, but its runtime tests are not the future tensor proof gate.
 
 Start with **one location in the fluid**, frozen in time. Represent its total
 pressure budget by a full bar below. Motion uses part of that bar; static
@@ -20,14 +36,12 @@ pure calculation that can later be applied at many locations.
 ## Run it
 
 Requires **Bend 2** (the language in `bend guide`, not the older Bend language).
-Verified with Bend **2.0.21** and Node **24.1.0**.
+Verified directly with Bend **2.0.21**.
 
-From the repository root, the JavaScript route needs no C compiler:
+From the repository root:
 
 ```sh
-mkdir -p bend/build
-bend bend/main.bend -o bend/build/main.js
-node bend/build/main.js
+bend bend/main.bend
 ```
 
 Expected output:
@@ -38,9 +52,9 @@ P_static / P_c = alpha_s_sq = 0.75
 ```
 
 If `bend` is not on your `PATH`, use `~/.bend/bin/bend` instead.
-With a working native compiler, the shortcut is `bend bend/main.bend`.
-Native execution was not verified here: Apple's compiler requested Xcode
-licence acceptance. No system settings or licence acceptance were changed.
+This IO example runs through Bend's native compiler. Both the example and
+regressions now run successfully here; the earlier Xcode licence blocker
+was no longer present on the follow-up run. No system settings were changed.
 
 ## Change one thing
 
@@ -106,14 +120,10 @@ than computed expressions. Call `sample`, which checks the domain, rather
 than its implementation helper.
 
 ```sh
-mkdir -p bend/build
-bend bend/tests.bend --check-only
-bend bend/tests.bend -o bend/build/tests.js
-node bend/build/tests.js
+bend bend/tests.bend
 ```
 
-Expected: `PASS: 10 pressure sample cases`. With a working native compiler,
-`bend bend/tests.bend` compiles and runs the same checks.
+Expected: `PASS: 10 pressure sample cases`.
 
 The cases cover rest, intermediate speeds, exhaustion, negative speed,
 over-limit speed, infinity and NaN. Valid cases check the expected split and
@@ -123,7 +133,7 @@ that does not make a downstream inverse-admittance calculation safe.
 
 `--check-only` checks types, not these numerical results: `F32` operations are
 runtime primitives in this version. No universal pressure-budget law or
-native/GPU parity is claimed.
+GPU parity is claimed.
 
 ## Source boundary and next foothold
 
@@ -137,16 +147,8 @@ native/GPU parity is claimed.
 - This is not a port of the OpenFOAM sketch or TauLab's evolution model.
   In particular, it does not inherit the OpenFOAM sketch's `0.01` floor.
 
-The next small step is **two locations with different speeds**: compare the
-resulting static pressures. A difference is not yet a force or a time step;
-those need distance, pressure scale, and an explicit motion equation.
-
-The direction is:
-
-```text
-one sample -> many locations -> spatial differences -> time evolution -> engine integration
-     ^
-   we are here
-```
-
-First milestone: predict the split and explain why the speed is squared.
+This experiment now feeds the capacity stage of the
+[tensor-first route](asymmetric-metric-tensor/README.md#lesson-sequence).
+Before adding multiple locations or motion, learn where this remaining
+fraction sits in the tensor: its negative in the time diagonal, its reciprocal
+in each spatial diagonal of the focused TeX's local Cartesian matrix.
