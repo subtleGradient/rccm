@@ -1,6 +1,11 @@
 # Learn the asymmetric metric tensor through Bend
 
-**Status: proposed lesson plan, not an implemented proof library.**
+**Status: lesson 1 is implemented and checked with Bend 2.0.21.
+Lessons 2–9 remain planned.**
+
+Start with [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address
+map, three universal slot-swap laws, their proofs, and a deliberately rejected
+no-op counterexample. The learner's exit probes are still to be answered.
 
 The destination is a tensor you can read, construct, interrogate, and eventually
 use in a simulation. Each lesson opens one part of that object, states a precise
@@ -75,8 +80,8 @@ with a short prediction; skip explanations the learner already owns.
 ## Lesson sequence
 
 These are incremental milestones, not a commitment to build the whole course
-at once. The laws below are **mathematical specifications to draft and review**,
-not already checked Bend declarations.
+at once. Lesson 1 has checked Bend declarations in [`LAWS.bend`](LAWS.bend).
+The later laws below remain **mathematical specifications to draft and review**.
 
 | Lesson | Scene and programming foothold | Small artifact and candidate proof | Learner's prediction / exit gate |
 |---|---|---|---|
@@ -96,26 +101,27 @@ local tensor assembler. Lessons 5–7 make it usable and interpretable. Lessons
 Games, GPU kernels, general frame changes and downstream physical reductions
 are later consumers, not prerequisites for the first lesson.
 
-### First lesson: the next implementation slice
+### First lesson: the current implementation slice
 
-Keep the complete component map visible, but light up one pair: `(t,x)` and
+The [lesson](lessons/01-slots.md) keeps the component map visible and
+lights up one pair: `(t,x)` and
 `(x,t)`. Ask:
 
 1. If the row and column are swapped, where does the address land?
 2. If they are swapped again, where does it return?
 3. Does that operation alone require negating the stored value?
 
-Build only named axes, slot swapping and a tiny demonstration. Draft the
-coordinate-swap laws and “for every slot, swap twice is identity” for human
-approval, then supply proofs by constructor cases. A useful broken
-implementation is “leave the slot unchanged”: it satisfies double-swap
-identity but fails the coordinate-swap laws for off-diagonal slots.
+The implementation contains only named axes, slot accessors, swapping and
+a tiny demonstration. The agreed coordinate-swap laws and “for every slot,
+swap twice is identity” are proven by constructor cases. The broken
+candidate “leave the slot unchanged” satisfies double-swap identity but
+fails the coordinate-swap laws for off-diagonal slots.
 This teaches specification sufficiency as well as proof checking. These
 proofs concern index mechanics, not yet a physical property of the continuum.
 
-Before committing to a matrix representation, check this tiny proof with the
-installed Bend version. Reuse `Base`, pattern matching and equality; do not
-first build a linear-algebra framework, exact-real library or renderer.
+The proofs check with the installed Bend version using `Base`, pattern
+matching and equality. No linear-algebra framework, exact-real library or
+renderer is needed.
 Keep this lesson short; move straight to signed pairs if the learner already
 predicts the slot operations correctly.
 
@@ -124,30 +130,36 @@ predicts the slot operations correctly.
 One focused subpackage should own one accumulating tensor specification.
 Do **not** fork the tensor implementation or copy its laws into every lesson.
 
-Proposed layout (only this README exists so far):
+Current layout:
 
 ```text
 bend/
   asymmetric-metric-tensor/
-    README.md                 this plan and later the lesson index
+    README.md                 course map and lesson index
     LAWS.bend                 imports implementation; approved contracts
     PROOF.bend                imports LAWS; supplies proofs of its laws
     tensor.bend               implementation, grown one operation at a time
     lessons/
       01-slots.md             scene, probe, law reading, proof walkthrough
       01-slots.bend           runnable demonstration
-    exact.bend                only when a lesson needs missing arithmetic
+      01-noop.bend            wrong swap; valid proof of the weak law
+      counterexamples/
+        01-noop-row.bend      deliberately rejected equality claim
 ```
 
-The future commands are:
+Add an exact-arithmetic module only when a later lesson needs it.
+
+From the repository root:
 
 ```sh
 bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-They are planned commands, not runnable files yet. Neither requires a separate
-JavaScript compilation step.
+Both commands run now. The proof gate prints `All terms check.` Neither
+requires a separate JavaScript compilation step. The deliberately invalid
+counterexample is run separately as explained in the lesson, never imported
+by `PROOF.bend`.
 
 Law-driven loop:
 

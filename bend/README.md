@@ -2,19 +2,27 @@
 
 ## Active direction: learn the asymmetric tensor through laws
 
-The [asymmetric metric tensor lesson plan](asymmetric-metric-tensor/README.md)
-is the proposed route for programmers learning the mathematics. The tensor
+The [asymmetric metric tensor course](asymmetric-metric-tensor/README.md)
+is the route for programmers learning the mathematics. The tensor
 is the central object; pressure capacity is one input to its construction.
 Each lesson will add a small piece of implementation and human-approved
-laws, with proofs checked by Bend. The plan is not yet an implemented course.
+laws, with proofs checked by Bend.
 
-Use `bend file.bend` to run examples and `bend PROOF.bend` to check the future
-proof package. No JavaScript build step is part of the primary learning path.
+**[Lesson 1 — Find a slot](asymmetric-metric-tensor/lessons/01-slots.md)
+is ready.** Read the component map, predict an address swap, and follow the
+three universal proofs. Later lessons remain planned.
+
+```sh
+bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
+bend bend/asymmetric-metric-tensor/PROOF.bend
+```
+
+No JavaScript build step is part of the primary learning path.
 
 ## Existing warm-up: one pressure budget
 
 This earlier numerical experiment remains runnable. It will inform the
-capacity lesson, but its runtime tests are not the future tensor proof gate.
+capacity lesson, but its runtime tests are not the tensor proof gate.
 
 Start with **one location in the fluid**, frozen in time. Represent its total
 pressure budget by a full bar below. Motion uses part of that bar; static

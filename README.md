@@ -5,12 +5,19 @@ This repository is a long-term project for understanding and auditing
 
 ## Start small in Bend
 
-[`bend/`](bend/README.md) is the Bend learning entry point. The proposed
+[`bend/`](bend/README.md) is the Bend learning entry point. The
 [asymmetric metric tensor course](bend/asymmetric-metric-tensor/README.md)
 centres the tensor itself: named slots, signed pairs, pressure capacity,
 assembly, probes, coordinate changes, stress, fields and eventually motion.
 Each lesson will grow a shared implementation with human-approved laws and
-Bend-checked proofs. This is a plan, not an implemented proof library.
+Bend-checked proofs.
+
+[Lesson 1 — Find a slot](bend/asymmetric-metric-tensor/lessons/01-slots.md)
+is implemented: named axes, slot swapping, three universal contracts and
+checked proofs, plus a no-op counterexample showing why a return-to-start
+law alone is too weak. Later lessons remain planned; learner mastery is
+assessed through the lesson's prediction and return probes, not inferred
+from the successful build.
 
 The existing one-location pressure-budget warm-up and its ten numerical
 regressions remain runnable directly with Bend. Pressure capacity will feed
