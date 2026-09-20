@@ -43,7 +43,7 @@ metric sign to both:
 
 $$as+(-a)s=0.$$
 
-The universal [`cross_pair_zero`](../contraction-laws.bend#L38) theorem
+The universal [`cross_pair_zero`](../contraction-laws.bend#L37) theorem
 checks this cancellation for all exact rationals. Its proof reuses the
 negated-product lemma and rewrites to `term−term`. It does not inspect a
 finite set of magnitudes.

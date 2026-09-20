@@ -45,7 +45,7 @@ not an interchangeable flat Cartesian raising matrix.
 
 The [laws](../indices-laws.bend#L7) specify every sign and the two-index
 composition. `raise_twice` quantifies over **every address and rational**,
-including noncanonical signed fractions. Its [proof](../indices-proof.bend#L21)
+including noncanonical signed fractions. Its [proof](../indices-proof.bend#L20)
 splits into sixteen address cases, then reuses the existing universal
 `negate_twice` theorem. In the `tt` case it composes two equalities with
 `Equal.trans`. No list of example magnitudes substitutes for that theorem.

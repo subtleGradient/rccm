@@ -39,10 +39,27 @@ The [build plan](bend/asymmetric-metric-tensor/COURSE-6-10.md) preserves the
 learning jobs and choices; the [repeatable verification](bend/asymmetric-metric-tensor/verify.py)
 checks the native workflows and exact numerical translations.
 
-The accumulated gate checks 112 laws, including a universal single-step
-boundary impulse. It does not establish a closed RCCM evolution model or
+The [next-ten plan](bend/asymmetric-metric-tensor/COURSE-11-20.md#L1)
+is now implemented as lessons 11–20:
+**nested budget -> physical normalization -> polynomial fields -> Clebsch
+curl -> material transport -> index raising -> contraction -> compatibility
+-> fourth-order operators -> waves and parallel templates**.
+Start at [lesson 11](bend/asymmetric-metric-tensor/lessons/11-ledger.md#L1);
+the [course index](bend/asymmetric-metric-tensor/README.md#L1) gives each exit
+probe. The [complete runner](bend/asymmetric-metric-tensor/verify-course.py#L1)
+checks both halves of the course.
+
+The accumulated gate checks 180 laws, including the earlier universal
+single-step boundary impulse and new index-raising, pair-cancellation and
+recursive tree-map theorems. All original 112 law bodies are unchanged.
+Closed derivative/contraction/wave fixtures are labelled separately from
+universal contracts. It does not establish a closed RCCM evolution model or
 independent physical validation. The focused stress map and the Condensed
 stress-energy/density/admittance bridges remain distinct source obligations.
+New explicit source marks include internal versus total curl, variable
+coefficient derivatives, and the `2(b²−e²)` contraction sign under the
+focused matrix's Minkowski convention. Manufactured-source operator checks
+do not close the nonlinear-curvature, variational or physical-validation gaps.
 Learner mastery is assessed through prediction and return probes, not inferred
 from successful builds; no new learner responses have yet closed these gaps.
 

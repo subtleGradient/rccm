@@ -112,8 +112,10 @@ native execution results and learner responses in separate ledger entries.
 
 ## After these five
 
-The next decisions are the constitutive closure and source coefficient audit,
-then boundary conditions, conservation and convergence on a larger mesh.
-Only then choose floating-point tolerances, arrays, GPU scheduling or an engine
-adapter. General covariance, recovered electromagnetic/Einstein equations and
-the full RCCM physical identification are not delivered by this small experiment.
+The [implemented lessons 11–20](COURSE-11-20.md#L1) now build the source-field
+and differential-operator tools needed for the coefficient/closure audit.
+They do not choose a constitutive closure by default. Boundary conditions,
+conservation and convergence on a larger mesh remain later decisions, followed
+by floating-point tolerances, arrays, GPU scheduling or an engine adapter.
+General covariance, recovered electromagnetic/Einstein equations and the full
+RCCM physical identification are not delivered by this small experiment.

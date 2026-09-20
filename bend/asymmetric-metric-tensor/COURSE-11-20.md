@@ -1,6 +1,11 @@
 # Lessons 11–20 — From supplied entries to readable field laws
 
-**Build plan, committed before implementation.** The starting hold is lessons
+**Delivered: all ten lessons are implemented.** This plan was committed before
+implementation and remains the design record. Use the [course index](README.md#L1)
+and run `python3 bend/asymmetric-metric-tensor/verify-course.py --mutations`
+from the repository root for the complete workflow.
+
+The starting hold is lessons
 1–10: a local Cartesian tensor, exact arithmetic, stress, spatial differences
 and a finite frozen-forcing experiment. The next hold is a reader who can
 construct small source fields, follow differential operators, and audit the

@@ -52,7 +52,7 @@ constructor returning a refined positive-budget type, not a numeric clamp.
 
 The [`capacity_witness` law](../ledger-laws.bend#L22) says `exs state`:
 produce both a regular-capacity value and evidence that it has the desired
-reading. [`The proof`](../ledger-proof.bend#L12) returns `(value, proof)`.
+reading. [`The proof`](../ledger-proof.bend#L11) returns `(value, proof)`.
 That is a constructive existential, not a Boolean search or an assertion cast.
 
 ## Run, inspect, break

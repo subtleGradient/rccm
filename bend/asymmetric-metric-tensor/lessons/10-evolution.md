@@ -1,6 +1,6 @@
 # Lesson 10 — Unpause a bounded experiment
 
-[Previous: shared faces](09-flux.md) · [Course](../README.md)
+[Previous: shared faces](09-flux.md) · [Course](../README.md) · [Next: nested budget](11-ledger.md)
 
 ## Give the paused cells an existing state
 

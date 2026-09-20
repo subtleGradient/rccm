@@ -1,7 +1,9 @@
 # Learn the asymmetric metric tensor through Bend
 
-**Status: lessons 1–10 are implemented and checked with Bend 2.0.21.**
-The [next-five plan](COURSE-6-10.md) records the route and scope of lessons 6–10.
+**Status: lessons 1–20 are implemented and checked with Bend 2.0.21.**
+The [6–10 plan](COURSE-6-10.md) and [11–20 plan](COURSE-11-20.md)
+record the incremental routes and their scope. Continuing from lesson 10?
+Start at [11 — Nest the pressure budget](lessons/11-ledger.md#L1).
 
 - [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address map,
   three slot-swap laws, their proofs, and a rejected no-op counterexample.
@@ -102,10 +104,12 @@ with a short prediction; skip explanations the learner already owns.
 
 ## Lesson sequence
 
-All ten milestones now have checked declarations through [`LAWS.bend`](LAWS.bend).
+All twenty milestones have checked declarations through [`LAWS.bend`](LAWS.bend).
 The new contracts are **AI-drafted for human review**, not automatically
-human-approved because their proofs pass. The gate contains 112 laws; the
-original 69 lesson-1–5 laws have not been weakened.
+human-approved because their proofs pass. The gate contains 180 laws:
+112 from lessons 1–10 plus 68 new declarations. The original 112 law bodies
+are unchanged. Some new declarations are universal content contracts or
+algebraic theorems; others are explicitly closed exact fixtures.
 
 | Lesson | Scene and programming foothold | Implemented artifact and checked scope | Learner's prediction / exit gate |
 |---|---|---|---|
@@ -126,14 +130,47 @@ local tensor assembler. Lessons 5–7 make it usable and interpretable. Lessons
 Games, GPU kernels, general frame changes and downstream physical reductions
 are later consumers. The full RCCM dynamics remain an open closure problem.
 
+### Field lessons: 11–20
+
+This second route builds tools to read and question the source fields before
+guessing the missing simulation closure. The [plan](COURSE-11-20.md#L1)
+was committed first; each lesson then gained its own checked checkpoint.
+
+| Lesson | New artifact and Bend skill | Observable exit gate |
+|---|---|---|
+| [11. Nest the pressure budget](lessons/11-ledger.md#L1) | Same-unit macro/local/static ledger; constructive existential witness to regular capacity | Move load between macro and local compartments without changing total remaining capacity |
+| [12. Normalize slip and twist](lessons/12-normalization.md#L1) | Unit-tagged `alpha*v/c` and `alpha*tp*Omega`; parallel plane-sample adapter | Change the speed reference or relaxation time and predict exactly which matrix entries move |
+| [13. Differentiate a field program](lessons/13-fields.md#L1) | Polynomial AST, evaluator and structurally terminating differentiation | Trace both branches of a product derivative; separate a slope field from a sampled slope |
+| [14. Build a Clebsch patch](lessons/14-clebsch.md#L1) | Gradient/cross/curl composition on vector programs | Predict internal versus total curl after adding a transverse field |
+| [15. Follow a moving sample](lessons/15-transport.md#L1) | Material derivative, continuity residual and uncancelled momentum terms | Explain when a coefficient or density may leave a derivative |
+| [16. Raise indices](lessons/16-indices.md#L1) | Explicit Minkowski sign rule and universal involution via proof reuse | Distinguish raising from transposition and predict time-space signs |
+| [17. Contract without losing signs](lessons/17-contraction.md#L1) | Sixteen actual entry products, balanced reductions and universal pair cancellation | Explain why a zero self-contraction need not mean a zero antisymmetric tensor |
+| [18. Test whether a strain fits](lessons/18-compatibility.md#L1) | Planar displacement-to-strain and Saint-Venant component | Distinguish a compatible displacement fixture from independently supplied strain |
+| [19. Apply the operator twice](lessons/19-fourth-order.md#L1) | Full Laplacian composition, mixed fourth derivatives and a manufactured source | Restore dimensions and identify the missing boundary conditions |
+| [20. Send a profile across the patch](lessons/20-waves.md#L1) | Wave residual, polymorphic template map and recursive identity proof | Match profile/operator speeds; distinguish parallel probes from dependent time evolution |
+
+The crucial Hyperslice cuts are **supplied/derived**, **partial/material**,
+**internal/total curl**, **transpose/raise**, **zero tensor/zero scalar**,
+**operator application/boundary solve**, and **universal law/closed fixture**.
+Change only one side of a scene at a time, keeping the original state visible.
+
+Proof-reading exit: find a `for`-quantified law, a closed fixture, a `{==}`
+reduction and an induction step. Explain why each supplies different evidence.
+These lessons do not contain general mechanized real-analysis, full-matrix
+orthogonality, wave-linearity or nonlinear-curvature theorems.
+
 ### Bend mastery track
 
 The same route deliberately opens more of the language:
 `discriminated unions -> equality/rewrite -> recursive Nat proofs ->
 reusable Data -> erased nominal tags -> total domain-restricted functions ->
 parallel calls -> affine state -> fuel-bounded recursion and native IO`.
-Arrays, GPU calls, templates and foreign effects are deferred until they serve
-a larger workload; they are not prerequisites for understanding the tensor.
+Lessons 11–20 continue with
+`constructive witnesses -> nominal physical APIs -> recursive syntax trees ->
+field transformations -> equality composition -> polynomial operator reuse ->
+polymorphic templates -> parallel trees and induction`.
+Arrays, GPU calls and foreign effects remain deferred; they are not prerequisites
+for understanding the tensor or necessary for these small exact experiments.
 
 ### First lesson: the address layer
 
@@ -197,11 +234,25 @@ bend/
     flux.bend                 spatial face selection and two-cell balance
     evolution.bend            affine state and fuel-bounded frozen forcing
     balance-helpers.bend      proved polynomial certificates, not axioms
+    ledger.bend               nested budget and capacity witness adapter
+    normalization.bend        physical slip/twist to dimensionless entries
+    fields.bend               polynomial AST, evaluation and differentiation
+    clebsch.bend              vector fields, gradient, cross and curl
+    transport.bend            material derivative and continuity residual
+    indices.bend              flat-background two-index raising
+    contraction.bend          all sixteen metric-aware entry products
+    compatibility.bend        planar strain and incompatibility
+    operators.bend            Laplacian and biharmonic composition
+    waves.bend                constant-speed wave residuals
+    batch.bend                polymorphic parallel template map
     *-laws.bend               layer contracts imported by LAWS.bend
     *-proof.bend              layer proofs imported by PROOF.bend
     format.bend               display unreduced exact values
-    verify.py                 native workflow, exact oracle and mutations
-    COURSE-6-10.md            next-five design decisions and source gates
+    verify.py                 lessons 1–10 workflows, oracle and mutations
+    verify-fields.py          lessons 11–20 plus independent polynomial oracle
+    verify-course.py          one entry point for both suites
+    COURSE-6-10.md            design record for the first field experiment
+    COURSE-11-20.md           design record for the source-field laboratory
     lessons/
       01-slots.md             scene, probe, law reading, proof walkthrough
       01-slots.bend           runnable demonstration
@@ -216,6 +267,16 @@ bend/
       08-differences.md/.bend levels, spacing and slope
       09-flux.md/.bend        shared-face cancellation
       10-evolution.md/.bend   old momentum plus finite impulse
+      11-ledger.md/.bend      nested denominator boundaries
+      12-normalization.md/.bend physical units to matrix entries
+      13-fields.md/.bend      an executable derivative compiler
+      14-clebsch.md/.bend     two routes to rotational vorticity
+      15-transport.md/.bend   moving readings and uncancelled terms
+      16-indices.md/.bend     background signature, not transposition
+      17-contraction.md/.bend signed scalar from stored entries
+      18-compatibility.md/.bend displacement versus arbitrary strain
+      19-fourth-order.md/.bend manufactured source, not a solver
+      20-waves.md/.bend       profile residuals and parallel probes
       example.bend           shared algebraic input for lessons 4–7
       field.bend             shared frozen-face fixture for lessons 9–10
       counterexamples/
@@ -229,6 +290,7 @@ bend/
         08-no-spacing.bend    rejected difference-as-slope claim
         09-row-column.bend    rejected transposed transport index
         10-zero-time-resets.bend rejected loss of initial momentum
+        11-*.bend … 20-*.bend one intentionally false claim per new lesson
 ```
 
 The rational layer was added when capacity required fractions. A fraction
@@ -250,10 +312,20 @@ bend bend/asymmetric-metric-tensor/lessons/07-stress.bend
 bend bend/asymmetric-metric-tensor/lessons/08-differences.bend
 bend bend/asymmetric-metric-tensor/lessons/09-flux.bend
 bend bend/asymmetric-metric-tensor/lessons/10-evolution.bend
+bend bend/asymmetric-metric-tensor/lessons/11-ledger.bend
+bend bend/asymmetric-metric-tensor/lessons/12-normalization.bend
+bend bend/asymmetric-metric-tensor/lessons/13-fields.bend
+bend bend/asymmetric-metric-tensor/lessons/14-clebsch.bend
+bend bend/asymmetric-metric-tensor/lessons/15-transport.bend
+bend bend/asymmetric-metric-tensor/lessons/16-indices.bend
+bend bend/asymmetric-metric-tensor/lessons/17-contraction.bend
+bend bend/asymmetric-metric-tensor/lessons/18-compatibility.bend
+bend bend/asymmetric-metric-tensor/lessons/19-fourth-order.bend
+bend bend/asymmetric-metric-tensor/lessons/20-waves.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
 ```
 
-All eleven commands run now. The proof gate prints `All terms check.`
+All twenty-one commands run now. The proof gate prints `All terms check.`
 None requires a separate JavaScript compilation step. The deliberately invalid
 counterexamples are run separately as explained in the lessons, never imported
 by `PROOF.bend`.
@@ -261,15 +333,16 @@ by `PROOF.bend`.
 Repeatable validation (Python standard library plus installed Bend):
 
 ```sh
-python3 bend/asymmetric-metric-tensor/verify.py --mutations
+python3 bend/asymmetric-metric-tensor/verify-course.py --mutations
 ```
 
-This runs all ten native demos and intended failures, the weak-law example,
-the accumulated proof gate, and the earlier pressure regressions. It also
-compiles 284 independently calculated exact API readings and compares them
-with Python `Fraction` under one and two CPU threads. Twelve well-typed
-implementation mutations and a missing proof must be rejected in temporary
-copies. Builds live in ignored `bend/build`, never in the source package.
+This runs both suites: all twenty native demos and intended failures, the
+weak-law example, the accumulated proof gate and earlier pressure regressions.
+Independent Python `Fraction` expectations check native APIs under one and
+two CPU threads; the field oracle uses sparse polynomial coefficients rather
+than copying the Bend derivative AST. Well-typed implementation mutants and
+a missing proof must be rejected in temporary copies. Either suite can also
+be run separately. Builds live in ignored `bend/build`, never in the source package.
 The two-thread check is execution parity, not a speed benchmark or GPU test.
 
 Law-driven loop:
@@ -372,6 +445,9 @@ Compare the matching condensed derivations rather than silently merging them.
 | Stress definition | The focused [definition](../../RCCM-GfX-2.tex#L147-L170) is implemented. The Condensed [Rosetta bridge](../../RCCM-Condensed.tex#L3730-L3738) instead writes `T = sigma + rho u u`; equality between these identifications remains an obligation |
 | Motion-source audit | Focused [§5.1](../../RCCM-GfX-2.tex#L322-L381) moves from `rho_dyn` to `rho_eff`; the identification needs justification. Its ambient-force admittance factor also needs comparison with the Condensed [cancellation and kinematic equation](../../RCCM-Condensed.tex#L2317-L2363). Lessons 9–10 choose an explicitly frozen spatial-flux balance, not a resolution of that gap |
 | Discrete choices | Positive spacing, equal cell volumes, supplied faces, first-index spatial transport and `−div F` are explicit. No interpolation, implicit boundary wrap, pressure solve or velocity closure is inherited from the continuous equations |
+| Clebsch versus modal fields | [Lesson 14](lessons/14-clebsch.md#L1) implements the focused `lambda grad beta` sector. The Condensed `curl A + curl v_psi` decomposition is related but not identical; smooth polynomial fixtures do not establish a singular topological defect |
+| Contraction sign | [Lesson 17](lessons/17-contraction.md#L1) obtains `A:A=2(b²−e²)` using the focused printed matrix and flat `(-,+,+,+)` signature. Section 6.1's `E²−B²` prose needs an explicit normalization/sign bridge |
+| Derivatives and action | [Lessons 15–20](COURSE-11-20.md#L11) preserve coefficient constancy, continuity premises, linearized compatibility, integration boundary terms and source normalization as separate obligations. Polynomial operator evaluation is not a boundary/initial-value solve |
 | Physical identifications | Einstein reduction, electromagnetic identities and later corollaries need their own premise and evidence audits. They are not earned by the assembler or boundary-balance proofs |
 
 This ledger is part of the course: a blocked proof can expose a missing premise,

@@ -41,7 +41,7 @@ The gradient computes two similar independent derivatives in parallel.
 
 `eval` returns `M.Row{0,x,y,z}` for reuse of the course's axis selectors:
 the zero time slot is padding, not a computed temporal component.
-[`velocity`](../clebsch.bend#L46) assembles all three focused source terms.
+[`velocity`](../clebsch.bend#L48) assembles all three focused source terms.
 It does not assert that arbitrary supplied terms are mutually orthogonal.
 
 The [content laws](../clebsch-laws.bend#L8) quantify over arbitrary component
@@ -55,7 +55,7 @@ The executable fixture is nondimensional. Restore common `L0,T0` scales:
 velocity has scale `L0/T0`, vorticity `1/T0`. One compatible choice is
 dimensionless $\beta$ and $\lambda$ with units `L²/T`, so
 $\lambda\nabla\beta$ has velocity units.
-[Lesson 12](12-normalization.md#L18) then supplies the separate normalization.
+[Lesson 12](12-normalization.md#L1) then supplies the separate normalization.
 
 [Condensed's decomposition](../../../RCCM-Condensed.tex#L2729-L2735)
 uses $\nabla h+\nabla\times A+\nabla\times v_\psi$. It is not the identical

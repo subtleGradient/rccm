@@ -51,7 +51,7 @@ permits unbalanced trees too; scheduling quality is a caller obligation.
 The pure result preserves leaf order even if jobs finish out of order.
 Printing is deliberately sequenced afterward.
 
-The universal [`map_identity`](../waves-laws.bend#L31) proof uses structural
+The universal [`map_identity`](../waves-laws.bend#L30) proof uses structural
 induction: leaf reduces; fork rewrites both smaller subtrees using the induction
 hypotheses. It covers every finite rational tree, not only the four cameras.
 Additional leaf/fork contracts pin the actual profile-map behavior.

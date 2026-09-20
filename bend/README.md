@@ -31,8 +31,14 @@ human review; checked does not mean already approved.
 - [Lesson 10 — Unpause](asymmetric-metric-tensor/lessons/10-evolution.md):
   consume affine state through a finite frozen-forcing run.
 
-All ten are implemented. The [next-five plan](asymmetric-metric-tensor/COURSE-6-10.md)
-records their learning jobs, Bend techniques and scientific boundaries.
+Lessons 11–20 are also implemented, starting at
+[11 — Nest the pressure budget](asymmetric-metric-tensor/lessons/11-ledger.md#L1).
+They add physical normalization, an exact polynomial field language,
+Clebsch derivatives, transport, metric-aware contraction, compatibility,
+fourth-order operators and template-based parallel wave probes.
+The [11–20 plan](asymmetric-metric-tensor/COURSE-11-20.md#L1) pairs every
+mathematical job with a Bend skill and a prediction gate; the
+[6–10 plan](asymmetric-metric-tensor/COURSE-6-10.md) remains the earlier design record.
 
 ```sh
 bend bend/asymmetric-metric-tensor/lessons/01-slots.bend
@@ -45,14 +51,17 @@ bend bend/asymmetric-metric-tensor/lessons/07-stress.bend
 bend bend/asymmetric-metric-tensor/lessons/08-differences.bend
 bend bend/asymmetric-metric-tensor/lessons/09-flux.bend
 bend bend/asymmetric-metric-tensor/lessons/10-evolution.bend
+bend bend/asymmetric-metric-tensor/lessons/11-ledger.bend
+bend bend/asymmetric-metric-tensor/lessons/20-waves.bend
 bend bend/asymmetric-metric-tensor/PROOF.bend
-python3 bend/asymmetric-metric-tensor/verify.py --mutations
+python3 bend/asymmetric-metric-tensor/verify-course.py --mutations
 ```
 
 No JavaScript build step is part of the primary learning path. The final command
 checks native workflows, independent exact values and intentionally broken
 implementations in disposable copies. The frozen-face experiment is not a
-closed RCCM velocity/pressure solver.
+closed RCCM velocity/pressure solver. The later polynomial fixtures are
+analytical operator checks, not a numerical PDE solver or physical validation.
 
 ## Existing warm-up: one pressure budget
 
