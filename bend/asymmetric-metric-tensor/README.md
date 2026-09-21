@@ -5,6 +5,12 @@ The [6–10 plan](COURSE-6-10.md) and [11–20 plan](COURSE-11-20.md)
 record the incremental routes and their scope. Continuing from lesson 10?
 Start at [11 — Nest the pressure budget](lessons/11-ledger.md#L1).
 
+For the larger destination, read the
+[formalization assessment and proposal](../../docs/asymmetric-tensor-formalization-proposal.md).
+It audits the present proof scope and proposes a route through a closed
+transverse-wave sector, numerical experiments, coupled fields and chemistry.
+The proposed milestones are not yet implemented.
+
 - [Lesson 1 — Find a slot](lessons/01-slots.md): a runnable address map,
   three slot-swap laws, their proofs, and a rejected no-op counterexample.
 - [Lesson 2 — Mirror or reverse](lessons/02-pairs.md): exact signed values,

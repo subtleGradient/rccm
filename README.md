@@ -5,6 +5,13 @@ This repository is a long-term project for understanding and auditing
 
 ## Start small in Bend
 
+The [formalization assessment and proposal](docs/asymmetric-tensor-formalization-proposal.md)
+maps the current proof-backed kernel to closed field dynamics, playable
+experiments and the eventual quantum-to-chemistry bridge. Its recommended
+next slice is a restricted first-order transverse-wave contract, with explicit
+conventions, constraints and energy balance before numerical implementation.
+This is a proposed route; the current course remains the implemented base.
+
 [`bend/`](bend/README.md) is the Bend learning entry point. The
 [asymmetric metric tensor course](bend/asymmetric-metric-tensor/README.md)
 centres the tensor itself: named slots, signed pairs, pressure capacity,
