@@ -71,17 +71,17 @@ full-fluid implementation.
 
 ## Graphical lessons: destination before dependency route
 
-The next planning direction is **end-goal first**: choose a compelling
-graphical experience, then recursively map its requirements, gaps and task
-dependencies before parallel implementation. The twenty Bend lessons are
-reusable foundations, not a prerequisite queue for discussing that destination.
+The audience is **Tom alone**. His immediate priority is a beautiful, responsive
+toy that invites curiosity through play. Long term: deeply master RCCM, fluid
+dynamics and massively parallel Bend. **Real, source-faithful behavior is a
+hard constraint**; attractive animation must not teach incompatible physics.
 
-[Pressure & Twist](docs/asymmetric-tensor-graphics.md#L1) proposes a transparent
-continuum laboratory with pause, slice, ordered probes and visible face
-exchanges. Its key contrast is equal pressure capacity with different
-directional structure. This is a recommendation for discussion; audience,
-scene selection, coupled-physics closure and performance targets remain open.
-No new graphical application or complete asymmetric-tensor solver is claimed.
+[Pressure & Twist](docs/asymmetric-tensor-graphics.md#L1) proposes a playable
+continuum with a laboratory underneath: play first, inspect when curious.
+Planning remains **end-goal first**, then recursive requirements, gaps and
+dependencies before parallel implementation. The twenty Bend lessons are
+reusable foundations, not a prerequisite queue. Scene, supported dynamics and
+performance targets remain open; no graphical application is implemented yet.
 
 ## Run the executable experiment
 

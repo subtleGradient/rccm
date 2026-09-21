@@ -1,57 +1,123 @@
 # Pressure & Twist — graphical end-goal proposal
 
 **Status: recommended concept for discussion, not an approved build plan.**
-The user has chosen end-goal-first planning; the primary audience and final
-scene remain open. This proposal concerns graphical lessons for the
+The audience is confirmed: **Tom, and only Tom**. The final scene and supported
+dynamics remain open. This proposal concerns graphical lessons for the
 [Bend tensor course](../bend/asymmetric-metric-tensor/README.md#L1), not a
 replacement for [TauLab's scientific-engine destination](../.ok/taulab.ok.md#L19).
 
 ## The destination
 
-**A transparent, evolving continuum laboratory that you can pause, cut open,
-and question.** A visitor moves between the whole field and one local tensor
-without changing experiments. Pressure capacity, transverse slip, internal
-twist, face exchanges and the next state remain connected on screen.[^scope]
+**A beautiful, responsive fluid toy with a real laboratory underneath.**
+Tom can enjoy manipulating an evolving field, then pause, cut it open and
+question it when curiosity asks for an explanation. Play and inspection
+show the same state: pressure capacity, transverse slip, internal twist,
+face exchanges and the next state remain connected.[^scope]
 
 [^scope]: RCCM supplies the proposed physical interpretation. Exact tensor
     identities, prescribed-field fixtures, numerical evolution under a declared
     closure, and independent physical validation are different evidence layers.
     The interface and saved experiments identify which layer is running.
 
-The target is a native 3D room with a precise slice view, not twenty lessons
-repainted as widgets. Its local instrument is the microscope inside the world,
-not the entire world. A 2D slice may be a useful implementation slice later;
-it does not define the ceiling of the end goal.
+The proposed target remains a native 3D room with a precise slice view, not
+twenty lessons repainted as widgets. The microscope lives inside the toy;
+it is not an entrance exam. A 2D slice may be a useful implementation slice
+later; it does not define the ceiling of the end goal.
 
-**Visitor promise:** “I can open this apparent empty space, see which parts of
-its local structure my measurement misses, change one thing, and predict a
-different reading or a bounded momentum exchange.”
+**Personal promise:** “I want to play with this again. As I do, I start to
+anticipate its behavior. When I wonder why, I can open the exact thing I
+was playing with and follow its rules into the tensor and the Bend code.”
 
-**Provisional audience:** visually curious technical adults and programmers
-who do not already think in tensor notation. Equations, numerical diagnostics
-and provenance are deeper inspection layers. If the primary audience is
-instead physics/CFD specialists, benchmark credibility should move into the
-opening scene.
+### Tom's confirmed priorities
+
+- **Immediate:** capture curiosity and excitement through his visual,
+  aesthetic side. The toy must look and feel good to him, not merely score
+  well as an educational exhibit.
+- **Long term:** deeply master RCCM, fluid dynamics in general, and massively
+  parallel programming in Bend. Intuitions gained through play must remain
+  useful when the equations and implementation are opened.
+- **Hard constraint:** the toy must be real in a meaningful, inspectable way.
+  It must not imply behavior that violates its stated RCCM theory/regime.
+
+No broad audience, specialist jury or generic engagement score substitutes
+for Tom's experience. These are stated preferences, not evidence that any
+mathematical prerequisite has been mastered.
+
+### The play contract
+
+The default view is an inviting field and a few discoverable controls, not
+matrices, dashboards, a benchmark report or a compulsory prediction quiz.
+Responsive manipulation, coherent motion, readable depth, attractive light
+and color, and easy reset/replay are first-class requirements. The numerical
+model and interaction constraints must be chosen together so responsiveness
+does not depend on falsifying the response.
+
+The desired loop is **touch -> response -> curiosity -> another variation**.
+Inspection is an optional deepening of play: pause, reveal a slice or face
+ledger, ask why, then return to the same evolving state. Teaching prompts and
+the ordered-probe experiment are available on demand, not prerequisites to
+having fun. Benchmarks and parallelism controls sit behind this first layer.
+
+### What “real” requires
+
+1. **A traceable causal rule.** Every physical-looking response has a chain
+   from a stated source equation and regime through state, numerical update
+   and observable to the rendered mark. A reference fluid solver with RCCM
+   labels pasted on top does not meet this requirement.
+2. **A complete rule for the chosen pocket.** A bounded, explicitly restricted
+   sector can be real without simulating all of RCCM. Its evolution, initial
+   conditions, boundaries and permitted interventions must nevertheless be
+   specified. A source gap or contradiction is a blocker to that behavior,
+   not permission to improvise an attractive closure and call it derived.
+3. **Physically meaningful controls.** Gestures correspond to declared
+   sources, initial conditions or boundary operations. In the evolving mode,
+   `q`, `e` and `b` are derived consistently from the chosen state and ledger,
+   not freely edited as unrelated effects. A hand injecting momentum is an
+   external intervention with a budget, not spontaneous motion.
+4. **Honest limits and evidence.** Enforce the supported domain, preserve
+   existing motion, expose conservation/error checks, and test numerical
+   refinement and replay. Do not hide an invalid state behind a pressure floor,
+   damping trick or cosmetic smoothing. Declaring an approximation alone
+   does not establish its compatibility with the selected source regime.
+5. **Aesthetic freedom without counterfeit physics.** Color, lighting, camera
+   easing and display trails can improve readability and pleasure. Their
+   legends must not invent forces, propagating disturbances, material
+   properties or coupling absent from the state. Display trails are not
+   persistent physical material; camera smoothing is not fluid damping.
+
+A prescribed-field or exact algebraic mode remains a real instrument for
+its limited question. It does **not** by itself fulfill the evolving-fluid
+toy goal. Nor does a disclaimer rescue misleading default behavior. The
+preferred tradeoff is a beautiful, honest pocket of the theory rather than
+a larger spectacle that teaches false intuition.
 
 ## Why this scene rather than the alternatives?
 
-These are design judgments to test, not measured audience scores.
+These are design judgments to test with Tom, not measured audience scores.
 
 | Candidate | Strongest feature | Main weakness | Decision |
 |---|---|---|---|
-| Paused-world force theater: bodies, gravity, charge and magnets | Immediately recognizable physical stakes and motion | Familiar trajectories can hide the tensor and require body/field bridges not yet supplied | Keep as a later application or a different opening for a broad audience |
+| Paused-world force theater: bodies, gravity, charge and magnets | Immediately recognizable physical stakes and motion | Familiar trajectories can hide the tensor and require body/field bridges not yet supplied | Keep as an alternative if Tom finds objects more inviting than fields |
 | Local tensor instrument bench | Clearest demonstration of signed pairs and ordered probes; closest to existing exact contracts | Can become the same incremental curriculum with glowing controls | Reuse as the microscope, not the whole destination |
-| Transparent CFD laboratory with a tensor microscope | Connects a visible field, local structure, face exchanges and evolution; gives parallel computation useful work | Most demanding integration; spectacle can obscure causes | **Recommended**, with one controlled reversal as its central story |
+| Playable continuum with a tensor microscope | Connects an inviting field, meaningful manipulation, local structure and evolution; gives parallel computation useful work | Most demanding integration; spectacle can obscure causes | **Recommended**, with controlled reversal as an optional discovery |
 
-The lesson is not “this fluid looks impressive.” It is:
+Both halves matter: “I want to keep playing” and “playing gives me a better
+feel for what this field does.” One discovery available beneath the surface:
 
 > Two states can look identical through a pressure map and still differ in a
 > directional reading. Open the field and discover what that first view hid.
 
-## A proposed 90-second visitor journey
+## Open-ended play, with an optional 90-second discovery
 
 This is an end-state storyboard, not a claim that these graphics or a complete
-solver already exist.
+solver already exist. The default is free play in a valid evolving scene.
+Candidate gestures such as pressing, sweeping or twisting must pass the causal
+rule and intervention gates above before becoming controls. Their appealing
+names do not establish the source equations needed to implement them.
+
+The following guided route is optional. Its authored sign-reversal comparison
+is an explicitly separate inspection fixture, not an arbitrary state edit
+silently inserted into the evolving playground.
 
 1. **Enter the world.** A bounded transparent volume contains a pressure-capacity
    landscape, sparse flow markers and a highlighted sampling patch. A labelled
@@ -67,7 +133,7 @@ solver already exist.
    arbitrary sign edits preserve a coupled PDE solution or its later pressure.
 3. **Cut open the patch.** Show the signed transverse momentum-flux arrows on
    selected faces. They reverse while the diagonal readings stay fixed. The
-   visitor sees a sideways exchange, not merely a changed number.
+   sideways exchange becomes visible to Tom, not merely a changed number.
 4. **Ask the hidden question.** A same-direction probe cannot distinguish
    the two snapshots' sign-reversed antisymmetric parts. Give the probe a
    second, different direction; the selected cross-reading reveals the
@@ -78,12 +144,12 @@ solver already exist.
    from the transverse-slip channel rather than calling every curl “magnetism.”
 6. **Unpause with a ledger.** Under an explicitly selected dynamics mode, show
    exchanges accumulating over multiple steps across spatially separated
-   regions. A visitor should be able to follow a declared boundary impulse
+   regions. Tom should be able to follow a declared boundary impulse
    into the changing momentum map, not just watch one cube's arrows update.
    The exact frozen-face fixture can explain the local exchange, but is not
    the whole-volume dynamics gate. Coupled evolution must carry its own
    closure, boundary and numerical evidence.
-7. **Return the control to the visitor.** Ask them to predict a different
+7. **Return to free play.** Invite Tom to predict a different
    axis-pair reversal before revealing it. Replay restores the saved state,
    including existing momentum; it does not erase inertia or reverse dissipation.
 
@@ -217,10 +283,18 @@ current markers are the [field-course source gaps](../log/2026-09/2026-09-20-log
 ## How to decide whether this is the right demo
 
 Before building the full simulator, test a short storyboard or disposable
-interaction sketch with members of the chosen audience. No participant data
-has been collected yet.
+interaction sketch with Tom. An appearance-only sketch can test taste and
+interaction appeal but must not be presented as dynamics evidence.
 
-The demo succeeds when a visitor can:
+**The first gate is desire to play, not a quiz.** Does Tom like looking at it,
+reach for another variation without being assigned one, and want to return?
+Ask him directly; do not infer enjoyment or understanding from dwell time
+alone. A scientifically tidy instrument he does not want to touch misses
+the immediate goal.
+
+**The second gate is trustworthy intuition.** After exploration, use small,
+optional prediction-and-return probes. The complete destination should help
+Tom:
 
 1. distinguish the world-scale macro-load overlay from total remaining
    capacity, then predict the changed and unchanged regions of a prescribed
@@ -241,18 +315,22 @@ a storyboard can test its legibility but cannot certify its implementation.
 
 The strongest counterargument is that the microscope will dominate and the
 experience will still feel like a matrix lesson. Reject or redesign this
-opening if visitors remember the colors but cannot transfer the prediction,
-or if the simpler force theater produces better causal understanding for the
-chosen audience. Excitement is useful evidence; “RCCM has been proven” is not
-the desired takeaway.
+opening if Tom feels assigned homework rather than invited to play, if the
+visual legend builds wrong intuitions, or if the simpler force theater gives
+him a better combination of delight and causal understanding. Excitement
+without trustworthy intuition and correctness without appeal both miss the
+brief. “RCCM has been proven” is not the desired takeaway.
 
 ## Planning gate after concept selection
 
-First confirm the audience and the central visitor experience. Then work
-backwards from these observable outcomes into independent requirements:
-scene/interaction, source-and-state contracts, numerical dynamics, rendering,
-runtime/performance and learning/verification evidence. Recursively split
-until each leaf has inputs, an output, an acceptance test and explicit blockers.
+The audience and priority order are confirmed. Next choose the concrete
+playable scene together with a source-supported dynamical sector and one
+meaningful gesture. Then work backwards from these observable outcomes into
+independent requirements: scene/interaction, source-and-state contracts,
+numerical dynamics, rendering, runtime/performance and learning/verification
+evidence. Recursively split until each leaf has inputs, an output, an
+acceptance test and explicit blockers. Do not reopen the audience question
+or silently treat audience confirmation as approval of every proposed feature.
 
 The execution loop should pair implementation with independent falsification:
 agree the contract, write a failing test or counterexample, implement, challenge
