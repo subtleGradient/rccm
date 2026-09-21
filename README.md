@@ -76,12 +76,12 @@ toy that invites curiosity through play. Long term: deeply master RCCM, fluid
 dynamics and massively parallel Bend. **Real, source-faithful behavior is a
 hard constraint**; attractive animation must not teach incompatible physics.
 
-[Pressure & Twist](docs/asymmetric-tensor-graphics.md#L1) proposes a playable
-continuum with a laboratory underneath: play first, inspect when curious.
-Planning remains **end-goal first**, then recursive requirements, gaps and
-dependencies before parallel implementation. The twenty Bend lessons are
-reusable foundations, not a prerequisite queue. Scene, supported dynamics and
-performance targets remain open; no graphical application is implemented yet.
+[Foam](bend/foam-lab/README.md#L1) is the first runnable native Bend toy:
+load a pressure-capacity field, invert medium/void figure-ground, scrub and
+overlay recorded time, and stop at a sampled capacity failure. It is a driven
+ledger instrument, **not yet a cavitation or CFD solver**. Run
+`make -C bend/foam-lab run`; screenshots and verification live with the toy.
+The larger [end-goal brief](docs/asymmetric-tensor-graphics.md#L1) remains open.
 
 ## Run the executable experiment
 

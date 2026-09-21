@@ -72,7 +72,7 @@ def initial(+seed: U32) -> State:
   +minimum = measure(frame)
   State{T.Saved{T.Snapshot{frame, minimum}, T.Empty{}}, 0,
         playback_for((minimum > 0.0 : F32), C.Playing{}),
-        Options{C.Medium{}, False{}, False{}, 0.72},
+        Options{C.Medium{}, False{}, False{}, 0.6},
         Pointer{512.0, 376.0, False{}, False{}}}
 
 # The actuator ramp/withdrawal below is an external load schedule.

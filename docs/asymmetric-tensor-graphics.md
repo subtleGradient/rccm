@@ -1,8 +1,8 @@
 # Pressure & Twist — graphical end-goal proposal
 
-**Status: recommended concept for discussion, not an approved build plan.**
+**Status: end-goal brief; [Foam](../bend/foam-lab/README.md#L1) is the first playable slice.**
 The audience is confirmed: **Tom, and only Tom**. The final scene and supported
-dynamics remain open. This proposal concerns graphical lessons for the
+dynamics of the full coupled toy remain open. This proposal extends the
 [Bend tensor course](../bend/asymmetric-metric-tensor/README.md#L1), not a
 replacement for [TauLab's scientific-engine destination](../.ok/taulab.ok.md#L19).
 
@@ -109,8 +109,8 @@ feel for what this field does.” One discovery available beneath the surface:
 
 ## Open-ended play, with an optional 90-second discovery
 
-This is an end-state storyboard, not a claim that these graphics or a complete
-solver already exist. The default is free play in a valid evolving scene.
+This is an end-state storyboard, not a claim that a complete coupled solver
+already exists. The current slice is a driven pressure-ledger instrument.
 Candidate gestures such as pressing, sweeping or twisting must pass the causal
 rule and intervention gates above before becoming controls. Their appealing
 names do not establish the source equations needed to implement them.

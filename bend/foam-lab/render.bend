@@ -12,7 +12,7 @@ type Ghosts is Data:
 type Labels is Data:
   Labels{title: Ink.Text, subtitle: Ink.Text, mode: Ink.Text,
     capacity: Ink.Text, status: Ink.Text, hints: Ink.Text, warning: Ink.Text,
-    threshold: Ink.Text, inspector: Ink.Text, boundary: Ink.Text}
+    threshold: Ink.Text, inspector: Ink.Text, boundary: Ink.Text, time: Ink.Text}
 
 type Scene is Data:
   Scene{frame: F.Frame, ghosts: Ghosts, view: C.View, playback: C.Playback,
@@ -38,21 +38,21 @@ def status_name(p: C.Playback) -> String:
   match p:
     case C.Playing{}: "LIVE"
     case C.Paused{}: "HELD"
-    case C.AtBoundary{}: "BOUNDARY"
+    case C.AtBoundary{}: "SAMPLE LIMIT"
 
 def boundary_name(p: C.Playback) -> String:
   match p:
     case C.Playing{}: ""
     case C.Paused{}: ""
-    case C.AtBoundary{}: "CAPACITY EXHAUSTED / NO POST-YIELD MODEL / U WITHDRAW LOAD OR SCRUB BACK"
+    case C.AtBoundary{}: "NONPOSITIVE CAPACITY SAMPLE / NO POST-YIELD MODEL / U WITHDRAW OR SCRUB BACK"
 
-def percent_sign(negative: Bool, n: U32) -> String:
+def percent_sign(negative: Bool, +n: U32) -> String:
   match negative:
-    case True{}: "-" ++ U32.show(n) ++ "%"
-    case False{}: U32.show(n) ++ "%"
+    case True{}: "-" ++ U32.show((n / 10 : U32)) ++ "." ++ U32.show((n % 10 : U32)) ++ "%"
+    case False{}: U32.show((n / 10 : U32)) ++ "." ++ U32.show((n % 10 : U32)) ++ "%"
 
 def percent(+q: F32) -> String:
-  percent_sign((q < 0.0 : F32), F32.to_u32(F32.abs((100.0 * q : F32))))
+  percent_sign((q < 0.0 : F32), F32.to_u32(F32.abs((1000.0 * q : F32))))
 
 def world_x(x: F32) -> F32:
   ((x - 64.0) / 560.0 : F32)
@@ -64,11 +64,21 @@ def sample_text(sample: F.Sample) -> String:
   match sample:
     case F.Sample{q, gx, gy}: "LOCAL Q " ++ percent(q)
 
-def inspect_text(enabled: Bool, +frame: F.Frame, x: F32, y: F32) -> String:
+def time_text(frame: F.Frame) -> String:
+  match frame:
+    case F.Frame{time, _, _, _, _}:
+      +ticks = F32.to_u32((time * 100.0 : F32))
+      "T " ++ U32.show((ticks / 100 : U32)) ++ "." ++
+      U32.show((ticks / 10 % 10 : U32)) ++ U32.show((ticks % 10 : U32))
+
+def inspect_inside(enabled: Bool, +frame: F.Frame, x: F32, y: F32) -> String:
   match enabled:
     case False{}: ""
     case True{}:
       sample_text(F.sample(frame, world_x(x), world_y(y)))
+
+def inspect_text(enabled: Bool, frame: F.Frame, +x: F32, +y: F32) -> String:
+  inspect_inside(enabled && Ink.inside_rect(x, y, 64.0, 96.0, 896.0, 560.0), frame, x, y)
 
 # Labels are prepared once per view, never inside the shader.
 def make_scene(+frame: F.Frame, ghosts: Ghosts, +view: C.View,
@@ -85,7 +95,8 @@ def make_scene(+frame: F.Frame, ghosts: Ghosts, +view: C.View,
     Ink.prepare("DRIVEN CAPACITY - NOT A BUBBLE SOLVER"),
     Ink.prepare("CUT " ++ percent(cutoff)),
     Ink.prepare(inspect_text(inspect, frame, cursor_x, cursor_y)),
-    Ink.prepare(boundary_name(playback))} : Labels}
+    Ink.prepare(boundary_name(playback)),
+    Ink.prepare(time_text(frame))} : Labels}
   Scene{frame, ghosts, view, playback, onion, inspect, cutoff, cursor_x,
     cursor_y, minimum, history_length, selected, labels}
 
@@ -173,7 +184,7 @@ def field_pixel(+frame: F.Frame, ghosts: Ghosts, view: C.View, onion: Bool,
 
 def label_pixel(labels: Labels, +x: F32, +y: F32) -> U32:
   match labels:
-    case Labels{title, subtitle, mode, capacity, status, hints, warning, threshold, inspector, boundary}:
+    case Labels{title, subtitle, mode, capacity, status, hints, warning, threshold, inspector, boundary, time}:
       title_hit = Ink.text_hit(title, x, y, 64.0, 24.0, 5.0)
       sub_hit = Ink.text_hit(subtitle, x, y, 198.0, 38.0, 2.0)
       mode_hit = Ink.text_hit(mode, x, y, 790.0, 47.0, 2.0)
@@ -184,10 +195,11 @@ def label_pixel(labels: Labels, +x: F32, +y: F32) -> U32:
       cut_hit = Ink.text_hit(threshold, x, y, 480.0, 664.0, 1.0)
       probe_hit = Ink.text_hit(inspector, x, y, 640.0, 664.0, 1.0)
       boundary_hit = Ink.text_hit(boundary, x, y, 76.0, 79.0, 1.0)
+      time_hit = Ink.text_hit(time, x, y, 800.0, 664.0, 1.0)
       word(boundary_hit, 4291864063,
         word(Bool.or(title_hit, mode_hit), 3874810111,
         word(Bool.or(cap_hit, probe_hit), 2833173247,
-        word(Bool.or(sub_hit, status_hit), 2562177535,
+        word(Bool.or(time_hit, Bool.or(sub_hit, status_hit)), 2562177535,
         word(Bool.or(warning_hit, Bool.or(hints_hit, cut_hit)), 1955632639, 0)))))
 
 def timeline(+length: U32, selected: U32, +x: F32, +y: F32) -> U32:
@@ -258,4 +270,5 @@ def tiles(+depth: Nat, +scene: Scene, +x: F32, +y: F32, +size: F32) -> Image:
       Qua{a, b, c, d}
 
 def draw(scene: Scene) -> Image:
-  tiles(7n, scene, 0.0, 0.0, 1024.0)
+  # Window pixels and deterministic captures both sample at pixel centers.
+  tiles(7n, scene, 0.5, 0.5, 1024.0)
