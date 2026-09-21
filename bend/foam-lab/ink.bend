@@ -103,6 +103,8 @@ def glyph(code: Nat) -> Glyph:
       rows(14, 17, 17, 14, 17, 17, 14) # 8
     case 57n:
       rows(14, 17, 17, 15, 1, 1, 14) # 9
+    case 37n:
+      rows(24, 25, 2, 4, 8, 19, 3) # %
     case 43n:
       rows(0, 4, 4, 31, 4, 4, 0) # +
     case 45n:
