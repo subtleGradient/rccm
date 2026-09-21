@@ -1,0 +1,67 @@
+{
+  "bend_version": "bend 2.0.21",
+  "claim_boundary": "Driven pressure-ledger pockets, not a cavitation or matter solver",
+  "frames": [
+    {
+      "file": "medium.png",
+      "fixture_argument": "medium",
+      "height": 768,
+      "png_sha256": "dd5bab0159684a6037fa6437482fc1e43be611c5b33f1ca89bf11bde86514b27",
+      "rgb_sha256": "6ae66d9e55c1c8671c3f2277e3fe56c3425afe964d4663c334a7303e72dfcf71",
+      "width": 1024
+    },
+    {
+      "file": "voids.png",
+      "fixture_argument": "voids",
+      "height": 768,
+      "png_sha256": "ad964f91cf97c6f2e299dd8c47133d24bc5d417dbef61d8d390d50474e6b2de6",
+      "rgb_sha256": "43bcb1cd0bbc7c0cc34857f66fbebf90eb284ed8f95e838782023c37e9f449fb",
+      "width": 1024
+    },
+    {
+      "file": "time.png",
+      "fixture_argument": "time",
+      "height": 768,
+      "png_sha256": "d3fde31dc6ea6f98f6c5b1ec97acf26276d7bad1ecd1d8c680e077b64980c9c7",
+      "rgb_sha256": "2cd2273d3cbf6ee00baa592d8e8011c35e6ac16fb32775959f6ae2d6382f16ee",
+      "width": 1024
+    },
+    {
+      "file": "boundary.png",
+      "fixture_argument": "boundary",
+      "height": 768,
+      "png_sha256": "68ea34f9b27fa5e44f7c31a4a302767c803ac04d50aa3ede0d7b2339b5c2cef1",
+      "rgb_sha256": "8e76c245b56352b3da4926dbe535fb80b39bcd7997c84043be376a4d70ec60b0",
+      "width": 1024
+    }
+  ],
+  "method": "Native CPU evaluation of the canonical GUI pixel function",
+  "not_os_window_capture": true,
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "seed": 42,
+  "source_commit_at_capture": "8848b5f7ccd39f54810ed195dd33c0a4c0bddf67",
+  "source_sha256": {
+    "LAWS.bend": "534781b5d671d56d6f926e9a077a2c434433261d68185c58826fca058c3c88b3",
+    "PROOF.bend": "01177a05badef02bd7b018263e85c851d3b25f4c89791a1a1617b11f45779309",
+    "backend-frame.bend": "cb0f0a1de7f79d6ecc25752d806b1d2d8a093bcd10bc0b913eae24213b95a8fe",
+    "benchmark.bend": "406e7decc6916bfa7a7a38240e914fc902b5a84072435e5f5bef42a67867810a",
+    "capture.bend": "58a83844b3752117df1b4f9a76c4762a9da07cbc349bdd36980903e5927f695d",
+    "control-laws.bend": "d4684ce91629ad34278631240e1f48f376dc5de337f36a0df427589c4ef44559",
+    "control-proof.bend": "090d704dd6e03c35a6f2f19d15b4c73ffa55444ec2208c3117240dc0c83b265a",
+    "control.bend": "98b04e797b400f9f169e99a9474a80ff67f046ca6120c61244995be2a4904ebb",
+    "field-tests.bend": "a1c594dc51bfa80d288477b5ad6b3265b977db4dfa7a70cf077601df466abfc1",
+    "field.bend": "9969c98a4f880b4fef63ef7911ad51178e36a7b6bd104be4a3cf08afc55b83a2",
+    "fixtures.bend": "30be076b16c12d5f612672618ccee4e4496a51620cd0e20667ab3ce2449c3ac3",
+    "ink-tests.bend": "0b3f6b74125148fd4dbe7877868538873e45456d3a3fb2853aa67cec446cb786",
+    "ink.bend": "bdafcbd85c3b859fe43261898aaf27271b4fed2795c7f6e85a59444d02aefc86",
+    "main.bend": "cdee9212471e0feaffb25271702b51162fcaa6d772ebac25e68f867ab91440c2",
+    "render-tests.bend": "8a2774a271988324c558ab31f44ddeaebf980dd09913ce737b9c250bafe1fd0d",
+    "render.bend": "c80326c9e8bd027916957e2c882d55dd148068db457a58717bb7541dc404bb18",
+    "session-tests.bend": "440b80bea1e5a9dbdea7e6b4d602d965eb10f62e711e8bc0da43d1ede8495900",
+    "session.bend": "128fb96d136e69769f78194be1a3b374dcb85c2c903f3fbe6dcae2e07704dc01",
+    "smoke.bend": "631b59cb6c730ba39585b156195ecb6d80f3c020ba03e216a64ea14c3e7ad4c6",
+    "timeline.bend": "5d5a42c9c64a42e7683d5877709d2c5bd8189b970f5dbbf904b62b5dd79677c8",
+    "view.bend": "18bf9f50424b579f81bfd25ab1ffb5e1c34544219724c71a2f2331ccf43b5770"
+  },
+  "state_provenance": "fixtures.bend replays the same session advance and failure path as the app"
+}
