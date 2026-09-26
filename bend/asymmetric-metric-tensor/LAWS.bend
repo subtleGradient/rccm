@@ -42,7 +42,7 @@ law swap_twice:
 # Lesson 2: mirror or reverse.
 # Positive{p} encodes 1+p, so conversion preserves the natural magnitude.
 law from_nat_zero:
-  {Exact.from_nat(0n) == Exact.Zero{} : Exact.Signed}
+  {Exact.from_nat(0n) == Exact.SignedZero{} : Exact.Signed}
 
 law from_nat_successor:
   for p: Nat
@@ -50,7 +50,7 @@ law from_nat_successor:
 
 # Specify the sign operation itself: double negation alone admits a no-op.
 law negate_zero:
-  {Exact.negate(Exact.Zero{}) == Exact.Zero{} : Exact.Signed}
+  {Exact.negate(Exact.SignedZero{}) == Exact.SignedZero{} : Exact.Signed}
 
 law negate_positive:
   for p: Nat

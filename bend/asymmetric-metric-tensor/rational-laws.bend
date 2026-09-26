@@ -73,7 +73,7 @@ law fraction_content:
   for d: Nat
   {R.fraction(n, d) == R.Fraction{n, 0n, d} : R.Q}
 law signed_zero:
-  {R.from_signed(Exact.Zero{}) == R.Fraction{0n, 0n, 0n} : R.Q}
+  {R.from_signed(Exact.SignedZero{}) == R.Fraction{0n, 0n, 0n} : R.Q}
 law signed_positive:
   for p: Nat
   {R.from_signed(Exact.Positive{p}) == R.Fraction{1n+p, 0n, 0n} : R.Q}
