@@ -14,3 +14,6 @@ compile_commands.json
 
 *.vtt
 Refractive-Continuum-transcripts/*.info.json
+
+# Isolated Sites publishing checkouts (their source has its own history)
+.sites/
