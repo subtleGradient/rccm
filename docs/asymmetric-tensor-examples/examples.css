@@ -85,6 +85,7 @@
 .concept-guide h3{font-size:23px;line-height:1.3;margin:26px 0 12px}.concept-guide>p{max-width:90ch}
 .explain-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px;align-items:start;margin:24px 0}.explain-pair>div,.explain-pair>article{min-width:0}.explain-pair h3{margin-top:0}.explain-pair p{margin-top:0}
 .quantity-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:25px 0 32px}.quantity-key p{margin:0;padding:12px 0;border-top:3px solid var(--electric);font-size:16px}.quantity-key strong{display:block;margin-bottom:7px;font-size:18px}
+.quantity-key p:first-child{border-color:var(--ink)}.quantity-key p:last-child{border-color:var(--capacity)}
 .demo-controls{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.demo-controls button{min-height:46px;padding:10px 14px;font-size:16px}.demo-controls button[aria-pressed=true]{background:var(--elecbg);border-color:var(--electric)}
 .vector-demo .world-stage{margin-top:0}.world-stage svg .electric-vector{stroke-width:5}
 .concept-guide .world-stage svg text{font-size:21px}.concept-guide .world-stage svg .label-small{font-size:18px}

@@ -45,7 +45,7 @@ body has charge, orientation, constraints and internal processes of its own.
 Policy: trace three concrete causal steps, then attach the changed cells.
 Payoff: connect a number to an actual clock rate, push, twist or bend.
 
-The selected opening is now the twin-watch story. Both clocks are stationary
+In the twin-watch story, both clocks are stationary
 near the same imagined compact star, supported by engines. The A/B matrices
 are readings at the two watches, differing only in q. Unlike the original
 homogeneous-patch story, the surrounding gravitational field can have a
@@ -59,7 +59,7 @@ Other scenes use alternative initial conditions, not consecutive frames:
 | Electric bead | Facing circulation changes interaction pressure → like charges repel and unlike attract → both plate contributions point the same way | Swap plate charges; the bead starts the other way |
 | Compass | Internal magnetic directions reinforce → the external field exerts distributed forces with a net twist → the pin permits rotation | Same initial needle; reversed field; opposite initial turn |
 | Falling | Persistent circulation occupies the pressure budget → less static pressure remains near mass → unequal ambient pushes | Identical centre reading can accompany different acceleration |
-| Hair | Rubbing transfers charge → like neighbours repel → attached roots make free lengths bend | Reversing every charge keeps neighbours alike and preserves repulsion |
+| Hair | Flip the right charge → facing circulation changes interaction pressure → mutual forces reverse | Repulsion becomes attraction; the same applied field at the right tip meets a different responding charge |
 
 ## Retention, payoff and distribution
 
@@ -95,7 +95,8 @@ different parts of a dipole experience opposite forces and a net torque.
 The diagram predicts the initial turn, not damping or a final settled angle.
 
 Electric and magnetic coefficients are illustrative dimensionless values.
-Sign reversals preserve squared amplitudes. Gravity retains its weak static
+Each charge’s squared self-amplitude is preserved by its sign reversal; changing
+one charge reverses the pair interaction term. Gravity retains its weak static
 Taylor patch and exact capacity decimals, with slope 2e-16/m. Hair samples the
 other strand’s applied field at two idealized tips. Full hair shape requires
 distributed charge, bending stiffness, weight, air and root constraints.
@@ -107,3 +108,45 @@ Can he explain the pressure imbalance, turning couple or root constraint in
 ordinary words? Does moving a sampler help him distinguish a field value from
 a field difference? The next revision follows his explanation or visual
 feedback, not an assumed understanding or page dwell time.
+
+## Revision: distinguish charge, field, slip and a graphics transform
+
+Tom rejected reversing both hair charges as the same behaviour explained twice.
+The relevant comparison is attraction versus repulsion. Change only the right
+charge and use the right tip as the default sample: its applied-field matrices
+are identical, while its own charge and force reverse. Moving the sampler to
+the left then shows the complementary case: its charge stays fixed while the
+other tip’s applied field reverses. This is the current opening scene.
+
+The requested learning bridge is Q (charge on the object) → spatial electric
+field → three local components → response of a chosen charge. A positive source
+can give a negative x-component to its left. The new direction control uses
+equal-strength vectors along x, y, z and a diagonal, exposing all six amber
+slots without changing the scalar background or magnetic entries.
+
+The hand-over-hand slip picture is a sensory cue for transverse shear in the
+proposed medium. The source identifies eᵢ = α v⊥,ᵢ/c; its source-free wave sector
+alone does not construct a charged defect’s boundary and sourced static field.
+The guide names that remaining bridge in its technical disclosure instead of
+quietly deriving charge from a single cell or equating a source-free wave to
+an entire Coulomb solution.
+
+CSS provides a familiar mathematical foothold: a real DOM square is translated,
+scaled or rotated using the displayed matrix. Its [x,y,z,w] labels and
+column-major serialization differ from the physical tensor’s [t,x,y,z] labels
+and role. A simulation calculates response and motion before producing the
+rendering transform. The optional mathematical bridge distinguishes MᵀM and
+JᵀÛJ from applying a transform to a point.
+
+Story: One charge change, opposite behaviour.
+
+- Target: Tom, using spatial examples and existing CSS knowledge.
+- Exact message: A field tells you a direction at a place; the object’s charge determines which way it responds.
+- Required belief: Follow the stated RCCM pressure mechanism and the declared electric response; do not assume they constitute a full microscopic derivation.
+- Required action: Compare the two tips, move the sampler, and turn the electric direction through x, y and z.
+- Axis scores: Translation Tax 2; Identity Threat 1; Causal Friction 2; Apathy Risk 2; Trust Burden 0.
+- Total score: 7/25, an editorial hypothesis awaiting feedback.
+- Verdict: Viable; the remaining causal bridge should stay explicit.
+- Highest-friction axis: Translation, Causal Friction and Apathy Risk, tied.
+- HiddenNegativeDebt: The prior comparison answered a symmetry question before the user had received an attraction/repulsion explanation.
+- Mutation ideas applied: Change one sign, display both outcomes, distinguish source from sample, reuse the user’s CSS point-transform vocabulary, keep extra mathematics optional.

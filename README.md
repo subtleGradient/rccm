@@ -91,8 +91,23 @@ a meaningful comparison. The revised clock shows an hour for one twin against
 about 47 minutes for the other in an explicitly exaggerated, supported-station
 setting. The original symbol guide remains available below. The
 [story brief](docs/asymmetric-tensor-examples/STORY.md) records the teaching
-choices and declared response fixtures; the fixtures have five focused Node
+choices and declared response fixtures; the fixtures have six focused Node
 checks (`node --test docs/asymmetric-tensor-examples/model.test.cjs`).
+
+The electric route now changes one hair’s charge to turn repulsion into
+attraction. At the right tip, the applied field stays fixed while reversing
+that tip’s charge reverses its force. This
+separates source charge Q, local field components eₓ/eᵧ/e_z, and pressure capacity
+q. A direction control places all three electric components in their paired
+cells; a CSS comparison distinguishes [x,y,z,w] point transforms from the
+[t,x,y,z] physical tensor and shows an actual transformed element.
+
+The remaining source bridge is explicit: GfX identifies electric components
+with scaled transverse slip and develops source-free transverse waves. A full
+charged-defect construction also needs the source/boundary rule connecting
+winding to the surrounding field. Condensed’s qualitative Coulomb pressure
+account and the guide’s declared point-charge response do not silently complete
+that derivation.
 
 
 The current visual design conversation is the [voxel workbench](examples/voxel-workbench/index.html).
