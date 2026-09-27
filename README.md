@@ -106,6 +106,11 @@ parameterization, frame and convention. The fixed-map comparison is separate
 from holding a room's local measured size fixed; one sample still does not
 determine an extended region's geometry. The proposed q-to-cycle link is a
 recognized intuition, not yet evidence of mastery of metric measurements.
+Tom asked for percentages to make these ratios readable. Capacity labels now
+lead with “80% left” and “50% left”; numeric diagonal weights also use
+percentages, with raw coefficients available on hover. Keep capacity and actual
+clock pace distinct: 80% capacity gives about 89.4% of the reference clock pace.
+Exact gravity capacities retain enough digits to expose the spatial difference.
 
 The electric route now changes one hair’s charge to turn repulsion into
 attraction. At the right tip, the applied field stays fixed while reversing

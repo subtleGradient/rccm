@@ -45,6 +45,15 @@ speed cq becomes local speed c after both scale conversions, without claiming
 to derive the metric itself. Local factors are not a curvature or total-volume
 reconstruction of a finite region.
 
+Tom then requested 50% and 80% in place of decimal fractions. Apply that
+preference throughout capacity labels, controls and numeric green matrix
+weights. Keep the same mathematical values underneath and expose the raw
+coefficients on hover. Label the derived clock pace separately: 80% capacity
+corresponds to 89.4% pace, not 80% pace. Physical lengths keep their metre
+units; exact gravity percentages preserve their small differences. This is a
+presentation preference supported by direct feedback, not an inference about
+the learner's ability to use decimals.
+
 ## Objective and observed failure
 
 Help Tom connect tensor readings to experiences he can picture. He explicitly

@@ -68,6 +68,7 @@
 .cell.elec[data-sign="negative"],.numeric-cell.elec[data-sign="negative"]{background:var(--electric);color:var(--elecbg)}
 .cell.mag[data-sign="negative"],.numeric-cell.mag[data-sign="negative"]{background:var(--magnetic);color:var(--magbg)}
 .numeric-cell[data-sign="zero"]{background:#20262205;color:var(--muted)}
+.numeric-cell.long-value{font-size:16px}
 .sign-reference{margin:12px 0 0}
 .sign-key{display:flex;flex-wrap:wrap;gap:10px 22px;margin:14px 0 22px;font-size:14px;color:var(--muted)}
 .sign-key>span{display:flex;align-items:center;gap:7px}

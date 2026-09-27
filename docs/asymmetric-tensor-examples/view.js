@@ -2,6 +2,13 @@
   'use strict';
   const M = window.TensorExamples;
   const host = document.getElementById('scene-content');
+  const percent=value=>value.toLocaleString('en-US',{style:'percent',maximumFractionDigits:1}).replace('-','−');
+  function capacityLabel(q){
+    if(!q.exact)return percent(q.value);
+    // Shift the exact decimal string; rounding would hide the gravity slope.
+    const [whole,fraction]=q.text.split('.');
+    return `${Number(whole)*100+Number(fraction.slice(0,2))}.${fraction.slice(2)}`.replace(/\.?0+$/,'')+'%';
+  }
   let scene = 'hair';
   let sample = 'right';
   const source = '<a href="../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a>';
@@ -12,11 +19,11 @@
     clock: {
       number:'01 / Two watches', title:'An hour for you. About 47 minutes for your twin.',
       intro:'You and your twin take identical watches to two space stations near an extremely compact star. You stay farther out; he stays closer in. Engines hold both stations in place. During an hour on your watch, his records about 47 minutes. We choose a dramatic imaginary setting so the difference is easy to see.',
-      change:'Less pressure capacity at his watch: q = 0.8 at yours; q = 0.5 at his.', held:'Identical watches. Both stations held still. No electric or magnetic field in these readings.',
+      change:'Less pressure capacity at his watch: 80% left at yours; 50% left at his.', held:'Identical watches. Both stations held still. No electric or magnetic field in these readings.',
       worlds:['You · farther from the star','Your twin · closer to the star'],
       outcomes:[['You live through 1 hour','Your watch records 60 minutes. You have time for an hour of reading, eating or talking.'],['He lives through about 47 minutes','His watch records 47 minutes 26 seconds during that same comparison interval. He has less elapsed time for those activities.']],
       takeaway:'His watch, heartbeat and thoughts all keep pace with one another. Life feels normal to him. The difference appears when you compare how much time each of you actually lived through.',
-      prediction:'Before choosing “Quarter · 0.25” in the capacity control, predict this: the clock runs at half the reference pace. How many local one-metre rulers would span one metre on the shared map?',
+      prediction:'Before choosing “25% · quarter” in the capacity control, predict this: the clock runs at 50% of the reference pace. How many local one-metre rulers would span one metre on the shared map?',
       method:'The model assigns the two resting clocks qA = 0.8 and qB = 0.5. In the displayed Cartesian frame, ds² = −q c²dt² + (dx² + dy² + dz²)/q. A stationary clock gives dτ = √q dt; a simultaneous short spatial gap gives dℓ = |dx|/√q. Thus the twin records 60 × √(0.5/0.8) = 47.434… minutes, rounded to 47 min 26 s. These q values are chosen teaching inputs, not a calculation for a specified star or an Earth–Moon prediction. The source identifies remaining capacity with the rate of internal cycles and defines the reciprocal spatial weight; this illustration does not derive an atom, quartz oscillator or material ruler from microscopic fluid equations. The ruler comparison holds coordinate separation fixed and assumes q is approximately constant across each gap. For a longer path with varying q, accumulate the local ruler readings along the path.',
       bodies:'Both stations are supported by engines and stationary in the same static, nonrotating field. The engines balance the gravitational pull; this is not a free orbit. Each clock is small enough that field variation across it can be neglected. A pressure gradient can exist around the stations; it is not encoded by a single local matrix. Compare elapsed times over the same background interval after allowing for signal travel time. Travel to the stations and the effects of that journey are outside this comparison.',
       sources:`${source}, §3.1 (diagonals), §15.1 (physical wavelength versus coordinate length), §15.2 (coordinate light speed). <a href="../RCCM-Condensed.tex">Condensed</a>, “The Geometric Spacetime Bridge,” gives the matching radial interval; “Pressure Deficits, Symmetry Breaking, and Acoustic Covariance,” gives the clock relation. <a href="https://www.preposterousuniverse.com/wp-content/uploads/2015/08/grtinypdf.pdf">Sean Carroll, <cite>A No-Nonsense Introduction to General Relativity</cite>, §2</a>, explains the sign convention and proper time.`
@@ -24,7 +31,7 @@
     electric: {
       number:'02 / A charged bead', title:'Swap the charged plates. The bead goes the other way.',
       intro:'Give a light bead a positive charge and put it on a smooth horizontal rail. A positive metal plate sits to its left; a negative plate sits to its right. The bead moves right. Swap the charges on the plates and it moves left. Why?',
-      change:'Swap which plate is positive. The electric reading eₓ changes from +0.002 to −0.002.', held:'Same positive bead, starting at rest on the same rail. q = 0.8; other electric and magnetic readings are zero.',
+      change:'Swap which plate is positive. The electric reading eₓ changes from +0.002 to −0.002.', held:'Same positive bead, starting at rest on the same rail. 80% pressure capacity left; other electric and magnetic readings are zero.',
       worlds:['Field points right','Field points left'],
       outcomes:[['The bead moves right','The positive plate on the left repels it; the negative plate on the right attracts it. Both effects point right.'],['The bead moves left','The negative plate on the left attracts it; the positive plate on the right repels it. Both effects now point left.']],
       takeaway:'The electric arrow tells you which way a positive charge gets pushed. A negative charge responds the other way. The bead’s charge matters as much as the field around it.',
@@ -36,7 +43,7 @@
     compass: {
       number:'03 / A compass', title:'The field gives the needle a twist.',
       intro:'Put a compass flat on a table. Its north tip starts pointing right. Turn on a surrounding magnetic field that points up the page: the north tip starts turning upward. Reverse the field and that tip starts turning downward. The needle’s centre stays on its pin.',
-      change:'Reverse the surrounding field: bᵧ = +0.003 → −0.003.', held:'Same needle, with its north tip pointing right and no initial spin. Same pivot. q = 0.8; electric readings are zero.',
+      change:'Reverse the surrounding field: bᵧ = +0.003 → −0.003.', held:'Same needle, with its north tip pointing right and no initial spin. Same pivot. 80% pressure capacity left; electric readings are zero.',
       worlds:['Field points up the page','Field points down the page'],
       outcomes:[['North tip starts turning up','The right end moves up while the left end moves down: a counterclockwise turn around the pin.'],['North tip starts turning down','The right end moves down while the left end moves up: a clockwise turn around the same pin.']],
       takeaway:'A field can turn a magnet even when its strength is the same everywhere around it. The needle has an internal magnetic direction; the surrounding field twists that direction toward alignment.',
@@ -48,7 +55,7 @@
     falling: {
       number:'04 / Gravity as unequal squeeze', title:'The stronger push comes from above.',
       intro:'Be the rock above a planet. Fluid presses on you from every side. The planet leaves less static pressure on your underside, so the push from above wins. Here is how circulation becomes that unequal squeeze.',
-      change:'Vertical slope: dq/dy = 0 → 2 × 10⁻¹⁶ per metre.', held:'q at the centre = 0.999999999; e = b = 0. Rock initially at rest.',
+      change:'Vertical slope: dq/dy = 0 → 2 × 10⁻¹⁶ per metre.', held:'99.9999999% pressure capacity left at the centre; e = b = 0. Rock initially at rest.',
       worlds:['Equal squeeze · no net push','Stronger above · net push down'],
       outcomes:[['The pushes balance','The fluid squeezes from every side, but the opposing pushes cancel. Low q by itself supplies no direction to fall.'],['The downward push wins','Higher pressure above pushes down harder than lower pressure below pushes up. For this chosen slope, the difference gives about 8.99 m/s² downward.']],
       takeaway:'The rock falls because pressure pushes harder from the side away from the planet. q records how much static pressure remains; the difference across the rock gives the push a direction.',
@@ -60,7 +67,7 @@
     hair: {
       number:'05 / Attraction and repulsion', title:'Flip one charge. The hairs bend toward each other.',
       intro:'Start with two positively charged hair tips. They push apart. Now change only the right tip to negative: they attract. Their roots stay attached, so the free ends tend to bend toward each other. Here is the difference inside RCCM’s pressure picture.',
-      change:'Only the right tip’s charge: positive → negative.', held:'Left tip stays positive. Same starting shapes and charge magnitudes. Prescribed background q = 0.8; magnetic readings are zero.',
+      change:'Only the right tip’s charge: positive → negative.', held:'Left tip stays positive. Same starting shapes and charge magnitudes. Prescribed background: 80% pressure capacity left; magnetic readings are zero.',
       worlds:['Like charges · + and +','Opposite charges · + and −'],
       outcomes:[['Repulsion · apart','Higher interaction pressure between the like charges pushes them away from one another.'],['Attraction · together','Lower interaction pressure between opposite charges lets the surrounding pressure push them together.']],
       takeaway:'At the right tip, both matrices are identical: the positive left tip still supplies the same rightward electric field. But the right tip’s own charge has changed. Positive goes with the arrow; negative goes against it. That changes repulsion into attraction.',
@@ -100,12 +107,12 @@
         text(250,45,'A repeating motion','','middle')+cycles(119,8)+text(250,215,'count the cycles → tell the time','','middle'),
         'A quartz watch counts tiny vibrations. An atomic clock counts cycles in atoms. In RCCM, those atoms are organised patterns in the same fluid that fills the space around them.'],
       ['The star changes the clock’s surroundings','Two stationary rooms sit at different distances from a compact star. Less pressure capacity remains at the nearer room.',
-        '<circle cx="52" cy="143" r="49" fill="var(--elecbg)" stroke="var(--electric)" stroke-width="2"/><rect x="152" y="112" width="75" height="55" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><rect x="348" y="112" width="75" height="55" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>'+text(52,148,'star','label-small','middle')+text(189,146,'twin','','middle')+text(385,146,'you','','middle')+text(189,72,'nearer','label-small','middle')+text(385,72,'farther','label-small','middle')+text(189,220,'less left','label-small','middle')+text(385,220,'more left','label-small','middle')+'<rect x="151" y="184" width="76" height="12" fill="var(--capbg)"/><rect x="151" y="184" width="38" height="12" fill="var(--capacity)"/><rect x="347" y="184" width="76" height="12" fill="var(--capbg)"/><rect x="347" y="184" width="61" height="12" fill="var(--capacity)"/>',
+        '<circle cx="52" cy="143" r="49" fill="var(--elecbg)" stroke="var(--electric)" stroke-width="2"/><rect x="152" y="112" width="75" height="55" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><rect x="348" y="112" width="75" height="55" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>'+text(52,148,'star','label-small','middle')+text(189,146,'twin','','middle')+text(385,146,'you','','middle')+text(189,72,'nearer','label-small','middle')+text(385,72,'farther','label-small','middle')+text(189,220,'50% left','label-small','middle')+text(385,220,'80% left','label-small','middle')+'<rect x="151" y="184" width="76" height="12" fill="var(--capbg)"/><rect x="151" y="184" width="38" height="12" fill="var(--capacity)"/><rect x="347" y="184" width="76" height="12" fill="var(--capbg)"/><rect x="347" y="184" width="61" height="12" fill="var(--capacity)"/>',
         'The star’s circulating matter leaves less pressure capacity in nearby space. RCCM ties the pace of a particle’s internal cycles to that remaining capacity. Closer in, less remains, so your twin’s clock completes fewer cycles during the same shared interval.'],
       ['Compare the time you each lived','Elapsed time bars show one hour for you and about 47 minutes for your twin.',
         text(45,53,'During the same shared interval:')+text(45,103,'you','label-small')+'<rect x="137" y="78" width="300" height="36" rx="4" fill="var(--capbg)"/>'+text(287,103,'60 minutes','','middle')+text(45,170,'twin','label-small')+'<rect x="137" y="145" width="237" height="36" rx="4" fill="var(--capbg)"/>'+text(255,170,'47 minutes','','middle')+text(250,242,'Both watches work normally.','','middle'),
         'His watch and the processes in his body slow together compared with yours. He feels normal: his own second still feels like a second. You discover the difference by comparing elapsed time, with signal travel time accounted for.']
-    ],'<strong>Where it appears in the matrix:</strong> q is the fraction of pressure capacity left at that watch: 0.8 means 80%; 0.5 means 50%. The four green cells turn that one reading into rules for measuring time and distance. They contain <em>squared</em> scale factors. <a href="#clock-rulers">Bring a metre ruler as well as a watch →</a>');
+    ],'<strong>Where it appears in the matrix:</strong> q is the remaining pressure capacity: 80% at your watch; 50% at your twin’s. The four green cells turn that one reading into rules for measuring time and distance. Their percentages are weights for <em>squared</em> measurements. <a href="#clock-rulers">Bring a metre ruler as well as a watch →</a>');
   }
   function electricStory(){
     return causeCards('Why charged plates push the bead',[
@@ -208,7 +215,7 @@
   }
   const axes=['t','x','y','z'];
   function matrix(s,changed,mark='changes between A and B'){
-    let out='<div class="numeric-matrix" role="group" aria-label="Tensor matrix, basis time x y z"><div></div>'+axes.map(a=>`<div class="axis">${a}</div>`).join('');
+    let out='<div class="numeric-matrix" role="group" aria-label="Tensor matrix, basis time x y z; numeric diagonal weights shown as percentages"><div></div>'+axes.map(a=>`<div class="axis">${a}</div>`).join('');
     for(let i=0;i<16;i++){
       if(i%4===0)out+=`<div class="axis">${axes[i/4]}</div>`;
       const row=Math.floor(i/4),col=i%4;
@@ -216,12 +223,14 @@
       const active=changed.includes(i);
       const sign=s.cells[i].value<0?'negative':s.cells[i].value>0?'positive':'zero';
       const color=active||s.cells[i].value!==0?group:'';
-      out+=`<div class="numeric-cell ${color} ${active?'changed':''}" data-sign="${sign}" aria-label="${axes[row]} ${axes[col]}: ${s.cells[i].text}${active?'; '+mark:''}">${s.cells[i].text}</div>`;
+      const isPercentage=row===col&&!s.q.exact;
+      const displayed=isPercentage?percent(s.cells[i].value):s.cells[i].text;
+      out+=`<div class="numeric-cell ${color} ${active?'changed':''} ${displayed.length>7?'long-value':''}" data-sign="${sign}" title="Raw coefficient: ${s.cells[i].text}" aria-label="${axes[row]} ${axes[col]}: ${displayed}${isPercentage?'; raw coefficient '+s.cells[i].text:''}${active?'; '+mark:''}">${displayed}</div>`;
     }
     return out+'</div>';
   }
   let metricQ=.5;
-  const metricPresets=[[1,'Full capacity · 1'],[.8,'You · 0.8'],[.5,'Twin · 0.5'],[.25,'Quarter · 0.25'],[.001,'Space = 1000']];
+  const metricPresets=[[1,'100% · full'],[.8,'80% · you'],[.5,'50% · twin'],[.25,'25% · quarter'],[.001,'0.1% · almost none']];
   const rounded=n=>n.toLocaleString('en-US',{maximumFractionDigits:n>0&&n<.1?4:3});
   const measured=(n,unit)=>`${rounded(n)} ${unit}${n===1?'':'s'}`;
   function rulerPicture(s,owner){
@@ -238,8 +247,8 @@
   function metricDemo(){
     const s=M.state(M.capacity(metricQ)), scales=M.metricScales(s);
     return `<div class="demo-controls" aria-label="Remaining pressure capacity">${metricPresets.map(([q,label])=>`<button type="button" data-metric-q="${q}" aria-pressed="${q===metricQ}">${label}</button>`).join('')}</div>
-      <div class="metric-demo-pair"><div><p class="reading-location">One local state · q = ${metricQ}</p>${matrix(s,[0,5,10,15],'linked to the selected q')}<p class="reading-note">Electric and magnetic entries stay zero. The green cells move together.</p></div>
-      <div class="metric-readouts" aria-live="polite" aria-atomic="true"><p class="metric-clock"><strong>${measured(scales.clock,'second')}</strong><span>on the local watch during 1 reference second</span></p><p class="metric-length"><strong>${measured(scales.length,'metre')}</strong><span>on the local tape across 1 reference metre</span></p><p><strong>${measured(1/scales.length,'reference metre')}</strong><span>occupied on the map by one local metre ruler</span></p><p class="small">Rounded readings. Reference units belong to the shared map and timeline; local units belong to the watch and ruler at this location. At q = 1, they match.</p></div></div>`;
+      <div class="metric-demo-pair"><div><p class="reading-location">One local state · ${percent(metricQ)} pressure capacity left</p>${matrix(s,[0,5,10,15],'linked to the selected capacity')}<p class="reading-note">Green percentages weight squared measurements. Electric and magnetic entries stay zero.</p></div>
+      <div class="metric-readouts" aria-live="polite" aria-atomic="true"><p class="metric-clock"><strong>${percent(scales.clock)} clock pace</strong><span>${measured(scales.clock,'second')} on the local watch during 1 reference second</span></p><p class="metric-length"><strong>${measured(scales.length,'metre')}</strong><span>on the local tape across 1 reference metre · ${percent(scales.length)} of the map distance</span></p><p><strong>${percent(1/scales.length)} of a map metre</strong><span>occupied by one local metre ruler</span></p><p class="small">Clock pace is a percentage of the shared reference pace. Reference units belong to the shared map and timeline; local units belong to the watch and ruler here. With 100% capacity left, they match. Readings are rounded.</p></div></div>`;
   }
   function clockMeasures(){
     const pair=M.pair('clock');
@@ -247,22 +256,22 @@
       <div class="scene-number">Bring a ruler as well as a watch</div><h3 id="ruler-heading">Does your twin get more space?</h3>
       <p><strong>More measured distance across the same map gap, yes.</strong> Imagine mission control has a coordinate map covering both stations. It marks out the same small gap at each station: one “reference metre” on that map. You and your twin measure your gaps with identical metre rulers. Your tape reads <strong>1.118 m</strong>; his reads <strong>1.414 m</strong>.</p>
       <p>The diagram keeps the <em>map gap</em> fixed. His one-metre ruler covers less of the map, so more ruler-lengths fit into that gap. These are two ways to describe the same spatial scaling.</p>
-      <div class="explain-pair ruler-pair">${['a','b'].map((world,i)=>`<article><h4>${i===0?'You · q = 0.8':'Your twin · q = 0.5'}</h4><div class="world-stage">${rulerPicture(pair[world],i===0?'You':'Twin')}</div><p>${i===0?'Space-space = 1.25':'Space-space = 2'} → multiply map distances by ${i===0?'√1.25 ≈ 1.118':'√2 ≈ 1.414'}.</p></article>`).join('')}</div>
+      <div class="explain-pair ruler-pair">${['a','b'].map((world,i)=>`<article><h4>${i===0?'You · 80% capacity left':'Your twin · 50% capacity left'}</h4><div class="world-stage">${rulerPicture(pair[world],i===0?'You':'Twin')}</div><p>${i===0?'125% spatial weight → 111.8% distance scale':'200% spatial weight → 141.4% distance scale'}. The square root connects the two.</p></article>`).join('')}</div>
       <p>A room built to measure three of <em>his local metres</em> across still measures three metres to him. Its size on the shared map would differ from yours. We must say which size we are keeping fixed. <strong>The rising space number is not a conversion of lost time into extra rooms.</strong></p>
-      <div class="metric-explanation"><h4>Why the square root?</h4><p>The cell multiplies a <em>squared</em> distance. If space-space is 2, it doubles distance-squared. The distance itself grows by about 1.414, because 1.414 × 1.414 ≈ 2. For comparison, a CSS <code>scaleX(2)</code> doubles a length directly; that would give a squared-length weight of 4.</p>
+      <div class="metric-explanation"><h4>Why the square root?</h4><p>The cell multiplies a <em>squared</em> distance. A 200% spatial weight doubles distance-squared. The distance itself becomes about 141.4% of the map distance: the square root turns a factor of 2 into about 1.414. For comparison, a CSS <code>scaleX(2)</code> doubles a length directly; that would give a squared-length weight of 400%.</p>
       <p class="metric-rule">Local distance = map distance × √(space-space)</p>
-      <h4>Why does −0.8 give more time than −0.5?</h4><p>The minus sign marks how time enters the spacetime measurement rule: its squared contribution is subtracted, while the spatial contributions are added. It does <em>not</em> mean the watch runs backwards. The amount comes from the magnitude: 0.8 is larger than 0.5.</p>
+      <h4>Why does −80% give more time than −50%?</h4><p>The minus sign marks how time enters the spacetime measurement rule: its squared contribution is subtracted, while the spatial contributions are added. It does <em>not</em> mean the watch runs backwards. The amount comes from the magnitude: 80% is larger than 50%.</p>
       <p class="metric-rule">Local elapsed time = reference elapsed time × √(−time-time)</p>
-      <p>During one second on the shared reference timeline, your watch gains √0.8 ≈ <strong>0.894 seconds</strong>; his gains √0.5 ≈ <strong>0.707 seconds</strong>. That is the same ratio as your 60 minutes against his 47 minutes. “More negative” means a larger magnitude here, and therefore a faster clock relative to that timeline.</p></div>
+      <p>Your <strong>80% capacity</strong> gives about <strong>89.4% clock pace</strong>. His <strong>50% capacity</strong> gives about <strong>70.7% clock pace</strong>. The square root connects capacity to pace. During one reference second, your watch gains 0.894 seconds; his gains 0.707. That is the same ratio as your 60 minutes against his 47 minutes.</p></div>
       <div class="metric-playground"><h4>One capacity reading. Four linked cells.</h4><p>Time-time is −q. Each space-space cell is 1/q. Lower q makes clocks slower relative to the reference timeline and increases the measured distance across a fixed map gap. In this model, those changes are tied together.</p><div id="metric-demo">${metricDemo()}</div></div>
       <section class="metric-limits" id="clock-limits" aria-labelledby="limits-heading"><h4 id="limits-heading">What about zero, negative, or 1000?</h4>
-      <p>For this displayed RCCM frame and a remaining pressure fraction <strong>0 &lt; q ≤ 1</strong>, time-time runs from −1 up toward 0; each space-space entry runs from 1 upward. You cannot choose those four entries independently.</p>
+      <p>For this displayed RCCM frame, remaining pressure capacity must be <strong>above 0% and at most 100%</strong>. Time-time runs from −100% up toward 0%; each space-space weight runs from 100% upward. You cannot choose those four entries independently.</p>
       <dl class="limit-list">
       <div><dt>Time-time approaches 0 from below</dt><dd>The local clock rate approaches zero relative to the reference timeline. The spatial weights grow without bound. A twin at any allowed q still experiences his own watch normally.</dd></div>
-      <div><dt>Time-time = 0 exactly</dt><dd>That requires q = 0, so every spatial entry would be 1/0. This formula no longer gives a finite matrix. It is a limit of this description, not a valid “frozen twin” state. These entries alone do not establish a physical singularity.</dd></div>
+      <div><dt>Time-time = 0 exactly</dt><dd>That requires 0% capacity left, so calculating each spatial entry would require division by zero. This formula no longer gives a finite matrix. It is a limit of this description, not a valid “frozen twin” state. These entries alone do not establish a physical singularity.</dd></div>
       <div><dt>Time-time &gt; 0</dt><dd>With time-time = −q and the signs used here, that requires negative q. It lies outside the remaining-capacity states used by this model. It does not mean time reversal.</dd></div>
       <div><dt>Space-space = 0 or is negative</dt><dd>No finite positive q produces either value through 1/q. Setting a spatial diagonal to zero by hand would make this diagonal metric unable to measure distance along that axis; it would break the stated model. A negative entry is not “negative metres.”</dd></div>
-      <div><dt>Space-space = 1000</dt><dd>This is allowed by the formula: q = 0.001, time-time = −0.001, and <em>all three</em> spatial entries are 1000. The clock runs at about 0.0316 of the reference pace; one map metre measures about 31.62 local metres. These numbers describe a chosen extreme input, not a constructed star or room.</dd></div>
+      <div><dt>Space-space = 1000 ×</dt><dd>This is allowed by the formula: just <strong>0.1% capacity left</strong>. Time-time is −0.1%, and <em>all three</em> spatial weights are 100,000% (a factor of 1000). The clock runs at about 3.16% of the reference pace; one map metre measures about 31.62 local metres. These numbers describe a chosen extreme input, not a constructed star or room.</dd></div>
       </dl><p class="small">Sign convention: you can rewrite the entire metric with all signs reversed and adjust the interval convention consistently. That describes the same geometry. Changing one entry alone is a different operation; the limits above use the fixed signs shown in this guide.</p></section>
       <details class="story-method"><summary>How the two scale factors fit together</summary><p>GfX §15.2 gives light’s coordinate speed as c × q. Converting with the local rulers and clocks gives (c × q) × (1/√q) ÷ √q = c. The changed clock and ruler scales remain consistent with the same locally measured light speed. This is a consistency check of the stated metric, not an independent derivation of why the spatial weight must be 1/q.</p><p>Only the symmetric part S contributes to squared intervals: the antisymmetric part cancels when contracted with the same displacement twice. In this clock scene all off-diagonal entries are already zero. These local measurement factors do not determine an extended region’s curvature or total volume from one sample.</p></details>
     </section>`;
@@ -277,7 +286,7 @@
       text(352,170,'x · right','label-small')+text(160,22,'y · up','label-small','middle')+text(303,251,'z · toward you','label-small')+text(98,191,'sample','label-small');
     const entries=state.e.flatMap((v,i)=>v!==0?[i+1,(i+1)*4]:[]);
     const labels=['eₓ','eᵧ','e<sub>z</sub>'], descriptions=['right (+) / left (−)','up (+) / down (−)','toward you (+) / away (−)'];
-    document.getElementById('electric-vector-demo').innerHTML=`<div class="demo-controls" aria-label="Electric field direction">${Object.entries(directionNames).map(([id,label])=>`<button type="button" data-electric-direction="${id}" aria-pressed="${id===electricDirection}">${label}</button>`).join('')}</div><div class="explain-pair vector-demo"><div><div class="world-stage">${svg(`Electric field direction: ${directionNames[electricDirection]}.`,drawing)}</div><div class="component-readings">${state.e.map((v,i)=>`<p><strong>${labels[i]} = ${v}</strong><span>${descriptions[i]}</span></p>`).join('')}</div><p class="small">Same field strength in 3D; only its direction changes. q stays 0.8 and all magnetic entries stay zero. This is a perspective sketch, so arrow length on the page varies.</p></div><div><p class="reading-location">At this one sample location</p>${matrix(state,entries,'active electric component')}<p class="reading-note">${entries.length} amber cells describe ${entries.length/2} nonzero direction component${entries.length===2?'':'s'}. The sign within each pair is fixed by the tensor’s construction.</p></div></div>`;
+    document.getElementById('electric-vector-demo').innerHTML=`<div class="demo-controls" aria-label="Electric field direction">${Object.entries(directionNames).map(([id,label])=>`<button type="button" data-electric-direction="${id}" aria-pressed="${id===electricDirection}">${label}</button>`).join('')}</div><div class="explain-pair vector-demo"><div><div class="world-stage">${svg(`Electric field direction: ${directionNames[electricDirection]}.`,drawing)}</div><div class="component-readings">${state.e.map((v,i)=>`<p><strong>${labels[i]} = ${v}</strong><span>${descriptions[i]}</span></p>`).join('')}</div><p class="small">Same field strength in 3D; only its direction changes. Pressure capacity stays at 80% and all magnetic entries stay zero. This is a perspective sketch, so arrow length on the page varies.</p></div><div><p class="reading-location">At this one sample location</p>${matrix(state,entries,'active electric component')}<p class="reading-note">${entries.length} amber cells describe ${entries.length/2} nonzero direction component${entries.length===2?'':'s'}. The sign within each pair is fixed by the tensor’s construction. Green diagonal weights use percentages.</p></div></div>`;
   }
   let cssChoice='translate';
   const cssExamples={
@@ -313,10 +322,10 @@
     return scene==='clock'?'Local state · at the clock':'Applied field · at the bead';
   }
   function readingNote(s){
-    if(scene==='falling')return `${s.q.label} = ${s.q.text} exactly. The spatial entries are its reciprocal.`;
-    if(scene==='clock')return `q = ${s.q.text}; all six directional components are zero.`;
-    if(scene==='compass')return `q = 0.8; bᵧ = ${s.b[1]>0?'+':''}${s.b[1]}; all other directional components are zero.`;
-    return `q = 0.8; eₓ = ${s.e[0]>0?'+':''}${s.e[0]}; all other directional components are zero.`;
+    if(scene==='falling')return `${capacityLabel(s.q)} pressure capacity left, exactly (${s.q.label}). The spatial entries are its reciprocal.`;
+    if(scene==='clock')return `${percent(s.q.value)} pressure capacity left; all six directional components are zero.`;
+    if(scene==='compass')return `${percent(s.q.value)} pressure capacity left; bᵧ = ${s.b[1]>0?'+':''}${s.b[1]}; all other directional components are zero.`;
+    return `${percent(s.q.value)} pressure capacity left; eₓ = ${s.e[0]>0?'+':''}${s.e[0]}; all other directional components are zero.`;
   }
   function draw(){
     const story=stories[scene], pair=M.pair(scene,sample), choices=sampleChoices();
@@ -327,7 +336,7 @@
       <div class="worlds">${['a','b'].map((world,i)=>{
         const s=pair[world];return `<article class="world"><div class="world-header"><div class="world-letter">${world.toUpperCase()}</div><h4>${story.worlds[i]}</h4></div><div class="world-stage">${picture(world,s)}</div><div class="outcome"><h4>${story.outcomes[i][0]}</h4><p>${story.outcomes[i][1]}</p></div><div class="reading-header"><p class="reading-location">${readingLocation()}</p><p>Û${world.toUpperCase()}</p></div>${matrix(s,pair.changed)}<p class="reading-note">${readingNote(s)}</p></article>`;
       }).join('')}</div>
-      <p class="diff-legend"><span class="diff-symbol" aria-hidden="true"></span>${pair.changed.length?`${pair.changed.length} outlined cells change between A and B at this sample.`:'No matrix cells change at this sample.'} ${scene==='falling'&&sample==='center'?'Now compare the readings above and below.':''} All matrix entries are dimensionless.</p>
+      <p class="diff-legend"><span class="diff-symbol" aria-hidden="true"></span>${pair.changed.length?`${pair.changed.length} outlined cells change between A and B at this sample.`:'No matrix cells change at this sample.'} ${scene==='falling'&&sample==='center'?'Now compare the readings above and below.':''} All matrix entries are dimensionless.${scene==='falling'?' Exact capacities are kept below the matrices so the tiny differences remain visible.':' Green weights use percentages: −80% = −0.8; 125% = 1.25. Hover a cell for its raw coefficient.'}</p>
       <div class="sign-key" aria-label="Cell sign legend"><span><span class="sign-swatch sign-positive" aria-hidden="true">+</span> Positive · dark on light</span><span><span class="sign-swatch sign-negative" aria-hidden="true">−</span> Negative · light on dark</span><span><span class="sign-swatch sign-zero" aria-hidden="true">0</span> Zero · neutral</span></div>
       <p class="takeaway">${story.takeaway}</p>
       ${scene==='clock'?clockMeasures():''}
