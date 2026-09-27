@@ -35,7 +35,7 @@
     objects.push({z:bead[2]+.03,html:`<circle cx="${f(bead[0])}" cy="${f(bead[1])}" r="8" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>`});
     const axis=project([0,0,2.1],a,b);
     const label=mode==='both'?(h===1?'Reference handedness':'Mirror handedness'):'One planar circulation';
-    return `<svg viewBox="0 0 500 400" role="img" aria-label="${reference?'Reference':'Manipulated'} torus winding. ${label}. Object tilt ${a} degrees, turn ${b} degrees. Flow ${d===1?'forward':'reversed'}. Wire torus is a transparent guide; the thick path passes over and under itself in projection.">
+    return `<svg viewBox="0 0 500 400" role="img" aria-label="${reference?'Reference':'Manipulated'} torus winding. ${label}. Object tilt ${a} degrees, turn ${b} degrees. Flow ${d===1?'forward':'reversed'}. Wire torus is a transparent guide; ${mode==='both'?'the thick path passes over and under itself in projection':'the thick path is one planar loop'}.">
       <ellipse cx="250" cy="365" rx="140" ry="11" fill="var(--ink)" opacity=".05"/>
       <g opacity=".28">${wire.map(p=>stroke(p,'var(--muted)',1)).join('')}</g>
       ${arrow([250,195],axis,'var(--muted)',1.5)}${objects.sort((x,y)=>x.z-y.z).map(p=>p.html).join('')}
@@ -48,7 +48,7 @@
     document.getElementById('winding-object').innerHTML=windingSvg(tilt,yaw,hand,flow);
     const combined=mode==='both';
     document.getElementById('winding-status').textContent=combined?(hand===1?'Same handedness as the reference.':'Opposite handedness: the mirror pattern.'):'A single loop supplies an axis; it does not supply this knot’s handedness.';
-    document.getElementById('winding-motion').textContent=combined?`Follow the arrows: ${flow*2} turns around the hole; ${flow*hand*3} around the tube. The signs use directions attached to the doughnut.`:'Move the bead with the slider to see which hole this loop goes around.';
+    document.getElementById('winding-motion').textContent=combined?`Compared with the reference: hole circulation ${flow===1?'unchanged':'reversed'}; tube circulation ${flow*hand===1?'unchanged':'reversed'}. These directions belong to the doughnut, even when it turns.`:'Move the bead with the slider to see which hole this loop goes around.';
     document.getElementById('winding-operation').textContent=!combined?'This is one planar loop. Turn it over: its apparent clockwise sense changes, without changing the object into a different kind of charge.':flow===-1?'All flow arrows reversed. The bead retraces the same path; reversing both windings leaves its handedness unchanged.':hand===-1?'One winding reversed. This loads a different, mirrored path; turning the whole object cannot produce it.':'Turn or tilt the whole object. Its axis moves, while the winding relationship stays the same.';
     lab.querySelectorAll('[data-winding-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.windingMode===mode)));
     document.getElementById('winding-mirror').setAttribute('aria-pressed',String(hand===-1));

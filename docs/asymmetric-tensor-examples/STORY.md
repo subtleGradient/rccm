@@ -4,6 +4,43 @@ An educational application of [storytelling](/Users/tom/.agents/skills/storytell
 and [story-golf](/Users/tom/.agents/skills/story-golf/SKILL.md) for Tom. Scores
 below are editorial hypotheses, not measurements of his cognition or skill.
 
+## Revision: a picture must survive being turned over
+
+Tom rejected the planar facing-flow account because turning one depicted
+object could reverse the flow comparison without changing its charge. That is
+a correct test of the illustration's missing invariant. His request is to
+retain enough 3D structure to reason spatially, rather than replacing that
+structure with reassuring words or a simplified circle.
+
+Story: Turn the whole hose; keep its winding relationship.
+
+- Target: Tom, testing the mechanism by mentally rotating the objects.
+- Exact message: Pose, internal winding relationship and external electric charge are separate; an explanation must connect them without making charge depend on pose.
+- Promised outcome: Manipulate a genuine 3D winding and distinguish a rotation from a mirror pattern or reversed motion.
+- Required belief: Follow a geometric example and a separately prescribed point-charge field; neither is claimed to derive the other.
+- Required action: Isolate each torus cycle, turn the combined path, reverse one winding, then reverse all flow.
+- Axis scores: Translation Tax 2; Identity Threat 1; Causal Friction 2; Apathy Risk 1; Trust Burden 0.
+- Total score: 6/25, an editorial hypothesis awaiting feedback.
+- Verdict: Viable for the geometry question; the microscopic source-to-field mechanism remains open in the inspected derivation.
+- Highest-friction axis: Translation Tax and Causal Friction, tied.
+- HiddenNegativeDebt: The earlier diagram lost a physical invariance and overstated its explanatory reach. Repair the diagram and the claim, not the learner's intuition.
+- Mutation ideas: Screw handedness; a closed hose with two circulations; a linked-loop picture. Selected the closed hose and an actual trefoil winding because they expose both torus cycles and preserve over/under structure under rotation.
+
+The reference object keeps its pose while the second can be turned and tipped.
+An opaque path with depth-sorted crossings sits on a transparent torus guide.
+The bead is a movable path marker, not a simulated material particle evolving
+through physical time. Reversing all flow changes arrows without moving the
+marker. No autoplay or result reveal is used. A mirror-pattern button compares
+different configurations; it does not animate a physical charge-conversion
+process or imply that opposite trefoils are positive and negative charges.
+
+The old facing arrows were removed. The pressure illustrations now describe
+the proposed unequal-squeeze step without claiming to construct the internal
+flows for all orientations. The source gap is visible in the page and detailed
+in `docs/charge-rotation-audit.md`. Verification covers proper rotations rather
+than accidental reflections, torus membership and closure, mirror geometry,
+whole-flow retracing, and covariance of a separate point-charge exterior.
+
 ## Revision: bring rulers into the twin story
 
 Tom's next question showed that the watches supplied a usable human setting,
@@ -106,10 +143,10 @@ Other scenes use alternative initial conditions, not consecutive frames:
 
 | Scene | Causal route | Concrete payoff |
 | --- | --- | --- |
-| Electric bead | Facing circulation changes interaction pressure → like charges repel and unlike attract → both plate contributions point the same way | Swap plate charges; the bead starts the other way |
+| Electric bead | Proposed interaction pressure → unequal squeeze → both plate contributions point the same way; microscopic orientation invariance remains to derive | Swap plate charges; the bead starts the other way |
 | Compass | Internal magnetic directions reinforce → the external field exerts distributed forces with a net twist → the pin permits rotation | Same initial needle; reversed field; opposite initial turn |
 | Falling | Persistent circulation occupies the pressure budget → less static pressure remains near mass → unequal ambient pushes | Identical centre reading can accompany different acceleration |
-| Hair | Flip the right charge → facing circulation changes interaction pressure → mutual forces reverse | Repulsion becomes attraction; the same applied field at the right tip meets a different responding charge |
+| Hair | Change the right charge's sign → the proposed pressure pattern and declared Coulomb response reverse | Repulsion becomes attraction; the same applied field at the right tip meets a different responding charge |
 
 ## Retention, payoff and distribution
 

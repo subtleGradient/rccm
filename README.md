@@ -91,8 +91,8 @@ a meaningful comparison. The revised clock shows an hour for one twin against
 about 47 minutes for the other in an explicitly exaggerated, supported-station
 setting. The original symbol guide remains available below. The
 [story brief](docs/asymmetric-tensor-examples/STORY.md) records the teaching
-choices and declared response fixtures; the fixtures have eight focused Node
-checks (`node --test docs/asymmetric-tensor-examples/model.test.cjs`).
+choices and declared response fixtures; the fixtures have twelve focused Node
+checks (`node --test docs/asymmetric-tensor-examples/*.test.cjs`).
 
 The twin comparison now includes rulers as well as watches. Tom could connect
 lower q to slower internal cycles, but the reciprocal spatial entries raised a
@@ -111,6 +111,19 @@ lead with “80% left” and “50% left”; numeric diagonal weights also use
 percentages, with raw coefficients available on hover. Keep capacity and actual
 clock pace distinct: 80% capacity gives about 89.4% of the reference clock pace.
 Exact gravity capacities retain enough digits to expose the spatial difference.
+
+The [3D winding comparison](docs/asymmetric-tensor-cheat-sheet.html#charge-rotation)
+addresses Tom's next counterexample: a planar circulation picture can reverse
+its apparent spin when turned over, although electric charge cannot change
+under that rotation. A closed hose supplies two distinct circulations, around
+its central hole and around its tube. An actual (2,3) torus-knot fixture
+separates proper spatial rotation, one-winding reversal and whole-flow reversal.
+It demonstrates handedness without identifying the trefoil as an RCCM electron
+or identifying helicity with charge. A separate prescribed radial exterior
+shows the point-charge field that the microscopic construction must recover.
+The [source audit](docs/charge-rotation-audit.md) records the independently
+rotated-core gap, parity versus charge conjugation, and the missing boundary
+data for Condensed's closed-surface curl charge formula.
 
 The electric route now changes one hair’s charge to turn repulsion into
 attraction. At the right tip, the applied field stays fixed while reversing
@@ -583,6 +596,17 @@ Then use opposite signs and ask which side presses harder when gap pressure
 falls. This is RCCM's proposed mechanism, not a general theorem about two
 ordinary vortices; internal handedness is not bodily orientation. No charge
 probe response has yet established the user's next inference.
+
+A later visual-guide exchange provides a sharper probe: Tom independently
+tests the facing-flow account by rotating one object in 3D and notices that
+the drawing would incorrectly change its charge classification. Preserve this
+invariance test as an observed strength. The learning route now needs spatial
+rotation versus reflection, axis direction versus handedness, and internal
+structure versus external charge field before a stronger microscopic causal
+claim. The new torus-knot comparison is geometry; the source still has to
+construct the corresponding charged exterior and orientation-independent
+leading electric interaction. An intuitive pressure explanation alone has
+not closed that gap.
 
 The user now predicts attraction from the reinforcing-flow case and calls
 it intuitive. They extend this to shape-dependent annihilation and atomic
