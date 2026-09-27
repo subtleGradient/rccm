@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtaulab_metal.a CMakeFiles/taulab_metal.dir/src/metal_solver.mm.o
+/usr/bin/ranlib libtaulab_metal.a

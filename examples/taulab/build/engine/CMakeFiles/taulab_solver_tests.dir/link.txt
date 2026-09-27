@@ -1,0 +1,1 @@
+/usr/bin/c++ -O2 -g -DNDEBUG -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/taulab_solver_tests.dir/tests/solver_tests.cpp.o -o taulab_solver_tests  libtaulab_reference.a

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtaulab_reference.a CMakeFiles/taulab_reference.dir/src/solver.cpp.o
+/usr/bin/ranlib libtaulab_reference.a

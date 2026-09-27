@@ -1,0 +1,35 @@
+Start testing: Jul 30 08:36 EDT
+----------------------------------------------------------
+1/2 Testing: taulab_solver_tests
+1/2 Test: taulab_solver_tests
+Command: "/Users/tom/Library/Mobile Documents/com~apple~CloudDocs/RCCM/taulab/build/engine/taulab_solver_tests"
+Directory: /Users/tom/Library/Mobile Documents/com~apple~CloudDocs/RCCM/taulab/build/engine
+"taulab_solver_tests" start time: Jul 30 08:36 EDT
+Output:
+----------------------------------------------------------
+All TauLab reference-solver tests passed
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"taulab_solver_tests" end time: Jul 30 08:36 EDT
+"taulab_solver_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: taulab_demo_tests
+2/2 Test: taulab_demo_tests
+Command: "/Users/tom/Library/Mobile Documents/com~apple~CloudDocs/RCCM/taulab/build/engine/taulab_demo_tests"
+Directory: /Users/tom/Library/Mobile Documents/com~apple~CloudDocs/RCCM/taulab/build/engine
+"taulab_demo_tests" start time: Jul 30 08:36 EDT
+Output:
+----------------------------------------------------------
+All TauLab executable-demo tests passed
+<end of output>
+Test time =   0.58 sec
+----------------------------------------------------------
+Test Passed.
+"taulab_demo_tests" end time: Jul 30 08:36 EDT
+"taulab_demo_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 30 08:36 EDT

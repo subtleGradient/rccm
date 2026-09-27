@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names "CMakeFiles/taulab-demo.dir/src/demo_main.cpp.o" -o taulab-demo  libtaulab_demo.a libtaulab_reference.a libtaulab_metal.a -framework Foundation -framework Metal

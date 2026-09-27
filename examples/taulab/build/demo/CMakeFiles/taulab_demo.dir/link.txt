@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtaulab_demo.a CMakeFiles/taulab_demo.dir/src/demo.cpp.o
+/usr/bin/ranlib libtaulab_demo.a

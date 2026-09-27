@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/taulab_metal_tests.dir/tests/metal_solver_tests.cpp.o -o taulab_metal_tests  libtaulab_reference.a libtaulab_metal.a -framework Foundation -framework Metal
