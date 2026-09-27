@@ -125,6 +125,15 @@ The [source audit](docs/charge-rotation-audit.md) records the independently
 rotated-core gap, parity versus charge conjugation, and the missing boundary
 data for Condensed's closed-surface curl charge formula.
 
+The guide is public at
+[asymmetric-tensor-guide.subtlegradient.chatgpt.site](https://asymmetric-tensor-guide.subtlegradient.chatgpt.site).
+Run `node docs/asymmetric-tensor-examples/prepare-site.mjs` to prepare its
+explicit public file set and verify local references. The isolated Sites
+checkout and persistent project identity live in
+`.sites/asymmetric-tensor-guide/.openai/hosting.json`; reuse that Site when
+publishing updates. The public package contains the guide, its assets and the
+focused source audit. Manuscripts and learning journals are not published.
+
 The electric route now changes one hair’s charge to turn repulsion into
 attraction. At the right tip, the applied field stays fixed while reversing
 that tip’s charge reverses its force. This

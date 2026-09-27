@@ -1,10 +1,10 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const checkout = path.join(root, '.sites/asymmetric-tensor-guide');
-const publicDir = path.join(checkout, 'public');
+const publicDir = path.join(checkout, 'dist');
 const files = [
   'docs/asymmetric-tensor-cheat-sheet.html',
   'docs/asymmetric-tensor-examples/examples.css',
@@ -13,17 +13,28 @@ const files = [
   'docs/asymmetric-tensor-examples/charge-geometry.js',
   'docs/asymmetric-tensor-examples/charge-topology.js',
   'docs/charge-rotation-audit.md',
-  'RCCM-GfX-2.tex',
-  'RCCM-GfX-2.html',
-  'RCCM-Condensed.tex',
 ];
+
+// Manuscripts are separate from the authorized public learning guide.
+for (const file of ['RCCM-GfX-2.tex', 'RCCM-GfX-2.html', 'RCCM-Condensed.tex']) {
+  const destination = path.join(publicDir, file);
+  if (existsSync(destination)) unlinkSync(destination);
+}
+function publicText(text) {
+  return text
+    .replace(/<a href="\.\.\/RCCM-(?:GfX-2|Condensed)\.(?:tex|html)">([\s\S]*?)<\/a>/g,
+      (_, label) => label === 'Open the reading copy'
+        ? 'The source manuscripts are not included in this public copy'
+        : `<span class="source-title">${label}</span>`)
+    .replace(/\[([^\]]+)\]\(\.\.\/RCCM-(?:GfX-2|Condensed)\.tex\)/g, '$1');
+}
 
 // Publish an explicit reading-package allowlist, never the learning journal
 // or the surrounding repository. Keep the original deep-link path available.
 for (const file of files) {
   const destination = path.join(publicDir, file);
   mkdirSync(path.dirname(destination), { recursive: true });
-  copyFileSync(path.join(root, file), destination);
+  writeFileSync(destination, publicText(readFileSync(path.join(root, file), 'utf8')));
 }
 const guide = readFileSync(path.join(publicDir, files[0]), 'utf8');
 writeFileSync(path.join(publicDir, 'index.html'), guide
