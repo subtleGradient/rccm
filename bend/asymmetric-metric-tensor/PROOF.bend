@@ -56,7 +56,7 @@ def Laws.negate_negative(p):
 
 def Laws.negate_twice(value):
   match value:
-    case Exact.Zero{}:
+    case Exact.SignedZero{}:
       {==}
     case Exact.Positive{p}:
       {==}

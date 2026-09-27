@@ -17,7 +17,7 @@ def fraction(n: Nat, denominator_predecessor: Nat) -> Q:
 
 def from_signed(value: Exact.Signed) -> Q:
   match value:
-    case Exact.Zero{}:
+    case Exact.SignedZero{}:
       zero()
     case Exact.Positive{p}:
       Fraction{1n+p, 0n, 0n}

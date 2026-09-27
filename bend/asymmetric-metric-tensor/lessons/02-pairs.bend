@@ -4,7 +4,7 @@ import ../tensor.bend as Tensor
 
 def signed_name(value: Exact.Signed) -> String:
   match value:
-    case Exact.Zero{}:
+    case Exact.SignedZero{}:
       "0"
     case Exact.Positive{p}:
       "+" ++ Nat.show(1n+p)

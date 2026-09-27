@@ -113,7 +113,7 @@ conversion from `Nat`, and negation. It reuses Bend's natural numbers:
 
 ```python
 type Signed is Data:
-  Zero{}
+  SignedZero{}
   Positive{predecessor: Nat}
   Negative{predecessor: Nat}
 ```
@@ -126,7 +126,7 @@ for you. This choice ensures there is **one zero**, not competing `+0` and
 Negation preserves magnitude and crosses the sign boundary:
 
 ```text
-Zero{}       -> Zero{}
+SignedZero{}       -> SignedZero{}
 Positive{p}  -> Negative{p}
 Negative{p}  -> Positive{p}
 ```
