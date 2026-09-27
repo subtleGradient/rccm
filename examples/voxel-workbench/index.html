@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Voxel workbench · 02</title>
+  <title>Voxel workbench · 03</title>
   <link rel="icon" href="data:,">
   <link rel="preload" href="../voxel-tank/vendor/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="workbench.css">
@@ -16,7 +16,7 @@
     <header class="document-bar">
       <i class="icon cube" aria-hidden="true"></i>
       <h1>Voxel workbench</h1>
-      <div class="study-number">02 / Fluid volume</div>
+      <div class="study-number">03 / Outline → field</div>
     </header>
 
     <div id="tank-area" aria-hidden="true">
@@ -40,9 +40,17 @@
           <div class="layer-name">Voxel tank</div>
           <div id="layer-resolution" class="layer-meta">12 × 8 × 1</div>
         </div>
-        <div class="empty-layers">
-          <div class="empty-title">No objects yet</div>
-          <p>Room for your matter layers.</p>
+        <div class="element-layer">
+          <button type="button" id="toggle-sphere" class="icon-button" aria-label="Include mass sphere" aria-pressed="true" title="Include or exclude this element"><i class="icon eye" aria-hidden="true"></i></button>
+          <button type="button" id="select-sphere" class="element-name" aria-pressed="true"><i class="outline-sphere" aria-hidden="true"></i><span>Mass sphere</span><span class="layer-meta">Outline</span></button>
+        </div>
+        <div class="element-properties">
+          <div id="sphere-position">X −1.60 · Y 0.40</div>
+          <button type="button" id="reset-sphere">Reset</button>
+        </div>
+        <div class="field-legend">
+          <div class="capacity-ramp" aria-hidden="true"></div>
+          <div>q = 1<span>Lower capacity → denser ink</span></div>
         </div>
       </section>
 
@@ -62,14 +70,14 @@
           <dl class="state-values">
             <div><dt id="capacity-label">Capacity · q</dt><dd id="capacity-value">1.000</dd></div>
             <div><dt id="weight-label">Spatial weight · 1/q</dt><dd id="weight-value">1.000</dd></div>
-            <div><dt id="slip-label">Slip · e</dt><dd>0, 0, 0</dd></div>
-            <div><dt id="twist-label">Twist · b</dt><dd>0, 0, 0</dd></div>
+            <div><dt id="slip-label">Slip · e</dt><dd id="slip-value">0, 0, 0</dd></div>
+            <div><dt id="twist-label">Twist · b</dt><dd id="twist-value">0, 0, 0</dd></div>
           </dl>
           <p id="state-note" class="state-note">Unperturbed vacuum. No matter layers.</p>
         </div>
         <p id="empty-selection" class="empty-selection" hidden>Use the voxel inspector to select one cell, or two to compare.</p>
       </section>
-      <div class="panel-footnote">Fluid volume · visual study 02</div>
+      <div class="panel-footnote">Outline elements → sampled tensor → fluid</div>
     </aside>
 
     <div class="bottom-area">

@@ -1,16 +1,19 @@
-import { assemble } from '../voxel-tank/math.mjs';
 import { createTankView } from './tank-view.js';
+import { rasterize, voxelIndex } from './fields.mjs';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('scene');
 const tank = $('tank-area');
 const resolution = { x: 12, y: 8, z: 1 };
-const vacuum = { q: 1, e: [0, 0, 0], b: [0, 0, 0] };
-const stateAt = () => vacuum; // Empty scene. Source fields will enter at this boundary.
+const elements = [{ id: 'mass-sphere', center: [-1.6, .4, 0], radius: 1.55, gravityRadius: .124, enabled: true }];
+let raster = rasterize(elements, resolution);
+const stateAt = (address) => raster.cells[voxelIndex(address, resolution)];
 let selection = [{ x: 5, y: 3, z: 0 }];
 let cursor = { ...selection[0] };
 let hover = null;
-let activeTool = 'inspect';
+let activeTool = 'pointer';
+let selectedElement = elements[0].id;
+let drag = null;
 let visible = true;
 let view;
 const same = (a, b) => a && b && a.x === b.x && a.y === b.y && a.z === b.z;
@@ -19,6 +22,8 @@ const format = (n) => Math.abs(n) < 1e-10 ? '0.000' : n.toFixed(3).replace('-', 
 
 try {
   view = createTankView(canvas, $('selection-marks'));
+  view.updateRaster(raster);
+  view.updateElements(elements, selectedElement);
 } catch {
   $('render-error').hidden = false;
 }
@@ -36,19 +41,23 @@ function inspect() {
   $('clear-selection').disabled = !selection.length;
   if (selection.length) {
     const a = stateAt(selection[0]);
-    const first = assemble(a);
+    const first = a.matrix;
     const comparing = selection.length === 2;
     const b = comparing ? stateAt(selection[1]) : null;
-    const second = comparing ? assemble(b) : null;
+    const second = comparing ? b.matrix : null;
     const matrix = comparing ? second.map((row, i) => row.map((value, j) => value - first[i][j])) : first;
-    $('matrix-name').textContent = comparing ? 'ΔÛ · B − A' : 'Û · Voxel A';
+    $('matrix-name').textContent = comparing ? 'Δ⟨Û⟩ · B − A' : '⟨Û⟩ · Voxel A';
     $('matrix-values').innerHTML = matrix.map((row, i) => `<tr><th scope="row">${'txyz'[i]}</th>${row.map((value, j) => `<td class="${i === j ? 'diagonal' : ''}">${format(value)}</td>`).join('')}</tr>`).join('');
     $('capacity-value').textContent = format(comparing ? b.q - a.q : a.q);
-    $('weight-value').textContent = format(comparing ? 1 / b.q - 1 / a.q : 1 / a.q);
-    for (const [id, label] of [['capacity', 'Capacity · q'], ['weight', 'Spatial weight · 1/q'], ['slip', 'Slip · e'], ['twist', 'Twist · b']]) {
+    $('weight-value').textContent = format(comparing ? b.inverseQ - a.inverseQ : a.inverseQ);
+    for (const channel of ['e', 'b']) {
+      const values = comparing ? b[channel].map((value, axis) => value - a[channel][axis]) : a[channel];
+      $(channel === 'e' ? 'slip-value' : 'twist-value').textContent = values.map((value) => format(value)).join(', ');
+    }
+    for (const [id, label] of [['capacity', 'Capacity · ⟨q⟩'], ['weight', 'Spatial weight · ⟨1/q⟩'], ['slip', 'Slip · ⟨e⟩'], ['twist', 'Twist · ⟨b⟩']]) {
       $(`${id}-label`).textContent = `${comparing ? 'Δ ' : ''}${label}`;
     }
-    $('state-note').textContent = comparing ? 'Same vacuum state. Every difference is zero.' : 'Unperturbed vacuum. No matter layers.';
+    $('state-note').textContent = comparing ? 'Difference between the two sampled volumes.' : 'Average state across this voxel.';
   }
   paintSelection();
 }
@@ -62,6 +71,14 @@ function rebuild() {
   cursor.x = Math.min(cursor.x, resolution.x - 1);
   cursor.y = Math.min(cursor.y, resolution.y - 1);
   hover = null;
+  updateField();
+}
+
+function updateField() {
+  raster = rasterize(elements, resolution);
+  view?.updateRaster(raster);
+  view?.updateElements(elements, selectedElement);
+  $('sphere-position').textContent = `X ${elements[0].center[0].toFixed(2)} · Y ${elements[0].center[1].toFixed(2)}`;
   inspect();
 }
 
@@ -84,16 +101,73 @@ function tool(name) {
   $('pointer-tool').setAttribute('aria-pressed', String(name === 'pointer'));
   $('inspect-tool').setAttribute('aria-pressed', String(name === 'inspect'));
   canvas.style.cursor = name === 'inspect' ? 'crosshair' : 'default';
-  $('tool-hint').textContent = name === 'inspect' ? 'Click a voxel. Click another to compare.' : 'Pointer · no objects in the scene yet.';
+  $('tool-hint').textContent = name === 'inspect' ? 'Click a voxel. Click another to compare.' : 'Drag the outline · arrow keys nudge · I inspects voxels';
   hover = null;
   paintSelection();
 }
 
-canvas.addEventListener('pointermove', (event) => { hover = pick(event); paintSelection(); });
+canvas.addEventListener('pointerdown', (event) => {
+  if (activeTool !== 'pointer' || event.button !== 0) return;
+  const id = view?.pickElement(event, elements);
+  selectedElement = id ?? null;
+  $('select-sphere').setAttribute('aria-pressed', String(id === elements[0].id));
+  view?.updateElements(elements, selectedElement);
+  if (id) {
+    const element = elements.find((item) => item.id === id);
+    const point = view.pointOnDepth(event, element.center[2]);
+    if (point) {
+      drag = { element, start: [...element.center], offset: element.center.map((value, axis) => value - point[axis]) };
+      canvas.setPointerCapture(event.pointerId);
+      canvas.style.cursor = 'grabbing';
+    }
+  }
+  paintSelection();
+});
+canvas.addEventListener('pointermove', (event) => {
+  if (drag) {
+    const point = view.pointOnDepth(event, drag.element.center[2]);
+    if (point) {
+      drag.element.center = point.map((value, axis) => value + drag.offset[axis]);
+      updateField();
+    }
+  } else {
+    hover = pick(event);
+    if (activeTool === 'pointer') canvas.style.cursor = view?.pickElement(event, elements) ? 'grab' : 'default';
+    paintSelection();
+  }
+});
+function endDrag(event) {
+  drag = null;
+  if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+  canvas.style.cursor = activeTool === 'inspect' ? 'crosshair' : 'default';
+}
+canvas.addEventListener('pointerup', endDrag);
+canvas.addEventListener('pointercancel', (event) => {
+  if (drag) { drag.element.center = drag.start; updateField(); }
+  endDrag(event);
+});
 canvas.addEventListener('pointerleave', () => { hover = null; paintSelection(); });
 canvas.addEventListener('click', (event) => { const value = pick(event); if (value) select(value); });
 $('pointer-tool').addEventListener('click', () => tool('pointer'));
 $('inspect-tool').addEventListener('click', () => tool('inspect'));
+$('select-sphere').addEventListener('click', () => {
+  selectedElement = elements[0].id;
+  $('select-sphere').setAttribute('aria-pressed', 'true');
+  view?.updateElements(elements, selectedElement);
+  tool('pointer');
+  canvas.focus({ preventScroll: true });
+});
+$('toggle-sphere').addEventListener('click', () => {
+  elements[0].enabled = !elements[0].enabled;
+  $('toggle-sphere').setAttribute('aria-pressed', String(elements[0].enabled));
+  updateField();
+});
+$('reset-sphere').addEventListener('click', () => {
+  elements[0].center = [-1.6, .4, 0];
+  elements[0].enabled = true;
+  $('toggle-sphere').setAttribute('aria-pressed', 'true');
+  updateField();
+});
 $('clear-selection').addEventListener('click', () => { selection = []; inspect(); });
 $('toggle-tank').addEventListener('click', () => {
   visible = !visible;
@@ -128,8 +202,16 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') { selection = []; inspect(); }
   if (event.key.toLowerCase() === 'i') tool('inspect');
   if (event.key.toLowerCase() === 'v') tool('pointer');
-  if (event.target !== canvas || activeTool !== 'inspect' || !visible) return;
   const movements = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] };
+  if (event.target === canvas && activeTool === 'pointer' && selectedElement && movements[event.key]) {
+    event.preventDefault();
+    const element = elements.find((item) => item.id === selectedElement);
+    element.center[0] += movements[event.key][0] * (event.shiftKey ? .5 : .1);
+    element.center[1] += movements[event.key][1] * (event.shiftKey ? .5 : .1);
+    updateField();
+    return;
+  }
+  if (event.target !== canvas || activeTool !== 'inspect' || !visible) return;
   if (movements[event.key]) {
     event.preventDefault();
     cursor.x = Math.max(0, Math.min(resolution.x - 1, cursor.x + movements[event.key][0]));
@@ -140,5 +222,5 @@ document.addEventListener('keydown', (event) => {
   if (event.key === ' ' || event.key === 'Enter') { event.preventDefault(); select({ ...cursor }); }
 });
 new ResizeObserver(rebuild).observe($('workbench'));
-tool('inspect');
+tool('pointer');
 rebuild();

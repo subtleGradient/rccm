@@ -1,9 +1,10 @@
 import * as THREE from '../voxel-tank/vendor/three.module.js';
+import { tankDomain } from './fields.mjs';
 
 // A contiguous sampling domain. Its partition has no rendered internal faces.
-// Glass, absorption and studio lights describe the drawing, not the tensor state.
-const size = new THREE.Vector3(12, 6.4, 4);
-const center = new THREE.Vector3(0, -.18, 0);
+// The displayed capacity channel comes from the same raster as the inspector.
+const size = new THREE.Vector3(...tankDomain.size);
+const center = new THREE.Vector3(...tankDomain.min).addScaledVector(size, .5);
 const bounds = new THREE.Box3(center.clone().addScaledVector(size, -.5), center.clone().addScaledVector(size, .5));
 
 export function createTankView(canvas, marks) {
@@ -19,10 +20,13 @@ export function createTankView(canvas, marks) {
   camera.lookAt(0, -.1, 0);
   const tank = new THREE.Group();
   const selections = new THREE.Group();
-  scene.add(tank, selections);
+  const outlines = new THREE.Group();
+  scene.add(tank, selections, outlines);
   const raycaster = new THREE.Raycaster();
   let viewport = { width: 1, height: 1 };
   let visible = true;
+  let stateTexture;
+  const sourceGroups = new Map();
 
   // Broad studio lights reflected by the water surface and glass walls.
   const environment = new THREE.Scene();
@@ -66,7 +70,11 @@ export function createTankView(canvas, marks) {
 
   const fluidMaterial = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false,
-    uniforms: { halfSize: { value: size.clone().multiplyScalar(.5) } },
+    uniforms: {
+      halfSize: { value: size.clone().multiplyScalar(.5) },
+      stateTexture: { value: null },
+      viewDirection: { value: camera.getWorldDirection(new THREE.Vector3()) },
+    },
     vertexShader: `
       varying vec3 localPosition; varying vec3 worldPosition; varying vec3 worldNormal;
       void main(){
@@ -77,19 +85,35 @@ export function createTankView(canvas, marks) {
       }`,
     fragmentShader: `
       uniform vec3 halfSize;
+      uniform highp sampler3D stateTexture;
+      uniform vec3 viewDirection;
       varying vec3 localPosition; varying vec3 worldPosition; varying vec3 worldNormal;
       void main(){
-        vec3 ray=normalize(worldPosition-cameraPosition);
+        vec3 ray=viewDirection;
         vec3 safeRay=sign(ray)*max(abs(ray),vec3(.0001));
         vec3 exitDistances=(sign(ray)*halfSize-localPosition)/safeRay;
         float path=max(0.,min(exitDistances.x,min(exitDistances.y,exitDistances.z)));
-        float height=clamp((localPosition.y+halfSize.y)/(2.*halfSize.y),0.,1.);
         vec3 deep=vec3(.017,.14,.16);
         vec3 shallow=vec3(.10,.36,.38);
-        vec3 water=mix(deep,shallow,pow(height,.7));
+        vec3 accumulated=vec3(0.);
+        float remaining=1.;
+        float stepLength=path/40.;
+        for(int i=0;i<40;i++){
+          vec3 position=localPosition+ray*((float(i)+.5)*stepLength);
+          vec3 uvw=clamp((position+halfSize)/(2.*halfSize),vec3(.0001),vec3(.9999));
+          float q=texture(stateTexture,uvw).r;
+          float depletion=clamp((1.-q)/.12,0.,1.);
+          float height=uvw.y;
+          vec3 water=mix(deep,shallow,pow(height,.7));
+          water=mix(water,vec3(.001,.018,.032),pow(depletion,.8)*.96);
+          float opacity=1.-exp(-stepLength*(.28+depletion*.7));
+          accumulated+=remaining*opacity*water;
+          remaining*=1.-opacity;
+        }
+        float opacity=1.-remaining;
+        vec3 water=accumulated/max(opacity,.0001);
         float fresnel=pow(1.-max(dot(normalize(worldNormal),-ray),0.),4.);
-        water+=vec3(.16,.23,.24)*fresnel;
-        float opacity=clamp(1.-exp(-path*.28),.12,.86);
+        water+=vec3(.08,.12,.13)*fresnel;
         gl_FragColor=vec4(water,opacity);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
@@ -141,6 +165,30 @@ export function createTankView(canvas, marks) {
   const selectionEdges = new THREE.EdgesGeometry(selectionGeometry);
 
   function render() { renderer.render(scene, camera); }
+  function setRay(event) {
+    const rect = canvas.getBoundingClientRect();
+    raycaster.setFromCamera(new THREE.Vector2((event.clientX - rect.left) / rect.width * 2 - 1, 1 - (event.clientY - rect.top) / rect.height * 2), camera);
+  }
+  function sourceOutline(element) {
+    const group = new THREE.Group();
+    const material = new THREE.LineBasicMaterial({ color: '#dedede', transparent: true, opacity: .86, depthTest: false, depthWrite: false });
+    const rings = [
+      (a) => [Math.cos(a), Math.sin(a), 0],
+      (a) => [0, Math.sin(a), Math.cos(a)],
+      (a) => [Math.cos(a), 0, Math.sin(a)],
+      (a) => [.866 * Math.cos(a), .5, .866 * Math.sin(a)],
+      (a) => [.866 * Math.cos(a), -.5, .866 * Math.sin(a)],
+    ];
+    for (const ring of rings) {
+      const points = Array.from({ length: 96 }, (_, i) => new THREE.Vector3(...ring(i / 96 * Math.PI * 2)));
+      const line = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), material);
+      line.renderOrder = 12;
+      group.add(line);
+    }
+    outlines.add(group);
+    sourceGroups.set(element.id, { group, material });
+    return { group, material };
+  }
   function project(point) {
     const ndc = point.clone().project(camera);
     return { x: (ndc.x + 1) / 2 * viewport.width, y: (1 - ndc.y) / 2 * viewport.height };
@@ -185,6 +233,43 @@ export function createTankView(canvas, marks) {
   }
   return {
     paint,
+    updateRaster(raster) {
+      stateTexture?.dispose();
+      stateTexture = new THREE.Data3DTexture(raster.texture, raster.resolution.x, raster.resolution.y, raster.resolution.z);
+      stateTexture.format = THREE.RGBAFormat;
+      stateTexture.type = THREE.FloatType;
+      stateTexture.minFilter = THREE.NearestFilter;
+      stateTexture.magFilter = THREE.NearestFilter;
+      stateTexture.unpackAlignment = 1;
+      stateTexture.needsUpdate = true;
+      fluidMaterial.uniforms.stateTexture.value = stateTexture;
+    },
+    updateElements(elements, selectedId) {
+      for (const element of elements) {
+        const { group, material } = sourceGroups.get(element.id) ?? sourceOutline(element);
+        group.position.set(...element.center);
+        group.scale.setScalar(element.radius);
+        group.visible = element.enabled;
+        material.color.set(element.id === selectedId ? '#f0cf97' : '#dedede');
+      }
+    },
+    pickElement(event, elements) {
+      setRay(event);
+      let nearest = null, distance = Infinity;
+      for (const element of elements) {
+        if (!element.enabled) continue;
+        const point = raycaster.ray.intersectSphere(new THREE.Sphere(new THREE.Vector3(...element.center), element.radius), new THREE.Vector3());
+        if (point && point.distanceTo(raycaster.ray.origin) < distance) {
+          nearest = element.id;
+          distance = point.distanceTo(raycaster.ray.origin);
+        }
+      }
+      return nearest;
+    },
+    pointOnDepth(event, depth) {
+      setRay(event);
+      return raycaster.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 0, 1), -depth), new THREE.Vector3())?.toArray() ?? null;
+    },
     resize(width, height) {
       viewport = { width, height };
       renderer.setSize(width, height, false);
@@ -201,8 +286,7 @@ export function createTankView(canvas, marks) {
     },
     pick(event, resolution) {
       if (!visible) return null;
-      const rect = canvas.getBoundingClientRect();
-      raycaster.setFromCamera(new THREE.Vector2((event.clientX - rect.left) / rect.width * 2 - 1, 1 - (event.clientY - rect.top) / rect.height * 2), camera);
+      setRay(event);
       const point = raycaster.ray.intersectBox(bounds, new THREE.Vector3());
       if (!point) return null;
       const index = (axis) => Math.max(0, Math.min(resolution[axis] - 1, Math.floor((point[axis] - bounds.min[axis]) / size[axis] * resolution[axis])));

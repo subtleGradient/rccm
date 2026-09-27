@@ -32,9 +32,16 @@ h2{font-size:13px}
 .tank-layer .icon-button[aria-pressed=false]{opacity:.45}
 .layer-name{min-width:0;flex:1}
 .layer-meta{color:var(--muted);font-size:11px}
-.empty-layers{padding:17px 16px 20px}
-.empty-title{font-size:12px;color:#b6b6bc}
-.empty-layers p{font-size:14px;color:var(--muted);margin-top:5px;line-height:1.5}
+.element-layer{display:flex;align-items:center;gap:9px;padding:5px 8px}
+.element-name{display:flex;align-items:center;gap:10px;min-height:32px;flex:1;min-width:0;padding:0 8px;border-radius:4px;text-align:left;font-size:12px}
+.element-name .layer-meta{margin-left:auto}
+.outline-sphere{width:15px;height:15px;border:1px solid currentColor;border-radius:50%;position:relative;flex-shrink:0}
+.outline-sphere::after{content:'';position:absolute;inset:-1px 4px;border:1px solid currentColor;border-radius:50%}
+.element-properties{display:flex;align-items:center;justify-content:space-between;padding:0 16px 5px 48px;color:var(--muted);font-size:11px}
+.element-properties button{font-size:11px;color:var(--muted);padding:5px 7px;border-radius:4px}
+.field-legend{padding:9px 16px 15px;color:var(--muted);font-size:10px}
+.capacity-ramp{height:4px;background:linear-gradient(90deg,#61928e,#173539);margin-bottom:7px}
+.field-legend>div:last-child{display:flex;justify-content:space-between}
 .inspector{border-top:1px solid var(--line)}
 #selection-summary{display:flex;gap:8px;flex-wrap:wrap;padding:5px 16px 18px;font-size:12px}
 .selection-chip{display:flex;align-items:center;gap:9px;color:var(--accent);background:rgb(168 210 255 / .07);padding:8px 10px;border-radius:4px}

@@ -85,7 +85,11 @@ visual step at a time, with his feedback between steps. His
 The current step places a glass tank filled with seamless fluid in one
 landscape 3D scene. Its voxels share faces and stay invisible until inspected.
 Tom accepted the floating panels and one/two-voxel selection, then clarified
-that the tank must read as fluid rather than separated boxes. The intended architecture keeps
+that the tank must read as fluid rather than separated boxes. Editable elements
+should feel like Illustrator in Outline mode: their combined influence is
+rasterized into the tank. The current small step adds one draggable outline
+mass sphere, with the fluid and inspector consuming the same tensor raster.
+The intended architecture keeps
 the sampling grid fixed to the window while the world pans and zooms beneath
 it. The fluid appearance and next implementation step await Tom's nudge.
 
