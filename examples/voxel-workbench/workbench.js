@@ -1,5 +1,5 @@
-import * as THREE from '../voxel-tank/vendor/three.module.js';
 import { assemble } from '../voxel-tank/math.mjs';
+import { createTankView } from './tank-view.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('scene');
@@ -12,53 +12,19 @@ let cursor = { ...selection[0] };
 let hover = null;
 let activeTool = 'inspect';
 let visible = true;
-let cells = [];
-let renderer;
-const scene = new THREE.Scene();
-scene.background = new THREE.Color('#1b1b1d');
-const camera = new THREE.OrthographicCamera(0, 1, 0, 1, .1, 2000);
-camera.position.z = 1000;
-const group = new THREE.Group();
-scene.add(group);
-const box = new THREE.BoxGeometry(1, 1, 1);
-box.rotateX(.10);
-box.rotateY(-.14);
-const edges = new THREE.EdgesGeometry(box);
-const palette = { normal: '#535358', hover: '#85858c', A: '#a8d2ff', B: '#e9bd86' };
+let view;
 const same = (a, b) => a && b && a.x === b.x && a.y === b.y && a.z === b.z;
 const address = (v) => `[${v.x}, ${v.y}, ${v.z}]`;
 const format = (n) => Math.abs(n) < 1e-10 ? '0.000' : n.toFixed(3).replace('-', '−');
 
 try {
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor('#1b1b1d');
+  view = createTankView(canvas, $('selection-marks'));
 } catch {
   $('render-error').hidden = false;
 }
 
-function render() { renderer?.render(scene, camera); }
-
 function paintSelection() {
-  for (const cell of cells) {
-    const index = selection.findIndex((value) => same(value, cell.address));
-    const slot = index === 0 ? 'A' : index === 1 ? 'B' : null;
-    const color = slot ? palette[slot] : same(hover, cell.address) ? palette.hover : palette.normal;
-    cell.wire.material.color.set(color);
-    cell.face.material.color.set(slot ? color : '#b0b0b8');
-    cell.face.material.opacity = slot ? .085 : .012;
-  }
-  const rect = tank.getBoundingClientRect();
-  $('selection-marks').replaceChildren(...selection.map((value, index) => {
-    const mark = document.createElement('div');
-    mark.className = 'selection-mark';
-    mark.dataset.slot = index ? 'B' : 'A';
-    mark.textContent = mark.dataset.slot;
-    mark.style.left = `${(value.x + .08) * rect.width / resolution.x}px`;
-    mark.style.top = `${(resolution.y - 1 - value.y + .08) * rect.height / resolution.y}px`;
-    return mark;
-  }));
-  render();
+  view?.paint(selection, hover, resolution);
 }
 
 function inspect() {
@@ -88,38 +54,8 @@ function inspect() {
 }
 
 function rebuild() {
-  if (!renderer) return;
   const bounds = $('workbench').getBoundingClientRect();
-  renderer.setSize(bounds.width, bounds.height, false);
-  camera.right = bounds.width;
-  camera.bottom = bounds.height;
-  camera.updateProjectionMatrix();
-  for (const cell of cells) {
-    cell.wire.material.dispose();
-    cell.face.material.dispose();
-  }
-  group.clear();
-  cells = [];
-  const rect = tank.getBoundingClientRect();
-  const dx = rect.width / resolution.x;
-  const dy = rect.height / resolution.y;
-  const size = Math.min(dx, dy) * .76;
-  for (let y = 0; y < resolution.y; y++) {
-    for (let x = 0; x < resolution.x; x++) {
-      const wire = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: palette.normal }));
-      const face = new THREE.Mesh(box, new THREE.MeshBasicMaterial({ color: '#b0b0b8', transparent: true, opacity: .012, depthWrite: false }));
-      const unit = new THREE.Group();
-      unit.add(face, wire);
-      unit.scale.setScalar(size);
-      unit.position.set(rect.left + (x + .5) * dx, rect.top + (resolution.y - y - .5) * dy, 0);
-      group.add(unit);
-      cells.push({ address: { x, y, z: 0 }, wire, face });
-    }
-  }
-  $('column-labels').style.gridTemplateColumns = `repeat(${resolution.x}, 1fr)`;
-  $('column-labels').innerHTML = Array.from({ length: resolution.x }, (_, x) => `<span>${x}</span>`).join('');
-  $('row-labels').style.gridTemplateRows = `repeat(${resolution.y}, 1fr)`;
-  $('row-labels').innerHTML = Array.from({ length: resolution.y }, (_, y) => `<span>${resolution.y - y - 1}</span>`).join('');
+  view?.resize(bounds.width, bounds.height);
   $('voxel-count').textContent = `${resolution.x * resolution.y} voxels`;
   $('layer-resolution').textContent = `${resolution.x} × ${resolution.y} × 1`;
   selection = selection.filter((value) => value.x < resolution.x && value.y < resolution.y);
@@ -131,9 +67,7 @@ function rebuild() {
 
 function pick(event) {
   if (!visible || activeTool !== 'inspect') return null;
-  const rect = tank.getBoundingClientRect();
-  if (event.clientX < rect.left || event.clientX >= rect.right || event.clientY < rect.top || event.clientY >= rect.bottom) return null;
-  return { x: Math.floor((event.clientX - rect.left) / rect.width * resolution.x), y: resolution.y - 1 - Math.floor((event.clientY - rect.top) / rect.height * resolution.y), z: 0 };
+  return view?.pick(event, resolution) ?? null;
 }
 
 function select(value) {
@@ -163,10 +97,9 @@ $('inspect-tool').addEventListener('click', () => tool('inspect'));
 $('clear-selection').addEventListener('click', () => { selection = []; inspect(); });
 $('toggle-tank').addEventListener('click', () => {
   visible = !visible;
-  group.visible = visible;
+  view?.setVisible(visible);
   tank.style.visibility = visible ? 'visible' : 'hidden';
   $('toggle-tank').setAttribute('aria-pressed', String(visible));
-  render();
 });
 for (const axis of ['x', 'y']) {
   const input = $(`resolution-${axis}`);
@@ -188,7 +121,7 @@ function panels(show) {
 }
 $('show-panels').addEventListener('click', () => panels($('panels').hidden));
 $('hide-panels').addEventListener('click', () => { panels(false); $('show-panels').focus(); });
-panels(!matchMedia('(max-width:760px)').matches);
+panels(true);
 
 document.addEventListener('keydown', (event) => {
   if (event.target instanceof HTMLInputElement) return;

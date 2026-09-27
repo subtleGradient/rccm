@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Voxel workbench · 01</title>
+  <title>Voxel workbench · 02</title>
   <link rel="icon" href="data:,">
   <link rel="preload" href="../voxel-tank/vendor/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="workbench.css">
@@ -16,16 +16,13 @@
     <header class="document-bar">
       <i class="icon cube" aria-hidden="true"></i>
       <h1>Voxel workbench</h1>
-      <div class="study-number">01 / Layout</div>
+      <div class="study-number">02 / Fluid volume</div>
     </header>
 
     <div id="tank-area" aria-hidden="true">
-      <div class="tank-caption"><span>Front</span><span>1 voxel deep</span></div>
-      <div id="column-labels" class="column-labels"></div>
-      <div id="row-labels" class="row-labels"></div>
       <div id="selection-marks"></div>
-      <div class="tank-footer"><span id="voxel-count">96 voxels</span><span>Screen-fixed grid</span></div>
     </div>
+    <div class="scene-status"><span id="voxel-count">96 voxels</span><span>1 voxel deep</span></div>
 
     <button type="button" id="show-panels" class="floating panel-toggle" aria-controls="panels" aria-expanded="true" title="Show or hide panels">
       <i class="icon panels-icon" aria-hidden="true"></i><span>Panels</span>
@@ -72,7 +69,7 @@
         </div>
         <p id="empty-selection" class="empty-selection" hidden>Use the voxel inspector to select one cell, or two to compare.</p>
       </section>
-      <div class="panel-footnote">First visual step · space to refine</div>
+      <div class="panel-footnote">Fluid volume · visual study 02</div>
     </aside>
 
     <div class="bottom-area">

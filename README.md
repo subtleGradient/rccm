@@ -82,10 +82,12 @@ The current visual design conversation is the [voxel workbench](examples/voxel-w
 Tom was not happy with voxel-tank or tau-tank and asked to proceed one small
 visual step at a time, with his feedback between steps. His
 [full direction is preserved verbatim](examples/voxel-workbench/DIRECTION.md).
-The first step places a neutral tank, floating editor panels and a bottom
-toolbar, with one/two-voxel tensor inspection. The intended architecture keeps
+The current step places a glass tank filled with seamless fluid in one
+landscape 3D scene. Its voxels share faces and stay invisible until inspected.
+Tom accepted the floating panels and one/two-voxel selection, then clarified
+that the tank must read as fluid rather than separated boxes. The intended architecture keeps
 the sampling grid fixed to the window while the world pans and zooms beneath
-it. The voxel appearance and next implementation step await Tom's nudge.
+it. The fluid appearance and next implementation step await Tom's nudge.
 
 The [voxel-tank rendering studies](examples/voxel-tank/index.html) explore the
 visual destination in native HTML and Three.js: three local glyphs, the same
