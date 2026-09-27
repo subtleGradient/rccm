@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Voxel workbench · 03</title>
+  <title>Voxel workbench · 3D studio</title>
   <link rel="icon" href="data:,">
   <link rel="preload" href="../voxel-tank/vendor/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="workbench.css">
@@ -12,17 +12,17 @@
 </head>
 <body>
   <main id="workbench">
-    <canvas id="scene" tabindex="0" aria-label="Voxel tank. Arrow keys move the cursor. Space selects a voxel. Select two to compare their states. Escape clears selection."></canvas>
+    <canvas id="scene" tabindex="0" aria-label="Voxel tank. V selects elements; I inspects voxels; O orbits; H pans; F fits the view. Arrows move the selected element or voxel cursor; Page Up and Down move through depth. Space selects a voxel. Escape clears selection."></canvas>
     <header class="document-bar">
       <i class="icon cube" aria-hidden="true"></i>
       <h1>Voxel workbench</h1>
-      <div class="study-number">03 / Outline → field</div>
+      <div class="study-number">04 / 3D studio</div>
     </header>
 
     <div id="tank-area" aria-hidden="true">
       <div id="selection-marks"></div>
     </div>
-    <div class="scene-status"><span id="voxel-count">96 voxels</span><span>1 voxel deep</span></div>
+    <div class="scene-status"><span id="voxel-count">96 voxels</span><span id="voxel-size">1 unit cubes</span><span id="depth-status">Slice</span></div>
 
     <button type="button" id="show-panels" class="floating panel-toggle" aria-controls="panels" aria-expanded="true" title="Show or hide panels">
       <i class="icon panels-icon" aria-hidden="true"></i><span>Panels</span>
@@ -44,17 +44,33 @@
           <button type="button" id="toggle-sphere" class="icon-button" aria-label="Include mass sphere" aria-pressed="true" title="Include or exclude this element"><i class="icon eye" aria-hidden="true"></i></button>
           <button type="button" id="select-sphere" class="element-name" aria-pressed="true"><i class="outline-sphere" aria-hidden="true"></i><span>Mass sphere</span><span class="layer-meta">Outline</span></button>
         </div>
-        <div class="element-properties">
-          <div id="sphere-position">X −1.60 · Y 0.40</div>
-          <button type="button" id="reset-sphere">Reset</button>
-        </div>
         <div class="field-legend">
           <div class="capacity-ramp" aria-hidden="true"></div>
           <div>q = 1<span>Lower capacity → denser ink</span></div>
         </div>
       </section>
 
-      <section class="inspector" aria-labelledby="inspector-heading">
+      <section id="element-inspector" class="inspector" aria-labelledby="element-heading">
+        <div class="panel-heading"><h2 id="element-heading">Inspect element</h2><button type="button" id="reset-sphere" class="small-button">Reset</button></div>
+        <div id="element-fields" class="element-fields">
+          <h3>Mass sphere</h3>
+          <div class="property-label">Position</div>
+          <div class="position-inputs">
+            <label>X<input id="element-x" name="element-x" type="number" min="-100" max="100" step="0.01" value="-1.6" aria-label="Element position X"></label>
+            <label>Y<input id="element-y" name="element-y" type="number" min="-100" max="100" step="0.01" value="0.4" aria-label="Element position Y"></label>
+            <label>Z<input id="element-z" name="element-z" type="number" min="-100" max="100" step="0.01" value="0" aria-label="Element position Z"></label>
+          </div>
+          <div class="element-state-inputs">
+            <label>Radius<input id="element-radius" name="element-radius" type="number" min="0.5" max="4" step="0.05" value="1.55"></label>
+            <label>Mass ×<input id="element-mass" name="element-mass" type="number" min="0" max="2" step="0.05" value="1" aria-label="Element mass multiplier"></label>
+          </div>
+          <dl class="state-values"><div><dt>At center · q</dt><dd id="element-capacity">0.880</dd></div></dl>
+          <p class="element-help">Drag an axis handle to move in X, Y or Z. Drag the outline to move across the view.</p>
+        </div>
+        <p id="empty-element" class="empty-selection" hidden>Select an outline or its layer to edit its state.</p>
+      </section>
+
+      <section id="voxel-inspector" class="inspector" aria-labelledby="inspector-heading" hidden>
         <div class="panel-heading">
           <h2 id="inspector-heading">Inspect selection</h2>
           <button type="button" id="clear-selection" class="icon-button" aria-label="Clear voxel selection" title="Clear selection · Esc"><i class="icon close" aria-hidden="true"></i></button>
@@ -81,22 +97,25 @@
     </aside>
 
     <div class="bottom-area">
-      <p id="tool-hint" class="tool-hint">Click a voxel. Click another to compare.</p>
+      <p id="tool-hint" class="tool-hint">Drag outline or XYZ handles · right-drag orbits · wheel zooms</p>
       <div class="floating toolbar" role="toolbar" aria-label="Voxel workbench tools">
         <div class="tool-group" aria-label="Selection tools">
-          <button type="button" id="pointer-tool" class="tool-button" aria-label="Pointer tool" aria-pressed="false" title="Pointer · V"><i class="icon pointer" aria-hidden="true"></i></button>
-          <button type="button" id="inspect-tool" class="tool-button" aria-label="Voxel inspector tool" aria-pressed="true" title="Voxel inspector · I"><i class="icon inspect" aria-hidden="true"></i></button>
-          <button type="button" class="tool-button" aria-label="Pan tool, planned for a later step" title="Pan world · a later step" disabled><i class="icon hand" aria-hidden="true"></i></button>
+          <button type="button" id="pointer-tool" class="tool-button" aria-label="Pointer tool" aria-pressed="true" title="Pointer · V"><i class="icon pointer" aria-hidden="true"></i></button>
+          <button type="button" id="inspect-tool" class="tool-button" aria-label="Voxel inspector tool" aria-pressed="false" title="Voxel inspector · I"><i class="icon inspect" aria-hidden="true"></i></button>
+          <button type="button" id="orbit-tool" class="tool-button" aria-label="Orbit tool" aria-pressed="false" title="Orbit · O · or right-drag"><i class="icon orbit" aria-hidden="true"></i></button>
+          <button type="button" id="pan-tool" class="tool-button" aria-label="Pan view tool" aria-pressed="false" title="Pan view · H · or middle-drag"><i class="icon hand" aria-hidden="true"></i></button>
         </div>
         <div class="tool-group creation-tools">
           <button type="button" class="tool-button pair-button" title="Create a matter / antimatter pair · a later step" disabled><i class="icon plus" aria-hidden="true"></i><span>Pair</span></button>
         </div>
-        <div class="resolution-controls" role="group" aria-label="Tank resolution">
-          <div class="resolution-title">Tank</div>
-          <label>X<input id="resolution-x" name="resolution-x" type="number" min="1" max="24" value="12" aria-label="Tank X resolution"></label>
-          <label>Y<input id="resolution-y" name="resolution-y" type="number" min="1" max="20" value="8" aria-label="Tank Y resolution"></label>
-          <label title="One layer for this first visual step">Z<input id="resolution-z" name="resolution-z" type="number" value="1" aria-label="Tank Z resolution, fixed at one for this step" disabled></label>
+        <div class="resolution-controls" role="group" aria-label="Tank sampling">
+          <label class="detail-control"><span>Coarse <span>Fine</span></span><input id="detail-resolution" name="detail-resolution" type="range" min="0" max="3" step="1" value="2" aria-label="Resolution from coarse to fine"></label>
+          <div class="depth-control" role="group" aria-label="Tank depth">
+            <button type="button" id="depth-slice" aria-pressed="true">Slice</button>
+            <button type="button" id="depth-full" aria-pressed="false">Full</button>
+          </div>
         </div>
+        <button type="button" id="frame-view" class="tool-button frame-button" title="Frame tank · F" aria-label="Frame tank">Fit</button>
       </div>
     </div>
     <p id="render-error" role="alert" hidden>WebGL could not start. Open this page in a browser with WebGL enabled.</p>
