@@ -116,6 +116,7 @@
 .clock-measures h4{font-size:22px;line-height:1.3;margin:25px 0 12px}
 .clock-measures>p{max-width:86ch}.ruler-pair h4{margin:0 0 12px;font-size:20px}.ruler-pair p{font-size:16px}
 .ruler-pair .world-stage svg text{font-size:21px}.ruler-pair .world-stage svg .label-small{font-size:18px}
+.ruler-pair .world-stage svg .ruler-total{font-size:29px;font-weight:650}.ruler-breakdown strong,.ruler-breakdown span{display:block}.ruler-breakdown strong{font-size:19px}
 .metric-explanation{padding:5px 22px 10px;background:#20262205;border-radius:8px;margin:24px 0}
 .metric-rule{font-size:18px;font-weight:600;color:var(--capacity)}
 .metric-playground{margin:30px 0}.metric-playground .demo-controls button[aria-pressed=true]{background:var(--capbg);border-color:var(--capacity)}

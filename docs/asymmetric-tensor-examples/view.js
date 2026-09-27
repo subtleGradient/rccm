@@ -234,14 +234,17 @@
   const measured=(n,unit)=>`${rounded(n)} ${unit}${n===1?'':'s'}`;
   function rulerPicture(s,owner){
     const scales=M.metricScales(s), start=65, span=370, metre=span/scales.length;
-    const ticks=Array.from({length:11},(_,i)=>`M${start+i*metre/10} 142v${i%5===0?23:12}`).join('');
-    return svg(`The same one-reference-metre map gap at ${owner==='You'?'your':'your twin’s'} station. One local metre occupies ${rounded(1/scales.length)} reference metres; a tape across the whole gap reads ${rounded(scales.length)} local metres.`,
-      text(250,34,'Same gap on the shared map','','middle')+
-      '<path class="solid" d="M65 73H435M65 61V85M435 61V85"/>'+text(250,106,'1 reference metre','label-small','middle')+
-      '<path class="solid ghost" d="M65 84V187M435 84V187"/>'+
-      `<rect x="${start}" y="142" width="${span}" height="45" rx="3" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 4"/><rect x="${start}" y="142" width="${metre}" height="45" rx="3" fill="var(--capbg)" stroke="var(--capacity)" stroke-width="2"/><path d="${ticks}" stroke="var(--capacity)" stroke-width="1.4"/>`+
-      text(start+metre/2,217,'one local metre ruler','label-small','middle')+
-      text(250,263,`${owner==='You'?'Your':'His'} tape reads ${rounded(scales.length)} m`,'','middle'));
+    const ticks=Array.from({length:Math.floor(scales.length*10)+1},(_,i)=>`M${start+i*metre/10} 147v${i%5===0?25:13}`).join('');
+    const pattern=`ruler-remainder-${owner.toLowerCase()}`;
+    return svg(`A complete measuring tape spans the same one-reference-metre map gap at ${owner==='You'?'your':'your twin’s'} station. The green first metre ends before the far pin. The striped remainder adds ${rounded(scales.length-1)} metres. Read ${rounded(scales.length)} local metres at the far pin; that number measures the whole gap.`,
+      `<defs><pattern id="${pattern}" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M-2 2L2-2M0 8L8 0M6 10L10 6" stroke="var(--capacity)" stroke-width="1.5" opacity=".3"/></pattern></defs>`+
+      text(250,31,'Same two pins on the shared map','','middle')+
+      '<path class="solid" d="M65 65H435M65 55V75M435 55V75"/>'+text(250,98,'Gap = 1 reference metre','label-small','middle')+
+      '<path class="solid ghost" d="M65 76V146M435 76V146"/>'+
+      `<rect class="full-measuring-tape" x="${start}" y="147" width="${span}" height="48" rx="3" fill="var(--paper)"/><rect class="first-local-metre" x="${start}" y="147" width="${metre}" height="48" fill="var(--capbg)"/><rect class="remaining-tape" x="${start+metre}" y="147" width="${span-metre}" height="48" fill="url(#${pattern})"/><rect x="${start}" y="147" width="${span}" height="48" rx="3" fill="none" stroke="var(--capacity)" stroke-width="2"/><path d="${ticks}" stroke="var(--capacity)" stroke-width="1.4"/><path d="M${start+metre} 137V205" stroke="var(--capacity)" stroke-width="2.5"/>`+
+      text(start,132,'0 m','label-small')+text(start+metre,132,'1 m','label-small','end')+
+      '<path class="solid" d="M435 196V214"/>'+text(435,242,`${rounded(scales.length)} m`,'ruler-total','end')+
+      text(435,269,'Read the whole gap here ↑','label-small','end'));
   }
   function metricDemo(){
     const s=M.state(M.capacity(metricQ)), scales=M.metricScales(s);
@@ -253,9 +256,10 @@
     const pair=M.pair('clock');
     return `<section class="clock-measures" id="clock-rulers" aria-labelledby="ruler-heading">
       <div class="scene-number">Bring a ruler as well as a watch</div><h3 id="ruler-heading">Does your twin get more space?</h3>
-      <p><strong>More measured distance across the same map gap, yes.</strong> Imagine mission control has a coordinate map covering both stations. It marks out the same small gap at each station: one “reference metre” on that map. You and your twin measure your gaps with identical metre rulers. Your tape reads <strong>1.118 m</strong>; his reads <strong>1.414 m</strong>.</p>
-      <p>The diagram keeps the <em>map gap</em> fixed. His one-metre ruler covers less of the map, so more ruler-lengths fit into that gap. These are two ways to describe the same spatial scaling.</p>
-      <div class="explain-pair ruler-pair">${['a','b'].map((world,i)=>`<article><h4>${i===0?'You · 80% capacity left':'Your twin · 50% capacity left'}</h4><div class="world-stage">${rulerPicture(pair[world],i===0?'You':'Twin')}</div><p>${i===0?'125% spatial weight → 111.8% distance scale':'200% spatial weight → 141.4% distance scale'}. The square root connects the two.</p></article>`).join('')}</div>
+      <p>Imagine mission control marks two pins at each station, one “reference metre” apart on its shared coordinate map. Stretch a measuring tape all the way between each pair of pins. <strong>The number at the far pin measures the whole gap:</strong> yours reads <strong>1.118 m</strong>; your twin’s reads <strong>1.414 m</strong>.</p>
+      <p><strong>Why can his one-metre section look shorter while his total is bigger?</strong> His metre marks are closer together on this map, so more metre intervals fit between the pins. The green part below is only the <strong>first metre</strong>. The striped part is the rest of the tape, continuing to the far pin.</p>
+      <div class="explain-pair ruler-pair">${['a','b'].map((world,i)=>`<article><h4>${i===0?'You · 80% capacity left':'Your twin · 50% capacity left'}</h4><div class="world-stage">${rulerPicture(pair[world],i===0?'You':'Twin')}</div><p class="ruler-breakdown"><strong>1 metre + ${i===0?'0.118':'0.414'} metre</strong><span>= ${i===0?'1.118':'1.414'} metres across the whole gap</span></p><p>${i===0?'125% spatial weight → 111.8% distance scale':'200% spatial weight → 141.4% distance scale'}. The square root connects the two.</p></article>`).join('')}</div>
+      <p><strong>Shorter metre intervals on the map → more intervals in the gap → a bigger tape reading.</strong> Your twin still calls the distance from 0 to 1 on his own tape one metre. The shared map lets us compare how much of that map each local metre occupies.</p>
       <p>A room built to measure three of <em>his local metres</em> across still measures three metres to him. Its size on the shared map would differ from yours. We must say which size we are keeping fixed. <strong>The rising space number is not a conversion of lost time into extra rooms.</strong></p>
       <div class="metric-explanation"><h4>Why the square root?</h4><p>The cell multiplies a <em>squared</em> distance. A 200% spatial weight doubles distance-squared. The distance itself becomes about 141.4% of the map distance: the square root turns a factor of 2 into about 1.414. For comparison, a CSS <code>scaleX(2)</code> doubles a length directly; that would give a squared-length weight of 400%.</p>
       <p class="metric-rule">Local distance = map distance × √(space-space)</p>

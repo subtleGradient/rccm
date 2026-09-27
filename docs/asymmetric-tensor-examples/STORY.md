@@ -4,6 +4,32 @@ An educational application of [storytelling](/Users/tom/.agents/skills/storytell
 and [story-golf](/Users/tom/.agents/skills/story-golf/SKILL.md) for Tom. Scores
 below are editorial hypotheses, not measurements of his cognition or skill.
 
+## Revision: label the whole gap, not its first metre
+
+Tom asked why the twin's 1.414 m looked shorter than his 1.118 m. The previous
+picture drew only a one-metre ruler while placing the whole-gap reading below
+it. The mismatch between the drawn object and the nearby number created the
+ambiguity; another explanation of square roots would not repair it.
+
+Story: Read the tape at the far pin.
+
+- Target: Tom, comparing the apparent lengths with their adjacent numbers.
+- Exact message: A shorter metre interval on the shared map lets more metre intervals fit across the same gap.
+- Promised outcome: See what 1 metre and the total 1.414 metres each measure.
+- Required belief: The two gaps stay fixed on the shared coordinate map while local metre spacing differs.
+- Required action: Follow each tape from zero through one metre to the far pin.
+- Axis scores: Translation Tax 1; Identity Threat 0; Causal Friction 1; Apathy Risk 2; Trust Burden 0.
+- Total score: 4/25; an editorial hypothesis awaiting feedback.
+- Verdict: Viable; the complete tape makes the counted interval visible.
+- Highest-friction axis: Apathy Risk; keep the repair small and directly attached to the confusing picture.
+- HiddenNegativeDebt: The old layout made correct numbers appear to contradict the drawing. Own that representation error.
+- Mutation ideas: Full tapes with endpoint readings; repeated metre tiles; separate coordinate and local-distance views. Use the full tapes to avoid adding another viewing convention.
+
+Both tapes reach the same far pin. Solid green marks the first local metre;
+stripes show the remainder. Tick marks continue through that remainder. The
+total reading is attached to the far endpoint, with an explicit first-metre
+plus-remainder sum below. The numerical model is unchanged.
+
 ## Revision: a picture must survive being turned over
 
 Tom rejected the planar facing-flow account because turning one depicted

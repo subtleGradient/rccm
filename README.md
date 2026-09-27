@@ -112,6 +112,12 @@ percentages, with raw coefficients available on hover. Keep capacity and actual
 clock pace distinct: 80% capacity gives about 89.4% of the reference clock pace.
 Exact gravity capacities retain enough digits to expose the spatial difference.
 
+The initial ruler drawing exposed a representation gap: Tom read the nearby
+1.118 m and 1.414 m totals as labels for the shorter one-metre bars. The revised
+view draws complete tapes between fixed map pins, with the first metre green,
+the remainder striped and the total at the far pin. Keep the size of a counted
+unit visually distinct from the number of units across the whole interval.
+
 The [3D winding comparison](docs/asymmetric-tensor-cheat-sheet.html#charge-rotation)
 addresses Tom's next counterexample: a planar circulation picture can reverse
 its apparent spin when turned over, although electric charge cannot change
