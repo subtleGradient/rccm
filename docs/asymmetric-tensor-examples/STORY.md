@@ -1,6 +1,7 @@
 # Same scene, one change
 
-An educational application of storytelling and story-golf for Tom. Scores are
+An educational application of [storytelling](/Users/tom/.agents/skills/storytelling/SKILL.md)
+and [story-golf](/Users/tom/.agents/skills/story-golf/SKILL.md) for Tom. Scores are
 editorial hypotheses, not measurements of his cognition or skill.
 
 ## Objective, audience and threshold

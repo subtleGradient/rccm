@@ -79,9 +79,14 @@ full-fluid implementation.
 ## Graphical lessons: destination before dependency route
 
 The [Asymmetric Metric-Tensor visual cheat sheet](docs/asymmetric-tensor-cheat-sheet.html)
-places the complete local matrix above color-matched capacity, electric-slip,
-and magnetic-vorticity diagrams. Toggle cell groups to connect the signs and
-slots to familiar clock, ruler, charged-probe and compass pictures.
+places the complete local matrix above five paired visual examples: a clock,
+an electric push, a compass, falling, and static hair. Each comparison changes
+one named input, highlights affected numeric cells, and reveals the first
+response. Move samplers to distinguish local state, field variation and body
+response. The original symbol guide remains available below. The
+[story brief](docs/asymmetric-tensor-examples/STORY.md) records the teaching
+choices and declared response fixtures; the fixtures have five focused Node
+checks (`node --test docs/asymmetric-tensor-examples/model.test.cjs`).
 
 
 The current visual design conversation is the [voxel workbench](examples/voxel-workbench/index.html).

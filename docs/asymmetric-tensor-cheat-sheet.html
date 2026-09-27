@@ -9,9 +9,12 @@
 @media(max-width:760px){main{padding:24px 18px}.hero{grid-template-columns:1fr;gap:22px}.key{border-left:0;padding-left:0}.groups{grid-template-columns:1fr;gap:30px}.group{display:grid;grid-template-columns:1fr;}.diagram{max-width:360px}.bottom{grid-template-columns:1fr;gap:8px}.cell{min-height:62px;font-size:20px}.small,.reminder,footer{font-size:16px}.eyebrow,.group .tag{font-size:14px}}
 @media print{body{background:white;font-size:11px}main{padding:0;max-width:none}h1{font-size:28px}.hero{gap:22px;margin:14px 0}.cell{min-height:44px;font-size:19px}.groups{gap:20px;margin-top:24px}.diagram{height:120px}.group p{font-size:11px}.small,.reminder,footer{font-size:10px}.legend,.probe{display:none}.matrix .cell.dim{opacity:1}.bottom{margin-top:20px}.group{break-inside:avoid}*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
 </style>
+<link rel="stylesheet" href="asymmetric-tensor-examples/examples.css">
+<script defer src="asymmetric-tensor-examples/model.js"></script>
+<script defer src="asymmetric-tensor-examples/view.js"></script>
 </head>
 <body><main>
-<header><div class="eyebrow">RCCM / Visual field guide / 01</div><h1>The Asymmetric Metric-Tensor State</h1><p class="intro">One place. One moment. Three readings: <strong>capacity, sliding, twisting.</strong><br>Here is where each reading lives in the local Cartesian, comoving matrix.</p></header>
+<header><div class="eyebrow">RCCM / Visual field guide / 01</div><h1>The Asymmetric Metric-Tensor State</h1><p class="intro">One place. One moment. Three readings: <strong>capacity, sliding, twisting.</strong><br>Here is where each reading lives in the local Cartesian, comoving matrix.</p><a class="jump-link" href="#examples">Explore the paired examples ↓</a></header>
 <section class="hero" aria-label="Full tensor and symbol key">
 <div class="matrix-wrap"><div class="equation">Û<sub>μν</sub>(x, t) = S<sub>μν</sub> + A<sub>μν</sub> =</div>
 <div class="matrix" role="group" aria-label="Asymmetric tensor, rows and columns ordered time, x, y, z">
@@ -24,7 +27,22 @@
 <div class="legend" aria-label="Highlight tensor cells"><button data-show="all" aria-pressed="true">All cells</button><button data-show="cap" aria-pressed="false">1 · Capacity</button><button data-show="elec" aria-pressed="false">2 · Sliding</button><button data-show="mag" aria-pressed="false">3 · Twisting</button></div></div>
 <div class="key"><div class="eyebrow">Read the shorthand</div><p class="equation">q = α<sub>s</sub>² = P<sub>static</sub> / P<sub>c</sub></p><p>Remaining pressure capacity, as a fraction of the critical capacity.</p><p class="equation">e<sub>i</sub> = α v<sub>⊥,i</sub> / c<br>b<sub>i</sub> = α t<sub>p</sub> Ω<sub>i</sub></p><p class="small">e and b are shorthand for dimensionless matrix entries, not electric and magnetic fields in SI units. α is the transverse coupling ratio; t<sub>p</sub> is the structural relaxation time; c is the acoustic phase limit.</p></div>
 </section>
-<p class="small">Model boundary: the physical mappings below follow RCCM-GfX-2, §§1–3. They describe the model’s proposed identifications, not independently established physical equivalences.</p>
+<p class="small">Model boundary: RCCM supplies the proposed tensor mappings. The examples use frozen fields and named response laws, not a complete RCCM simulation. Electric and magnetic coefficients are dimensionless teaching values; they are not calibrated volts/metre or tesla.</p>
+<section class="example-lab" id="examples" aria-labelledby="examples-title">
+<div class="eyebrow">Five comparisons / Same scene, one change</div>
+<h2 id="examples-title">Make the numbers do something familiar</h2>
+<p class="lab-intro">These are paired, paused worlds. A and B differ by one named input. Compare their readings, then reveal the first push or turn. A matrix belongs to a sample location; an object can span many locations.</p>
+<nav class="scene-nav" aria-label="Choose a paired example">
+<button type="button" data-scene="clock" aria-pressed="false">1 · A clock</button>
+<button type="button" data-scene="electric" aria-pressed="false">2 · Electric push</button>
+<button type="button" data-scene="compass" aria-pressed="true">3 · A compass</button>
+<button type="button" data-scene="falling" aria-pressed="false">4 · Falling</button>
+<button type="button" data-scene="hair" aria-pressed="false">5 · Static hair</button>
+</nav>
+<div id="scene-content"></div>
+<noscript><p>Enable JavaScript to inspect the paired matrices. The comparisons change capacity, electric direction, magnetic direction, a vertical capacity slope, and the polarity of two charged hairs. The original symbol guide below remains readable without scripts.</p></noscript>
+</section>
+<details class="reference-notes"><summary>The original cell-by-cell symbol guide</summary>
 <section class="groups" aria-label="Three groups of related cells">
 <article class="group capacity"><div class="tag">1 / Four diagonal cells / Symmetric</div><h2>Capacity → clock &amp; rulers</h2>
 <svg class="diagram" viewBox="0 0 320 175" role="img" aria-label="A capacity reservoir beside a clock and three spatial ruler directions"><path class="soft" d="M22 68H80V146H22Z"/><path class="line" d="M22 28V146H80V28M18 68H84"/><text x="31" y="112">q</text><circle class="line" cx="159" cy="70" r="34"/><path class="line" d="M159 46V70L178 80M242 120H299M242 120V57M242 120L211 148M292 115L299 120L292 125M237 64L242 57L247 64"/><text x="125" y="128">clock: √q</text><text x="217" y="167">rulers: 1/√q</text></svg>
@@ -38,7 +56,8 @@
 </section>
 <section class="bottom"><div><h2>Read the structure</h2><p><strong>Four directions at one event.</strong> Rows and columns are t, x, y, z—not four sensor locations. Swapping an off-diagonal pair reverses its sign.</p><p><strong>Seven local inputs, sixteen slots.</strong> One q, three slip components, three vorticity components, with the frame and constants fixed. In the regular capacity regime, 0 &lt; q ≤ 1; q = 0 makes 1/q singular.</p></div><div><h2>From a reading to “what happens next?”</h2><p><strong>A reading is local.</strong> Neighboring readings reveal pressure differences and field variation. Object velocity, charge, orientation and material response help turn those fields into motion.</p><p><strong>Uniform squeeze ≠ directional shove.</strong> Net force adds surface pushes; torque also tracks where they act. A regional average can hide opposite motions and internal structure.</p></div></section>
 <details class="probe"><summary>Try one change: halve q. Which cells change?</summary><p>The time entry halves in magnitude; all three spatial entries double. Holding slip and vorticity fixed leaves the off-diagonals unchanged algebraically. Whether that change is dynamically possible needs the model’s evolution rules.</p></details>
-<footer>Source: <a href="../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a>, §§1–3 (definitions and Cartesian signs), §4.3 (volume averaging), §5 (motion). <a href="../RCCM-GfX-2.html">Open the reading copy</a>. This is a learning aid; the TeX remains canonical. Print from your browser for a compact reference.</footer>
+</details>
+<footer>Source: <a href="../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a>, §§1–3 (definitions and Cartesian signs), §4.3 (volume averaging), §5 (motion). <a href="../RCCM-GfX-2.html">Open the reading copy</a>. This is a learning aid; the TeX remains canonical. Print from your browser for the current example and matrix reference.</footer>
 </main><script>
 for(const button of document.querySelectorAll('[data-show]'))button.addEventListener('click',()=>{const group=button.dataset.show;for(const b of document.querySelectorAll('[data-show]'))b.setAttribute('aria-pressed',String(b===button));for(const cell of document.querySelectorAll('[data-group]'))cell.classList.toggle('dim',group!=='all'&&cell.dataset.group!==group);});
 </script></body></html>
