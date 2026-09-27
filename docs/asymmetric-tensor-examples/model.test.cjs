@@ -33,13 +33,27 @@ test('gravity keeps centre states identical but has a nonzero exact spatial diff
   assert.equal(m.gravityAcceleration('a'),0);
   assert.ok(Math.abs(m.gravityAcceleration('b') + 8.987551787368176)<1e-12);
 });
-test('reversing both hairs reverses applied fields but preserves both force directions', () => {
-  for (const sample of ['left','right']) {
-    const {a,b,changed} = m.pair('hair',sample);
-    assert.deepEqual(changed,[1,4]);
-    assert.equal(a.e[0],-b.e[0]);
-    assert.equal(m.electricForce(1,a.e)[0],m.electricForce(-1,b.e)[0]);
+test('flipping only the right charge changes repulsion to attraction at both hairs', () => {
+  const left=m.pair('hair','left'), right=m.pair('hair','right');
+  assert.deepEqual(left.changed,[1,4]);
+  assert.deepEqual(right.changed,[]);
+  assert.ok(m.electricForce(1,left.a.e)[0]<0);
+  assert.ok(m.electricForce(1,left.b.e)[0]>0);
+  assert.ok(m.electricForce(1,right.a.e)[0]>0);
+  assert.ok(m.electricForce(-1,right.b.e)[0]<0);
+  assert.deepEqual(right.a.e,right.b.e,'the same local applied field can push opposite charges in opposite directions');
+});
+test('all electric directions occupy their own signed time-space pairs at fixed strength', () => {
+  const expected={right:[.003,0,0],up:[0,.003,0],toward:[0,0,.003],diagonal:[.001,.002,.002]};
+  for(const [direction,e] of Object.entries(expected)){
+    const state=m.electricDirection(direction);
+    assert.deepEqual(state.e,e);
+    assert.ok(Math.abs(Math.hypot(...e)-.003)<1e-12);
+    e.forEach((v,i)=>{
+      assert.equal(state.cells[i+1].value, v===0?0:-v);
+      assert.equal(state.cells[(i+1)*4].value,v);
+    });
+    assert.deepEqual(state.b,[0,0,0]);
+    assert.equal(state.q.value,.8);
   }
-  assert.ok(m.pair('hair','left').a.e[0]<0);
-  assert.ok(m.pair('hair','right').a.e[0]>0);
 });

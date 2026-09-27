@@ -77,3 +77,24 @@
 
 .world-stage svg .elapsed{font-size:48px;font-variant-numeric:tabular-nums;fill:var(--capacity)}
 @media screen and (min-width:621px) and (max-width:1040px){.cause-grid{grid-template-columns:1fr;gap:24px}.cause-grid article{display:grid;grid-template-columns:minmax(240px,1fr) 1.3fr;column-gap:24px;align-items:center}.cause-grid .world-stage{grid-row:span 2;max-width:none}.cause-grid h4{margin:0 0 10px}.cause-grid p{font-size:17px}}
+
+/* Follow the field from source charge to direction, then compare matrix jobs. */
+.guide-links{display:flex;flex-wrap:wrap;gap:10px 24px;margin:36px 0 0;padding-top:22px;border-top:1px solid var(--line);font-size:16px}
+.concept-guide{margin-top:44px;padding-top:28px;border-top:1px solid var(--line);scroll-margin-top:20px}
+.concept-guide h2{font-size:clamp(27px,3.5vw,36px);line-height:1.2;max-width:35ch;margin:10px 0 20px}
+.concept-guide h3{font-size:23px;line-height:1.3;margin:26px 0 12px}.concept-guide>p{max-width:90ch}
+.explain-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px;align-items:start;margin:24px 0}.explain-pair>div,.explain-pair>article{min-width:0}.explain-pair h3{margin-top:0}.explain-pair p{margin-top:0}
+.quantity-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:25px 0 32px}.quantity-key p{margin:0;padding:12px 0;border-top:3px solid var(--electric);font-size:16px}.quantity-key strong{display:block;margin-bottom:7px;font-size:18px}
+.demo-controls{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.demo-controls button{min-height:46px;padding:10px 14px;font-size:16px}.demo-controls button[aria-pressed=true]{background:var(--elecbg);border-color:var(--electric)}
+.vector-demo .world-stage{margin-top:0}.world-stage svg .electric-vector{stroke-width:5}
+.concept-guide .world-stage svg text{font-size:21px}.concept-guide .world-stage svg .label-small{font-size:18px}
+.component-readings p{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;font-size:16px;border-bottom:1px solid var(--line);margin:0;padding:9px 0}.component-readings span{color:var(--muted)}
+.flow-line{padding:14px 16px;border-radius:6px;background:var(--capbg);font-weight:600;font-size:17px}
+.css-stage{position:relative;min-height:260px;border:1px solid var(--line);border-radius:9px;background:#f3f2eb;overflow:hidden}
+.css-stage-label{position:absolute;left:20px;top:18px;font:17px ui-monospace,monospace}.css-stage-note{position:absolute;left:20px;bottom:16px;font-size:15px;color:var(--muted)}
+.css-tile,.css-ghost{position:absolute;left:100px;top:90px;width:64px;height:64px;box-sizing:border-box;transform-origin:0 0}
+.css-ghost{border:2px dashed var(--muted);opacity:.5}.css-tile{display:grid;place-items:center;background:var(--magbg);border:2px solid var(--magnetic);color:var(--magnetic);font-weight:600;font-size:16px}
+.css-demo>div>p:not(.reading-location){margin:16px 0 0}.css-code{white-space:pre-wrap;overflow-wrap:anywhere;padding:14px 16px;background:#20262205;border-radius:6px;font-size:13px;line-height:1.6}
+.numeric-cell.transform-cell{background:#20262209;color:var(--ink)}.numeric-cell.transform-cell[data-sign=negative]{background:var(--ink);color:var(--paper)}.numeric-cell.transform-cell[data-sign=zero]{background:#20262205;color:var(--muted)}
+@media(max-width:760px){.explain-pair,.quantity-key{grid-template-columns:1fr;gap:22px}.concept-guide h2{font-size:28px}.concept-guide h3{font-size:23px}.concept-guide .small{font-size:16px}.quantity-key{gap:10px}.guide-links{flex-direction:column;gap:14px}.vector-demo .world-stage{max-width:500px}.css-code{font-size:14px}}
+@media print{.guide-links,.demo-controls{display:none}.concept-guide{break-before:page}.concept-guide .explain-pair{grid-template-columns:1fr 1fr;gap:20px}.concept-guide h2{font-size:25px}.concept-guide h3{font-size:18px}.concept-guide p{font-size:12px}.css-stage,.numeric-matrix,.world-stage{break-inside:avoid}}

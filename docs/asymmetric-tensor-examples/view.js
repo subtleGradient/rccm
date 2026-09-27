@@ -2,8 +2,8 @@
   'use strict';
   const M = window.TensorExamples;
   const host = document.getElementById('scene-content');
-  let scene = 'clock';
-  let sample = 'center';
+  let scene = 'hair';
+  let sample = 'right';
   const source = '<a href="../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a>';
   const eSource = '<a href="https://openstax.org/books/university-physics-volume-2/pages/5-4-electric-field">OpenStax: electric field and F = QE</a>';
   const bSource = '<a href="https://openstax.org/books/university-physics-volume-2/pages/11-5-force-and-torque-on-a-current-loop">OpenStax: magnetic dipole torque</a>';
@@ -58,14 +58,14 @@
       sources:`${source}, §2 (finite pressure budget), §5.3 (mass-generated deficit and F = −Veff ∇Pstatic). <a href="../RCCM-Condensed.tex">Condensed</a>, “The Kinematic Origin of Inertia” places the cavitation and surrounding added mass; “Pressure Deficits, Symmetry Breaking, and Acoustic Covariance” separates level from slope.`
     },
     hair: {
-      number:'05 / Static hair', title:'Each hair pushes its neighbours away.',
-      intro:'Pull off a woolly hat and your dry hair can fan out. The rubbing transfers electric charge, leaving strands with the same sign. Their roots stay attached, but their free ends push apart. Zoom in on just two hairs to see why.',
-      change:'Give both tips negative charges instead of positive ones.', held:'Same starting shapes and same amount of charge on each tip. q = 0.8; magnetic readings are zero.',
-      worlds:['Two positive tips','Two negative tips'],
-      outcomes:[['The tips push apart','Two positive tips are the same kind of charge. Each repels the other.'],['The tips still push apart','Two negative tips are also the same kind of charge. Reversing both signs keeps the repulsion.']],
-      takeaway:'Hair spreads because neighbouring strands push one another away while their roots hold on. Changing every + to a − keeps neighbours alike, so it keeps the spreading tendency.',
-      prediction:'Change just the right tip’s charge sign, leaving the left tip positive. Do the tips now tend to spread apart or bend toward each other?',
-      method:'A two-tip approximation: at each tip, inspect the applied field from the other tip, excluding its own self-field. The displayed matrices assemble that applied electric component with a prescribed scalar background; they do not claim to be the complete tensor inside a strand or a reconstruction of the interaction pressure. The pressure illustration follows Condensed’s qualitative account of like-charge circulation. q is unchanged under the global polarity reversal; squared electric amplitudes and pair interaction signs are unchanged. In F = QE, reversing both the responding charge Q and the other tip’s field E leaves the force direction unchanged.',
+      number:'05 / Attraction and repulsion', title:'Flip one charge. The hairs bend toward each other.',
+      intro:'Start with two positively charged hair tips. They push apart. Now change only the right tip to negative: they attract. Their roots stay attached, so the free ends tend to bend toward each other. Here is the difference inside RCCM’s pressure picture.',
+      change:'Only the right tip’s charge: positive → negative.', held:'Left tip stays positive. Same starting shapes and charge magnitudes. Prescribed background q = 0.8; magnetic readings are zero.',
+      worlds:['Like charges · + and +','Opposite charges · + and −'],
+      outcomes:[['Repulsion · apart','Higher interaction pressure between the like charges pushes them away from one another.'],['Attraction · together','Lower interaction pressure between opposite charges lets the surrounding pressure push them together.']],
+      takeaway:'At the right tip, both matrices are identical: the positive left tip still supplies the same rightward electric field. But the right tip’s own charge has changed. Positive goes with the arrow; negative goes against it. That changes repulsion into attraction.',
+      prediction:'Move the sampler to the left tip. Its own charge stayed positive, but the charge making its field changed. Which matrix entries change there?',
+      method:'Two idealized tip charges are compared at the same frozen positions. At each tip, the applied electric field comes from the other tip and excludes self-field. A has charges (+Q,+Q); B has (+Q,−Q). At the right tip the applied field stays +x, while the responding charge reverses. At the left tip the applied field reverses and its responding charge stays positive. F = QE therefore reverses both forces. The displayed q is a prescribed scalar background, not a reconstructed total interaction-pressure field. Flipping one charge changes the interaction term even though each source’s squared self-amplitude is unchanged. Condensed supplies the qualitative pressure account; the drawing is not a solved fluid configuration.',
       bodies:'The roots constrain the hairs. Arrows show mutual electric force only, not the total force or a solved final shape. To explain full hair raising, resolve charge along many hairs and add bending stiffness, gravity, air and root constraints. Strong enough like-charge repulsion spreads the strands; their detailed shape needs that material model. The two sampler locations are a deliberately reduced example of one reading per place, not one tensor per hair.',
       sources:`${source}, §3 (matrix slots); <a href="../RCCM-Condensed.tex">Condensed</a>, “Coulomb’s Law,” discusses self and interaction terms. ${eSource} and ${hairSource} supply the separate macroscopic force picture.`
     }
@@ -132,16 +132,15 @@
     ],'<strong>Where it appears in the matrix:</strong> the purple pair records the surrounding field’s direction. The needle has its own direction, shown by its north tip. You need both directions to know which way it starts turning. The paired push arrows are a picture of the total twist.');
   }
   function hairStory(){
-    return causeCards('Why charged hairs spread apart',[
-      ['Rubbing gives the hairs a shared charge','A hat rubs across dry hairs, leaving several strands with the same sign of charge.',
-        '<path d="M88 85Q250 -4 412 85L402 106H98Z" fill="var(--elecbg)" stroke="var(--electric)" stroke-width="2"/>'+arrow(159,37,298,37)+[155,250,345].map(x=>`<path class="solid" d="M${x} 244V164"/>`+charge(x,146,'+',18)).join('')+text(250,278,'Neighbours get the same sign.','','middle'),
-        'Rubbing transfers electrons between the hat and the hair. Losing electrons leaves a positive charge; gaining them leaves a negative charge. Nearby dry strands can end up with the same sign and keep that charge for a while.'],
-      ['The gap pushes them apart','Like charges create a higher-pressure gap in RCCM’s proposed circulation picture.',chargePressure(true),
-        'In RCCM’s picture, like charges have opposing flow on their facing sides. More static pressure remains in the gap between them. That extra pressure pushes the charged strands apart. Two negative strands do this too: they are still alike.'],
-      ['Roots hold on; free ends bend','Hair roots stay in the scalp while the free ends tend to bend outward under mutual electric force.',
-        '<path d="M86 285Q250 189 414 285" fill="#e6ddd0" stroke="var(--ink)" stroke-width="2"/><path class="solid ghost" d="M218 242V85M282 242V85"/><path class="solid" d="M218 242Q188 164 133 98M282 242Q312 164 367 98"/>'+charge(133,83,'+',19)+charge(367,83,'+',19)+arrow(109,114,55,114)+arrow(391,114,445,114)+text(250,38,'A tendency to fan outward','','middle')+text(250,269,'roots stay attached','label-small','middle'),
-        'The roots stay attached to your scalp, so the free lengths bend instead of flying away. If the electrical push is strong enough to overcome weight and resistance to bending, a crowd of hairs can lift and fan out.']
-    ],'<strong>Now flip every charge.</strong> Both neighbours are still the same kind, so they still repel. The amber field arrows reverse, but negative hair responds opposite to those arrows. The outward force stays outward.');
+    return causeCards('Why changing one charge changes repulsion into attraction',[
+      ['Like charges: more pressure in the gap','Like charges have opposing flow on their facing sides and a higher-pressure gap.',chargePressure(true),
+        'RCCM connects charge sign to the handedness of a tiny circulating structure. With like charges, the facing flows oppose each other. Their combined motion is reduced in the gap, leaving more static pressure there. The extra pressure pushes the tips apart.'],
+      ['Opposite charges: less pressure in the gap','Flipping the right charge aligns the facing flows and lowers static pressure between them.',chargePressure(false),
+        'Flip the right charge and its circulation reverses. The facing flows now reinforce each other. More of the pressure budget goes into motion between the tips, so less static pressure remains there. The higher pressure outside pushes them together.'],
+      ['The field and the responding charge are separate','The same rightward applied electric field pushes a positive tip right and a negative tip left.',
+        text(250,36,'Same field here →','','middle')+charge(250,107,'+')+arrow(284,107,387,107)+text(85,114,'positive','label-small')+charge(250,191,'−')+arrow(217,191,115,191)+text(333,198,'negative','label-small')+text(250,261,'Different charge → opposite force','','middle'),
+        'At the right tip, the field supplied by the left tip still points right. A positive right tip follows it; a negative right tip responds leftward. The field arrow describes the surroundings. The charge sign describes the object placed there.']
+    ],'<strong>Look at the right-tip matrices below.</strong> They are the same, yet the force reverses. The object’s charge is additional information. <a href="#electric-components">See where eₓ, eᵧ and e<sub>z</sub> fit into this →</a>');
   }
   const causalStory = () => ({clock:clockStory,electric:electricStory,compass:compassStory,falling:gravityStory,hair:hairStory})[scene]();
   function gravityStory(){
@@ -198,17 +197,17 @@
         (isA ? '<g class="response">'+text(81,153,'net = 0')+'</g>' : `<g class="response">${arrow(89,118,89,167)}${text(42,153,'net ↓','label-small')}</g>`)+
         dot('above',373,36,'above +1 m',373,60)+dot('center',373,142,'centre 0',373,169)+dot('below',373,248,'below −1 m',373,277));
     }
-    const charge=isA?'+':'−', color=isA?'#f2ea89':'#cde9fa';
-    return svg(`Two rooted hairs with ${isA?'positive':'negative'} tip charges. The electric field at each tip comes from the other tip.`,
+    const rightSign=isA?'+':'−', rightColor=isA?'#f2ea89':'#cde9fa';
+    return svg(`Two rooted hairs with ${isA?'two positive tips that repel':'a positive left tip and a negative right tip that attract'}. Amber field arrows come from the other tip; black arrows show force.`,
       '<path d="M96 285Q250 189 404 285" fill="#e6ddd0" stroke="var(--ink)" stroke-width="2"/><path class="solid" d="M219 240Q181 205 180 127M281 240Q319 205 320 127"/>'+text(250,278,'roots anchored in scalp','label-small','middle')+
-      `<circle cx="180" cy="116" r="17" fill="${color}" stroke="var(--ink)" stroke-width="2"/><circle cx="320" cy="116" r="17" fill="${color}" stroke="var(--ink)" stroke-width="2"/>${text(180,121,charge,'','middle')}${text(320,121,charge,'','middle')}`+
+      `<circle cx="180" cy="116" r="17" fill="#f2ea89" stroke="var(--ink)" stroke-width="2"/><circle cx="320" cy="116" r="17" fill="${rightColor}" stroke="var(--ink)" stroke-width="2"/>${text(180,121,'+','','middle')}${text(320,121,rightSign,'','middle')}`+
       text(250,29,'Electric field from the other tip','label-small','middle')+
-      arrow(isA?189:124,66,isA?124:189,66,'field')+arrow(isA?311:376,66,isA?376:311,66,'field')+
-      `<g class="response">${arrow(159,131,90,131)}${arrow(341,131,410,131)}${text(86,158,'force','label-small','middle')}${text(414,158,'force','label-small','middle')}</g>`+
+      arrow(isA?189:124,66,isA?124:189,66,'field')+arrow(311,66,376,66,'field')+
+      `<g class="response">${arrow(159,146,isA?90:228,146)}${arrow(341,146,isA?410:272,146)}${text(132,174,'force','label-small','middle')}${text(368,174,'force','label-small','middle')}</g>`+
       hairDot('left',180)+hairDot('right',320));
   }
   const axes=['t','x','y','z'];
-  function matrix(s,changed){
+  function matrix(s,changed,mark='changes between A and B'){
     let out='<div class="numeric-matrix" role="group" aria-label="Tensor matrix, basis time x y z"><div></div>'+axes.map(a=>`<div class="axis">${a}</div>`).join('');
     for(let i=0;i<16;i++){
       if(i%4===0)out+=`<div class="axis">${axes[i/4]}</div>`;
@@ -217,9 +216,42 @@
       const active=changed.includes(i);
       const sign=s.cells[i].value<0?'negative':s.cells[i].value>0?'positive':'zero';
       const color=active||s.cells[i].value!==0?group:'';
-      out+=`<div class="numeric-cell ${color} ${active?'changed':''}" data-sign="${sign}" aria-label="${axes[row]} ${axes[col]}: ${s.cells[i].text}${active?'; changes between A and B':''}">${s.cells[i].text}</div>`;
+      out+=`<div class="numeric-cell ${color} ${active?'changed':''}" data-sign="${sign}" aria-label="${axes[row]} ${axes[col]}: ${s.cells[i].text}${active?'; '+mark:''}">${s.cells[i].text}</div>`;
     }
     return out+'</div>';
+  }
+  let electricDirection='right';
+  const directionNames={right:'Right · x',up:'Up · y',toward:'Toward you · z',diagonal:'Diagonal · x + y + z'};
+  function electricGuide(){
+    const state=M.electricDirection(electricDirection), origin=[160,165], ends=[[330,165],[160,40],[270,247]];
+    const tip=state.e.reduce((p,v,i)=>[p[0]+v/.003*(ends[i][0]-origin[0]),p[1]+v/.003*(ends[i][1]-origin[1])],[...origin]);
+    const drawing=ends.map(([x,y])=>arrow(...origin,x,y,'solid ghost')).join('')+
+      arrow(...origin,...tip,'field electric-vector')+'<circle cx="160" cy="165" r="5" fill="var(--ink)"/>'+
+      text(352,170,'x · right','label-small')+text(160,22,'y · up','label-small','middle')+text(303,251,'z · toward you','label-small')+text(98,191,'sample','label-small');
+    const entries=state.e.flatMap((v,i)=>v!==0?[i+1,(i+1)*4]:[]);
+    const labels=['eₓ','eᵧ','e<sub>z</sub>'], descriptions=['right (+) / left (−)','up (+) / down (−)','toward you (+) / away (−)'];
+    document.getElementById('electric-vector-demo').innerHTML=`<div class="demo-controls" aria-label="Electric field direction">${Object.entries(directionNames).map(([id,label])=>`<button type="button" data-electric-direction="${id}" aria-pressed="${id===electricDirection}">${label}</button>`).join('')}</div><div class="explain-pair vector-demo"><div><div class="world-stage">${svg(`Electric field direction: ${directionNames[electricDirection]}.`,drawing)}</div><div class="component-readings">${state.e.map((v,i)=>`<p><strong>${labels[i]} = ${v}</strong><span>${descriptions[i]}</span></p>`).join('')}</div><p class="small">Same field strength in 3D; only its direction changes. q stays 0.8 and all magnetic entries stay zero. This is a perspective sketch, so arrow length on the page varies.</p></div><div><p class="reading-location">At this one sample location</p>${matrix(state,entries,'active electric component')}<p class="reading-note">${entries.length} amber cells describe ${entries.length/2} nonzero direction component${entries.length===2?'':'s'}. The sign within each pair is fixed by the tensor’s construction.</p></div></div>`;
+  }
+  let cssChoice='translate';
+  const cssExamples={
+    translate:{label:'Move right',name:'translateX(80px)',rows:[[1,0,0,80],[0,1,0,0],[0,0,1,0],[0,0,0,1]],changed:[3],explanation:'The last column adds 80 pixels to x. A local point [20, 30, 0, 1] becomes [100, 30, 0, 1].'},
+    scale:{label:'Stretch width',name:'scaleX(2)',rows:[[2,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],changed:[0],explanation:'The first diagonal value doubles x. That same point becomes [40, 30, 0, 1]. The square is drawn twice as wide.'},
+    rotate:{label:'Turn in 3D',name:'rotateY(60deg)',rows:[[.5,0,Math.sqrt(3)/2,0],[0,1,0,0],[-Math.sqrt(3)/2,0,.5,0],[0,0,0,1]],changed:[0,2,8,10],explanation:'x and z mix as the square turns around its vertical axis. The grid rounds the two 0.866… entries; the CSS uses their full values. No elapsed time or physical force is implied.'}
+  };
+  function cssGuide(){
+    const fixture=cssExamples[cssChoice], labels=['x','y','z','w'];
+    const columns=labels.map((_,c)=>fixture.rows.map(row=>row[c]));
+    const css=`matrix3d(${columns.flat().join(', ')})`;
+    const serialized=`matrix3d(\n  ${columns.map(col=>col.join(', ')).join(',\n  ')}\n)`;
+    const grid='<div class="numeric-matrix" role="group" aria-label="CSS transform matrix, rows and columns x y z w"><div></div>'+labels.map(label=>`<div class="axis">${label}</div>`).join('')+fixture.rows.map((row,r)=>`<div class="axis">${labels[r]}</div>`+row.map((v,c)=>`<div class="numeric-cell transform-cell ${fixture.changed.includes(r*4+c)?'changed':''}" data-sign="${v<0?'negative':v>0?'positive':'zero'}" aria-label="${labels[r]} ${labels[c]}: ${v}">${String(Number(v.toFixed(3))).replace('-','−')}</div>`).join('')).join('')+'</div>';
+    document.getElementById('css-transform-demo').innerHTML=`<div class="demo-controls" aria-label="CSS transform example">${Object.entries(cssExamples).map(([id,example])=>`<button type="button" data-css-transform="${id}" aria-pressed="${id===cssChoice}">${example.label}</button>`).join('')}</div><div class="explain-pair css-demo"><div><div class="css-stage" role="img" aria-label="A real CSS square with ${fixture.name}; a dashed outline marks its original position."><span class="css-stage-label">${fixture.name}</span><div class="css-ghost"></div><div class="css-tile" style="transform:${css}">div →</div><span class="css-stage-note">Dashed outline = before</span></div><p>${fixture.explanation}</p></div><div><p class="reading-location">CSS matrix · x, y, z, w</p>${grid}<pre class="css-code"><code>${serialized}</code></pre></div></div>`;
+  }
+  function drawGuides(){
+    document.getElementById('charge-field-picture').innerHTML=svg('One positive source charge. To its left, the electric field points left, giving negative ex. To its right, it points right, giving positive ex.',
+      charge(250,134,'+',34)+arrow(188,134,73,134,'field')+arrow(312,134,427,134,'field')+text(250,47,'The source stays positive','','middle')+text(104,198,'eₓ < 0','','middle')+text(396,198,'eₓ > 0','','middle')+text(250,254,'Field direction depends on where you stand.','label-small','middle'));
+    document.getElementById('slip-picture').innerHTML=svg('A schematic of neighbouring layers sliding sideways relative to each other. The upper layer moves right while the lower one is the reference.',
+      '<path d="M64 165H352L425 218H137Z" fill="var(--capbg)" stroke="var(--capacity)" stroke-width="2"/><path d="M100 91H388L461 144H173Z" fill="var(--elecbg)" stroke="var(--electric)" stroke-width="2"/><path class="solid ghost" d="M137 218L173 144M352 165L388 91"/>'+arrow(193,62,338,62,'field')+text(266,34,'sideways motion','','middle')+text(243,196,'lower layer','label-small','middle')+text(250,268,'A picture of shear within the medium.','label-small','middle'));
+    electricGuide();cssGuide();
   }
   function sampleChoices(){
     if(scene==='compass')return [['left','Left tip'],['center','Pivot'],['right','Right tip']];
@@ -260,7 +292,7 @@
     host.querySelector(`.sample-controls [data-sample="${sample}"]`)?.focus({preventScroll:true});
   }
   document.querySelectorAll('[data-scene]').forEach(button=>button.addEventListener('click',()=>{
-    scene=button.dataset.scene;sample=scene==='hair'?'left':'center';
+    scene=button.dataset.scene;sample=scene==='hair'?'right':'center';
     document.querySelectorAll('[data-scene]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
     draw();
   }));
@@ -272,5 +304,18 @@
     const target=event.target.closest('g[data-sample]');
     if(target&&(event.key==='Enter'||event.key===' ')){event.preventDefault();selectSample(target.dataset.sample);}
   });
+  document.getElementById('electric-vector-demo').addEventListener('click',event=>{
+    const button=event.target.closest('[data-electric-direction]');
+    if(!button)return;
+    electricDirection=button.dataset.electricDirection;electricGuide();
+    document.querySelector(`[data-electric-direction="${electricDirection}"]`).focus({preventScroll:true});
+  });
+  document.getElementById('css-transform-demo').addEventListener('click',event=>{
+    const button=event.target.closest('[data-css-transform]');
+    if(!button)return;
+    cssChoice=button.dataset.cssTransform;cssGuide();
+    document.querySelector(`[data-css-transform="${cssChoice}"]`).focus({preventScroll:true});
+  });
   draw();
+  drawGuides();
 })();

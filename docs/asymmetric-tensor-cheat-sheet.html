@@ -34,14 +34,52 @@
 <h2 id="examples-title">Make the numbers do something familiar</h2>
 <p class="lab-intro">Start with something familiar: a watch, a compass, a charged bead, a falling rock, or hair standing up. See why it responds, then compare the two sets of numbers. Each pair changes one named input. Each matrix is a reading at one place.</p>
 <nav class="scene-nav" aria-label="Choose a paired example">
-<button type="button" data-scene="clock" aria-pressed="true">1 · You and your twin</button>
+<button type="button" data-scene="clock" aria-pressed="false">1 · You and your twin</button>
 <button type="button" data-scene="electric" aria-pressed="false">2 · Electric push</button>
 <button type="button" data-scene="compass" aria-pressed="false">3 · A compass</button>
 <button type="button" data-scene="falling" aria-pressed="false">4 · Falling</button>
-<button type="button" data-scene="hair" aria-pressed="false">5 · Static hair</button>
+<button type="button" data-scene="hair" aria-pressed="true">5 · Attract or repel</button>
 </nav>
 <div id="scene-content"></div>
-<noscript><p>Enable JavaScript to inspect the paired matrices. The comparisons change capacity, electric direction, magnetic direction, a vertical capacity slope, and the polarity of two charged hairs. The original symbol guide below remains readable without scripts.</p></noscript>
+<noscript><p>Enable JavaScript to inspect the paired matrices. The comparisons change capacity, electric direction, magnetic direction, a vertical capacity slope, and the charge of one hair. The guides below remain readable without scripts.</p></noscript>
+</section>
+<nav class="guide-links" aria-label="Follow the electric explanation"><a href="#electric-components">Charge and the three electric entries</a><a href="#slip-explained">What “slip” means</a><a href="#css-matrix">Compare with CSS matrix3d()</a></nav>
+<section class="concept-guide" id="electric-components" aria-labelledby="electric-title">
+<div class="eyebrow">One charge · a field around it · three directions</div>
+<h2 id="electric-title">Charge belongs to the object. The amber cells describe the field here.</h2>
+<p>A hair tip has an amount and sign of charge, called <strong>Q</strong>. At a nearby place, an electric field tells you which way a tiny positive charge would be pushed. The tensor stores that local electric direction as <strong>eₓ, eᵧ, e<sub>z</sub></strong>. These are the three parts of one arrow.</p>
+<div class="quantity-key"><p><strong>Q · charge</strong>Positive or negative charge on the object.</p><p><strong>e · electric field reading</strong>A direction and size at the sample location.</p><p><strong>q · pressure capacity</strong>The fraction of the pressure budget left there.</p></div>
+<div class="explain-pair">
+<div><h3>A positive source can give a negative eₓ reading</h3><p>Stand on the left of a positive charge: it pushes a positive test charge left. Walk around to its right: now the push is right. The <em>source charge</em> stayed positive; your <em>field reading</em> changed direction.</p><p>A negative source reverses the arrows. A negative test charge responds opposite to whichever arrow it encounters.</p></div>
+<div id="charge-field-picture" class="world-stage"></div>
+</div>
+<h3>Turn the field arrow. Watch its cells move.</h3>
+<p>In this drawing, <strong>x is right, y is up, z comes toward you</strong>. The earlier examples used only eₓ because their electric arrows lay along x. Upward arrows need eᵧ. Arrows pointing out toward your face need e<sub>z</sub>. A diagonal arrow can use all three.</p>
+<div id="electric-vector-demo"></div>
+<p class="takeaway">The pair −eₓ / +eₓ records one component twice with opposite signs. It does not mean there is a negative charge in one cell and a positive charge in the other. The y and z pairs follow the same rule.</p>
+<h3>So where do you find the source charge?</h3>
+<p>Look at the field <strong>around a region</strong>. Arrows spreading outward indicate positive net charge inside; arrows converging inward indicate negative net charge. A single arrow does not tell you how much charge made it, or where that charge is. Even a place with no charge can sit in a strong electric field.</p>
+<p class="small">In ordinary electrostatics, Gauss’s law makes this precise: add the outward field through a closed surface to find the enclosed net charge. This is an additional field law, not an extra matrix cell. <a href="https://openstax.org/books/university-physics-volume-2/pages/6-2-explaining-gausss-law">Source: OpenStax, Gauss’s law</a>.</p>
+</section>
+<section class="concept-guide" id="slip-explained" aria-labelledby="slip-title">
+<div class="eyebrow">The proposed fluid underneath the electric reading</div>
+<h2 id="slip-title">“Sliding” means sideways motion in the medium.</h2>
+<div class="explain-pair"><div id="slip-picture" class="world-stage"></div><div><p>Put one hand flat on top of the other, then slide it sideways. That gives you a picture of <strong>shear</strong>: neighbouring parts moving past each other. RCCM gives the proposed space-filling fluid a sideways-motion component called <strong>transverse slip</strong>.</p><p>The motion belongs to the medium. A charged object has its own motion and response. A positive object responds along the electric arrow; a negative object responds against it.</p><p>For a travelling wave, “transverse” means across its direction of travel. It does not mean “always along x.” The motion can have x, y and z components, depending on the scene and your viewing frame.</p></div></div>
+<p class="formula">eₓ = α v<sub>slip,x</sub> / c &nbsp; · &nbsp; eᵧ = α v<sub>slip,y</sub> / c &nbsp; · &nbsp; e<sub>z</sub> = α v<sub>slip,z</sub> / c</p>
+<p>Read that as: <strong>take the local slip speed in each direction, divide by the model’s wave speed, and multiply by its coupling factor.</strong> Those three dimensionless numbers go in the amber pairs. The matrix records a local motion state; seeing how neighbouring layers differ needs neighbouring readings.</p>
+<details class="story-method"><summary>Where the source makes the connection · and what still needs a bridge</summary><p><a href="../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a> §§1–3 defines the slip field and identifies its scaled components with the electric sector. The name and normalization establish the proposed mapping. A full derivation also needs a source/boundary rule connecting a charged defect’s winding to the surrounding field and its force on another defect.</p><p>Section 13 develops source-free transverse waves with divergence-free slip. Ordinary charge density instead appears in the sourced electric-field equation, or at excluded defect boundaries. A field may be divergence-free outside a charge while carrying nonzero flux around it. The source-free wave calculation alone does not supply that charged-boundary bridge. <a href="../RCCM-Condensed.tex">Condensed</a>, “Coulomb’s Law,” proposes the handedness and interaction-pressure account illustrated above; the point-charge response examples here are declared teaching models.</p></details>
+</section>
+<section class="concept-guide" id="css-matrix" aria-labelledby="css-title">
+<div class="eyebrow">Use your CSS intuition · keep the meanings attached</div>
+<h2 id="css-title">Same 4 × 4 shape. Different jobs.</h2>
+<p>A CSS transform matrix takes a point and places it somewhere else. This RCCM tensor describes the physical field at a place and moment. Both use rows and columns to connect directions, but the labels and operations matter.</p>
+<div class="explain-pair matrix-jobs"><article><h3>CSS: place the point</h3><p class="flow-line">point → transform matrix → transformed point</p><p>Its coordinate list is <code>[x, y, z, w]</code>. An ordinary point enters with <code>w = 1</code>. That extra coordinate lets one matrix handle translation and perspective along with rotation and scale.</p></article><article><h3>RCCM: describe the conditions</h3><p class="flow-line">field + object + response law → motion</p><p>Its coordinate labels are <code>[t, x, y, z]</code>. Time is a physical direction, not CSS’s extra <code>w</code>. For a charged bead, the electric field and the bead’s charge give the force; its mass and existing velocity then help determine its motion.</p></article></div>
+<h3>This matrix really does transform the square</h3>
+<div id="css-transform-demo"></div>
+<p class="small">The grid is written in rows. CSS’s <code>matrix3d()</code> arguments read down each column in turn. CSS points +y down the page and +z toward you; the physics drawings above choose +y up. <a href="https://www.w3.org/TR/css-transforms-2/#three-d-transform-functions">Source: W3C CSS Transforms</a>.</p>
+<div class="explain-pair"><div><h3>What transfers from your CSS knowledge?</h3><p>Keep the habits of labelling axes, tracking units, and asking what goes in and what comes out. Changing your viewing frame mixes components. A 4 × 4 grid is a useful representation; its shape alone does not specify its meaning.</p></div><div><h3>How would a simulation use both?</h3><p>Read the physical field, calculate how the object responds, advance its position and orientation, then build a CSS transform to draw that pose. The CSS matrix is the drawing step. Pasting Û into <code>matrix3d()</code> would give the browser unrelated transform instructions.</p></div></div>
+<details class="story-method"><summary>The closer mathematical connection: transforms can change how a metric looks</summary><p>A spatial CSS scale of 2 doubles a length along that axis. In a metric, which measures <em>squared</em> lengths, the corresponding weight is 4. For a linear spatial transform M, the Euclidean metric expressed in the original coordinates is MᵀM. This connects transforms to measurement weights without equating them.</p><p>For RCCM’s two-lower-index tensor, a change of basis acts on both indices. If old coordinate differentials equal J times new ones, then Û′ = JᵀÛJ, as in <a href="../RCCM-GfX-2.tex">GfX §10.1</a>. A point transform instead applies one matrix to a point. The symmetric part of Û defines the proposed interval; the antisymmetric part cancels when paired with the same displacement on both sides. Its electromagnetic meaning needs the separate physical response law.</p></details>
+<p class="prediction">Keep a rightward electric field fixed. Replace a positive bead with a negative one. Which way should the physics move it—and which way should the CSS renderer then draw that motion?</p>
 </section>
 <details class="reference-notes"><summary>The original cell-by-cell symbol guide</summary>
 <section class="groups" aria-label="Three groups of related cells">

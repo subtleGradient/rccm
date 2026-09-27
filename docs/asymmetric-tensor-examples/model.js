@@ -40,14 +40,19 @@
       }
       case 'hair': {
         const direction=sample==='right'?1:-1;
-        a=state(q,[direction*.002,0,0]); b=state(q,[-direction*.002,0,0]); break;
+        a=state(q,[direction*.002,0,0]); b=state(q,[.002,0,0]); break;
       }
       default: throw new Error(`Unknown scene: ${kind}`);
     }
     return {a,b,changed:a.cells.flatMap((cell,i)=>cell.key!==b.cells[i].key?[i]:[])};
   }
   function cross(a,b){return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]].map(clean);}
-  const api={pair,capacity,state,cross,clockRate:s=>Math.sqrt(s.q.value),electricForce:(charge,e)=>e.map(x=>clean(charge*x)),gravityAcceleration:world=>world==='a'?0:-C*C/2*(Number(DELTA)/Number(DEN)),C};
+  function electricDirection(direction){
+    const e={right:[.003,0,0],up:[0,.003,0],toward:[0,0,.003],diagonal:[.001,.002,.002]}[direction];
+    if(!Array.isArray(e))throw new Error(`Unknown electric direction: ${direction}`);
+    return state(capacity(.8),e);
+  }
+  const api={pair,capacity,state,cross,electricDirection,clockRate:s=>Math.sqrt(s.q.value),electricForce:(charge,e)=>e.map(x=>clean(charge*x)),gravityAcceleration:world=>world==='a'?0:-C*C/2*(Number(DELTA)/Number(DEN)),C};
   if(typeof module==='object'&&module.exports) module.exports=api;
   else root.TensorExamples=api;
 })(typeof globalThis==='object'?globalThis:this);
