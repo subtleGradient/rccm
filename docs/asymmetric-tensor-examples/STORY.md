@@ -1,96 +1,109 @@
-# Same scene, one change
+# Familiar situation → physical cause → visible result → numbers
 
 An educational application of [storytelling](/Users/tom/.agents/skills/storytelling/SKILL.md)
-and [story-golf](/Users/tom/.agents/skills/story-golf/SKILL.md) for Tom. Scores are
-editorial hypotheses, not measurements of his cognition or skill.
+and [story-golf](/Users/tom/.agents/skills/story-golf/SKILL.md) for Tom. Scores
+below are editorial hypotheses, not measurements of his cognition or skill.
 
-## Objective, audience and threshold
+## Objective and observed failure
 
-Make a numerical tensor difference predict something Tom recognizes. The old
-sheet names the slots but asks him to build the object/field bridge mentally.
-Use the paused-world perspective: place an object, compare two prepared worlds,
-name the one changed input, then reveal the first response. A/B are alternative
-initial conditions, never consecutive simulation frames.
+Help Tom connect tensor readings to experiences he can picture. He explicitly
+rejected the original clock wording as unintelligible without mathematical
+context. He also rejected the response-reveal button as a distraction.
+The gravity rewrite supplied the useful pattern: explain the physical cause
+before naming the response law.
 
-## Reconciliation diagnosis and skeleton
+“A uniformly loaded region” and “one background-coordinate second” required
+the reader to build a setting, a comparison and a reason to care. The earlier
+5/25 story-golf estimate was too optimistic. Reassessed against the feedback:
+Translation Tax 4, Identity Threat 1, Causal Friction 2, Apathy Risk 2, Trust
+Burden 0 = **9/25, reject or mutate**. The largest problem was translation.
 
-Baseline: the same object and geometry appear twice. Goal: anticipate the next
-push or turn. Obstacle: a reading is not itself a force or an object's complete
-state. Valued variable: causal understanding. Policy: inspect the changed
-cells, sample another location, and combine the reading with a named response
-law. Payoff: one input can change several cells; sometimes the same centre
-reading hides a different acceleration, or reversed fields preserve repulsion.
+## Story: Your watch and your twin’s watch
 
-## Hooks and variations considered
+- Target: Tom, a spatial thinker who wants ordinary language before notation.
+- Exact message: While your watch records an hour, your twin’s records about 47 minutes; his surroundings change the pace of the physical processes that make a clock.
+- Promised outcome: Understand who compares what, what changed around them, and why the elapsed times differ in the stated model.
+- Required belief: Temporarily follow RCCM’s proposed capacity-to-clock-rate link; agreement with its physical validation is not required.
+- Required action: Read the illustrated situation and compare the two visible watches. Equations and assumptions are available afterward.
+- Axis scores:
+  - Translation Tax: 1
+  - Identity Threat: 1
+  - Causal Friction: 2
+  - Apathy Risk: 2
+  - Trust Burden: 0
+- Total score: **6/25**.
+- Verdict: Viable as an editorial hypothesis; understanding still needs user feedback.
+- Highest-friction axis: Causal Friction and Apathy Risk, tied. The capacity-to-cycle-rate link is a model premise, and the learner can still lose interest if the story returns to vocabulary too soon.
+- HiddenNegativeDebt: The explanation previously assumed a mathematical reference frame before supplying a human situation. Repair the writing; do not imply a deficit in the reader.
+- Mutation ideas applied: Use two people with identical watches, an intentionally dramatic difference, readable elapsed minutes, physical support for the stations, and a direct explanation of why the twin feels normal.
 
-1. “Same needle. Opposite turn.” A body perspective, field-polarity change,
-   familiar compass, direct torque payoff. Selected opening scene.
-2. “Same reading. Different fall.” Sampler perspective, vary the pressure
-   slope, discover why neighbours matter. Selected middle reveal.
-3. “Both electric arrows reverse. The hairs still spread.” Two-body
-   perspective, reverse global charge polarity, distinguish field and response.
-   Selected ending and return probe.
+## Reconciliation skeleton
 
-Capacity and charged-bead scenes provide shorter local comparisons in between.
-No forced sequence, autoplay, score, countdown, or locked payoff.
+Baseline: familiar objects and an immediately visible outcome. Goal: understand
+why the objects respond. Obstacle: a matrix gives local field readings, while a
+body has charge, orientation, constraints and internal processes of its own.
+Policy: trace three concrete causal steps, then attach the changed cells.
+Payoff: connect a number to an actual clock rate, push, twist or bend.
+
+The selected opening is now the twin-watch story. Both clocks are stationary
+near the same imagined compact star, supported by engines. The A/B matrices
+are readings at the two watches, differing only in q. Unlike the original
+homogeneous-patch story, the surrounding gravitational field can have a
+gradient; the supports balance the pull. The star and q values are illustrative,
+not a computed stellar solution. There is no Earth–Moon numerical claim.
+
+Other scenes use alternative initial conditions, not consecutive frames:
+
+| Scene | Causal route | Concrete payoff |
+| --- | --- | --- |
+| Electric bead | Facing circulation changes interaction pressure → like charges repel and unlike attract → both plate contributions point the same way | Swap plate charges; the bead starts the other way |
+| Compass | Internal magnetic directions reinforce → the external field exerts distributed forces with a net twist → the pin permits rotation | Same initial needle; reversed field; opposite initial turn |
+| Falling | Persistent circulation occupies the pressure budget → less static pressure remains near mass → unequal ambient pushes | Identical centre reading can accompany different acceleration |
+| Hair | Rubbing transfers charge → like neighbours repel → attached roots make free lengths bend | Reversing every charge keeps neighbours alike and preserves repulsion |
 
 ## Retention, payoff and distribution
 
-One finite pane at a time in the existing offline-capable HTML guide. Scene
-buttons name the familiar object. Both worlds stay visible; the sampler changes
-location in both at once. An explicit response toggle makes prediction optional.
-Put exact assumptions and sources in a disclosure. The final probe flips only
-one hair's charge, inviting the learner to complete the force-sign inference.
+The offline-capable HTML shows one chosen scene at a time. Three diagrams and
+plain paragraphs precede its matrices. Results sit directly under their scene
+pictures and stay visible. No reveal interaction, autoplay, score or locked
+payoff. Samplers remain because changing location supplies meaningful evidence.
+Sources and detailed assumptions stay in an optional disclosure. Short final
+questions invite a new scene change without hiding the current answer.
 
-## Story: Same scene, one change
-
-- Target: Tom, an expert programmer learning tensor/field intuition visually.
-- Exact message: Change one thing; see which readings change and which way the object first responds.
-- Promised outcome: Recognize which local values, field differences and body properties matter.
-- Required belief: Familiar objects can anchor a mathematical comparison; no belief in RCCM's physical validation is required.
-- Required action: Choose a scene, compare A/B, optionally reveal the response or move a sampler.
-- Axis scores: Translation Tax 1; Identity Threat 1; Causal Friction 1; Apathy Risk 2; Trust Burden 0.
-- Total score: 5/25.
-- Verdict: Viable, subject to Tom's feedback.
-- Highest-friction axis: Apathy Risk; interesting examples can still feel like homework.
-- HiddenNegativeDebt: Not material; the user explicitly requests this learning format.
-- Mutation ideas: Lead with the visible object; replace a vocabulary prerequisite with a changed-cell mark; allow immediate answers; keep quantitative limits close to the reading.
+The language pass removes prerequisite phrases such as “magnetic moment starts
++x” from the main story. First say “the north tip points right”; define magnetic
+moment in the technical explanation. Keep sign encoding and matrix labels
+precise rather than replacing the mathematics with vague metaphors.
 
 ## Trust and technical boundaries
 
-RCCM supplies the matrix map and the restricted gravity equation. F=QE and
-τ=m×B are separately supplied conventional response fixtures, not a claimed
-microscopic derivation. Example coefficients are illustrative dimensionless
-values, not SI calibrations. Sign reversals preserve squared amplitudes; no
-unbudgeted change in transverse magnitude is shown as a physical transition.
-Gravity uses a weak static Taylor patch and exact capacity decimals, with
-slope 2e-16/m. Hair uses other-strand applied fields at two idealized charged
-tips; it does not claim those tensors include self-fields or material interiors.
-A real hair shape needs distributed charge, stiffness, gravity, air and roots.
+RCCM supplies the matrix mapping, scalar clock-rate relation and restricted
+gravity equation. The charge-pressure cartoons follow Condensed’s qualitative
+Coulomb interaction account; they are not reconstructed pressure fields from
+the numerical examples. F = QE and τ = m × B are separately supplied
+conventional response fixtures, not claimed microscopic derivations.
+
+The clock ratio is √(0.5/0.8): 60 minutes at A corresponds to 47 min 26 s at B,
+rounded to the nearest second. The comparison covers a common static background
+interval and accounts for signal travel; it excludes travel to the stations.
+RCCM’s identification of capacity with internal cycle rate remains a premise
+of this illustration, not a microscopic oscillator calculation.
+
+The compass end arrows draw an equivalent turning couple, not literal magnetic
+monopoles. A current-loop representation explains how opposite currents in
+different parts of a dipole experience opposite forces and a net torque.
+The diagram predicts the initial turn, not damping or a final settled angle.
+
+Electric and magnetic coefficients are illustrative dimensionless values.
+Sign reversals preserve squared amplitudes. Gravity retains its weak static
+Taylor patch and exact capacity decimals, with slope 2e-16/m. Hair samples the
+other strand’s applied field at two idealized tips. Full hair shape requires
+distributed charge, bending stiffness, weight, air and root constraints.
 
 ## Experiment loop
 
-Notice: can Tom name the one changed knob without opening details?
-Stay: does he inspect a second sampler voluntarily?
-Respond: can he predict a changed torque sign, hidden slope, or same-sign hair
-repulsion? Trust: does he distinguish an imposed field from a simulated source?
-Next iteration depends on his prediction or visual feedback, not page dwell time.
-
-## Revision: give the pressure gradient a cause
-
-Tom's feedback was that the falling example named a slope and supplied a law,
-but did not explain why q makes matter fall. His own draft starts from
-“tornadonuts,” circulating fluid, cavitation and the remaining static-pressure
-budget. This locates the failure at the causal-payoff gate, not attention.
-
-The revised route is persistent circulation → occupied pressure budget →
-lower static pressure near mass → unequal ambient pushes across a test body.
-It begins with three visual story beats and then returns to the unchanged
-paired numeric fixture. Both opposing pushes remain visible, including in the
-zero-net-force world. The text distinguishes a maintained kinematic load from
-continual expenditure, and keeps the source and test body's freedom to move.
-The pressure-force bridge uses the source's effective hydrodynamic displacement;
-no geometric-volume force law or source-generating simulation was added.
-
-The next prediction uses two identical free masses and a midpoint rock: a
-depressed local q can coexist with cancellation of ambient pressure slopes.
+Can Tom retell who is where and what happens without reading the symbols?
+Can he explain the pressure imbalance, turning couple or root constraint in
+ordinary words? Does moving a sampler help him distinguish a field value from
+a field difference? The next revision follows his explanation or visual
+feedback, not an assumed understanding or page dwell time.

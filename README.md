@@ -79,14 +79,17 @@ full-fluid implementation.
 ## Graphical lessons: destination before dependency route
 
 The [Asymmetric Metric-Tensor visual cheat sheet](docs/asymmetric-tensor-cheat-sheet.html)
-places the complete local matrix above five paired visual examples: a clock,
-an electric push, a compass, falling, and static hair. Each comparison changes
-one named input, highlights affected numeric cells, and reveals the first
-response. Move samplers to distinguish local state, field variation and body
-response. The gravity example first traces circulating matter through the
-pressure budget to unequal ambient pushes; a response equation alone did not
-satisfy Tom's request for a causal explanation. The original symbol guide
-remains available below. The
+places the complete local matrix above five paired visual examples: watches
+belonging to you and your twin, a charged bead, a compass, falling, and static
+hair. Each example starts with a familiar situation and three illustrated
+causal steps before its numbers. Responses stay visible beside the pictures;
+Tom found the reveal interaction distracting. Each pair highlights the cells
+affected by one changed input. Move samplers to distinguish local state,
+field variation and body response. A response equation alone did not satisfy
+Tom's request for an explanation, and abstract clock wording failed to supply
+a meaningful comparison. The revised clock shows an hour for one twin against
+about 47 minutes for the other in an explicitly exaggerated, supported-station
+setting. The original symbol guide remains available below. The
 [story brief](docs/asymmetric-tensor-examples/STORY.md) records the teaching
 choices and declared response fixtures; the fixtures have five focused Node
 checks (`node --test docs/asymmetric-tensor-examples/model.test.cjs`).
