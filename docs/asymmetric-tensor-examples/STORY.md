@@ -4,6 +4,47 @@ An educational application of [storytelling](/Users/tom/.agents/skills/storytell
 and [story-golf](/Users/tom/.agents/skills/story-golf/SKILL.md) for Tom. Scores
 below are editorial hypotheses, not measurements of his cognition or skill.
 
+## Revision: bring rulers into the twin story
+
+Tom's next question showed that the watches supplied a usable human setting,
+but the spatial diagonal had no physical interpretation. He connected lower
+remaining capacity with fewer clock cycles, then asked whether 2 meant more
+space, why −0.8 meant more elapsed time than −0.5, and what zero, positive time
+weights or negative spatial weights would mean. The earlier clock score did
+not cover these unanswered questions.
+
+The added scene places mission control's shared coordinate map before naming
+the measurement formula. Two identical map gaps contain different counts of
+locally calibrated metre rulers. The drawing holds the map gaps fixed and
+changes the coordinate span of one local ruler. Both descriptions follow
+GfX's squared spatial interval; neither silently holds local room size fixed
+at the same time. The source supplies the reciprocal metric and its wavelength
+interpretation, not a microscopic derivation of a material ruler.
+
+Story: Same map gap, different tape reading.
+
+- Target: Tom, comparing the twin's watch and ruler with his own.
+- Exact message: The diagonal cells convert squared coordinate intervals into measured intervals; square roots give clock and ruler scales.
+- Promised outcome: Read −0.8/1.25 and −0.5/2 without interpreting signs as time reversal or the spatial entry as a direct CSS scale.
+- Required belief: Use the stated RCCM metric and fixed coordinate convention; no new microscopic mechanism is asserted.
+- Required action: Compare the two ruler diagrams, then change one capacity input and watch all four diagonal entries update together.
+- Axis scores: Translation Tax 2; Identity Threat 1; Causal Friction 2; Apathy Risk 1; Trust Burden 0.
+- Total score: 6/25, an editorial hypothesis awaiting feedback.
+- Verdict: Viable; the main remaining difficulty is distinguishing shared coordinates from local measurement.
+- Highest-friction axis: Translation Tax and Causal Friction, tied.
+- HiddenNegativeDebt: The original clock story displayed spatial numbers without explaining what instrument would read them.
+- Mutation ideas applied: Keep the twin setting, add one-metre rulers and a fixed map gap, separate squared weights from direct scale factors, and answer all requested edge values in a visible list.
+
+The capacity control includes q = 1, 0.8, 0.5, 0.25 and 0.001. The last produces
+spatial weights of 1000, a clock factor of about 0.0316 and a local length factor
+of about 31.62. q = 0 is outside the finite matrix; a sign change outside the
+chosen remaining-capacity branch is not a prediction of backwards time or
+negative metres. A consistent overall metric-sign reversal remains a valid
+notation convention. The optional light-speed check confirms that coordinate
+speed cq becomes local speed c after both scale conversions, without claiming
+to derive the metric itself. Local factors are not a curvature or total-volume
+reconstruction of a finite region.
+
 ## Objective and observed failure
 
 Help Tom connect tensor readings to experiences he can picture. He explicitly

@@ -91,8 +91,21 @@ a meaningful comparison. The revised clock shows an hour for one twin against
 about 47 minutes for the other in an explicitly exaggerated, supported-station
 setting. The original symbol guide remains available below. The
 [story brief](docs/asymmetric-tensor-examples/STORY.md) records the teaching
-choices and declared response fixtures; the fixtures have six focused Node
+choices and declared response fixtures; the fixtures have eight focused Node
 checks (`node --test docs/asymmetric-tensor-examples/model.test.cjs`).
+
+The twin comparison now includes rulers as well as watches. Tom could connect
+lower q to slower internal cycles, but the reciprocal spatial entries raised a
+new question: does the twin get more space, and do negative time entries mean
+negative elapsed time? The next bridge is **squared interval weights versus
+direct scale factors**. Equal gaps on a shared coordinate map measure 1.118
+local metres at q = 0.8 and 1.414 at q = 0.5. A capacity control ties −q and all
+three 1/q entries to their square-root clock and ruler readings, including the
+space-space = 1000 case. Zero-capacity and sign limits stay scoped to this
+parameterization, frame and convention. The fixed-map comparison is separate
+from holding a room's local measured size fixed; one sample still does not
+determine an extended region's geometry. The proposed q-to-cycle link is a
+recognized intuition, not yet evidence of mastery of metric measurements.
 
 The electric route now changes one hair’s charge to turn repulsion into
 attraction. At the right tip, the applied field stays fixed while reversing
