@@ -78,6 +78,12 @@ full-fluid implementation.
 
 ## Graphical lessons: destination before dependency route
 
+The [Asymmetric Metric-Tensor visual cheat sheet](docs/asymmetric-tensor-cheat-sheet.html)
+places the complete local matrix above color-matched capacity, electric-slip,
+and magnetic-vorticity diagrams. Toggle cell groups to connect the signs and
+slots to familiar clock, ruler, charged-probe and compass pictures.
+
+
 The current visual design conversation is the [voxel workbench](examples/voxel-workbench/index.html).
 Tom was not happy with voxel-tank or tau-tank and asked to proceed one small
 visual step at a time, with his feedback between steps. His
