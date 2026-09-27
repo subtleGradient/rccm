@@ -65,3 +65,15 @@
 @media print{.cause-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.cause-grid h4{font-size:14px}.cause-grid p,.cause-bridge{font-size:11px}.gravity-cause{break-inside:avoid}}
 
 .cause-grid .world-stage svg text{font-size:22px}.cause-grid .world-stage svg .label-small{font-size:18px}
+
+/* Hue identifies the tensor sector; light/dark identifies the entry's sign. */
+.cell.cap[data-sign="negative"],.numeric-cell.cap[data-sign="negative"]{background:var(--capacity);color:var(--capbg)}
+.cell.elec[data-sign="negative"],.numeric-cell.elec[data-sign="negative"]{background:var(--electric);color:var(--elecbg)}
+.cell.mag[data-sign="negative"],.numeric-cell.mag[data-sign="negative"]{background:var(--magnetic);color:var(--magbg)}
+.numeric-cell[data-sign="zero"]{background:#20262205;color:var(--muted)}
+.sign-reference{margin:12px 0 0}
+.sign-key{display:flex;flex-wrap:wrap;gap:10px 22px;margin:14px 0 22px;font-size:14px;color:var(--muted)}
+.sign-key>span{display:flex;align-items:center;gap:7px}
+.sign-swatch{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:3px;font-weight:600}
+.sign-positive{background:var(--capbg);color:var(--capacity)}.sign-negative{background:var(--capacity);color:var(--capbg)}.sign-zero{background:#20262205;color:var(--muted)}
+@media(max-width:760px){.sign-key{font-size:16px}}

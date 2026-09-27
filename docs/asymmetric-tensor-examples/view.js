@@ -158,8 +158,9 @@
       const row=Math.floor(i/4),col=i%4;
       const group=row===col?'cap':row===0||col===0?'elec':'mag';
       const active=changed.includes(i);
+      const sign=s.cells[i].value<0?'negative':s.cells[i].value>0?'positive':'zero';
       const color=active||s.cells[i].value!==0?group:'';
-      out+=`<div class="numeric-cell ${color} ${active?'changed':''}" aria-label="${axes[row]} ${axes[col]}: ${s.cells[i].text}${active?'; changes between A and B':''}">${s.cells[i].text}</div>`;
+      out+=`<div class="numeric-cell ${color} ${active?'changed':''}" data-sign="${sign}" aria-label="${axes[row]} ${axes[col]}: ${s.cells[i].text}${active?'; changes between A and B':''}">${s.cells[i].text}</div>`;
     }
     return out+'</div>';
   }
@@ -193,6 +194,7 @@
         const s=pair[world];return `<article class="world"><div class="world-header"><div class="world-letter">${world.toUpperCase()}</div><h4>${story.worlds[i]}</h4></div><div class="world-stage">${picture(world,s)}</div><div class="reading-header"><p class="reading-location">${readingLocation()}</p><p>Û${world.toUpperCase()}</p></div>${matrix(s,pair.changed)}<p class="reading-note">${readingNote(s)}</p></article>`;
       }).join('')}</div>
       <p class="diff-legend"><span class="diff-symbol" aria-hidden="true"></span>${pair.changed.length?`${pair.changed.length} outlined cells change between A and B at this sample.`:'No matrix cells change at this sample.'} ${scene==='falling'&&sample==='center'?'Now compare the readings above and below.':''} All matrix entries are dimensionless.</p>
+      <div class="sign-key" aria-label="Cell sign legend"><span><span class="sign-swatch sign-positive" aria-hidden="true">+</span> Positive · dark on light</span><span><span class="sign-swatch sign-negative" aria-hidden="true">−</span> Negative · light on dark</span><span><span class="sign-swatch sign-zero" aria-hidden="true">0</span> Zero · neutral</span></div>
       <div class="outcomes" id="scene-outcomes" ${revealed?'':'hidden'}>${story.outcomes.map((o,i)=>`<div class="outcome"><h4>${i===0?'A':'B'} · ${o[0]}</h4><p>${o[1]}</p></div>`).join('')}</div><p class="takeaway" ${revealed?'':'hidden'}>${story.takeaway}</p>
       <details class="story-method"><summary>What this scene assumes · equations and sources</summary><div class="method-grid"><div><h4>Field and response</h4><p>${story.method}</p></div><div><h4>Objects and boundaries</h4><p>${story.bodies}</p></div></div><p>${story.sources}</p></details>
       <p class="prediction">${story.prediction}</p>`;
