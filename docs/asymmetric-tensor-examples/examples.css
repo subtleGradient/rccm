@@ -24,7 +24,6 @@
 .world-stage svg .solid{stroke:var(--ink);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .world-stage svg .needle{fill:var(--magnetic)}
 .world-stage svg .ghost{opacity:.24;stroke-dasharray:6 5}
-.world-stage svg .response{visibility:hidden}.revealed .world-stage svg .response{visibility:visible}
 .world-stage svg [data-sample]{cursor:pointer}
 .world-stage svg [data-sample]:focus-visible{outline:2px solid #1679ad;outline-offset:4px}
 .world-stage svg .sample-dot{fill:var(--paper);stroke:var(--ink);stroke-width:2}
@@ -40,17 +39,15 @@
 .numeric-cell.changed{outline:2px solid currentColor;outline-offset:-2px;position:relative}.numeric-cell.changed:after{content:'•';position:absolute;top:-3px;right:4px;font:12px system-ui}
 .reading-note{font-size:14px;color:var(--muted);min-height:25px;overflow-wrap:anywhere;margin:10px 0 0}
 .diff-legend{font-size:14px;color:var(--muted);margin:12px 0 20px}.diff-symbol{display:inline-block;width:13px;height:13px;border:2px solid var(--electric);border-radius:2px;vertical-align:-1px;margin-right:4px}
-.reveal-bar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px;margin-top:20px}
-.reveal-bar button{background:var(--ink);color:var(--paper);border-color:var(--ink);min-height:48px;padding:12px 18px}.reveal-bar button:hover{background:#3a423c}.reveal-bar p{margin:0;font-size:15px;color:var(--muted)}
-.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:20px}.outcome{border-top:3px solid var(--capacity);padding-top:14px}.outcome h4{font-size:21px;margin:0 0 10px;font-weight:600}.outcome p{margin:0}
+.outcome{border-top:3px solid var(--capacity);padding-top:14px}.outcome h4{font-size:21px;margin:0 0 10px;font-weight:600}.outcome p{margin:0}
 .takeaway{font-size:20px;max-width:76ch;margin:22px 0;padding:16px 20px;background:var(--capbg);border-radius:6px}
 .story-method{margin:24px 0 0;border-block:1px solid var(--line);padding:15px 0}.story-method summary{cursor:pointer;font-size:15px;font-weight:600}.story-method p,.story-method li{font-size:15px}.story-method ul{padding-left:22px}
 .story-method .method-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}.method-grid h4{font-size:16px;margin:20px 0 5px}.method-grid p{margin:5px 0}
 .prediction{font-size:16px;border-left:3px solid var(--magnetic);padding:4px 0 4px 16px;margin:22px 0 0}
 .reference-notes{margin-top:42px;border-top:1px solid var(--line);padding-top:22px}.reference-notes>summary{cursor:pointer;font-size:22px;font-weight:600}
 [hidden]{display:none!important}
-@media(max-width:760px){.example-lab{margin-top:30px;padding-top:26px}.scene-header{grid-template-columns:1fr}.scene-header h3{font-size:26px}.change-strip,.worlds,.outcomes,.story-method .method-grid{grid-template-columns:1fr;gap:22px}.change-strip{gap:10px}.worlds{gap:30px}.scene-nav{gap:7px}.scene-nav button{flex:1 1 130px;font-size:16px}.change-strip,.change-strip strong,.reading-header,.reading-note,.diff-legend,.sample-controls,.story-method summary,.story-method p,.story-method li,.reveal-bar p{font-size:16px}.numeric-cell{font-size:20px}.sample-controls button{min-height:48px}.reading-header{align-items:start;flex-direction:column;gap:2px}.takeaway{font-size:19px}.world h4{font-size:20px}.outcome h4{font-size:22px}.method-grid h4{margin-top:8px}}
-@media print{.example-lab{break-before:page;margin-top:0}.scene-nav,.sample-controls,.reveal-bar{display:none}.worlds,.outcomes{grid-template-columns:1fr 1fr;gap:18px}.numeric-cell{min-height:30px;padding:6px 0;font-size:15px}.world-stage svg .response{visibility:visible}.outcomes[hidden],.takeaway[hidden]{display:grid!important}.scene-header h3{font-size:23px}.world-stage{break-inside:avoid}.change-strip{font-size:11px}.reference-notes{display:none}.example-lab h2{font-size:26px}.reading-note,.reading-header,.diff-legend,.story-method summary,.story-method p{font-size:11px}}
+@media(max-width:760px){.example-lab{margin-top:30px;padding-top:26px}.scene-header{grid-template-columns:1fr}.scene-header h3{font-size:26px}.change-strip,.worlds,.story-method .method-grid{grid-template-columns:1fr;gap:22px}.change-strip{gap:10px}.worlds{gap:30px}.scene-nav{gap:7px}.scene-nav button{flex:1 1 130px;font-size:16px}.change-strip,.change-strip strong,.reading-header,.reading-note,.diff-legend,.sample-controls,.story-method summary,.story-method p,.story-method li{font-size:16px}.numeric-cell{font-size:20px}.sample-controls button{min-height:48px}.reading-header{align-items:start;flex-direction:column;gap:2px}.takeaway{font-size:19px}.world h4{font-size:20px}.outcome h4{font-size:22px}.method-grid h4{margin-top:8px}}
+@media print{.example-lab{break-before:page;margin-top:0}.scene-nav,.sample-controls{display:none}.worlds{grid-template-columns:1fr 1fr;gap:18px}.numeric-cell{min-height:30px;padding:6px 0;font-size:15px}.scene-header h3{font-size:23px}.world-stage{break-inside:avoid}.change-strip{font-size:11px}.reference-notes{display:none}.example-lab h2{font-size:26px}.reading-note,.reading-header,.diff-legend,.story-method summary,.story-method p{font-size:11px}}
 
 .world-stage svg .sample-ring{fill:transparent;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:3 3}.world-stage svg .selected .sample-ring{stroke:var(--ink);stroke-width:2.5;stroke-dasharray:none}
 

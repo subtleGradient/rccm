@@ -4,7 +4,6 @@
   const host = document.getElementById('scene-content');
   let scene = 'compass';
   let sample = 'center';
-  let revealed = false;
   const source = '<a href="../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a>';
   const eSource = '<a href="https://openstax.org/books/university-physics-volume-2/pages/5-4-electric-field">OpenStax: electric field and F = QE</a>';
   const bSource = '<a href="https://openstax.org/books/university-physics-volume-2/pages/11-5-force-and-torque-on-a-current-loop">OpenStax: magnetic dipole torque</a>';
@@ -15,7 +14,6 @@
       intro:'Imagine being inside a small, uniformly loaded region. Compare the same resting clock in two different capacity conditions, against the same background time coordinate.',
       change:'Remaining capacity q: 0.8 → 0.5.', held:'No spatial slope; e = b = 0. Clock at rest in both worlds.',
       worlds:['More capacity · q = 0.8','Less capacity · q = 0.5'],
-      question:'Does a lower capacity level, on its own, create a direction to fall?',
       outcomes:[['0.894 local seconds','For one background-coordinate second, the resting clock advances √0.8 ≈ 0.894 seconds.'],['0.707 local seconds','For the same background-coordinate interval, it advances √0.5 ≈ 0.707 seconds.']],
       takeaway:'A pressure level sets the clock reading. A pressure slope supplies a direction. These uniform interiors have no pressure-gradient acceleration.',
       prediction:'Next change: keep the clock’s local q fixed, but give the region a vertical slope. Open “Falling” to inspect that pair.',
@@ -28,7 +26,6 @@
       intro:'A charged bead rests on a horizontal frictionless guide. The electric field reverses. The bead’s charge, mass and initial motion stay the same.',
       change:'Electric direction: eₓ = +0.002 → −0.002.', held:'q = 0.8; all other e and b components are zero. Bead charge Q > 0.',
       worlds:['Field points right','Field points left'],
-      question:'Which way does the positive bead first accelerate?',
       outcomes:[['Push to the right','The positive test charge responds in the electric-field direction.'],['Push to the left','The same positive charge now feels an opposite electric force.']],
       takeaway:'A uniform electric field can push a charge. You do not need a gradient of the electric field for this force.',
       prediction:'Keep either field fixed and replace the bead with a negative charge. Which way would the electric force point?',
@@ -41,7 +38,6 @@
       intro:'Look down at a compass on a frictionless pivot. Its magnetic moment starts to the right. Reverse the surrounding field while leaving the needle exactly where it was.',
       change:'Magnetic direction: bᵧ = +0.003 → −0.003.', held:'q = 0.8; e = 0. Needle moment points +x; initial spin is zero.',
       worlds:['Field toward +y','Field toward −y'],
-      question:'The needle starts in the same position. Which way does it first turn?',
       outcomes:[['Counterclockwise','The moment points +x and the field +y. Their turning couple points +z, out of the page.'],['Clockwise','The field reverses to −y. The turning couple points −z, into the page.']],
       takeaway:'A uniform magnetic field can turn a magnetic moment. A field gradient is needed for translation of an ideal fixed dipole; the pivot holds this centre in place.',
       prediction:'Keep the field fixed and point the needle’s moment along it. What happens to the initial turning couple?',
@@ -54,7 +50,6 @@
       intro:'Be the rock above a planet. Fluid presses on you from every side. The planet leaves less static pressure on your underside, so the push from above wins. Here is how circulation becomes that unequal squeeze.',
       change:'Vertical slope: dq/dy = 0 → 2 × 10⁻¹⁶ per metre.', held:'q at the centre = 0.999999999; e = b = 0. Rock initially at rest.',
       worlds:['Equal squeeze · no net push','Stronger above · net push down'],
-      question:'Both rocks have the same centre reading. Compare the pushes, then reveal their net effect.',
       outcomes:[['The pushes balance','The fluid squeezes from every side, but the opposing pushes cancel. Low q by itself supplies no direction to fall.'],['The downward push wins','Higher pressure above pushes down harder than lower pressure below pushes up. For this chosen slope, the difference gives about 8.99 m/s² downward.']],
       takeaway:'The rock falls because pressure pushes harder from the side away from the planet. q records how much static pressure remains; the difference across the rock gives the push a direction.',
       prediction:'Now put the same rock halfway between two identical, freely moving masses. Both lower the local q, but their pressure slopes oppose. Does low q alone tell the rock which way to start falling?',
@@ -67,7 +62,6 @@
       intro:'Zoom in on two neighbouring hairs, rooted in the scalp. Give their tips equal positive charges in A and equal negative charges in B. Keep their starting shapes and charge magnitudes fixed.',
       change:'One shared polarity: both tips positive → both tips negative.', held:'Same geometry and |Q|. Same scalar background q = 0.8; b = 0.',
       worlds:['Two positive tips','Two negative tips'],
-      question:'The electric-field arrows reverse. Does the repulsion reverse too?',
       outcomes:[['Electric forces point apart','Positive tips respond along the other tip’s electric field: left tip leftward, right tip rightward.'],['Electric forces still point apart','Both Q and E reverse. Their product QE keeps the same direction at each tip.']],
       takeaway:'The field reading is one part of the story. The charge responding to it is another. Same-sign strands repel for either sign of charge.',
       prediction:'Change just the right tip’s charge sign, leaving the left tip positive. Do the tips now tend to spread apart or bend toward each other?',
@@ -95,14 +89,14 @@
         <article><div class="world-stage">${svg('A rock above a planet receives a stronger ambient pressure push from above and a weaker push from below.',arrow(250,26,250,82,'field-q pressure-top')+'<path d="M220 100L242 83L269 98L278 121L251 136L222 124Z" fill="#979d91" stroke="var(--ink)" stroke-width="2"/>'+arrow(250,168,250,141,'field-q pressure-bottom')+'<path d="M77 283Q250 140 423 283" fill="var(--capbg)" stroke="var(--capacity)" stroke-width="2"/>'+text(250,261,'planet','','middle')+text(281,46,'stronger push ↓','label-small')+text(281,159,'weaker push ↑','label-small')+arrow(162,88,162,143)+text(90,168,'rock falls','label-small'))}</div><h4>3. The squeeze is unequal</h4><p>The rock’s far side meets higher ambient pressure. Its planet-facing side meets lower pressure. <strong>The push from above exceeds the push from below.</strong> That imbalance accelerates the rock downward.</p></article>
       </div>
       <p class="cause-bridge">The rock and its surrounding moving fluid respond together. The planet responds to the rock too. In this mass-only scene, each body is pushed toward the other’s lower-pressure neighbourhood.</p>
-      <p class="cause-bridge"><strong>Now isolate the cause.</strong> Keep the centre reading identical and change only the pressure slope. Green arrows show opposing pressure pushes; black arrows reveal the net result. Arrow differences are exaggerated.</p>
+      <p class="cause-bridge"><strong>Now change just the pressure difference.</strong> Keep the centre reading identical. Green arrows show opposing pressure pushes; black arrows show the net result. Arrow differences are exaggerated.</p>
     </section>`;
   }
   function picture(world,s) {
     const isA=world==='a';
     if(scene==='clock'){
       const q=s.q.value,rate=M.clockRate(s), angle=rate*2*Math.PI-Math.PI/2;
-      return svg(`A resting clock at capacity ${q}. Reveal the relative clock advance.`,
+      return svg(`A resting clock at capacity ${q}, showing its relative clock advance.`,
         `<rect x="58" y="45" width="70" height="165" rx="5" fill="none" stroke="var(--capacity)" stroke-width="2"/><rect x="59" y="${209-163*q}" width="68" height="${163*q}" fill="var(--capbg)"/>${text(93,240,`q = ${q}`,'','middle')}<circle cx="306" cy="131" r="81" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>`+
         Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return `<path class="solid" d="M${306+70*Math.sin(a)} ${131-70*Math.cos(a)}L${306+75*Math.sin(a)} ${131-75*Math.cos(a)}"/>`;}).join('')+
         '<path class="solid ghost" d="M306 131V72"/><circle cx="306" cy="131" r="4" fill="var(--ink)"/>'+
@@ -184,18 +178,16 @@
   }
   function draw(){
     const story=stories[scene], pair=M.pair(scene,sample), choices=sampleChoices();
-    host.classList.toggle('revealed',revealed);
     host.innerHTML=`<div class="scene-header"><div><div class="scene-number">${story.number}</div><h3>${story.title}</h3><p>${story.intro}</p></div></div>
       ${scene==='falling'?gravityStory():''}
       <div class="change-strip"><div><strong class="change-label">The one change</strong><p>${story.change}</p></div><div><strong>Held fixed</strong><p>${story.held}</p></div></div>
       ${choices.length?`<div class="sample-controls" aria-label="Sample location"><div class="sample-label">Move the sampler in both worlds:</div>${choices.map(([id,label])=>`<button type="button" data-sample="${id}" aria-pressed="${id===sample}">${label}</button>`).join('')}</div>`:''}
-      <div class="reveal-bar"><button type="button" id="reveal-response" aria-expanded="${revealed}" aria-controls="scene-outcomes">${revealed?'Hide the response':'Reveal what happens'}</button><p>${story.question}</p></div>
       <div class="worlds">${['a','b'].map((world,i)=>{
-        const s=pair[world];return `<article class="world"><div class="world-header"><div class="world-letter">${world.toUpperCase()}</div><h4>${story.worlds[i]}</h4></div><div class="world-stage">${picture(world,s)}</div><div class="reading-header"><p class="reading-location">${readingLocation()}</p><p>Û${world.toUpperCase()}</p></div>${matrix(s,pair.changed)}<p class="reading-note">${readingNote(s)}</p></article>`;
+        const s=pair[world];return `<article class="world"><div class="world-header"><div class="world-letter">${world.toUpperCase()}</div><h4>${story.worlds[i]}</h4></div><div class="world-stage">${picture(world,s)}</div><div class="outcome"><h4>${story.outcomes[i][0]}</h4><p>${story.outcomes[i][1]}</p></div><div class="reading-header"><p class="reading-location">${readingLocation()}</p><p>Û${world.toUpperCase()}</p></div>${matrix(s,pair.changed)}<p class="reading-note">${readingNote(s)}</p></article>`;
       }).join('')}</div>
       <p class="diff-legend"><span class="diff-symbol" aria-hidden="true"></span>${pair.changed.length?`${pair.changed.length} outlined cells change between A and B at this sample.`:'No matrix cells change at this sample.'} ${scene==='falling'&&sample==='center'?'Now compare the readings above and below.':''} All matrix entries are dimensionless.</p>
       <div class="sign-key" aria-label="Cell sign legend"><span><span class="sign-swatch sign-positive" aria-hidden="true">+</span> Positive · dark on light</span><span><span class="sign-swatch sign-negative" aria-hidden="true">−</span> Negative · light on dark</span><span><span class="sign-swatch sign-zero" aria-hidden="true">0</span> Zero · neutral</span></div>
-      <div class="outcomes" id="scene-outcomes" ${revealed?'':'hidden'}>${story.outcomes.map((o,i)=>`<div class="outcome"><h4>${i===0?'A':'B'} · ${o[0]}</h4><p>${o[1]}</p></div>`).join('')}</div><p class="takeaway" ${revealed?'':'hidden'}>${story.takeaway}</p>
+      <p class="takeaway">${story.takeaway}</p>
       <details class="story-method"><summary>What this scene assumes · equations and sources</summary><div class="method-grid"><div><h4>Field and response</h4><p>${story.method}</p></div><div><h4>Objects and boundaries</h4><p>${story.bodies}</p></div></div><p>${story.sources}</p></details>
       <p class="prediction">${story.prediction}</p>`;
   }
@@ -205,19 +197,13 @@
     host.querySelector(`.sample-controls [data-sample="${sample}"]`)?.focus({preventScroll:true});
   }
   document.querySelectorAll('[data-scene]').forEach(button=>button.addEventListener('click',()=>{
-    scene=button.dataset.scene;sample=scene==='hair'?'left':'center';revealed=false;
+    scene=button.dataset.scene;sample=scene==='hair'?'left':'center';
     document.querySelectorAll('[data-scene]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
     draw();
   }));
   host.addEventListener('click',event=>{
     const sampler=event.target.closest('[data-sample]');
     if(sampler){selectSample(sampler.dataset.sample);return;}
-    if(event.target.closest('#reveal-response')){
-      revealed=!revealed;host.classList.toggle('revealed',revealed);
-      const button=document.getElementById('reveal-response');
-      button.textContent=revealed?'Hide the response':'Reveal what happens';button.setAttribute('aria-expanded',String(revealed));
-      document.getElementById('scene-outcomes').hidden=!revealed;host.querySelector('.takeaway').hidden=!revealed;
-    }
   });
   host.addEventListener('keydown',event=>{
     const target=event.target.closest('g[data-sample]');
