@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" class="scheme-only-dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Voxel workbench · 01</title>
+  <link rel="icon" href="data:,">
+  <link rel="preload" href="../voxel-tank/vendor/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="workbench.css">
+  <script type="module" src="workbench.js"></script>
+</head>
+<body>
+  <main id="workbench">
+    <canvas id="scene" tabindex="0" aria-label="Voxel tank. Arrow keys move the cursor. Space selects a voxel. Select two to compare their states. Escape clears selection."></canvas>
+    <header class="document-bar">
+      <i class="icon cube" aria-hidden="true"></i>
+      <h1>Voxel workbench</h1>
+      <div class="study-number">01 / Layout</div>
+    </header>
+
+    <div id="tank-area" aria-hidden="true">
+      <div class="tank-caption"><span>Front</span><span>1 voxel deep</span></div>
+      <div id="column-labels" class="column-labels"></div>
+      <div id="row-labels" class="row-labels"></div>
+      <div id="selection-marks"></div>
+      <div class="tank-footer"><span id="voxel-count">96 voxels</span><span>Screen-fixed grid</span></div>
+    </div>
+
+    <button type="button" id="show-panels" class="floating panel-toggle" aria-controls="panels" aria-expanded="true" title="Show or hide panels">
+      <i class="icon panels-icon" aria-hidden="true"></i><span>Panels</span>
+    </button>
+
+    <aside id="panels" class="floating panels" aria-label="Layers and selection inspector">
+      <section class="layers-panel" aria-labelledby="layers-heading">
+        <div class="panel-heading">
+          <h2 id="layers-heading">Layers</h2>
+          <button type="button" id="hide-panels" class="icon-button" aria-label="Hide panels" title="Hide panels"><i class="icon collapse" aria-hidden="true"></i></button>
+        </div>
+        <div class="tank-layer">
+          <button type="button" id="toggle-tank" class="icon-button" aria-label="Show voxel tank" aria-pressed="true" title="Show or hide voxel tank"><i class="icon eye" aria-hidden="true"></i></button>
+          <i class="icon cube" aria-hidden="true"></i>
+          <div class="layer-name">Voxel tank</div>
+          <div id="layer-resolution" class="layer-meta">12 × 8 × 1</div>
+        </div>
+        <div class="empty-layers">
+          <div class="empty-title">No objects yet</div>
+          <p>Room for your matter layers.</p>
+        </div>
+      </section>
+
+      <section class="inspector" aria-labelledby="inspector-heading">
+        <div class="panel-heading">
+          <h2 id="inspector-heading">Inspect selection</h2>
+          <button type="button" id="clear-selection" class="icon-button" aria-label="Clear voxel selection" title="Clear selection · Esc"><i class="icon close" aria-hidden="true"></i></button>
+        </div>
+        <div id="selection-summary" aria-live="polite"></div>
+        <div id="inspector-data">
+          <h3>Asymmetric Metric-Tensor State</h3>
+          <div class="matrix-heading"><span id="matrix-name">Û · Voxel A</span><span>t, x, y, z</span></div>
+          <table class="matrix" aria-label="Asymmetric Metric-Tensor State">
+            <thead><tr><th scope="col"><span class="sr-only">Row</span></th><th scope="col">t</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th></tr></thead>
+            <tbody id="matrix-values"></tbody>
+          </table>
+          <dl class="state-values">
+            <div><dt id="capacity-label">Capacity · q</dt><dd id="capacity-value">1.000</dd></div>
+            <div><dt id="weight-label">Spatial weight · 1/q</dt><dd id="weight-value">1.000</dd></div>
+            <div><dt id="slip-label">Slip · e</dt><dd>0, 0, 0</dd></div>
+            <div><dt id="twist-label">Twist · b</dt><dd>0, 0, 0</dd></div>
+          </dl>
+          <p id="state-note" class="state-note">Unperturbed vacuum. No matter layers.</p>
+        </div>
+        <p id="empty-selection" class="empty-selection" hidden>Use the voxel inspector to select one cell, or two to compare.</p>
+      </section>
+      <div class="panel-footnote">First visual step · space to refine</div>
+    </aside>
+
+    <div class="bottom-area">
+      <p id="tool-hint" class="tool-hint">Click a voxel. Click another to compare.</p>
+      <div class="floating toolbar" role="toolbar" aria-label="Voxel workbench tools">
+        <div class="tool-group" aria-label="Selection tools">
+          <button type="button" id="pointer-tool" class="tool-button" aria-label="Pointer tool" aria-pressed="false" title="Pointer · V"><i class="icon pointer" aria-hidden="true"></i></button>
+          <button type="button" id="inspect-tool" class="tool-button" aria-label="Voxel inspector tool" aria-pressed="true" title="Voxel inspector · I"><i class="icon inspect" aria-hidden="true"></i></button>
+          <button type="button" class="tool-button" aria-label="Pan tool, planned for a later step" title="Pan world · a later step" disabled><i class="icon hand" aria-hidden="true"></i></button>
+        </div>
+        <div class="tool-group creation-tools">
+          <button type="button" class="tool-button pair-button" title="Create a matter / antimatter pair · a later step" disabled><i class="icon plus" aria-hidden="true"></i><span>Pair</span></button>
+        </div>
+        <div class="resolution-controls" role="group" aria-label="Tank resolution">
+          <div class="resolution-title">Tank</div>
+          <label>X<input id="resolution-x" name="resolution-x" type="number" min="1" max="24" value="12" aria-label="Tank X resolution"></label>
+          <label>Y<input id="resolution-y" name="resolution-y" type="number" min="1" max="20" value="8" aria-label="Tank Y resolution"></label>
+          <label title="One layer for this first visual step">Z<input id="resolution-z" name="resolution-z" type="number" value="1" aria-label="Tank Z resolution, fixed at one for this step" disabled></label>
+        </div>
+      </div>
+    </div>
+    <p id="render-error" role="alert" hidden>WebGL could not start. Open this page in a browser with WebGL enabled.</p>
+  </main>
+</body>
+</html>

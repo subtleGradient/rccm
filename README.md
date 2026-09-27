@@ -78,6 +78,15 @@ full-fluid implementation.
 
 ## Graphical lessons: destination before dependency route
 
+The current visual design conversation is the [voxel workbench](examples/voxel-workbench/index.html).
+Tom was not happy with voxel-tank or tau-tank and asked to proceed one small
+visual step at a time, with his feedback between steps. His
+[full direction is preserved verbatim](examples/voxel-workbench/DIRECTION.md).
+The first step places a neutral tank, floating editor panels and a bottom
+toolbar, with one/two-voxel tensor inspection. The intended architecture keeps
+the sampling grid fixed to the window while the world pans and zooms beneath
+it. The voxel appearance and next implementation step await Tom's nudge.
+
 The [voxel-tank rendering studies](examples/voxel-tank/index.html) explore the
 visual destination in native HTML and Three.js: three local glyphs, the same
 toroidal specimen through 1/8/64 cells, and pressure/slip in the fluid between
