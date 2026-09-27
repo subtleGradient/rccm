@@ -13,3 +13,15 @@ does that make sense?
 Verbatim user feedback:
 
 the layers and elements should feel like adobe illustrator in outline mode. when an element overlaps with the tank then the voxels within it will change their rendering based on how the shape influences them. the voxels are effectively rasterizing the Asymmetric Metric-Tensor State of all the elements and stuff within and around them
+
+# Visual direction · 04
+
+Verbatim user feedback:
+
+mass element wireframes should be mostly transparent unless selected. scene should have more depth distortion and should rotate in 3d. element inspector should let me change the state of the selected element. voxels should always be cubes. the scene should be properly 3d and let me position elements behind and in front of the tank.
+
+# Visual direction · 05
+
+Verbatim user feedback:
+
+instead of freeform x/y/z for the tank, let's support resolution fine–coarse and depth as a slice or full
