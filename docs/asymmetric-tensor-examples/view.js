@@ -50,17 +50,17 @@
       sources:`${source}, §3.3 (the y-axis vorticity uses the xz/zx pair); ${bSource} (separate conventional response law).`
     },
     falling: {
-      number:'04 / Neighbouring readings', title:'Same centre reading. Different fall.',
-      intro:'Pause a small rock at the centre of a vertical strip. In A, capacity is level. In B, it rises slightly as you go upward. The rock’s own location reads exactly the same in both.',
+      number:'04 / Gravity as unequal squeeze', title:'The stronger push comes from above.',
+      intro:'Be the rock above a planet. Fluid presses on you from every side. The planet leaves less static pressure on your underside, so the push from above wins. Here is how circulation becomes that unequal squeeze.',
       change:'Vertical slope: dq/dy = 0 → 2 × 10⁻¹⁶ per metre.', held:'q at the centre = 0.999999999; e = b = 0. Rock initially at rest.',
-      worlds:['Capacity level through the strip','Capacity rises upward'],
-      question:'Start at the centre, then sample above and below. Where is the missing information?',
-      outcomes:[['No gradient acceleration','There is no preferred direction from this constant pressure-capacity field.'],['About 8.99 m/s² downward','The weak static rule aᵧ = −(c²/2) dq/dy points toward lower capacity.']],
-      takeaway:'The local state can match while the next acceleration differs. You need the spatial relationship between readings—and their separation.',
-      prediction:'If the same capacity difference were spread over twice the distance, what would happen to the acceleration?',
-      method:'A local first-order field patch: A has q(y) = q₀; B has q(y) = q₀ + (2 × 10⁻¹⁶ m⁻¹)y. Samples are at y = −1, 0, +1 metre, and exact decimal capacities are retained. c = 299792458 m/s gives −8.987551787… m/s². This uses the focused source’s weak, static, slow-test-body reduction, not its full dynamics.',
-      bodies:'The rock is a test body with no support. A represents a locally uniform field; B can approximate a small region above a gravitating body, where capacity is lower toward the source. The source is outside the view and may move too. These are instantaneous prescribed patches, not a fixed-source orbit simulation. The tiny capacity differences are visually exaggerated.',
-      sources:`${source}, §5.3: a = −∇Pstatic/ρτ = −(c²/2)∇q. <a href="../RCCM-Condensed.tex">Condensed</a>, “Pressure Deficits, Symmetry Breaking, and Acoustic Covariance,” for the scalar-versus-gradient distinction.`
+      worlds:['Equal squeeze · no net push','Stronger above · net push down'],
+      question:'Both rocks have the same centre reading. Compare the pushes, then reveal their net effect.',
+      outcomes:[['The pushes balance','The fluid squeezes from every side, but the opposing pushes cancel. Low q by itself supplies no direction to fall.'],['The downward push wins','Higher pressure above pushes down harder than lower pressure below pushes up. For this chosen slope, the difference gives about 8.99 m/s² downward.']],
+      takeaway:'The rock falls because pressure pushes harder from the side away from the planet. q records how much static pressure remains; the difference across the rock gives the push a direction.',
+      prediction:'Now put the same rock halfway between two identical, freely moving masses. Both lower the local q, but their pressure slopes oppose. Does low q alone tell the rock which way to start falling?',
+      method:'The causal picture uses Pstatic = Pc − applied loads and q = Pstatic/Pc. Persistent circulation occupies the pressure budget; this is a maintained state, not a continual expenditure of fluid or energy. The source’s body-force bridge is F = −Veff ∇Pstatic, where Veff is an effective hydrodynamic displacement, not the rock’s geometric volume. The numerical comparison remains a local first-order field patch: A has q(y) = q₀; B has q(y) = q₀ + (2 × 10⁻¹⁶ m⁻¹)y. Samples are at y = −1, 0, +1 metre, and exact decimal capacities are retained. c = 299792458 m/s gives −8.987551787… m/s². This uses the focused source’s weak, static, slow-test-body reduction, not its full dynamics.',
+      bodies:'The rock includes cavitation structures and the surrounding fluid recruited into their motion. Its isolated, symmetric self-field supplies no preferred direction; these samplers inspect the ambient field. A is a locally uniform field; B approximates a small region above a gravitating body. The planet also responds to the rock. The two are free to move; the illustration freezes an instant and evaluates only the test-body limit. Pressure arrows represent effective ambient pushes; their differences are enormously exaggerated for visibility. Real empty-looking space can have q below one because a distant mass’s field reaches it.',
+      sources:`${source}, §2 (finite pressure budget), §5.3 (mass-generated deficit and F = −Veff ∇Pstatic). <a href="../RCCM-Condensed.tex">Condensed</a>, “The Kinematic Origin of Inertia” places the cavitation and surrounding added mass; “Pressure Deficits, Symmetry Breaking, and Acoustic Covariance” separates level from slope.`
     },
     hair: {
       number:'05 / Field plus material response', title:'Reverse both charges. The hairs still spread.',
@@ -86,6 +86,18 @@
   const dot = (id,x,y,label,tx=x,ty=y+26) => `<g role="button" tabindex="0" data-sample="${id}" aria-label="Sample ${label}" aria-pressed="${sample===id}" class="${sample===id?'selected':''}"><circle cx="${x}" cy="${y}" r="8" class="sample-dot"/>${text(tx,ty,label,'label-small','middle')}</g>`;
   const hairDot = (id,x) => `<g role="button" tabindex="0" data-sample="${id}" aria-label="Sample ${id} hair tip" aria-pressed="${sample===id}" class="${sample===id?'selected':''}"><circle cx="${x}" cy="116" r="24" class="sample-ring"/>${text(x,196,`sample ${id}`,'label-small','middle')}</g>`;
   const svg = (description,body) => `<svg viewBox="0 0 500 285" role="img" aria-label="${description}">${body}</svg>`;
+  function gravityStory(){
+    const ring=(x,y,scale=1)=>`<g transform="translate(${x} ${y}) scale(${scale})"><ellipse cx="0" cy="0" rx="44" ry="26" fill="var(--elecbg)" stroke="var(--electric)" stroke-width="2"/><ellipse cx="0" cy="0" rx="20" ry="10" fill="var(--paper)" stroke="var(--electric)" stroke-width="2"/><path class="field" d="M−31 −13Q−10 −30 17 −20M8 −26L17 −20L7 −17"/></g>`.replaceAll('−','-');
+    return `<section class="gravity-cause" aria-label="Why circulation leads to falling in RCCM">
+      <div class="cause-grid">
+        <article><div class="world-stage">${svg('Matter represented by persistent circulating rings around cavities.',ring(180,121,1.2)+ring(283,158,.9)+ring(305,77,.7)+text(250,246,'cavities + circulating fluid','','middle'))}</div><h4>1. Matter keeps circulating</h4><p>Your “tornadonuts”: persistent cavitation structures and organised circulation. The rock and the planet both contain these structures. Moving them also recruits surrounding fluid.</p></article>
+        <article><div class="world-stage">${svg('The same finite pressure budget is partitioned into circulation load and remaining static pressure.',text(250,50,'One finite pressure budget','','middle')+'<rect x="44" y="82" width="412" height="62" rx="4" fill="var(--capbg)"/><path d="M44 82H183V144H44Z" fill="var(--elecbg)"/>'+text(114,119,'load','','middle')+text(320,119,'static pressure','','middle')+text(250,186,'q = static pressure / full budget','','middle')+text(250,232,'Schematic partition; not the numeric example.','label-small','middle'))}</div><h4>2. Less static pressure remains</h4><p>Circulation occupies part of the budget for as long as it persists. The remainder is static pressure; <strong>q measures that fraction.</strong> In the planet’s exterior field, this remainder is smaller nearer the planet.</p></article>
+        <article><div class="world-stage">${svg('A rock above a planet receives a stronger ambient pressure push from above and a weaker push from below.',arrow(250,26,250,82,'field-q pressure-top')+'<path d="M220 100L242 83L269 98L278 121L251 136L222 124Z" fill="#979d91" stroke="var(--ink)" stroke-width="2"/>'+arrow(250,168,250,141,'field-q pressure-bottom')+'<path d="M77 283Q250 140 423 283" fill="var(--capbg)" stroke="var(--capacity)" stroke-width="2"/>'+text(250,261,'planet','','middle')+text(281,46,'stronger push ↓','label-small')+text(281,159,'weaker push ↑','label-small')+arrow(162,88,162,143)+text(90,168,'rock falls','label-small'))}</div><h4>3. The squeeze is unequal</h4><p>The rock’s far side meets higher ambient pressure. Its planet-facing side meets lower pressure. <strong>The push from above exceeds the push from below.</strong> That imbalance accelerates the rock downward.</p></article>
+      </div>
+      <p class="cause-bridge">The rock and its surrounding moving fluid respond together. The planet responds to the rock too. In this mass-only scene, each body is pushed toward the other’s lower-pressure neighbourhood.</p>
+      <p class="cause-bridge"><strong>Now isolate the cause.</strong> Keep the centre reading identical and change only the pressure slope. Green arrows show opposing pressure pushes; black arrows reveal the net result. Arrow differences are exaggerated.</p>
+    </section>`;
+  }
   function picture(world,s) {
     const isA=world==='a';
     if(scene==='clock'){
@@ -117,12 +129,17 @@
         dot('left',170,142,'left tip',153,268)+dot('center',250,142,'pivot',250,268)+dot('right',330,142,'right tip',347,268));
     }
     if(scene==='falling'){
-      const gradient=isA?text(61,142,'=','','middle'):arrow(61,214,61,65,'field-q');
-      return svg(`A rock with samples above, at its centre and below. Capacity ${isA?'is constant':'increases upward'}.`,
-        `<path d="M109 36H419M109 142H419M109 248H419" stroke="var(--line)" stroke-dasharray="4 7"/>${gradient}${text(60,28,isA?'level q':'higher q','label-small','middle')}${text(60,268,isA?'level q':'lower q','label-small','middle')}`+
-        '<path d="M220 121L247 109L276 125L282 146L263 165L227 162L213 140Z" fill="#979d91" stroke="var(--ink)" stroke-width="2"/>'+text(250,90,'rock at rest','label-small','middle')+
-        (isA ? '<g class="response">'+text(166,196,'a = 0')+'</g>' : `<g class="response">${arrow(248,167,248,225)}${text(177,216,'a ↓')}</g>`)+
-        dot('above',352,36,'above +1 m',352,60)+dot('center',352,142,'centre 0',352,169)+dot('below',352,248,'below −1 m',352,277));
+      const topStart=isA?60:47, bottomStart=isA?215:197;
+      return svg(`Ambient pressure pushes on a rock from all sides. ${isA?'Equal opposing pushes balance.':'A larger downward push from above exceeds the upward push from below.'}`,
+        `<path d="M110 36H430M110 142H430M110 248H430" stroke="var(--line)" stroke-dasharray="4 7"/>`+
+        text(24,31,isA?'Same pressure':'Higher pressure','label-small')+
+        text(24,275,isA?'Same pressure':'Lower pressure · planetward','label-small')+
+        `<g class="pressure-push ${isA?'equal-push':'unequal-push'}">${arrow(226,topStart,226,106,'field-q pressure-top')}${arrow(226,bottomStart,226,169,'field-q pressure-bottom')}${arrow(147,139,193,139,'field-q')}${arrow(305,139,259,139,'field-q')}</g>`+
+        '<path d="M205 124L223 112L248 126L256 147L239 162L211 160L195 141Z" fill="#979d91" stroke="var(--ink)" stroke-width="2"/>'+
+        text(21,91,isA?'push down':'stronger push ↓','label-small')+
+        text(21,203,isA?'push up':'weaker push ↑','label-small')+
+        (isA ? '<g class="response">'+text(81,153,'net = 0')+'</g>' : `<g class="response">${arrow(89,118,89,167)}${text(42,153,'net ↓','label-small')}</g>`)+
+        dot('above',373,36,'above +1 m',373,60)+dot('center',373,142,'centre 0',373,169)+dot('below',373,248,'below −1 m',373,277));
     }
     const charge=isA?'+':'−', color=isA?'#f2ea89':'#cde9fa';
     return svg(`Two rooted hairs with ${isA?'positive':'negative'} tip charges. The electric field at each tip comes from the other tip.`,
@@ -168,6 +185,7 @@
     const story=stories[scene], pair=M.pair(scene,sample), choices=sampleChoices();
     host.classList.toggle('revealed',revealed);
     host.innerHTML=`<div class="scene-header"><div><div class="scene-number">${story.number}</div><h3>${story.title}</h3><p>${story.intro}</p></div></div>
+      ${scene==='falling'?gravityStory():''}
       <div class="change-strip"><div><strong class="change-label">The one change</strong><p>${story.change}</p></div><div><strong>Held fixed</strong><p>${story.held}</p></div></div>
       ${choices.length?`<div class="sample-controls" aria-label="Sample location"><div class="sample-label">Move the sampler in both worlds:</div>${choices.map(([id,label])=>`<button type="button" data-sample="${id}" aria-pressed="${id===sample}">${label}</button>`).join('')}</div>`:''}
       <div class="reveal-bar"><button type="button" id="reveal-response" aria-expanded="${revealed}" aria-controls="scene-outcomes">${revealed?'Hide the response':'Reveal what happens'}</button><p>${story.question}</p></div>

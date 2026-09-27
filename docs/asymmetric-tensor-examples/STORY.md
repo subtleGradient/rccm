@@ -75,3 +75,22 @@ Stay: does he inspect a second sampler voluntarily?
 Respond: can he predict a changed torque sign, hidden slope, or same-sign hair
 repulsion? Trust: does he distinguish an imposed field from a simulated source?
 Next iteration depends on his prediction or visual feedback, not page dwell time.
+
+## Revision: give the pressure gradient a cause
+
+Tom's feedback was that the falling example named a slope and supplied a law,
+but did not explain why q makes matter fall. His own draft starts from
+“tornadonuts,” circulating fluid, cavitation and the remaining static-pressure
+budget. This locates the failure at the causal-payoff gate, not attention.
+
+The revised route is persistent circulation → occupied pressure budget →
+lower static pressure near mass → unequal ambient pushes across a test body.
+It begins with three visual story beats and then returns to the unchanged
+paired numeric fixture. Both opposing pushes remain visible, including in the
+zero-net-force world. The text distinguishes a maintained kinematic load from
+continual expenditure, and keeps the source and test body's freedom to move.
+The pressure-force bridge uses the source's effective hydrodynamic displacement;
+no geometric-volume force law or source-generating simulation was added.
+
+The next prediction uses two identical free masses and a midpoint rock: a
+depressed local q can coexist with cancellation of ambient pressure slopes.

@@ -83,7 +83,10 @@ places the complete local matrix above five paired visual examples: a clock,
 an electric push, a compass, falling, and static hair. Each comparison changes
 one named input, highlights affected numeric cells, and reveals the first
 response. Move samplers to distinguish local state, field variation and body
-response. The original symbol guide remains available below. The
+response. The gravity example first traces circulating matter through the
+pressure budget to unequal ambient pushes; a response equation alone did not
+satisfy Tom's request for a causal explanation. The original symbol guide
+remains available below. The
 [story brief](docs/asymmetric-tensor-examples/STORY.md) records the teaching
 choices and declared response fixtures; the fixtures have five focused Node
 checks (`node --test docs/asymmetric-tensor-examples/model.test.cjs`).

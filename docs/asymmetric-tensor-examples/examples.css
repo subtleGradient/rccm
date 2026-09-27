@@ -53,3 +53,15 @@
 @media print{.example-lab{break-before:page;margin-top:0}.scene-nav,.sample-controls,.reveal-bar{display:none}.worlds,.outcomes{grid-template-columns:1fr 1fr;gap:18px}.numeric-cell{min-height:30px;padding:6px 0;font-size:15px}.world-stage svg .response{visibility:visible}.outcomes[hidden],.takeaway[hidden]{display:grid!important}.scene-header h3{font-size:23px}.world-stage{break-inside:avoid}.change-strip{font-size:11px}.reference-notes{display:none}.example-lab h2{font-size:26px}.reading-note,.reading-header,.diff-legend,.story-method summary,.story-method p{font-size:11px}}
 
 .world-stage svg .sample-ring{fill:transparent;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:3 3}.world-stage svg .selected .sample-ring{stroke:var(--ink);stroke-width:2.5;stroke-dasharray:none}
+
+/* The gravity story places cause before its numerical comparison. */
+.gravity-cause{margin:24px 0 26px;padding:20px 0;border-top:1px solid var(--line)}
+.cause-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+.cause-grid article{min-width:0}.cause-grid h4{font-size:20px;font-weight:600;margin:16px 0 10px;letter-spacing:-.02em}.cause-grid p{font-size:16px;margin:0}
+.cause-grid .world-stage{margin:0}.cause-bridge{font-size:17px;max-width:90ch;margin:24px 0 0}
+.world-stage svg .pressure-top{stroke-width:4.5}.world-stage svg .pressure-bottom{stroke-width:2.5}
+.world-stage svg .equal-push .pressure-top{stroke-width:2.5}
+@media(max-width:760px){.cause-grid{grid-template-columns:1fr;gap:26px}.cause-grid .world-stage{max-width:420px}.cause-grid h4{font-size:22px}.cause-grid p{font-size:17px}}
+@media print{.cause-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.cause-grid h4{font-size:14px}.cause-grid p,.cause-bridge{font-size:11px}.gravity-cause{break-inside:avoid}}
+
+.cause-grid .world-stage svg text{font-size:22px}.cause-grid .world-stage svg .label-small{font-size:18px}
