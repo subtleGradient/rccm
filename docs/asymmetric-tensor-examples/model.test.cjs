@@ -9,6 +9,27 @@ test('capacity changes all four linked diagonal cells and preserves reciprocity'
   assert.equal(b.q.value * b.cells[5].value,1);
   assert.equal(m.clockRate(b),Math.sqrt(.5));
 });
+test('metric weights convert squared intervals, while clocks and rulers use square roots', () => {
+  for(const [q,clock,length] of [[.8,.8944271909999159,1.118033988749895],[.5,.7071067811865476,1.4142135623730951],[.25,.5,2],[.001,.03162277660168379,31.622776601683793]]){
+    const s=m.state(m.capacity(q)), scales=m.metricScales(s);
+    assert.ok(Math.abs(scales.clock-clock)<1e-12);
+    assert.ok(Math.abs(scales.length-length)<1e-12);
+    assert.ok(Math.abs(scales.clock*scales.length-1)<1e-12);
+    // A light ray advances c*q coordinate metres per reference second.
+    // Local rulers and the local clock must still measure speed c.
+    assert.ok(Math.abs((m.C*q*scales.length/scales.clock)/m.C-1)<1e-12);
+  }
+  const {a,b}=m.pair('clock');
+  assert.ok(Math.abs(60*m.metricScales(b).clock/m.metricScales(a).clock-47.434164902525694)<1e-12);
+  assert.ok(Math.abs(m.metricScales(b).length/m.metricScales(a).length-1.2649110640673518)<1e-12);
+  const extreme=m.state(m.capacity(.001));
+  assert.equal(extreme.cells[0].value,-.001);
+  for(const i of [5,10,15]) assert.equal(extreme.cells[i].value,1000);
+});
+test('the chosen remaining-capacity branch excludes zero, negative and over-budget q', () => {
+  for(const q of [0,-.5,1.25,Infinity,NaN]) assert.throws(()=>m.capacity(q),RangeError);
+  assert.deepEqual(m.metricScales(m.state(m.capacity(1))),{clock:1,length:1});
+});
 test('electric reversal changes only its signed time-space pair', () => {
   const {a,b,changed} = m.pair('electric');
   assert.deepEqual(changed,[1,4]);

@@ -52,7 +52,13 @@
     if(!Array.isArray(e))throw new Error(`Unknown electric direction: ${direction}`);
     return state(capacity(.8),e);
   }
-  const api={pair,capacity,state,cross,electricDirection,clockRate:s=>Math.sqrt(s.q.value),electricForce:(charge,e)=>e.map(x=>clean(charge*x)),gravityAcceleration:world=>world==='a'?0:-C*C/2*(Number(DELTA)/Number(DEN)),C};
+  function metricScales(s){
+    // Local seconds per reference second; local metres per reference metre.
+    // The diagonal entries weight squared intervals in the fixed, resting frame.
+    const clock=Math.sqrt(s.q.value);
+    return {clock,length:1/clock};
+  }
+  const api={pair,capacity,state,cross,electricDirection,metricScales,clockRate:s=>metricScales(s).clock,electricForce:(charge,e)=>e.map(x=>clean(charge*x)),gravityAcceleration:world=>world==='a'?0:-C*C/2*(Number(DELTA)/Number(DEN)),C};
   if(typeof module==='object'&&module.exports) module.exports=api;
   else root.TensorExamples=api;
 })(typeof globalThis==='object'?globalThis:this);

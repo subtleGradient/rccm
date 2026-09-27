@@ -16,10 +16,10 @@
       worlds:['You · farther from the star','Your twin · closer to the star'],
       outcomes:[['You live through 1 hour','Your watch records 60 minutes. You have time for an hour of reading, eating or talking.'],['He lives through about 47 minutes','His watch records 47 minutes 26 seconds during that same comparison interval. He has less elapsed time for those activities.']],
       takeaway:'His watch, heartbeat and thoughts all keep pace with one another. Life feels normal to him. The difference appears when you compare how much time each of you actually lived through.',
-      prediction:'Now imagine he changes to a different brand of watch while staying in the same room. Would that remove the time difference?',
-      method:'The model assigns the two resting clocks qA = 0.8 and qB = 0.5. For a shared interval of static background time, dτ = √q dt, so the twin records 60 × √(0.5/0.8) = 47.434… minutes, rounded to 47 min 26 s. These q values are chosen teaching inputs, not a calculation for a specified star or an Earth–Moon prediction. The source identifies remaining capacity with the rate of internal cycles; this illustration does not derive a microscopic oscillator from the fluid equations. The spatial entries remain 1/q.',
+      prediction:'Before choosing “Quarter · 0.25” in the capacity control, predict this: the clock runs at half the reference pace. How many local one-metre rulers would span one metre on the shared map?',
+      method:'The model assigns the two resting clocks qA = 0.8 and qB = 0.5. In the displayed Cartesian frame, ds² = −q c²dt² + (dx² + dy² + dz²)/q. A stationary clock gives dτ = √q dt; a simultaneous short spatial gap gives dℓ = |dx|/√q. Thus the twin records 60 × √(0.5/0.8) = 47.434… minutes, rounded to 47 min 26 s. These q values are chosen teaching inputs, not a calculation for a specified star or an Earth–Moon prediction. The source identifies remaining capacity with the rate of internal cycles and defines the reciprocal spatial weight; this illustration does not derive an atom, quartz oscillator or material ruler from microscopic fluid equations. The ruler comparison holds coordinate separation fixed and assumes q is approximately constant across each gap. For a longer path with varying q, accumulate the local ruler readings along the path.',
       bodies:'Both stations are supported by engines and stationary in the same static, nonrotating field. The engines balance the gravitational pull; this is not a free orbit. Each clock is small enough that field variation across it can be neglected. A pressure gradient can exist around the stations; it is not encoded by a single local matrix. Compare elapsed times over the same background interval after allowing for signal travel time. Travel to the stations and the effects of that journey are outside this comparison.',
-      sources:`${source}, §3.1. <a href="../RCCM-Condensed.tex">Condensed</a>, “Pressure Deficits, Symmetry Breaking, and Acoustic Covariance,” separates scalar time dilation from gradients.`
+      sources:`${source}, §3.1 (diagonals), §15.1 (physical wavelength versus coordinate length), §15.2 (coordinate light speed). <a href="../RCCM-Condensed.tex">Condensed</a>, “The Geometric Spacetime Bridge,” gives the matching radial interval; “Pressure Deficits, Symmetry Breaking, and Acoustic Covariance,” gives the clock relation. <a href="https://www.preposterousuniverse.com/wp-content/uploads/2015/08/grtinypdf.pdf">Sean Carroll, <cite>A No-Nonsense Introduction to General Relativity</cite>, §2</a>, explains the sign convention and proper time.`
     },
     electric: {
       number:'02 / A charged bead', title:'Swap the charged plates. The bead goes the other way.',
@@ -105,7 +105,7 @@
       ['Compare the time you each lived','Elapsed time bars show one hour for you and about 47 minutes for your twin.',
         text(45,53,'During the same shared interval:')+text(45,103,'you','label-small')+'<rect x="137" y="78" width="300" height="36" rx="4" fill="var(--capbg)"/>'+text(287,103,'60 minutes','','middle')+text(45,170,'twin','label-small')+'<rect x="137" y="145" width="237" height="36" rx="4" fill="var(--capbg)"/>'+text(255,170,'47 minutes','','middle')+text(250,242,'Both watches work normally.','','middle'),
         'His watch and the processes in his body slow together compared with yours. He feels normal: his own second still feels like a second. You discover the difference by comparing elapsed time, with signal travel time accounted for.']
-    ],'<strong>Where it appears in the matrix:</strong> q is the fraction of pressure capacity left at that watch: 0.8 means 80%; 0.5 means 50%. Changing q changes all four green diagonal cells. The time comparison uses those readings; you can follow the story without doing the calculation.');
+    ],'<strong>Where it appears in the matrix:</strong> q is the fraction of pressure capacity left at that watch: 0.8 means 80%; 0.5 means 50%. The four green cells turn that one reading into rules for measuring time and distance. They contain <em>squared</em> scale factors. <a href="#clock-rulers">Bring a metre ruler as well as a watch →</a>');
   }
   function electricStory(){
     return causeCards('Why charged plates push the bead',[
@@ -220,6 +220,53 @@
     }
     return out+'</div>';
   }
+  let metricQ=.5;
+  const metricPresets=[[1,'Full capacity · 1'],[.8,'You · 0.8'],[.5,'Twin · 0.5'],[.25,'Quarter · 0.25'],[.001,'Space = 1000']];
+  const rounded=n=>n.toLocaleString('en-US',{maximumFractionDigits:n>0&&n<.1?4:3});
+  const measured=(n,unit)=>`${rounded(n)} ${unit}${n===1?'':'s'}`;
+  function rulerPicture(s,owner){
+    const scales=M.metricScales(s), start=65, span=370, metre=span/scales.length;
+    const ticks=Array.from({length:11},(_,i)=>`M${start+i*metre/10} 142v${i%5===0?23:12}`).join('');
+    return svg(`The same one-reference-metre map gap at ${owner==='You'?'your':'your twin’s'} station. One local metre occupies ${rounded(1/scales.length)} reference metres; a tape across the whole gap reads ${rounded(scales.length)} local metres.`,
+      text(250,34,'Same gap on the shared map','','middle')+
+      '<path class="solid" d="M65 73H435M65 61V85M435 61V85"/>'+text(250,106,'1 reference metre','label-small','middle')+
+      '<path class="solid ghost" d="M65 84V187M435 84V187"/>'+
+      `<rect x="${start}" y="142" width="${span}" height="45" rx="3" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 4"/><rect x="${start}" y="142" width="${metre}" height="45" rx="3" fill="var(--capbg)" stroke="var(--capacity)" stroke-width="2"/><path d="${ticks}" stroke="var(--capacity)" stroke-width="1.4"/>`+
+      text(start+metre/2,217,'one local metre ruler','label-small','middle')+
+      text(250,263,`${owner==='You'?'Your':'His'} tape reads ${rounded(scales.length)} m`,'','middle'));
+  }
+  function metricDemo(){
+    const s=M.state(M.capacity(metricQ)), scales=M.metricScales(s);
+    return `<div class="demo-controls" aria-label="Remaining pressure capacity">${metricPresets.map(([q,label])=>`<button type="button" data-metric-q="${q}" aria-pressed="${q===metricQ}">${label}</button>`).join('')}</div>
+      <div class="metric-demo-pair"><div><p class="reading-location">One local state · q = ${metricQ}</p>${matrix(s,[0,5,10,15],'linked to the selected q')}<p class="reading-note">Electric and magnetic entries stay zero. The green cells move together.</p></div>
+      <div class="metric-readouts" aria-live="polite" aria-atomic="true"><p class="metric-clock"><strong>${measured(scales.clock,'second')}</strong><span>on the local watch during 1 reference second</span></p><p class="metric-length"><strong>${measured(scales.length,'metre')}</strong><span>on the local tape across 1 reference metre</span></p><p><strong>${measured(1/scales.length,'reference metre')}</strong><span>occupied on the map by one local metre ruler</span></p><p class="small">Rounded readings. Reference units belong to the shared map and timeline; local units belong to the watch and ruler at this location. At q = 1, they match.</p></div></div>`;
+  }
+  function clockMeasures(){
+    const pair=M.pair('clock');
+    return `<section class="clock-measures" id="clock-rulers" aria-labelledby="ruler-heading">
+      <div class="scene-number">Bring a ruler as well as a watch</div><h3 id="ruler-heading">Does your twin get more space?</h3>
+      <p><strong>More measured distance across the same map gap, yes.</strong> Imagine mission control has a coordinate map covering both stations. It marks out the same small gap at each station: one “reference metre” on that map. You and your twin measure your gaps with identical metre rulers. Your tape reads <strong>1.118 m</strong>; his reads <strong>1.414 m</strong>.</p>
+      <p>The diagram keeps the <em>map gap</em> fixed. His one-metre ruler covers less of the map, so more ruler-lengths fit into that gap. These are two ways to describe the same spatial scaling.</p>
+      <div class="explain-pair ruler-pair">${['a','b'].map((world,i)=>`<article><h4>${i===0?'You · q = 0.8':'Your twin · q = 0.5'}</h4><div class="world-stage">${rulerPicture(pair[world],i===0?'You':'Twin')}</div><p>${i===0?'Space-space = 1.25':'Space-space = 2'} → multiply map distances by ${i===0?'√1.25 ≈ 1.118':'√2 ≈ 1.414'}.</p></article>`).join('')}</div>
+      <p>A room built to measure three of <em>his local metres</em> across still measures three metres to him. Its size on the shared map would differ from yours. We must say which size we are keeping fixed. <strong>The rising space number is not a conversion of lost time into extra rooms.</strong></p>
+      <div class="metric-explanation"><h4>Why the square root?</h4><p>The cell multiplies a <em>squared</em> distance. If space-space is 2, it doubles distance-squared. The distance itself grows by about 1.414, because 1.414 × 1.414 ≈ 2. For comparison, a CSS <code>scaleX(2)</code> doubles a length directly; that would give a squared-length weight of 4.</p>
+      <p class="metric-rule">Local distance = map distance × √(space-space)</p>
+      <h4>Why does −0.8 give more time than −0.5?</h4><p>The minus sign marks how time enters the spacetime measurement rule: its squared contribution is subtracted, while the spatial contributions are added. It does <em>not</em> mean the watch runs backwards. The amount comes from the magnitude: 0.8 is larger than 0.5.</p>
+      <p class="metric-rule">Local elapsed time = reference elapsed time × √(−time-time)</p>
+      <p>During one second on the shared reference timeline, your watch gains √0.8 ≈ <strong>0.894 seconds</strong>; his gains √0.5 ≈ <strong>0.707 seconds</strong>. That is the same ratio as your 60 minutes against his 47 minutes. “More negative” means a larger magnitude here, and therefore a faster clock relative to that timeline.</p></div>
+      <div class="metric-playground"><h4>One capacity reading. Four linked cells.</h4><p>Time-time is −q. Each space-space cell is 1/q. Lower q makes clocks slower relative to the reference timeline and increases the measured distance across a fixed map gap. In this model, those changes are tied together.</p><div id="metric-demo">${metricDemo()}</div></div>
+      <section class="metric-limits" id="clock-limits" aria-labelledby="limits-heading"><h4 id="limits-heading">What about zero, negative, or 1000?</h4>
+      <p>For this displayed RCCM frame and a remaining pressure fraction <strong>0 &lt; q ≤ 1</strong>, time-time runs from −1 up toward 0; each space-space entry runs from 1 upward. You cannot choose those four entries independently.</p>
+      <dl class="limit-list">
+      <div><dt>Time-time approaches 0 from below</dt><dd>The local clock rate approaches zero relative to the reference timeline. The spatial weights grow without bound. A twin at any allowed q still experiences his own watch normally.</dd></div>
+      <div><dt>Time-time = 0 exactly</dt><dd>That requires q = 0, so every spatial entry would be 1/0. This formula no longer gives a finite matrix. It is a limit of this description, not a valid “frozen twin” state. These entries alone do not establish a physical singularity.</dd></div>
+      <div><dt>Time-time &gt; 0</dt><dd>With time-time = −q and the signs used here, that requires negative q. It lies outside the remaining-capacity states used by this model. It does not mean time reversal.</dd></div>
+      <div><dt>Space-space = 0 or is negative</dt><dd>No finite positive q produces either value through 1/q. Setting a spatial diagonal to zero by hand would make this diagonal metric unable to measure distance along that axis; it would break the stated model. A negative entry is not “negative metres.”</dd></div>
+      <div><dt>Space-space = 1000</dt><dd>This is allowed by the formula: q = 0.001, time-time = −0.001, and <em>all three</em> spatial entries are 1000. The clock runs at about 0.0316 of the reference pace; one map metre measures about 31.62 local metres. These numbers describe a chosen extreme input, not a constructed star or room.</dd></div>
+      </dl><p class="small">Sign convention: you can rewrite the entire metric with all signs reversed and adjust the interval convention consistently. That describes the same geometry. Changing one entry alone is a different operation; the limits above use the fixed signs shown in this guide.</p></section>
+      <details class="story-method"><summary>How the two scale factors fit together</summary><p>GfX §15.2 gives light’s coordinate speed as c × q. Converting with the local rulers and clocks gives (c × q) × (1/√q) ÷ √q = c. The changed clock and ruler scales remain consistent with the same locally measured light speed. This is a consistency check of the stated metric, not an independent derivation of why the spatial weight must be 1/q.</p><p>Only the symmetric part S contributes to squared intervals: the antisymmetric part cancels when contracted with the same displacement twice. In this clock scene all off-diagonal entries are already zero. These local measurement factors do not determine an extended region’s curvature or total volume from one sample.</p></details>
+    </section>`;
+  }
   let electricDirection='right';
   const directionNames={right:'Right · x',up:'Up · y',toward:'Toward you · z',diagonal:'Diagonal · x + y + z'};
   function electricGuide(){
@@ -283,6 +330,7 @@
       <p class="diff-legend"><span class="diff-symbol" aria-hidden="true"></span>${pair.changed.length?`${pair.changed.length} outlined cells change between A and B at this sample.`:'No matrix cells change at this sample.'} ${scene==='falling'&&sample==='center'?'Now compare the readings above and below.':''} All matrix entries are dimensionless.</p>
       <div class="sign-key" aria-label="Cell sign legend"><span><span class="sign-swatch sign-positive" aria-hidden="true">+</span> Positive · dark on light</span><span><span class="sign-swatch sign-negative" aria-hidden="true">−</span> Negative · light on dark</span><span><span class="sign-swatch sign-zero" aria-hidden="true">0</span> Zero · neutral</span></div>
       <p class="takeaway">${story.takeaway}</p>
+      ${scene==='clock'?clockMeasures():''}
       <details class="story-method"><summary>What this scene assumes · equations and sources</summary><div class="method-grid"><div><h4>Field and response</h4><p>${story.method}</p></div><div><h4>Objects and boundaries</h4><p>${story.bodies}</p></div></div><p>${story.sources}</p></details>
       <p class="prediction">${story.prediction}</p>`;
   }
@@ -291,14 +339,27 @@
     sample=next;draw();
     host.querySelector(`.sample-controls [data-sample="${sample}"]`)?.focus({preventScroll:true});
   }
-  document.querySelectorAll('[data-scene]').forEach(button=>button.addEventListener('click',()=>{
-    scene=button.dataset.scene;sample=scene==='hair'?'right':'center';
-    document.querySelectorAll('[data-scene]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+  function selectScene(next){
+    scene=next;sample=scene==='hair'?'right':'center';
+    document.querySelectorAll('[data-scene]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scene===scene)));
     draw();
-  }));
+  }
+  document.querySelectorAll('[data-scene]').forEach(button=>button.addEventListener('click',()=>selectScene(button.dataset.scene)));
+  function followClockAnchor(){
+    if(!['#clock-rulers','#clock-limits'].includes(window.location.hash))return;
+    if(scene!=='clock')selectScene('clock');
+    document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+  }
+  window.addEventListener('hashchange',followClockAnchor);
   host.addEventListener('click',event=>{
     const sampler=event.target.closest('[data-sample]');
     if(sampler){selectSample(sampler.dataset.sample);return;}
+    const capacityButton=event.target.closest('[data-metric-q]');
+    if(capacityButton){
+      metricQ=Number(capacityButton.dataset.metricQ);
+      document.getElementById('metric-demo').innerHTML=metricDemo();
+      host.querySelector(`[data-metric-q="${metricQ}"]`).focus({preventScroll:true});
+    }
   });
   host.addEventListener('keydown',event=>{
     const target=event.target.closest('g[data-sample]');
@@ -318,4 +379,5 @@
   });
   draw();
   drawGuides();
+  followClockAnchor();
 })();
