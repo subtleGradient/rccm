@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Explore how one frozen toroidal field reads through 1, 8, and 64 tensor voxels.">
+  <title>02 · Resolution — τ / voxel studies</title>
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    .resolution-options{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem;margin:.6rem 0 1rem}.resolution-options button{padding:.8rem .3rem;border:1px solid currentColor;background:transparent;color:inherit;border-radius:.5rem;cursor:pointer}.resolution-options button[aria-pressed="true"]{background:#203e37;color:#fff}.resolution-options strong{font-size:1.45rem;display:block}.resolution-options span{font-size:.7rem}.resolution-check{display:flex;gap:.55rem;align-items:center;margin:.8rem 0}.resolution-stats{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:1.1rem 0}.resolution-stats div{padding:.8rem;background:#e9e4d7;border-radius:.6rem}.resolution-stats dt{font-size:.76rem;line-height:1.45}.resolution-stats dd{margin:.15rem 0 0;font-size:1.55rem;font-variant-numeric:tabular-nums}.resolution-small{font-size:.82rem;line-height:1.6}.resolution-chip{display:inline-block;padding:.3rem .6rem;border:1px solid #aaa99a;border-radius:99rem;font-size:.74rem}.resolution-scale{display:grid;grid-template-columns:1fr 1.25fr;gap:1.8rem}.resolution-scale select,.controls select{display:block;width:100%;padding:.7rem;background:#fffdf6;color:#203e37;border:1px solid #aaa99a;border-radius:.4rem;margin:.5rem 0 1rem}.resolution-swatch{display:inline-block;width:.75rem;height:.75rem;border-radius:50%;margin-right:.35rem}.resolution-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.resolution-steps article{border-top:2px solid #b5b4a5;padding:1rem 0}.resolution-steps h3{margin:.3rem 0}.resolution-math{padding:1.2rem;background:#eae4d5;border-radius:.6rem;font-size:1.1rem;line-height:1.9}.resolution-meter{height:.75rem;background:#d0cdbc;border-radius:99px;overflow:hidden;margin:.7rem 0}.resolution-meter span{display:block;height:100%;background:#d29138;width:0}.resolution-source{font-size:.8rem;line-height:1.6;color:#5c665d}.resolution-source a{color:inherit}.resolution-status{min-height:3.2rem}.viewport{min-height:520px}.resolution-error{padding:1rem;color:#ffd9b3}details{border-top:1px solid #b5b4a5;margin-top:1rem;padding:1rem 0}summary{cursor:pointer;font-weight:650}@media(max-width:760px){.controls{display:block}.resolution-scale,.resolution-steps{grid-template-columns:1fr}.viewport{min-height:380px}}
+  </style>
+<link rel="icon" href="data:,"></head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html">τ / voxel studies</a>
+    <nav aria-label="Studies"><a href="./index.html">Map</a><a href="./01-glyphs.html">01 · Glyphs</a><a href="./02-resolution.html" aria-current="page">02 · Resolution</a><a href="./03-between.html">03 · Between</a></nav>
+  </header>
+  <main class="page">
+    <p class="eyebrow">02 / The observation window</p>
+    <h1>Same tornadonut.<br>Different-sized windows.</h1>
+    <p class="lede">Hold the fluid still. Change how much of it one voxel must speak for. A large window keeps the average state while hiding the shape of the circulation inside.</p>
+
+    <div class="lab-grid">
+      <div class="viewport-wrap">
+        <div class="viewport" id="resolution-viewport" role="region" aria-label="Interactive three-dimensional frozen toroidal pair, with volume-sampled capacity, slip, and twist glyphs. Drag to orbit; scroll to zoom."></div>
+        <p class="viewport-caption"><span class="resolution-chip">Frozen toroidal field</span> <span id="resolution-caption">2 defects · 16 visible cells · 32³ samples per defect</span><br>Drag to orbit · scroll to approach · the reference silhouette stays the same size.</p>
+      </div>
+      <aside class="controls" aria-label="Resolution controls">
+        <p class="eyebrow">Change the window</p>
+        <h2>Voxels per defect</h2>
+        <div class="resolution-options" role="group" aria-label="Voxels per defect">
+          <button type="button" data-resolution="1" aria-pressed="false"><strong>1</strong><span>1 × 1 × 1</span></button>
+          <button type="button" data-resolution="2" aria-pressed="true"><strong>8</strong><span>2 × 2 × 2</span></button>
+          <button type="button" data-resolution="4" aria-pressed="false"><strong>64</strong><span>4 × 4 × 4</span></button>
+        </div>
+        <label for="pair-handedness">Circulation relation</label>
+        <select id="pair-handedness" name="pair-handedness"><option value="opposite">Opposed · electron / positron reading</option><option value="same">Aligned · same circulation signs</option></select>
+        <label class="check resolution-check"><input id="show-reference" name="show-reference" type="checkbox" checked> Resolved toroidal reference</label>
+        <label class="check resolution-check"><input id="show-cells" name="show-cells" type="checkbox" checked> Sampling cell boundaries</label>
+        <label class="check resolution-check"><input id="show-glyphs" name="show-glyphs" type="checkbox" checked> Composite state glyphs</label>
+        <dl class="resolution-stats" aria-label="Whole pair volume averages">
+          <div><dt>Mean capacity ⟨q⟩</dt><dd id="mean-q">—</dd></div>
+          <div><dt>Mean spatial weight ⟨1/q⟩</dt><dd id="mean-inverse">—</dd></div>
+          <div><dt>Signed mean twist ⟨b<sub>z</sub>⟩</dt><dd id="mean-twist">—</dd></div>
+          <div><dt>RMS twist √⟨|b|²⟩</dt><dd id="rms-twist">—</dd></div>
+        </dl>
+        <p class="resolution-small resolution-status" id="resolution-status" aria-live="polite"></p>
+        <p class="resolution-small">Numbers cover both complete sampling boxes. Every setting reuses the same 65,536 fine samples. Changing resolution changes the visible partition; it preserves these totals.</p>
+      </aside>
+    </div>
+
+    <section class="section">
+      <div class="two-col">
+        <div>
+          <p class="eyebrow">What your eyes are reading</p>
+          <h2>Keep the channels separate.</h2>
+          <div class="legend">
+            <p><span class="resolution-swatch" style="background:#e8ac4d"></span><strong>Amber bead:</strong> its volume tracks the cell’s mean capacity depletion, 1 − ⟨q⟩. The sampling cube stays fixed.</p>
+            <p><span class="resolution-swatch" style="background:#62d6d9"></span><strong>Cyan arrow:</strong> the direction of mean transverse slip e = αv<sub>⊥</sub>/c. Opposing local slips can cancel inside one cell. Nonzero arrows use a minimum visible length.</p>
+            <p><span class="resolution-swatch" style="background:#ee98ad"></span><strong>Rose loop and axis:</strong> mean twist b = αt<sub>p</sub>Ω; the axis arrow gives its sign. A faint outer halo tracks RMS twist, including motion hidden by cancellation.</p>
+            <p><span class="resolution-swatch" style="background:#b8c6b7"></span><strong>Pale torus:</strong> the resolved reference geometry. It is a visual guide layered over the sampled channels.</p>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Inside this specimen</p>
+          <h2>A field first. A picture second.</h2>
+          <p>The electron / positron pair supplies the scene. An authored toroidal Gaussian g supplies the frozen geometry: capacity drops through a doughnut-shaped band; azimuthal slip circulates around it; the curl of a separate rotational field supplies twist. Reversing handedness reverses e and b while preserving q and RMS activity.</p>
+          <p>The fixture uses c = α = t<sub>p</sub> = 1 and P<sub>shear</sub> = 0 in normalized units. Its chosen background load is L = 0.65g. Slip and rotation spend the remaining pressure budget: <strong>q = 1 − L − |e|² − |v<sub>rot</sub>|²</strong>. The broad rotational envelope contributes to that budget everywhere it turns.</p>
+          <p>These are two independently sampled reference defects: each box contains its own complete authored field. Their signs can match or oppose. <a href="./03-between.html">The between study</a> combines overlapping fields; this study compares observation windows.</p>
+          <p>The fine field lives at fixed positions. Each displayed cell receives a sampled volume average over its own subvolume. At 64 cells per defect, each visible cell still contains 512 sample points.</p>
+          <p class="resolution-source">Concepts: <a href="../../RCCM-GfX-2.html">GfX §1</a> (slip and Clebsch rotation), §3.1–3.3 (q, e, b), §8 (mass as a rotational boundary), §9.2 (electric / magnetic cross-coupling). This study chooses the specimen’s geometry; the controls operate its observation window.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Three cuts through the same object</p>
+      <h2>What each resolution buys.</h2>
+      <div class="resolution-steps">
+        <article><p class="eyebrow">01 / One cell</p><h3>State without shape</h3><p>The whole defect becomes a single composite mark. Its average can tell you capacity, signed orientation and activity. It carries no resolved hole, boundary knot or winding route.</p></article>
+        <article><p class="eyebrow">08 / Eight cells</p><h3>Differences get a direction</h3><p>Neighbouring windows expose opposing slip directions and the upper / lower structure of twist. You can begin to distinguish an internal pattern from one bulk average.</p></article>
+        <article><p class="eyebrow">64 / Sixty-four cells</p><h3>A boundary becomes readable</h3><p>The capacity deficit localizes around the ring. Local arrows and twist axes draw the surrounding structure. Resolution spends its budget on where the state changes.</p></article>
+      </div>
+      <details><summary>Predict: opposed pair, one voxel each. Does zero pair-mean twist mean quiet fluid?</summary><p>No. The two signed orientations cancel in the pair average. RMS twist stays positive. This is the distinction in GfX §4.3: the averaged antisymmetric channel can vanish while microscopic activity remains present. Flip to aligned circulation and watch the mean return without changing the activity.</p></details>
+    </section>
+
+    <section class="section two-col">
+      <div>
+        <p class="eyebrow">The nonlinear averaging cut</p>
+        <h2>Average the matrix you actually have.</h2>
+        <p>The temporal diagonal contains −q; the spatial diagonals contain 1/q. So the coarse cell must carry ⟨q⟩ and ⟨1/q⟩ separately. A mean capacity alone cannot recreate its spatial weight.</p>
+        <p>A low-capacity pocket contributes a large reciprocal even when it occupies only part of a cell. Resampling the picture preserves that contribution.</p>
+        <p class="resolution-source">Source: GfX §3.1 defines the two diagonal channels. §4.3 defines the volume average of the tensor. The RMS channel is an additional renderer diagnostic, stored alongside that average.</p>
+      </div>
+      <div class="resolution-math" aria-label="Averaging example">
+        Two equal subvolumes: q = 0.25 and 0.75<br>
+        ⟨q⟩ = (0.25 + 0.75) / 2 = <strong>0.50</strong><br>
+        ⟨1/q⟩ = (4 + 1.333…) / 2 = <strong>2.667</strong><br>
+        1/⟨q⟩ = 1 / 0.50 = <strong>2.000</strong><br>
+        <p>Average first and invert: the spatial weight loses <strong>25%</strong>.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">One renderer, many observation volumes</p>
+      <h2>Turn the scale dial.</h2>
+      <div class="resolution-scale">
+        <div><label for="scale-ladder">What does one tank cell contain?</label><select id="scale-ladder" name="scale-ladder"><option value="defect">One fundamental tornadonut</option><option value="atom">One atom</option><option value="atom8">One eighth of an atom</option><option value="molecule">One molecule</option><option value="cell">One biological cell</option><option value="hand">One hand</option><option value="human">One human</option><option value="house">One house</option><option value="planet">One eighth of a planet</option></select><p class="resolution-small">This dial changes the sampling contract below. The laboratory above remains the same frozen pair so that its measurements stay comparable.</p></div>
+        <div class="callout" id="scale-contract" aria-live="polite"><h3 id="scale-title">One voxel per fundamental tornadonut</h3><p id="scale-description">Store mean capacity, mean reciprocal weight, signed slip and twist, plus unresolved activity. Keep defect identity and winding as separate metadata.</p><p id="scale-prediction" class="resolution-small">A single matrix cannot reconstruct the route of the circulation inside its volume.</p></div>
+      </div>
+      <p>A house-sized voxel sums the fields throughout a house-sized volume. The same channel grammar works at every scale; the contents of the sampling window change. Topology, material composition and subvoxel variation each need their own retained information.</p>
+      <details><summary>Next cut: put equal clockwise and anticlockwise activity inside one house-sized voxel. Which marks survive?</summary><p>Signed mean slip and twist can cancel. The scalar diagonals and the RMS activity remain. Preserve the variation channel before you enlarge the observation window again.</p></details>
+    </section>
+  </main>
+  <script type="module" src="./resolution.js"></script>
+</body>
+</html>

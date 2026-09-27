@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Three visual languages for one asymmetric metric-tensor state: a composite glyph, capacity bubble, and planar instrument.">
+  <title>One voxel, three languages · τ / voxel studies</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    .glyph-modes{display:flex;gap:.45rem;flex-wrap:wrap;margin:1rem 0}.glyph-modes button[aria-pressed="true"]{background:#dae8df;color:#183a31;border-color:#789c89}.glyph-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;padding:1.25rem 0;border-top:1px solid #173b2f20;border-bottom:1px solid #173b2f20}.glyph-stats p{margin:0}.glyph-stats output{display:block;font-size:1.75rem;font-variant-numeric:tabular-nums}.glyph-stats .stat-label{font-size:.88rem}.glyph-matrix{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}.glyph-matrix th{font-size:.8rem;font-weight:500;padding:.4rem;color:#53695c}.glyph-matrix td{padding:.15rem;border:0}.glyph-matrix button{width:100%;padding:.4rem .12rem;min-height:36px;border:1px solid transparent;background:transparent;font-family:ui-monospace,monospace;font-size:.88rem}.glyph-matrix button[data-channel="q"]{background:#dfac5030}.glyph-matrix button[data-channel="e"]{background:#72cbd330}.glyph-matrix button[data-channel="b"]{background:#df839d30}.glyph-matrix button.is-active{outline:2px solid #315b49;outline-offset:-2px}.glyph-matrix button[data-channel="zero"]{color:#79847a}.matrix-note{min-height:4.8rem;margin:.8rem 0 0;font-size:.88rem}.glyph-controls fieldset{border:0;padding:0;margin:0 0 1.2rem}.glyph-controls legend{font-weight:600;margin-bottom:.6rem}.glyph-control{margin-bottom:1rem}.glyph-control label{display:flex;justify-content:space-between;gap:1rem}.glyph-control input{width:100%;accent-color:#357d64}.glyph-control output{font-variant-numeric:tabular-nums}.glyph-control small{display:block;color:#5d6a60;font-size:.82rem}.glyph-budget{display:flex;height:.65rem;overflow:hidden;border-radius:3px;background:#f5efdc;margin:.7rem 0}.glyph-budget span{flex-basis:var(--part);flex-shrink:0}.glyph-budget .budget-q{background:#d9ae56}.glyph-budget .budget-l{background:#426451}.glyph-budget .budget-s{background:#72cbd3}.glyph-budget .budget-w{background:#e88fa4}.glyph-key{display:flex;flex-wrap:wrap;gap:.5rem 1rem;font-size:.85rem}.glyph-key span:before{content:"";display:inline-block;width:.6rem;height:.6rem;margin-right:.4rem;background:var(--key-color);border-radius:50%}.key-q{--key-color:#d9ae56}.key-s{--key-color:#72cbd3}.key-w{--key-color:#e88fa4}.key-l{--key-color:#426451}.glyph-renderer-copy{max-width:66ch}.glyph-action-row{display:flex;gap:.5rem;flex-wrap:wrap}.glyph-source{font-size:.9rem}.glyph-nav-mobile{display:none}.glyph-zero{font-size:.9rem}.glyph-viewport-label{position:absolute;top:1.2rem;left:1.2rem;color:#f7efd8;pointer-events:none;font-family:ui-monospace,monospace;font-size:.82rem;letter-spacing:.04em}.viewport-wrap{position:relative}.glyph-matrix-heading{margin-top:1.7rem}.glyph-principles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem}.glyph-principles h3{font-size:1.1rem}.glyph-principles p{font-size:.95rem}.glyph-channel{font-weight:600}.glyph-formula-label{font-size:.9rem}.glyph-budget-equation{font-variant-numeric:tabular-nums}.glyph-status{font-size:.9rem}.glyph-mobile-only{display:none}
+    .skip-link{position:absolute;top:-100px;left:1rem;padding:.6rem 1rem;background:var(--paper);z-index:10}.skip-link:focus{top:1rem}
+    @media(max-width:760px){.glyph-principles{grid-template-columns:1fr;gap:.8rem}.glyph-nav-desktop{display:none!important}.glyph-nav-mobile{display:block}.glyph-nav-mobile nav{display:flex;flex-wrap:wrap;gap:.75rem;padding:1rem 0}.glyph-controls{display:block}.glyph-stats{gap:.5rem}.glyph-stats .stat-label,.glyph-control small,.matrix-note,.glyph-principles p,.glyph-source,.glyph-key{font-size:1rem}.glyph-modes button,.glyph-action-row button{min-height:48px}.glyph-matrix button{min-height:44px}.glyph-mobile-only{display:block}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to study</a>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Voxel studies homepage">τ / voxel studies</a>
+    <nav class="glyph-nav-desktop" aria-label="Studies"><a href="./index.html">Field guide</a><a href="./01-glyphs.html" aria-current="page">01 · Glyphs</a><a href="./02-resolution.html">02 · Resolution</a><a href="./03-between.html">03 · Between</a></nav>
+    <details class="mobile-nav glyph-nav-mobile"><summary>Studies</summary><nav aria-label="Studies on mobile"><a href="./index.html">Field guide</a><a href="./01-glyphs.html" aria-current="page">01 · Glyphs</a><a href="./02-resolution.html">02 · Resolution</a><a href="./03-between.html">03 · Between</a></nav></details>
+  </header>
+  <main class="page" id="main">
+    <p class="eyebrow">Study 01 / The local instrument</p>
+    <h1>One voxel.<br>Three visual languages.</h1>
+    <p class="lede">Stand inside one patch of τ fluid. Feel its remaining pressure capacity, the sideways slip across your skin, and the twisting couple around your body. Every renderer below shows the same three readings.</p>
+    <div class="glyph-modes" role="group" aria-label="Voxel renderer">
+      <button type="button" data-renderer="composite" aria-pressed="true">Cage + arrow + loop</button>
+      <button type="button" data-renderer="bubble" aria-pressed="false">Capacity bubble</button>
+      <button type="button" data-renderer="flat" aria-pressed="false">Planar instrument</button>
+    </div>
+    <div class="lab-grid">
+      <div class="viewport-wrap">
+        <div class="viewport" id="glyph-viewport" role="img" aria-label="Interactive three-dimensional voxel state. Numeric equivalents are in the adjacent controls and matrix."></div>
+        <div class="glyph-viewport-label" id="glyph-view-label">COMPOSITE / LOCAL REST FRAME</div>
+        <p class="viewport-caption" id="glyph-caption">Amber grid density reads 1/q. Cyan points along slip. Rose arrowheads give the handedness of rotation about z. Drag to orbit; scroll to zoom.</p>
+      </div>
+      <aside class="controls glyph-controls" aria-label="Local state controls">
+        <fieldset>
+          <legend>Put load into the fluid</legend>
+          <div class="glyph-control"><label for="load">Background load L <output id="load-value" for="load">0.20</output></label><input id="load" name="load" type="range" min="0" max="0.45" step="0.01" value="0.2"><small>Fraction of the critical pressure already spent.</small></div>
+          <div class="glyph-control"><label for="slip">Signed slip s <output id="slip-value" for="slip">+0.35</output></label><input id="slip" name="slip" type="range" min="-0.5" max="0.5" step="0.01" value="0.35"><small>s = v⊥x/c. Cyan direction is the sign.</small></div>
+          <div class="glyph-control"><label for="twist">Signed twist w <output id="twist-value" for="twist">+0.25</output></label><input id="twist" name="twist" type="range" min="-0.35" max="0.35" step="0.01" value="0.25"><small>w = tₚΩz. Rose circulation is the sign.</small></div>
+        </fieldset>
+        <div class="glyph-budget" aria-hidden="true"><span class="budget-q" id="budget-q"></span><span class="budget-l" id="budget-l"></span><span class="budget-s" id="budget-s"></span><span class="budget-w" id="budget-w"></span></div>
+        <div class="glyph-key"><span class="key-q">q</span><span class="key-l">L</span><span class="key-s">s²</span><span class="key-w">w²</span></div>
+        <p class="glyph-budget-equation" id="budget-equation">q + L + s² + w² = 1</p>
+        <div class="glyph-action-row"><button type="button" id="flip-slip">Flip slip</button><button type="button" id="flip-twist">Flip twist</button><button type="button" id="reset-glyph">Reset</button></div>
+        <h2 class="glyph-matrix-heading">The same state, as numbers</h2>
+        <table class="glyph-matrix" aria-label="Asymmetric metric-tensor, rows and columns t x y z">
+          <thead><tr><th scope="col">Û</th><th scope="col">t</th><th scope="col">x</th><th scope="col">y</th><th scope="col">z</th></tr></thead>
+          <tbody id="tensor-body"></tbody>
+        </table>
+        <p class="matrix-note" id="matrix-note" aria-live="polite">Focus or hover a matrix entry to isolate its visual channel. The off-diagonal pair changes sign across the diagonal.</p>
+      </aside>
+    </div>
+    <div class="glyph-stats" aria-live="polite" aria-atomic="true">
+      <p><output id="q-value">0.615</output><span class="stat-label">remaining capacity q</span></p>
+      <p><output id="packing-value">1.626</output><span class="stat-label">spatial coefficient 1/q</span></p>
+      <p><output id="strain-value">0.385</output><span class="stat-label">spent pressure 1 − q</span></p>
+    </div>
+    <section class="section two-col">
+      <div>
+        <p class="eyebrow">What the visual teaches</p>
+        <h2 id="renderer-title">Three channels, kept legible</h2>
+        <p class="glyph-renderer-copy" id="renderer-copy">The fixed outer frame is the voxel’s sampling footprint. Its amber lattice becomes denser as capacity falls. A cyan arrow gives signed transverse slip; a rose loop gives signed vorticity. Keeping separate shapes for separate readings makes this the strongest default when neighboring voxels must be compared.</p>
+        <div class="glyph-key"><span class="key-q">Capacity / packing</span><span class="key-s">Transverse slip</span><span class="key-w">Vorticity</span></div>
+      </div>
+      <div>
+        <p class="eyebrow">The slice that matters</p>
+        <h2>Amount and direction are different knobs</h2>
+        <p>Flip the cyan arrow. Its off-diagonal entries reverse, while the pressure ledger stays put: (+s)² = (−s)². Increase its length instead, and it spends more of the pressure budget. The same separation holds for the rose loop in this fixture.</p>
+        <p class="formula">q = αₛ² = P<sub>static</sub>/P<sub>c</sub><br>Û<sub>00</sub> = −q &nbsp; · &nbsp; Û<sub>xx</sub> = Û<sub>yy</sub> = Û<sub>zz</sub> = 1/q</p>
+      </div>
+    </section>
+    <section class="section">
+      <p class="eyebrow">Renderer contract</p>
+      <h2>Each mark has one job</h2>
+      <div class="glyph-principles">
+        <div><h3>Scalar → amount</h3><p>The amber channel encodes q or its reciprocal, with the mapping stated beside the view. q is remaining static pressure relative to P<sub>c</sub>. The pressure field has a value at a point; force needs variation across neighboring points.</p></div>
+        <div><h3>Vector → arrow</h3><p>The cyan channel is αv⊥/c. Its length carries magnitude and its head carries direction. Here only x is active. Reversing the x direction exchanges the signs of Û<sub>0x</sub> and Û<sub>x0</sub>.</p></div>
+        <div><h3>Oriented plane → loop</h3><p>The rose channel is αtₚΩ. Its z axis names the x–y rotation plane. Arrowheads carry its handedness; the paired entries are Û<sub>xy</sub> and Û<sub>yx</sub>. This local loop is a glyph for vorticity. A particle’s tornadonut shape emerges from a whole field of samples.</p></div>
+      </div>
+    </section>
+    <section class="section two-col">
+      <div>
+        <p class="eyebrow">Inside this fixture</p>
+        <h2>A pressure budget you can audit</h2>
+        <p>Set α = 1, v∥ = 0, and the separate structural load P<sub>shear</sub> = 0. Use a rigid-rotation sample of radius r = 2ctₚ. Since Ω = 2ω, its edge speed satisfies v↻/c = tₚΩ = w. Rotation’s kinetic load remains in P<sub>dyn</sub>. Section 2’s normalized kinetic ledger then gives this page’s exact control rule:</p>
+        <p class="formula">q = 1 − L − s² − w²</p>
+        <p>The control ranges keep q ≥ 0.1775. No clipping silently removes load. Changing the renderer preserves every matrix entry. The cage’s line count is a quantized display of 1/q; the numeric instrument retains the full value.</p>
+        <p class="glyph-source">Read <a href="../../RCCM-GfX-2.html#the-thermodynamic-budget-energy-conservation">§2 · Thermodynamic budget</a>, <a href="../../RCCM-GfX-2.html#the-final-tensor-matrix">§3.3 · Final tensor matrix</a>, or the canonical <a href="../../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a>.</p>
+      </div>
+      <div class="callout">
+        <p class="eyebrow">One move to make</p>
+        <h2>Reverse first. Then amplify.</h2>
+        <p>At the initial state, flip slip from +0.35 to −0.35. Predict which matrix cells and amber features will change. Then drag its magnitude to 0.50.</p>
+        <details><summary>Reveal the invariant</summary><p>The sign flip changes only Û<sub>0x</sub> and Û<sub>x0</sub>, plus the cyan direction. q stays 0.615 and 1/q stays about 1.626. At |s| = 0.50 with the other initial controls fixed, q falls to 0.4875 and 1/q rises to about 2.051. Direction changed the shear; magnitude changed the shared budget.</p></details>
+        <p><a href="./02-resolution.html">Next: put a tornadonut across 1, 8, and 64 voxels →</a></p>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./glyphs.js"></script>
+</body>
+</html>

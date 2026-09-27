@@ -78,6 +78,16 @@ full-fluid implementation.
 
 ## Graphical lessons: destination before dependency route
 
+The [voxel-tank rendering studies](examples/voxel-tank/index.html) explore the
+visual destination in native HTML and Three.js: three local glyphs, the same
+toroidal specimen through 1/8/64 cells, and pressure/slip in the fluid between
+objects. The [run guide](examples/voxel-tank/README.md) opens them locally.
+Their [Hyperslice and Quads-PREP record](PREP/voxel-tank-rendering/01-WORKING-MODEL.md)
+selects a composite instrument and separates local state, volume averaging,
+hidden activity, reference topology and pressure-face operations. RCCM is
+axiomatic within these rendering studies. Prediction prompts are ready; no
+new learner response has yet established mastery.
+
 The audience is **Tom alone**. His immediate priority is a beautiful, responsive
 toy that invites curiosity through play. Long term: deeply master RCCM, fluid
 dynamics and massively parallel Bend. **Real, source-faithful behavior is a
