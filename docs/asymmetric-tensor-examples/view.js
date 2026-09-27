@@ -65,7 +65,7 @@
       sources:`${source}, §2 (finite pressure budget), §5.3 (mass-generated deficit and F = −Veff ∇Pstatic). <a href="../RCCM-Condensed.tex">Condensed</a>, “The Kinematic Origin of Inertia” places the cavitation and surrounding added mass; “Pressure Deficits, Symmetry Breaking, and Acoustic Covariance” separates level from slope.`
     },
     hair: {
-      number:'05 / Attraction and repulsion', title:'Flip one charge. The hairs bend toward each other.',
+      number:'05 / Attraction and repulsion', title:'Change one charge’s sign. The hairs bend toward each other.',
       intro:'Start with two positively charged hair tips. They push apart. Now change only the right tip to negative: they attract. Their roots stay attached, so the free ends tend to bend toward each other. Here is the difference inside RCCM’s pressure picture.',
       change:'Only the right tip’s charge: positive → negative.', held:'Left tip stays positive. Same starting shapes and charge magnitudes. Prescribed background: 80% pressure capacity left; magnetic readings are zero.',
       worlds:['Like charges · + and +','Opposite charges · + and −'],
@@ -94,9 +94,8 @@
   }
   function chargePressure(like=true){
     return text(250,37,like?'Same kind of charge':'Opposite kinds of charge','','middle')+
-      `<rect x="213" y="85" width="74" height="100" rx="12" fill="${like?'var(--elecbg)':'var(--capbg)'}"/><circle cx="156" cy="135" r="63" class="field"/><circle cx="344" cy="135" r="63" class="field"/>`+
+      `<rect x="213" y="85" width="74" height="100" rx="12" fill="${like?'var(--elecbg)':'var(--capbg)'}"/>`+
       charge(156,135,'+')+charge(344,135,like?'+':'−')+
-      arrow(219,109,219,159,'field')+arrow(281,like?159:109,281,like?109:159,'field')+
       arrow(like?123:76,218,like?76:123,218)+arrow(like?377:424,218,like?424:377,218)+
       text(250,261,like?'Higher pressure in the gap':'Lower pressure in the gap','','middle');
   }
@@ -116,14 +115,14 @@
   }
   function electricStory(){
     return causeCards('Why charged plates push the bead',[
-      ['Like charges build pressure between them','Like charges have opposing circulation on their facing sides; the higher pressure between them pushes them apart.',chargePressure(true),
-        'RCCM pictures charge as the handedness of tiny circulating structures. For two like charges, the flows on their facing sides oppose one another. Their combined motion is reduced there, leaving more static pressure in the gap. That pressure pushes them apart.'],
-      ['Opposite charges lower it','Opposite charges have aligned circulation on their facing sides; lower pressure between them lets the surrounding pressure push them together.',chargePressure(false),
-        'For opposite charges, the facing flows run together. Their combined motion uses more of the local pressure budget, leaving less static pressure between them. The higher pressure outside pushes them together.'],
+      ['The proposed repulsion pressure','RCCM’s proposed higher interaction pressure between like charges; no internal circulation is depicted.',chargePressure(true),
+        'RCCM attributes electric repulsion to higher static pressure between like charges. The mechanical step is an unequal squeeze: pressure on the facing sides pushes them apart. The colours show that proposed pressure pattern; they do not specify the internal flow.'],
+      ['The proposed attraction pressure','RCCM’s proposed lower interaction pressure between opposite charges; no internal circulation is depicted.',chargePressure(false),
+        'For opposite charges, RCCM assigns lower static pressure in the gap. Higher pressure on the outer sides then pushes the objects together. This again needs a difference across each object, rather than low pressure at one isolated sample.'],
       ['Both plates send this bead right','A positive bead is repelled rightward by the positive left plate and attracted rightward by the negative right plate.',
         '<rect x="50" y="70" width="18" height="139" rx="3" fill="var(--elecbg)"/><rect x="432" y="70" width="18" height="139" rx="3" fill="var(--elecbg)"/>'+text(59,51,'+','','middle')+text(441,51,'−','','middle')+charge(250,145,'+')+arrow(108,115,201,115)+arrow(299,174,392,174)+text(145,86,'repels →','label-small','middle')+text(348,213,'attracts →','label-small','middle')+text(250,265,'Both effects point right.','','middle'),
         'The bead is positive. The positive plate repels it and the negative plate attracts it. With + on the left and − on the right, both effects point right. Swap the plates’ charges and both effects point left.']
-    ],'<strong>Where it appears in the matrix:</strong> the two amber cells record the electric direction. Their signs swap when the plates swap. These are readings of the field around the bead; the bead’s own charge tells you how it responds.');
+    ],'<strong>The 3D question:</strong> the surrounding flow must generate these pressure patterns when either charged structure is turned. Two facing circulation arrows do not establish that. <a href="#charge-rotation">Explore winding, rotation, and the missing field connection →</a> The amber cells below record the applied electric direction; the bead’s own charge tells you how it responds.');
   }
   function compassStory(){
     return causeCards('Why a magnetic field turns the compass needle',[
@@ -140,14 +139,14 @@
   }
   function hairStory(){
     return causeCards('Why changing one charge changes repulsion into attraction',[
-      ['Like charges: more pressure in the gap','Like charges have opposing flow on their facing sides and a higher-pressure gap.',chargePressure(true),
-        'RCCM connects charge sign to the handedness of a tiny circulating structure. With like charges, the facing flows oppose each other. Their combined motion is reduced in the gap, leaving more static pressure there. The extra pressure pushes the tips apart.'],
-      ['Opposite charges: less pressure in the gap','Flipping the right charge aligns the facing flows and lowers static pressure between them.',chargePressure(false),
-        'Flip the right charge and its circulation reverses. The facing flows now reinforce each other. More of the pressure budget goes into motion between the tips, so less static pressure remains there. The higher pressure outside pushes them together.'],
+      ['Like charges: the proposed higher pressure','RCCM assigns a higher-pressure gap to like charges; the diagram shows the pressure hypothesis, not a core-flow solution.',chargePressure(true),
+        'RCCM proposes that the interaction of like charges raises the pressure between them. That pressure pushes the tips apart. Turning a tip around does not change its charge sign; its internal flow model must preserve that distinction.'],
+      ['Opposite charges: the proposed lower pressure','Changing the right charge’s sign changes the proposed pressure pattern to a lower-pressure gap.',chargePressure(false),
+        'Change the right tip’s charge sign and RCCM assigns a lower-pressure gap. The higher pressure outside pushes the tips together. Changing the charge sign is a different operation from rotating the hair in space.'],
       ['The field and the responding charge are separate','The same rightward applied electric field pushes a positive tip right and a negative tip left.',
         text(250,36,'Same field here →','','middle')+charge(250,107,'+')+arrow(284,107,387,107)+text(85,114,'positive','label-small')+charge(250,191,'−')+arrow(217,191,115,191)+text(333,198,'negative','label-small')+text(250,261,'Different charge → opposite force','','middle'),
         'At the right tip, the field supplied by the left tip still points right. A positive right tip follows it; a negative right tip responds leftward. The field arrow describes the surroundings. The charge sign describes the object placed there.']
-    ],'<strong>Look at the right-tip matrices below.</strong> They are the same, yet the force reverses. The object’s charge is additional information. <a href="#electric-components">See where eₓ, eᵧ and e<sub>z</sub> fit into this →</a>');
+    ],'<strong>What survives a rotation?</strong> A single circle’s apparent spin can reverse when you turn it over. A charge sign stays the same. <a href="#charge-rotation">See the two-circulation 3D comparison →</a> At the right tip below, the applied field matrices are identical; the changed charge sign reverses the force.');
   }
   const causalStory = () => ({clock:clockStory,electric:electricStory,compass:compassStory,falling:gravityStory,hair:hairStory})[scene]();
   function gravityStory(){

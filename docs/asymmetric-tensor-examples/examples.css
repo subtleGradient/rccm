@@ -102,6 +102,15 @@
 @media print{.guide-links,.demo-controls{display:none}.concept-guide{break-before:page}.concept-guide .explain-pair{grid-template-columns:1fr 1fr;gap:20px}.concept-guide h2{font-size:25px}.concept-guide h3{font-size:18px}.concept-guide p{font-size:12px}.css-stage,.numeric-matrix,.world-stage{break-inside:avoid}}
 
 /* Keep the shared map gap fixed while comparing local watches and rulers. */
+.winding-vocabulary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:26px 0}.winding-vocabulary p{margin:0;border-top:3px solid var(--capacity);padding-top:12px;font-size:16px}.winding-vocabulary p:first-child{border-color:#266982}.winding-vocabulary p:nth-child(2){border-color:#9b3e62}.winding-vocabulary strong{display:block;margin-bottom:7px;font-size:18px}
+.winding-lab{border-block:1px solid var(--line);padding:0 0 22px;margin:30px 0}.winding-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}.winding-pair article{min-width:0}.winding-pair h4,.charge-exteriors h4{font-size:19px;margin:0 0 12px}
+.winding-stage{background:#f3f2eb;border:1px solid var(--line);border-radius:9px;overflow:hidden}.winding-stage svg{display:block;width:100%;height:auto;aspect-ratio:5/4}.winding-stage svg text{font:19px system-ui,sans-serif;fill:var(--ink)}.winding-stage svg .label-small{font-size:16px;fill:var(--muted)}.winding-stage svg .charge-sign{font-size:29px}
+.winding-status{margin:18px 0;padding:15px 18px;border-left:3px solid var(--capacity);background:var(--capbg)}.winding-status p{margin:0}.winding-status p:first-child{font-weight:600;font-size:19px}.winding-status p+p{margin-top:8px;font-size:15px}
+.winding-sliders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:24px 0}.winding-sliders label{font-size:16px;font-weight:600}.winding-sliders output{color:var(--muted);font-weight:400}.winding-sliders input{display:block;width:100%;min-height:40px;margin:4px 0 0;accent-color:var(--capacity)}
+.winding-lab .demo-controls button[aria-pressed=true]{background:var(--capbg);border-color:var(--capacity)}.winding-lab button:disabled{opacity:.45;cursor:default}.rotation-bridge{border-left:3px solid var(--electric);padding:1px 0 1px 22px;margin-top:30px}
+@media(max-width:760px){.winding-vocabulary,.winding-pair,.winding-sliders{grid-template-columns:1fr;gap:22px}.winding-vocabulary{gap:15px}.winding-stage{max-width:500px}.winding-sliders{gap:10px}.winding-status p+p{font-size:16px}.rotation-bridge{padding-left:16px}}
+@media print{.winding-sliders{display:none}.winding-pair,.charge-exteriors{grid-template-columns:1fr 1fr;gap:18px}.winding-stage{break-inside:avoid}.winding-status p:first-child{font-size:15px}.winding-status p+p{font-size:12px}}
+
 .clock-measures{margin:38px 0 28px;border-top:1px solid var(--line);padding-top:28px;scroll-margin-top:20px}
 .clock-measures h3{font-size:clamp(27px,3.5vw,36px);line-height:1.2;margin:10px 0 20px}
 .clock-measures h4{font-size:22px;line-height:1.3;margin:25px 0 12px}
