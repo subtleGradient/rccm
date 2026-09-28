@@ -86,16 +86,32 @@ export function torusSignedDistance(point: Vec3, pose: CavityPose): number {
   return Math.hypot(Math.hypot(p[0], p[1]) - PAIR_FIELD.majorRadius, p[2]) - PAIR_FIELD.tubeRadius;
 }
 
+function chargeSlipAt(point: Vec3, pose: CavityPose, intensity: number): Vec3 {
+  const offset = sub(point, pose.center);
+  const chargeRadius = Math.hypot(length(offset), 0.4);
+  const chargeGain = pose.winding * intensity * PAIR_FIELD.chargeSlipScale
+    / (chargeRadius * (1 + (chargeRadius / PAIR_FIELD.chargeSlipRange) ** 2));
+  return mul(offset, chargeGain);
+}
+
+function staticPressureFromChargeSlip(chargeSlip: Vec3): number {
+  const dynamicPressure = 0.5 * PAIR_FIELD.density * dot(chargeSlip, chargeSlip);
+  return Math.max(0.08, PAIR_FIELD.pressureCapacity - PAIR_FIELD.macroPressure - dynamicPressure);
+}
+
+export function samplePairPressure(point: Vec3, state: PairState, intensity: number): Pick<FieldReading, 'inside' | 'staticPressure'> {
+  const inside = torusSignedDistance(point, state.positive) < 0 ? 'positive'
+    : torusSignedDistance(point, state.negative) < 0 ? 'negative' : null;
+  const chargeSlip = add(chargeSlipAt(point, state.positive, intensity), chargeSlipAt(point, state.negative, intensity));
+  return { inside, staticPressure: staticPressureFromChargeSlip(chargeSlip) };
+}
+
 // The local vortex turns with the cavity. A separately hypothesized polar
 // charge-slip halo carries winding sign without using the cavity's axis as
 // the charge direction. This is an orientation-invariant visual closure, not
 // a derived solution of the charged-defect boundary problem.
 export function contribution(point: Vec3, pose: CavityPose, intensity: number): Contribution {
-  const offset = sub(point, pose.center);
-  const chargeRadius = Math.hypot(length(offset), 0.4);
-  const chargeGain = pose.winding * intensity * PAIR_FIELD.chargeSlipScale
-    / (chargeRadius * (1 + (chargeRadius / PAIR_FIELD.chargeSlipRange) ** 2));
-  const chargeSlip = mul(offset, chargeGain);
+  const chargeSlip = chargeSlipAt(point, pose, intensity);
   const p = unrotate(sub(point, pose.center), pose.yaw, pose.tilt);
   const r = Math.hypot(p[0], p[1]);
   if (r < 1e-6) return { ...EMPTY, slip: chargeSlip, chargeSlip };
@@ -156,7 +172,7 @@ export function samplePairField(point: Vec3, state: PairState, intensity: number
   // pressure ledger, so rotating a cavity cannot change charge-force sign.
   // Local poloidal, toroidal, and entrained motions remain visible separately.
   const dynamicPressure = 0.5 * PAIR_FIELD.density * dot(chargeSlip, chargeSlip);
-  const staticPressure = Math.max(0.08, PAIR_FIELD.pressureCapacity - PAIR_FIELD.macroPressure - dynamicPressure);
+  const staticPressure = staticPressureFromChargeSlip(chargeSlip);
   return {
     inside, positive, negative, slip, chargeSlip, rotational, omega, velocity, dynamicPressure, staticPressure,
     q: staticPressure / PAIR_FIELD.pressureCapacity,

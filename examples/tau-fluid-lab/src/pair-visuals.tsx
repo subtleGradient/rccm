@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { Line } from '@react-three/drei';
 import * as THREE from 'three';
 import { add, length, mul, normalize, sub, type Vec3 } from './model';
-import { boundaryPush, integrateBoundary, pairStateAt, samplePairField, type CavityId, type PairHistory, type PairState } from './pair-field';
+import { boundaryPush, integrateBoundary, samplePairField, samplePairPressure, type CavityId, type PairHistory, type PairState } from './pair-field';
 
 const FORCE_MAGNIFICATION = 5;
 const BOUNDARY_MAGNIFICATION = 0.45;
@@ -28,17 +28,33 @@ export function VectorArrow({ at, vector, color, scale = 1, width = 2, opacity =
 function makePressureTexture(state: PairState, intensity: number) {
   const nx = 144, ny = 96;
   const data = new Uint8Array(nx * ny * 4);
+  const pressures = new Float64Array(nx * ny);
+  let lowest = Infinity, highest = -Infinity;
   for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
     const point: Vec3 = [-3.45 + (i + 0.5) * 6.9 / nx, -2.3 + (j + 0.5) * 4.6 / ny, 0];
-    const sample = samplePairField(point, state, intensity);
-    const index = (i + j * nx) * 4;
-    if (sample.inside) { data.set([0, 0, 0, 0], index); continue; }
-    const deficit = Math.max(0, Math.min(1, (0.94 - sample.staticPressure) * 2.1));
-    // Static pressure only: turquoise is ambient, violet is lower pressure.
-    data[index] = Math.round(26 + deficit * 149);
-    data[index + 1] = Math.round(100 - deficit * 53);
-    data[index + 2] = Math.round(112 + deficit * 80);
-    data[index + 3] = 210;
+    const sample = samplePairPressure(point, state, intensity);
+    const pixel = i + j * nx;
+    pressures[pixel] = sample.inside ? NaN : sample.staticPressure;
+    if (!sample.inside) {
+      lowest = Math.min(lowest, sample.staticPressure);
+      highest = Math.max(highest, sample.staticPressure);
+    }
+  }
+  const range = highest - lowest;
+  const violet = [215, 55, 235], purple = [99, 65, 175], teal = [19, 213, 192];
+  for (let pixel = 0; pixel < pressures.length; pixel++) {
+    const pressure = pressures[pixel];
+    if (Number.isNaN(pressure)) continue; // Empty cavity: no pressure color.
+    const relative = range > 0 ? (pressure - lowest) / range : 0.5;
+    const firstHalf = relative < 0.5;
+    const start = firstHalf ? violet : purple;
+    const end = firstHalf ? purple : teal;
+    const blend = firstHalf ? relative * 2 : (relative - 0.5) * 2;
+    const index = pixel * 4;
+    for (let channel = 0; channel < 3; channel++) {
+      data[index + channel] = Math.round(start[channel] + (end[channel] - start[channel]) * blend);
+    }
+    data[index + 3] = 235;
   }
   const texture = new THREE.DataTexture(data, nx, ny, THREE.RGBAFormat);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -49,13 +65,13 @@ function makePressureTexture(state: PairState, intensity: number) {
 }
 
 export function PressureSlice({ history, intensity, time, visible }: { history: PairHistory; intensity: number; time: number; visible: boolean }) {
-  const quantized = Math.floor(time * 10) / 10;
-  const texture = useMemo(() => makePressureTexture(pairStateAt(history, quantized), intensity), [history, quantized, intensity]);
+  const frame = Math.min(Math.floor(time / history.frameStep), history.frames.length - 1);
+  const texture = useMemo(() => makePressureTexture(history.frames[frame], intensity), [history, frame, intensity]);
   useEffect(() => () => texture.dispose(), [texture]);
   if (!visible) return null;
   return <mesh position={[0, 0, -0.025]} renderOrder={0}>
     <planeGeometry args={[6.9, 4.6]} />
-    <meshBasicMaterial map={texture} side={THREE.DoubleSide} transparent opacity={0.72} depthWrite={false} />
+    <meshBasicMaterial map={texture} side={THREE.DoubleSide} transparent opacity={0.84} depthWrite={false} />
   </mesh>;
 }
 
@@ -130,7 +146,12 @@ function OrientedLoop({ point, vector }: { point: Vec3; vector: Vec3 }) {
 }
 
 export function PressureLegend() {
-  return <div className="pressure-legend"><span>STATIC PRESSURE</span><div className="pressure-ramp" /><div className="legend-ends"><span>LOW · VIOLET</span><span>AMBIENT · TEAL</span></div></div>;
+  return <div className="pressure-legend">
+    <span>RELATIVE STATIC PRESSURE</span>
+    <div className="pressure-ramp" />
+    <div className="legend-ends"><span>LOWEST · VIOLET</span><span>HIGHEST · TEAL</span></div>
+    <div className="pressure-legend-note">Rescaled each frame across this slice.</div>
+  </div>;
 }
 
 export function forceAt(state: PairState, id: CavityId, intensity: number) { return integrateBoundary(state[id], state, intensity); }

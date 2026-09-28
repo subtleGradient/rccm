@@ -42,8 +42,9 @@
   letter-spacing: .08em;
   color: #b5d1d2;
 }
-.pressure-ramp { height: 9px; margin: 10px 0 6px; border-radius: 2px; background: linear-gradient(90deg, #af2fc2, #673b99, #236279); }
+.pressure-ramp { height: 9px; margin: 10px 0 6px; border-radius: 2px; background: linear-gradient(90deg, #d737eb, #6341af, #13d5c0); }
 .legend-ends { display: flex; justify-content: space-between; gap: 10px; color: #91adb3; font-size: 9px; }
+.pressure-legend-note { margin-top: 9px; color: #91adb3; font-size: 9px; letter-spacing: 0; }
 
 .pair-display-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-top: 16px; }
 .pair-display-controls label { display: flex; align-items: center; gap: 7px; color: #b3cbcb; font-size: 11px; }
