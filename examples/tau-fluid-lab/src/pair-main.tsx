@@ -5,7 +5,7 @@ import { OrbitControls } from '@react-three/drei';
 import { FluidStarfield } from './scene';
 import { ParticleFlow } from './pair-particles';
 import {
-  addedMass, integrateBoundary, localResiduals, pairStateAt, samplePairField, solvePairHistory, tensorAt,
+  addedMass, integrateBoundary, localResiduals, pairStateAt, rotationalInertia, samplePairField, solvePairHistory, tensorAt,
   type CavityId, type PairOptions,
 } from './pair-field';
 import {
@@ -22,21 +22,27 @@ type Selection = CavityId | 'probe' | null;
 type VectorMode = 'none' | 'slip' | 'vorticity';
 type Scenario = 'like' | 'opposite';
 type PoseAngles = Pick<PairOptions, 'positiveYaw' | 'positiveTilt' | 'negativeYaw' | 'negativeTilt'>;
+type InitialOrientation = PoseAngles & Pick<PairOptions, 'positiveYawRate' | 'positiveTiltRate' | 'negativeYawRate' | 'negativeTiltRate'>;
 const PRESET_POSE: PoseAngles = { positiveYaw: 0, positiveTilt: 0, negativeYaw: 0, negativeTilt: Math.PI };
 const chargeColor = (winding: 1 | -1) => winding === 1 ? '#f9d96c' : '#bcd9ff';
 const randomAngleOffset = () => (Math.random() < 0.5 ? -1 : 1) * (0.12 + Math.random() * 0.11);
-const randomizePose = (base: PoseAngles): PoseAngles => ({
+const randomAngularRate = () => (Math.random() < 0.5 ? -1 : 1) * (0.02 + Math.random() * 0.015);
+const randomizeInitialOrientation = (base: PoseAngles): InitialOrientation => ({
   positiveYaw: base.positiveYaw + randomAngleOffset(),
   positiveTilt: base.positiveTilt + randomAngleOffset(),
   negativeYaw: base.negativeYaw + randomAngleOffset(),
   negativeTilt: base.negativeTilt + randomAngleOffset(),
+  positiveYawRate: randomAngularRate(),
+  positiveTiltRate: randomAngularRate(),
+  negativeYawRate: randomAngularRate(),
+  negativeTiltRate: randomAngularRate(),
 });
 const scenarioOptions = (scenario: Scenario, intensity = 1): PairOptions => ({
   intensity,
   startHalfSeparation: scenario === 'like' ? 1.15 : 2,
   positiveWinding: scenario === 'like' ? -1 : 1,
   negativeWinding: -1,
-  ...randomizePose(PRESET_POSE),
+  ...randomizeInitialOrientation(PRESET_POSE),
 });
 const cavityName = (id: CavityId, scenario: Scenario | null) => scenario === 'like'
   ? id === 'positive' ? 'fake electron 1' : 'fake electron 2'
@@ -109,9 +115,9 @@ function PairPlayground() {
     };
     setOptions(value => ({ ...value, ...patch }));
   };
-  const rerollPose = () => {
-    const angles = randomizePose(poseBase.current);
-    setOptions(current => ({ ...current, ...angles }));
+  const rerollInitialOrientation = () => {
+    const orientation = randomizeInitialOrientation(poseBase.current);
+    setOptions(current => ({ ...current, ...orientation }));
   };
   const chooseScenario = (next: Scenario) => {
     poseBase.current = { ...PRESET_POSE };
@@ -132,7 +138,7 @@ function PairPlayground() {
     if (next >= duration) {
       timeRef.current = 0;
       setTime(0);
-      rerollPose();
+      rerollInitialOrientation();
       return;
     }
     timeRef.current = next;
@@ -142,7 +148,7 @@ function PairPlayground() {
     if (!playing && shownTime >= duration - 1e-4) {
       timeRef.current = 0;
       setTime(0);
-      rerollPose();
+      rerollInitialOrientation();
     }
     setPlaying(value => !value);
   };
@@ -180,26 +186,28 @@ function PairPlayground() {
       <section className="panel-section pair-scenarios" aria-labelledby="pair-scenarios-title">
         <div className="section-title"><h2 id="pair-scenarios-title">Scenarios</h2><span>STARTING STATES</span></div>
         <article className={`pair-scenario${scenario === 'like' ? ' active' : ''}`}>
-          <button type="button" aria-pressed={scenario === 'like'} onClick={() => chooseScenario('like')}><span>01 / LIKE CHARGES</span><strong>fake electron 1 + fake electron 2</strong><small>Start close · spread toward the edges · new angles each loop</small></button>
+          <button type="button" aria-pressed={scenario === 'like'} onClick={() => chooseScenario('like')}><span>01 / LIKE CHARGES</span><strong>fake electron 1 + fake electron 2</strong><small>Start close · spread toward the edges · new orientation and motion each loop</small></button>
           <div className="pair-scenario-story">
             <p>Imagine standing in the fluid between them. Their facing slip flows oppose one another, so that patch of fluid moves less. Less motion leaves more of the local pressure budget as static pressure.</p>
             <p>That higher-pressure patch presses outward on both cavity boundaries. The fluid on their far sides does not cancel the facing flow in the same way, so the pushes are uneven: one cavity is pushed left, the other right. Watch the blue net-push arrows and the widening gap.</p>
           </div>
         </article>
         <article className={`pair-scenario${scenario === 'opposite' ? ' active' : ''}`}>
-          <button type="button" aria-pressed={scenario === 'opposite'} onClick={() => chooseScenario('opposite')}><span>02 / OPPOSITE CHARGES</span><strong>fake positron + fake electron</strong><small>Start far apart · meet before 10 s · new angles each loop</small></button>
+          <button type="button" aria-pressed={scenario === 'opposite'} onClick={() => chooseScenario('opposite')}><span>02 / OPPOSITE CHARGES</span><strong>fake positron + fake electron</strong><small>Start far apart · meet before 10 s · new orientation and motion each loop</small></button>
           <div className="pair-scenario-story">
             <p>Now stand in the same gap. The facing slip flows run together, speeding the fluid there. In this trial pressure ledger, faster motion spends more of the budget as dynamic pressure, leaving less static pressure in the gap.</p>
             <p>The fluid outside the pair then presses harder than the fluid between them. That uneven squeeze draws both empty boundaries inward. Look for the lower-pressure violet gap and the two force arrows pointing toward each other.</p>
             <p className="pair-scenario-footnote">If these were a real electron and positron and they met, the pair would annihilate. This page holds at its calculated contact until the ten-second loop restarts instead of inventing an annihilation animation; the TeX also proposes a possible pre-contact orbit.</p>
           </div>
         </article>
-        <div className="pair-loop-angles" aria-label="Starting yaw and tilt for this loop">
-          <span>THIS LOOP'S STARTING ANGLES</span>
-          <div><strong>T01</strong><span>yaw {signed(options.positiveYaw)} · tilt {signed(options.positiveTilt)}</span></div>
-          <div><strong>T02</strong><span>yaw {signed(options.negativeYaw)} · tilt {signed(options.negativeTilt)}</span></div>
+        <div className="pair-loop-angles" aria-label="Starting yaw, tilt, and angular velocity for this loop">
+          <span>THIS LOOP · ANGLES rad · RATES rad/s</span>
+          <div><strong>T01 angle</strong><span>yaw {signed(options.positiveYaw)} · tilt {signed(options.positiveTilt)}</span></div>
+          <div><strong>T01 rate</strong><span>yaw {signed(options.positiveYawRate)} · tilt {signed(options.positiveTiltRate)}</span></div>
+          <div><strong>T02 angle</strong><span>yaw {signed(options.negativeYaw)} · tilt {signed(options.negativeTilt)}</span></div>
+          <div><strong>T02 rate</strong><span>yaw {signed(options.negativeYawRate)} · tilt {signed(options.negativeTiltRate)}</span></div>
         </div>
-        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. The first load and every loop draw new yaw and tilt for both cavities near the face-to-face arrangement. Orientation changes the geometry, not the assigned charge.</p>
+        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. The first load and every loop draw new yaw, tilt, and starting angular motion for both cavities. Their orientation changes the geometry, not the assigned charge.</p>
       </section>
       <section className="panel-section" aria-labelledby="pair-layers-title">
         <div className="section-title"><h2 id="pair-layers-title">Layers</h2><span>FIELD / DISPLAY</span></div>
@@ -249,9 +257,12 @@ function PairPlayground() {
             <div><dt>Winding</dt><dd>{selectedPose.winding > 0 ? '+1 positive' : '−1 negative'}</dd></div>
             <div><dt>Center</dt><dd>{formatVector(selectedPose.center)}</dd></div>
             <div><dt>Speed</dt><dd>{fmt(length(selectedPose.velocity), 3)} units/s</dd></div>
+            <div><dt>Yaw rate</dt><dd>{signed(selectedPose.angularVelocity[1])} rad/s</dd></div>
+            <div><dt>Tilt rate</dt><dd>{signed(selectedPose.angularVelocity[0])} rad/s</dd></div>
             <div><dt>Net push</dt><dd>{formatVector(selectedForce.force)}</dd></div>
             <div><dt>Net torque</dt><dd>{formatVector(selectedForce.torque)}</dd></div>
             <div><dt>Added mass</dt><dd>{fmt(addedMass, 3)} normalized</dd></div>
+            <div><dt>Rotational inertia</dt><dd>{fmt(rotationalInertia, 3)} normalized</dd></div>
             <div><dt>Boundary flux error</dt><dd>{fmt(residual.boundaryFlux, 3)}</dd></div>
             <div><dt>Divergence error</dt><dd>{fmt(residual.divergence, 3)}</dd></div>
           </dl>

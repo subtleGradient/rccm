@@ -12,7 +12,20 @@ export type CavityPose = {
   winding: 1 | -1;
 };
 export type PairState = { positive: CavityPose; negative: CavityPose };
-export type PairOptions = { intensity: number; startHalfSeparation: number; positiveWinding: 1 | -1; positiveYaw: number; positiveTilt: number; negativeWinding: 1 | -1; negativeYaw: number; negativeTilt: number };
+export type PairOptions = {
+  intensity: number;
+  startHalfSeparation: number;
+  positiveWinding: 1 | -1;
+  positiveYaw: number;
+  positiveTilt: number;
+  positiveYawRate: number;
+  positiveTiltRate: number;
+  negativeWinding: 1 | -1;
+  negativeYaw: number;
+  negativeTilt: number;
+  negativeYawRate: number;
+  negativeTiltRate: number;
+};
 export type Contribution = { slip: Vec3; rotational: Vec3; omega: Vec3; entrained: Vec3 };
 export type FieldReading = {
   inside: CavityId | null;
@@ -57,12 +70,12 @@ const lerpVec = (a: Vec3, b: Vec3, t: number): Vec3 => [lerp(a[0], b[0], t), ler
 const cross = (a: Vec3, b: Vec3): Vec3 => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 
 export function initialPairState(options: PairOptions): PairState {
-  const base = (id: CavityId, x: number, winding: 1 | -1, yaw: number, tilt: number): CavityPose => ({
-    id, center: [x, 0, 0], velocity: ZERO, yaw, tilt, spin: 0, angularVelocity: ZERO, winding,
+  const base = (id: CavityId, x: number, winding: 1 | -1, yaw: number, tilt: number, yawRate: number, tiltRate: number): CavityPose => ({
+    id, center: [x, 0, 0], velocity: ZERO, yaw, tilt, spin: 0, angularVelocity: [tiltRate, yawRate, 0], winding,
   });
   return {
-    positive: base('positive', -options.startHalfSeparation, options.positiveWinding, options.positiveYaw, options.positiveTilt),
-    negative: base('negative', options.startHalfSeparation, options.negativeWinding, options.negativeYaw, options.negativeTilt),
+    positive: base('positive', -options.startHalfSeparation, options.positiveWinding, options.positiveYaw, options.positiveTilt, options.positiveYawRate, options.positiveTiltRate),
+    negative: base('negative', options.startHalfSeparation, options.negativeWinding, options.negativeYaw, options.negativeTilt, options.negativeYawRate, options.negativeTiltRate),
   };
 }
 
