@@ -15,6 +15,10 @@
 .pair-scenario-story { padding: 0 12px 13px; }
 .pair-scenario-story p { margin-top: 9px; color: #afc9c6; font-size: 11px; line-height: 1.55; }
 .pair-scenario-story .pair-scenario-footnote { padding-top: 9px; border-top: 1px solid rgba(185, 221, 217, .13); color: #8eacae; font-size: 10px; }
+.pair-loop-angles { display: grid; gap: 5px; margin-top: 13px; padding: 10px 11px; border: 1px solid rgba(171, 215, 211, .18); border-radius: 6px; background: rgba(180, 224, 218, .035); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; color: #b9d7d2; }
+.pair-loop-angles > span { margin-bottom: 2px; font-size: 9px; letter-spacing: .08em; color: #8fb9b5; }
+.pair-loop-angles > div { display: flex; justify-content: space-between; gap: 10px; }
+.pair-loop-angles strong { color: #e0f0e9; font-weight: 550; }
 .pair-scenario-caveat { margin-top: 13px; color: #88aaa8; font-size: 11px; line-height: 1.5; }
 
 .pressure-legend {

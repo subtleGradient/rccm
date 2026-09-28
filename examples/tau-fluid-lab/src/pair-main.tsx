@@ -24,12 +24,12 @@ type Scenario = 'like' | 'opposite';
 type PoseAngles = Pick<PairOptions, 'positiveYaw' | 'positiveTilt' | 'negativeYaw' | 'negativeTilt'>;
 const PRESET_POSE: PoseAngles = { positiveYaw: 0, positiveTilt: 0, negativeYaw: 0, negativeTilt: Math.PI };
 const chargeColor = (winding: 1 | -1) => winding === 1 ? '#f9d96c' : '#bcd9ff';
-const randomOffset = (range: number) => (Math.random() * 2 - 1) * range;
+const randomAngleOffset = () => (Math.random() < 0.5 ? -1 : 1) * (0.12 + Math.random() * 0.11);
 const randomizePose = (base: PoseAngles): PoseAngles => ({
-  positiveYaw: base.positiveYaw + randomOffset(0.18),
-  positiveTilt: base.positiveTilt + randomOffset(0.18),
-  negativeYaw: base.negativeYaw + randomOffset(0.18),
-  negativeTilt: base.negativeTilt + randomOffset(0.18),
+  positiveYaw: base.positiveYaw + randomAngleOffset(),
+  positiveTilt: base.positiveTilt + randomAngleOffset(),
+  negativeYaw: base.negativeYaw + randomAngleOffset(),
+  negativeTilt: base.negativeTilt + randomAngleOffset(),
 });
 const scenarioOptions = (scenario: Scenario, intensity = 1): PairOptions => ({
   intensity,
@@ -194,7 +194,12 @@ function PairPlayground() {
             <p className="pair-scenario-footnote">If these were a real electron and positron and they met, the pair would annihilate. This page holds at its calculated contact until the ten-second loop restarts instead of inventing an annihilation animation; the TeX also proposes a possible pre-contact orbit.</p>
           </div>
         </article>
-        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. Each loop rerolls both cavities’ yaw and tilt near the selected face-to-face arrangement. Orientation changes the geometry, not the assigned charge.</p>
+        <div className="pair-loop-angles" aria-label="Starting yaw and tilt for this loop">
+          <span>THIS LOOP'S STARTING ANGLES</span>
+          <div><strong>T01</strong><span>yaw {signed(options.positiveYaw)} · tilt {signed(options.positiveTilt)}</span></div>
+          <div><strong>T02</strong><span>yaw {signed(options.negativeYaw)} · tilt {signed(options.negativeTilt)}</span></div>
+        </div>
+        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. The first load and every loop draw new yaw and tilt for both cavities near the face-to-face arrangement. Orientation changes the geometry, not the assigned charge.</p>
       </section>
       <section className="panel-section" aria-labelledby="pair-layers-title">
         <div className="section-title"><h2 id="pair-layers-title">Layers</h2><span>FIELD / DISPLAY</span></div>
