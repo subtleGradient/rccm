@@ -3,6 +3,20 @@
 .pair-playground .panel-header h1 { color: #f0fbf5; }
 .pair-playground .panel-header p { max-width: 37ch; }
 
+.pair-scenarios .section-title { margin-bottom: 12px; }
+.pair-scenario { margin-top: 9px; overflow: hidden; border: 1px solid rgba(171, 215, 211, .18); border-radius: 7px; background: rgba(180, 224, 218, .035); }
+.pair-scenario.active { border-color: rgba(183, 237, 217, .53); background: rgba(166, 229, 207, .075); }
+.pair-scenario > button { display: grid; width: 100%; gap: 5px; padding: 12px; border: 0; background: transparent; color: #eaf8f1; text-align: left; }
+.pair-scenario > button:hover { background: rgba(175, 234, 211, .075); }
+.pair-scenario > button > span { font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; color: #9bc9bc; }
+.pair-scenario > button > strong { font-size: 13px; font-weight: 590; }
+.pair-scenario > button > small { font-size: 11px; color: #9dbab7; }
+.pair-scenario.active > button::after { content: "SELECTED"; justify-self: start; margin-top: 2px; padding: 2px 5px; border-radius: 3px; background: rgba(163, 232, 199, .15); color: #b8edd0; font: 9px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; }
+.pair-scenario-story { padding: 0 12px 13px; }
+.pair-scenario-story p { margin-top: 9px; color: #afc9c6; font-size: 11px; line-height: 1.55; }
+.pair-scenario-story .pair-scenario-footnote { padding-top: 9px; border-top: 1px solid rgba(185, 221, 217, .13); color: #8eacae; font-size: 10px; }
+.pair-scenario-caveat { margin-top: 13px; color: #88aaa8; font-size: 11px; line-height: 1.5; }
+
 .pressure-legend {
   position: absolute;
   z-index: 1;

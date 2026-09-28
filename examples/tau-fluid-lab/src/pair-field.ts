@@ -12,7 +12,7 @@ export type CavityPose = {
   winding: 1 | -1;
 };
 export type PairState = { positive: CavityPose; negative: CavityPose };
-export type PairOptions = { intensity: number; positiveYaw: number; positiveTilt: number; negativeWinding: 1 | -1; negativeYaw: number; negativeTilt: number };
+export type PairOptions = { intensity: number; positiveWinding: 1 | -1; positiveYaw: number; positiveTilt: number; negativeWinding: 1 | -1; negativeYaw: number; negativeTilt: number };
 export type Contribution = { slip: Vec3; rotational: Vec3; omega: Vec3; entrained: Vec3 };
 export type FieldReading = {
   inside: CavityId | null;
@@ -39,6 +39,7 @@ export const PAIR_FIELD = {
   density: 0.28,
   slipScale: 0.74,
   spinScale: 1.12,
+  rotationalPressureWeight: 0.05,
   fieldRange: 0.82,
   entrainmentRange: 0.56,
   alpha: 0.55,
@@ -61,7 +62,7 @@ export function initialPairState(options: PairOptions): PairState {
     id, center: [x, 0, 0], velocity: ZERO, yaw, tilt, spin: 0, angularVelocity: ZERO, winding,
   });
   return {
-    positive: base('positive', -PAIR_FIELD.startHalfSeparation, 1, options.positiveYaw, options.positiveTilt),
+    positive: base('positive', -PAIR_FIELD.startHalfSeparation, options.positiveWinding, options.positiveYaw, options.positiveTilt),
     negative: base('negative', PAIR_FIELD.startHalfSeparation, options.negativeWinding, options.negativeYaw, options.negativeTilt),
   };
 }
@@ -125,7 +126,12 @@ export function samplePairField(point: Vec3, state: PairState, intensity: number
   const omega = add(positive.omega, negative.omega);
   const entrained = add(positive.entrained, negative.entrained);
   const velocity = add(add(slip, rotational), entrained);
-  const dynamicPressure = 0.5 * PAIR_FIELD.density * (dot(slip, slip) + dot(rotational, rotational) + dot(entrained, entrained));
+  // Focus the charge comparison on the transverse-slip channel. The toroidal
+  // channel remains visible in particle motion and vorticity, but contributes
+  // only a small background share to this illustrative pressure closure.
+  const dynamicPressure = 0.5 * PAIR_FIELD.density * (
+    dot(slip, slip) + PAIR_FIELD.rotationalPressureWeight * dot(rotational, rotational) + dot(entrained, entrained)
+  );
   const staticPressure = Math.max(0.08, PAIR_FIELD.pressureCapacity - PAIR_FIELD.macroPressure - dynamicPressure);
   return {
     inside, positive, negative, slip, rotational, omega, velocity, dynamicPressure, staticPressure,
