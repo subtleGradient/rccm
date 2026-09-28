@@ -1,23 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { FluidStarfield } from './scene';
+import { PlaybackPanel, SceneClock } from './playground-controls';
 import { CAVITY, advanceSceneTime, cavityCenter, cavityProjection, entrainedProjection, makeCavityShellSeeds } from './starfield-cavity';
 import '@fontsource-variable/inter';
 import './starfield.css';
-
-function SceneClock({ playing, onTick }: { playing: boolean; onTick: (delta: number) => void }) {
-  const elapsed = useRef(0);
-  useFrame((_, delta) => {
-    if (!playing) { elapsed.current = 0; return; }
-    elapsed.current += Math.min(delta, 0.05);
-    if (elapsed.current < 1 / 30) return;
-    onTick(elapsed.current);
-    elapsed.current = 0;
-  });
-  return null;
-}
 
 function LayersPanel({ mediumVisible, cavityVisible, selected, onMediumVisible, onCavityVisible, onSelect }: {
   mediumVisible: boolean; cavityVisible: boolean; selected: boolean;
@@ -68,20 +57,6 @@ function InspectionPanel({ selected, time }: { selected: boolean; time: number }
   </section>;
 }
 
-function PlaybackPanel({ time, playing, onPlay, onScrub, onReset }: {
-  time: number; playing: boolean; onPlay: () => void; onScrub: (time: number) => void; onReset: () => void;
-}) {
-  return <section className="panel-section playback" aria-labelledby="playback-title">
-    <div className="section-title"><h2 id="playback-title">Playback</h2><span>SCENE TIME</span></div>
-    <div className="time-readout"><strong>{time.toFixed(1)}</strong><span>/ {CAVITY.duration.toFixed(1)}</span></div>
-    <input type="range" name="sceneTime" aria-label="Scene time" min="0" max={CAVITY.duration} step="0.05" value={time} onChange={event => onScrub(Number(event.target.value))} />
-    <div className="playback-actions">
-      <button type="button" className="play-button" onClick={onPlay}>{playing ? 'Pause' : 'Play'}</button>
-      <button type="button" className="reset-button" onClick={onReset}>Reset to start</button>
-    </div>
-  </section>;
-}
-
 function StarfieldPlayground() {
   const [compact, setCompact] = useState(() => window.matchMedia('(max-width: 700px)').matches);
   const [time, setTime] = useState(0);
@@ -124,7 +99,7 @@ function StarfieldPlayground() {
       <header className="panel-header"><span>TAU FLUID LAB / COMPONENT PLAYGROUND</span><h1>Coasting cavity</h1><p>One tornadonut moving through the medium.</p></header>
       <LayersPanel mediumVisible={mediumVisible} cavityVisible={cavityVisible} selected={selected} onMediumVisible={setMediumVisible} onCavityVisible={setCavityVisible} onSelect={() => setSelected(value => !value)} />
       <InspectionPanel selected={selected} time={time} />
-      <PlaybackPanel time={time} playing={playing} onPlay={onPlay} onScrub={onScrub} onReset={onReset} />
+      <PlaybackPanel duration={CAVITY.duration} time={time} playing={playing} onPlay={onPlay} onScrub={onScrub} onReset={onReset} />
       <p className="model-note">Prescribed motion; no force or mass is solved here.</p>
     </aside>
   </main>;
