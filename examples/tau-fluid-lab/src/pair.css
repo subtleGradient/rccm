@@ -67,11 +67,6 @@
 .pair-secondary-button:hover { background: rgba(249, 217, 108, .14); }
 .pair-context { margin-top: 11px; color: #91aeaf; font-size: 11px; line-height: 1.52; }
 .pair-hypothesis .property-list { margin-top: 12px; }
-.pair-contact-action { padding: 14px 20px; border-top: 1px solid rgba(185, 221, 217, .13); background: rgba(172, 225, 208, .06); }
-.pair-contact-action strong { color: #e6f8ef; font-size: 12px; }
-.pair-contact-action p { margin-top: 5px; color: #a6c3c2; font-size: 11px; line-height: 1.5; }
-.pair-contact-action button { width: 100%; height: 35px; margin-top: 10px; border: 1px solid #aadfc6; border-radius: 5px; color: #0d2823; background: #b9eccd; font-size: 12px; font-weight: 600; }
-.pair-contact-action button:hover { background: #d0f5db; }
 
 @media (max-width: 700px) {
   .pair-playground .floating-panel { width: auto; }

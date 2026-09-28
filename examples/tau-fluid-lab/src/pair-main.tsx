@@ -9,7 +9,7 @@ import {
   type CavityId, type PairOptions,
 } from './pair-field';
 import {
-  BoundaryForces, CollapseIllustration, FieldVectors, GapProbe, gapPoint, ILLUSTRATION_DURATION,
+  BoundaryForces, FieldVectors, GapProbe, gapPoint,
   PressureLegend, PressureSlice, separation, TauCube,
 } from './pair-visuals';
 import { PlaybackPanel, SceneClock } from './playground-controls';
@@ -46,8 +46,6 @@ function PairPlayground() {
   const history = useMemo(() => solvePairHistory(options), [options]);
   const [time, setTime] = useState(0);
   const [playing, setPlaying] = useState(true);
-  const [illustrating, setIllustrating] = useState(false);
-  const [illustrationAge, setIllustrationAge] = useState(0);
   const [selection, setSelection] = useState<Selection>('probe');
   const [mediumVisible, setMediumVisible] = useState(true);
   const [positiveVisible, setPositiveVisible] = useState(true);
@@ -65,7 +63,7 @@ function PairPlayground() {
     query.addEventListener('change', onChange);
     return () => query.removeEventListener('change', onChange);
   }, []);
-  useEffect(() => { setTime(0); setPlaying(true); setIllustrating(false); setIllustrationAge(0); }, [history]);
+  useEffect(() => { setTime(0); setPlaying(true); }, [history]);
 
   const contactTime = history.contactTime;
   const duration = contactTime ?? history.duration;
@@ -74,35 +72,20 @@ function PairPlayground() {
   const point = gapPoint(state, probeOffset);
   const field = samplePairField(point, state, options.intensity);
   const readingTensor = tensorAt(point, state, options.intensity);
-  const atContact = contactTime !== null && shownTime >= contactTime - 1e-4;
   const selectedPose = selection === 'positive' || selection === 'negative' ? state[selection] : null;
   const selectedForce = selectedPose ? integrateBoundary(selectedPose, state, options.intensity) : null;
   const residual = selectedPose ? localResiduals(selectedPose, state, options.intensity) : null;
 
   const changeOptions = (patch: Partial<PairOptions>) => setOptions(value => ({ ...value, ...patch }));
   const onTick = (delta: number) => {
-    if (illustrating) {
-      setIllustrationAge(value => Math.min(ILLUSTRATION_DURATION, value + delta));
-      if (illustrationAge + delta >= ILLUSTRATION_DURATION) setPlaying(false);
-      return;
-    }
-    setTime(value => contactTime !== null
-      ? Math.min(contactTime, value + delta)
-      : (value + delta) % history.duration);
-    if (contactTime !== null && time + delta >= contactTime) setPlaying(false);
+    setTime(value => (value + delta) % duration);
   };
   const onPlay = () => {
-    if (illustrating) {
-      if (!playing && illustrationAge >= ILLUSTRATION_DURATION) setIllustrationAge(0);
-      setPlaying(value => !value);
-      return;
-    }
     if (!playing && shownTime >= duration - 1e-4) setTime(0);
     setPlaying(value => !value);
   };
-  const onScrub = (value: number) => { setPlaying(false); illustrating ? setIllustrationAge(value) : setTime(value); };
-  const onReset = () => { setPlaying(false); setTime(0); setIllustrating(false); setIllustrationAge(0); };
-  const onIllustrate = () => { setTime(contactTime ?? shownTime); setIllustrationAge(0); setIllustrating(true); setPlaying(true); };
+  const onScrub = (value: number) => { setPlaying(false); setTime(value); };
+  const onReset = () => { setPlaying(false); setTime(0); };
   const probeAxis = (axis: number, value: number) => setProbeOffset(current => current.map((old, i) => i === axis ? value : old) as unknown as Vec3);
 
   return <main className="playground pair-playground">
@@ -116,7 +99,7 @@ function PairPlayground() {
         <color attach="background" args={['#050a10']} />
         <SceneClock playing={playing} onTick={onTick} />
         <TauCube />
-        {!illustrating && <>
+        <>
           {pressureVisible && <PressureSlice history={history} intensity={options.intensity} time={shownTime} visible />}
           {mediumVisible && <FluidStarfield time={shownTime} project={seed => samplePairField(seed, state, options.intensity).inside ? null : seed} opacity={0.42} size={0.026} />}
           <ParticleFlow history={history} intensity={options.intensity} time={shownTime} group="medium" count={340} color="#9cd9d2" visible={mediumVisible} />
@@ -125,12 +108,11 @@ function PairPlayground() {
           <FieldVectors state={state} intensity={options.intensity} mode={vectorMode} />
           <BoundaryForces state={state} intensity={options.intensity} visible={forcesVisible} selected={selection === 'positive' || selection === 'negative' ? selection : null} />
           <GapProbe point={point} state={state} intensity={options.intensity} visible={probeVisible} />
-        </>}
-        {illustrating && <CollapseIllustration state={pairStateAt(history, contactTime ?? shownTime)} age={illustrationAge} />}
+        </>
         <OrbitControls target={[0, 0, 0]} autoRotate autoRotateSpeed={0.32} enablePan={false} enableDamping minDistance={5} maxDistance={15} />
       </Canvas>
     </div>
-    {pressureVisible && !illustrating && <PressureLegend />}
+    {pressureVisible && <PressureLegend />}
     <aside className="floating-panel" aria-label="Pair field controls">
       <header className="panel-header"><span>TAU FLUID LAB / CHARGE FIELD</span><h1>Conjugate cavities</h1><p>Watch the sampled fluid and its boundary pushes. The cavity interiors contain no fluid markers.</p></header>
       <section className="panel-section" aria-labelledby="pair-layers-title">
@@ -202,9 +184,7 @@ function PairPlayground() {
         <dl className="property-list"><div><dt>Center separation</dt><dd>{fmt(separation(state), 3)}</dd></div><div><dt>Contact</dt><dd>{contactTime === null ? 'None in 10 s' : `${fmt(contactTime, 2)} s`}</dd></div></dl>
         <p className="pair-context">Pressure uses an assumed Bernoulli ledger. Forces integrate the displayed tensor traction over each cavity. Motion uses normalized added mass. Boundary flux and divergence errors expose where this trial field is incomplete.</p>
       </section>
-      <PlaybackPanel duration={illustrating ? ILLUSTRATION_DURATION : duration} time={illustrating ? illustrationAge : shownTime} playing={playing} onPlay={onPlay} onScrub={onScrub} onReset={onReset} />
-      {atContact && !illustrating && <div className="pair-contact-action"><strong>First boundary contact</strong><p>The calculated motion paused here. GfX-2 also sketches deflection before contact; this trial reached contact.</p><button type="button" onClick={onIllustrate}>Illustrate annihilation</button></div>}
-      {illustrating && <div className="pair-contact-action"><strong>Illustrative collapse</strong><p>Winding fades, cavities close, and an outward disturbance departs. Timing and outgoing pattern are authored.</p></div>}
+      <PlaybackPanel duration={duration} time={shownTime} playing={playing} onPlay={onPlay} onScrub={onScrub} onReset={onReset} />
       <p className="model-note">Trial 3D field · GfX-2 §§1–5, 10.6, 16.2 · Condensed charge and collapse sections. The field is a hypothesis, not a solved charged-cavity continuum.</p>
     </aside>
   </main>;

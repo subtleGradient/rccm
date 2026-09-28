@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import { Line } from '@react-three/drei';
 import * as THREE from 'three';
-import { add, length, mul, normalize, rotate, sub, type Vec3 } from './model';
-import { boundaryPush, integrateBoundary, pairStateAt, PAIR_FIELD, samplePairField, type CavityId, type PairHistory, type PairState } from './pair-field';
+import { add, length, mul, normalize, sub, type Vec3 } from './model';
+import { boundaryPush, integrateBoundary, pairStateAt, samplePairField, type CavityId, type PairHistory, type PairState } from './pair-field';
 
 const FORCE_MAGNIFICATION = 5;
 const BOUNDARY_MAGNIFICATION = 0.45;
@@ -127,54 +127,6 @@ function OrientedLoop({ point, vector }: { point: Vec3; vector: Vec3 }) {
     <Line points={points} color="#e8a6d8" lineWidth={2.2} transparent opacity={0.8} depthWrite={false} />
     <mesh position={[0, radius, 0]} rotation={[0, 0, Math.PI / 2]}><coneGeometry args={[0.025, 0.06, 6]} /><meshBasicMaterial color="#e8a6d8" /></mesh>
   </group>;
-}
-
-const ILLUSTRATION_DURATION = 3.5;
-export { ILLUSTRATION_DURATION };
-
-function illustratedPoint(index: number, count: number, age: number, center: Vec3): Vec3 {
-  const angle = index * 2.399963229728653;
-  const elevation = 1 - 2 * (index + 0.5) / count;
-  const radial = Math.sqrt(1 - elevation * elevation);
-  const radius = Math.max(0, age - 0.7) * 1.25;
-  return add(center, [radius * radial * Math.cos(angle), radius * radial * Math.sin(angle), radius * elevation]);
-}
-
-export function CollapseIllustration({ state, age }: { state: PairState; age: number }) {
-  const midpoint = mul(add(state.positive.center, state.negative.center), 0.5);
-  const count = 180;
-  const collapse = Math.min(1, age / 0.85);
-  const positions = useMemo(() => {
-    const data = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const id = i < count / 2 ? 'positive' : 'negative';
-      const pose = state[id];
-      const u = (i * 0.61803398875 % 1) * Math.PI * 2;
-      const v = (i * 0.41421356237 % 1) * Math.PI * 2;
-      const ring = PAIR_FIELD.majorRadius + PAIR_FIELD.tubeRadius * Math.cos(v);
-      const local: Vec3 = [ring * Math.cos(u), ring * Math.sin(u), PAIR_FIELD.tubeRadius * Math.sin(v)];
-      const start = add(pose.center, rotate(local, pose.yaw, pose.tilt));
-      const end = illustratedPoint(i, count, age, midpoint);
-      const p = age < 0.85 ? add(mul(start, 1 - collapse), mul(midpoint, collapse)) : end;
-      data.set(p, i * 3);
-    }
-    return data;
-  }, [state, age, collapse]);
-  const geometry = useMemo(() => {
-    const result = new THREE.BufferGeometry();
-    result.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    return result;
-  }, [positions]);
-  useEffect(() => () => geometry.dispose(), [geometry]);
-  return <>
-    <points geometry={geometry} renderOrder={6}>
-      <pointsMaterial color={age < 0.85 ? '#e8f7f3' : '#9fece8'} size={age < 0.85 ? 0.065 : 0.045} transparent opacity={Math.max(0, 1 - age / ILLUSTRATION_DURATION)} depthWrite={false} />
-    </points>
-    {age > 0.7 && <mesh position={midpoint} scale={Math.max(0.01, (age - 0.7) * 2.2)}>
-      <sphereGeometry args={[1, 20, 12]} />
-      <meshBasicMaterial color="#9fece8" transparent opacity={Math.max(0, 0.12 * (1 - (age - 0.7) / 2.8))} wireframe depthWrite={false} />
-    </mesh>}
-  </>;
 }
 
 export function PressureLegend() {

@@ -71,7 +71,7 @@ The sampler returns each cavity's slip, their resultant, rotational flow, intern
 
 Boundary arrows evaluate the focused tensor's spatial traction `Tn`, where `T = Pc(U−η)`. Its symmetric part gives normal push and its antisymmetric part gives tangential push. Quadrature over the torus surface gives force and torque. The trajectory integrates these using explicitly normalized added mass and rotational inertia. No approach curve is prescribed. Continuity and no-flux residuals remain visible in the inspector because superposed fields and entrained translation do not generally satisfy both cavity boundaries. Particle paths are cached at fixed steps so scrubbing returns to the same positions.
 
-If the trial predicts first contact, playback pauses there. An optional, separately labeled illustration closes the cavities and sends out a disturbance. Its timing and pattern are authored; the focused TeX also sketches possible pre-contact orbital deflection. The page does not supply a solved charged-cavity initial/boundary value problem or a physical electron–positron annihilation calculation.
+Playback loops the calculated trajectory. If the trial predicts first contact, that contact becomes the loop boundary. The focused TeX also sketches possible pre-contact orbital deflection. The page does not supply a solved charged-cavity initial/boundary value problem or a physical electron–positron annihilation calculation.
 
 ## Implementation map
 
