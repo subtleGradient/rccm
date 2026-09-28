@@ -71,9 +71,11 @@ export function GapProbe({ point, state, intensity, visible }: { point: Vec3; st
   const field = samplePairField(point, state, intensity);
   return <group>
     <mesh position={point} renderOrder={10}><sphereGeometry args={[0.052, 12, 12]} /><meshBasicMaterial color="#f2fffa" depthTest={false} /></mesh>
-    <VectorArrow at={point} vector={field.positive.slip} color="#f9d96c" scale={0.48} width={2.8} />
-    <VectorArrow at={point} vector={field.negative.slip} color="#bcd9ff" scale={0.48} width={2.8} />
-    <VectorArrow at={point} vector={field.slip} color="#effff8" scale={0.55} width={3.4} />
+    {!field.inside && <>
+      <VectorArrow at={point} vector={field.positive.slip} color="#f9d96c" scale={0.48} width={2.8} />
+      <VectorArrow at={point} vector={field.negative.slip} color={state.negative.winding === -1 ? '#bcd9ff' : '#f9d96c'} scale={0.48} width={2.8} />
+      <VectorArrow at={point} vector={field.slip} color="#effff8" scale={0.55} width={3.4} />
+    </>}
   </group>;
 }
 

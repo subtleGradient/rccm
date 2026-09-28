@@ -162,15 +162,15 @@ function PairPlayground() {
           <div className="pair-slider-grid">
             {(['X', 'Y', 'Z'] as const).map((axis, i) => <label key={axis}>{axis} offset <strong>{signed(probeOffset[i])}</strong><input type="range" min="-1.2" max="1.2" step="0.02" value={probeOffset[i]} onChange={event => probeAxis(i, Number(event.target.value))} /></label>)}
           </div>
-          <dl className="property-list">
-            <div><dt><i className="key-dot positive-key" />Positive slip</dt><dd>{formatVector(field.positive.slip)}</dd></div>
-            <div><dt><i className="key-dot negative-key" />Negative slip</dt><dd>{formatVector(field.negative.slip)}</dd></div>
+          {!field.inside && <dl className="property-list">
+            <div><dt><i className="key-dot positive-key" />T01 slip</dt><dd>{formatVector(field.positive.slip)}</dd></div>
+            <div><dt><i className={options.negativeWinding === -1 ? 'key-dot negative-key' : 'key-dot positive-key'} />T02 slip</dt><dd>{formatVector(field.negative.slip)}</dd></div>
             <div><dt><i className="key-dot sum-key" />Resultant slip</dt><dd>{formatVector(field.slip)}</dd></div>
             <div><dt>Slip interaction</dt><dd>{signed(field.interactionPressure)} P</dd></div>
             <div><dt>Static pressure</dt><dd>{fmt(field.staticPressure, 3)} P</dd></div>
             <div><dt>Capacity q</dt><dd>{fmt(field.q, 3)}</dd></div>
             <div><dt>Vorticity Ω</dt><dd>{formatVector(field.omega)}</dd></div>
-          </dl>
+          </dl>}
           {readingTensor && <details className="tensor-details"><summary>4 × 4 local tensor U</summary><pre>{readingTensor.map(row => row.map(value => value.toFixed(2).padStart(6)).join(' ')).join('\n')}</pre></details>}
           {field.inside && <p className="pair-warning">Probe is inside a cavity. Move it back into the medium.</p>}
         </>}
