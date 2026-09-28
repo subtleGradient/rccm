@@ -23,15 +23,15 @@ type VectorMode = 'none' | 'slip' | 'vorticity';
 type Scenario = 'like' | 'opposite';
 type PoseAngles = Pick<PairOptions, 'positiveYaw' | 'positiveTilt' | 'negativeYaw' | 'negativeTilt'>;
 type InitialOrientation = PoseAngles & Pick<PairOptions, 'positiveYawRate' | 'positiveTiltRate' | 'negativeYawRate' | 'negativeTiltRate'>;
-const PRESET_POSE: PoseAngles = { positiveYaw: 0, positiveTilt: 0, negativeYaw: 0, negativeTilt: Math.PI };
 const chargeColor = (winding: 1 | -1) => winding === 1 ? '#f9d96c' : '#bcd9ff';
-const randomAngleOffset = () => (Math.random() < 0.5 ? -1 : 1) * (0.12 + Math.random() * 0.11);
+const randomYaw = () => (Math.random() * 2 - 1) * Math.PI;
+const randomTilt = () => Math.asin(Math.random() * 2 - 1);
 const randomAngularRate = () => (Math.random() < 0.5 ? -1 : 1) * (0.02 + Math.random() * 0.015);
-const randomizeInitialOrientation = (base: PoseAngles): InitialOrientation => ({
-  positiveYaw: base.positiveYaw + randomAngleOffset(),
-  positiveTilt: base.positiveTilt + randomAngleOffset(),
-  negativeYaw: base.negativeYaw + randomAngleOffset(),
-  negativeTilt: base.negativeTilt + randomAngleOffset(),
+const randomizeInitialOrientation = (): InitialOrientation => ({
+  positiveYaw: randomYaw(),
+  positiveTilt: randomTilt(),
+  negativeYaw: randomYaw(),
+  negativeTilt: randomTilt(),
   positiveYawRate: randomAngularRate(),
   positiveTiltRate: randomAngularRate(),
   negativeYawRate: randomAngularRate(),
@@ -39,10 +39,10 @@ const randomizeInitialOrientation = (base: PoseAngles): InitialOrientation => ({
 });
 const scenarioOptions = (scenario: Scenario, intensity = 1): PairOptions => ({
   intensity,
-  startHalfSeparation: scenario === 'like' ? 1.15 : 2,
+  startHalfSeparation: scenario === 'like' ? 1.15 : 2.2,
   positiveWinding: scenario === 'like' ? -1 : 1,
   negativeWinding: -1,
-  ...randomizeInitialOrientation(PRESET_POSE),
+  ...randomizeInitialOrientation(),
 });
 const cavityName = (id: CavityId, scenario: Scenario | null) => scenario === 'like'
   ? id === 'positive' ? 'fake electron 1' : 'fake electron 2'
@@ -74,7 +74,6 @@ function PairPlayground() {
   const history = useMemo(() => solvePairHistory(options), [options]);
   const [time, setTime] = useState(0);
   const timeRef = useRef(0);
-  const poseBase = useRef<PoseAngles>({ ...PRESET_POSE });
   const [playing, setPlaying] = useState(true);
   const [selection, setSelection] = useState<Selection>('probe');
   const [mediumVisible, setMediumVisible] = useState(true);
@@ -83,7 +82,7 @@ function PairPlayground() {
   const [pressureVisible, setPressureVisible] = useState(true);
   const [forcesVisible, setForcesVisible] = useState(true);
   const [probeVisible, setProbeVisible] = useState(true);
-  const [vectorMode, setVectorMode] = useState<VectorMode>('none');
+  const [vectorMode, setVectorMode] = useState<VectorMode>('slip');
   const [probeOffset, setProbeOffset] = useState<Vec3>([0, 0, 0]);
   const [compact, setCompact] = useState(() => window.matchMedia('(max-width: 700px)').matches);
 
@@ -106,21 +105,12 @@ function PairPlayground() {
   const selectedForce = selectedPose ? integrateBoundary(selectedPose, state, options.intensity) : null;
   const residual = selectedPose ? localResiduals(selectedPose, state, options.intensity) : null;
 
-  const changeOptions = (patch: Partial<PairOptions>) => {
-    poseBase.current = {
-      positiveYaw: patch.positiveYaw ?? poseBase.current.positiveYaw,
-      positiveTilt: patch.positiveTilt ?? poseBase.current.positiveTilt,
-      negativeYaw: patch.negativeYaw ?? poseBase.current.negativeYaw,
-      negativeTilt: patch.negativeTilt ?? poseBase.current.negativeTilt,
-    };
-    setOptions(value => ({ ...value, ...patch }));
-  };
+  const changeOptions = (patch: Partial<PairOptions>) => setOptions(value => ({ ...value, ...patch }));
   const rerollInitialOrientation = () => {
-    const orientation = randomizeInitialOrientation(poseBase.current);
+    const orientation = randomizeInitialOrientation();
     setOptions(current => ({ ...current, ...orientation }));
   };
   const chooseScenario = (next: Scenario) => {
-    poseBase.current = { ...PRESET_POSE };
     setScenario(next);
     setOptions(current => scenarioOptions(next, current.intensity));
     timeRef.current = 0;
@@ -132,6 +122,7 @@ function PairPlayground() {
     setPressureVisible(true);
     setForcesVisible(true);
     setProbeVisible(true);
+    setVectorMode('slip');
   };
   const onTick = (delta: number) => {
     const next = timeRef.current + delta;
@@ -188,14 +179,14 @@ function PairPlayground() {
         <article className={`pair-scenario${scenario === 'like' ? ' active' : ''}`}>
           <button type="button" aria-pressed={scenario === 'like'} onClick={() => chooseScenario('like')}><span>01 / LIKE CHARGES</span><strong>fake electron 1 + fake electron 2</strong><small>Start close · spread toward the edges · new orientation and motion each loop</small></button>
           <div className="pair-scenario-story">
-            <p>Imagine standing in the fluid between them. Their facing slip flows oppose one another, so that patch of fluid moves less. Less motion leaves more of the local pressure budget as static pressure.</p>
-            <p>That higher-pressure patch presses outward on both cavity boundaries. The fluid on their far sides does not cancel the facing flow in the same way, so the pushes are uneven: one cavity is pushed left, the other right. Watch the blue net-push arrows and the widening gap.</p>
+            <p>Stand in the fluid between them. Each negative cavity carries the same signed charge-slip state, whatever direction its torus points. In the gap, the two contributions point against each other. Their cancellation leaves more static pressure there.</p>
+            <p>That higher-pressure patch presses outward on both empty boundaries. Their local vortex swirls may point anywhere, but the shared charge sign keeps the gap-pressure pattern. Watch the opposing gap arrows, the blue net-push arrows, and the widening gap.</p>
           </div>
         </article>
         <article className={`pair-scenario${scenario === 'opposite' ? ' active' : ''}`}>
           <button type="button" aria-pressed={scenario === 'opposite'} onClick={() => chooseScenario('opposite')}><span>02 / OPPOSITE CHARGES</span><strong>fake positron + fake electron</strong><small>Start far apart · meet before 10 s · new orientation and motion each loop</small></button>
           <div className="pair-scenario-story">
-            <p>Now stand in the same gap. The facing slip flows run together, speeding the fluid there. In this trial pressure ledger, faster motion spends more of the budget as dynamic pressure, leaving less static pressure in the gap.</p>
+            <p>Now stand in the same gap. Positive and negative charge-slip contributions point together between the cavities, even when the torus axes differ. In this trial pressure ledger, their combined motion spends more of the budget as dynamic pressure, leaving less static pressure in the gap.</p>
             <p>The fluid outside the pair then presses harder than the fluid between them. That uneven squeeze draws both empty boundaries inward. Look for the lower-pressure violet gap and the two force arrows pointing toward each other.</p>
             <p className="pair-scenario-footnote">If these were a real electron and positron and they met, the pair would annihilate. This page holds at its calculated contact until the ten-second loop restarts instead of inventing an annihilation animation; the TeX also proposes a possible pre-contact orbit.</p>
           </div>
@@ -207,7 +198,7 @@ function PairPlayground() {
           <div><strong>T02 angle</strong><span>yaw {signed(options.negativeYaw)} · tilt {signed(options.negativeTilt)}</span></div>
           <div><strong>T02 rate</strong><span>yaw {signed(options.negativeYawRate)} · tilt {signed(options.negativeTiltRate)}</span></div>
         </div>
-        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. The first load and every loop draw new yaw, tilt, and starting angular motion for both cavities. Their orientation changes the geometry, not the assigned charge.</p>
+        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. Each cavity points independently in a random 3D direction on the first load and every loop. An orientation-independent charge-slip halo is a trial extension of the asymmetric tensor state, not a derived charged-cavity solution.</p>
       </section>
       <section className="panel-section" aria-labelledby="pair-layers-title">
         <div className="section-title"><h2 id="pair-layers-title">Layers</h2><span>FIELD / DISPLAY</span></div>
@@ -226,7 +217,7 @@ function PairPlayground() {
           <label><input type="checkbox" checked={forcesVisible} onChange={event => setForcesVisible(event.target.checked)} /> Boundary pushes</label>
           <label>Vector overlay
             <select value={vectorMode} onChange={event => setVectorMode(event.target.value as VectorMode)}>
-              <option value="none">None</option><option value="slip">Transverse slip</option><option value="vorticity">Internal vorticity</option>
+              <option value="none">None</option><option value="slip">Charge-slip field</option><option value="vorticity">Internal vorticity</option>
             </select>
           </label>
         </div>
@@ -234,15 +225,16 @@ function PairPlayground() {
       <section className="panel-section pair-inspection" aria-labelledby="pair-inspection-title">
         <div className="section-title"><h2 id="pair-inspection-title">Inspection</h2><span>{selection === 'probe' ? 'GAP PROBE' : selection?.toUpperCase() ?? '—'}</span></div>
         {selection === 'probe' && <>
-          <p className="inspection-note">Place the probe in the space between the cavities. Arrow directions show each slip and their vector sum.</p>
+          <p className="inspection-note">Place the probe in the space between the cavities. Arrows show each charge-slip contribution and their vector sum, independent of torus orientation.</p>
           <div className="pair-slider-grid">
             {(['X', 'Y', 'Z'] as const).map((axis, i) => <label key={axis}>{axis} offset <strong>{signed(probeOffset[i])}</strong><input type="range" min="-1.2" max="1.2" step="0.02" value={probeOffset[i]} onChange={event => probeAxis(i, Number(event.target.value))} /></label>)}
           </div>
           {!field.inside && <dl className="property-list">
-            <div><dt><i className={options.positiveWinding === -1 ? 'key-dot negative-key' : 'key-dot positive-key'} />T01 slip</dt><dd>{formatVector(field.positive.slip)}</dd></div>
-            <div><dt><i className={options.negativeWinding === -1 ? 'key-dot negative-key' : 'key-dot positive-key'} />T02 slip</dt><dd>{formatVector(field.negative.slip)}</dd></div>
-            <div><dt><i className="key-dot sum-key" />Resultant slip</dt><dd>{formatVector(field.slip)}</dd></div>
-            <div><dt>Slip interaction</dt><dd>{signed(field.interactionPressure)} P</dd></div>
+            <div><dt><i className={options.positiveWinding === -1 ? 'key-dot negative-key' : 'key-dot positive-key'} />T01 charge slip</dt><dd>{formatVector(field.positive.chargeSlip)}</dd></div>
+            <div><dt><i className={options.negativeWinding === -1 ? 'key-dot negative-key' : 'key-dot positive-key'} />T02 charge slip</dt><dd>{formatVector(field.negative.chargeSlip)}</dd></div>
+            <div><dt><i className="key-dot sum-key" />Resultant charge slip</dt><dd>{formatVector(field.chargeSlip)}</dd></div>
+            <div><dt>Total tensor slip</dt><dd>{formatVector(field.slip)}</dd></div>
+            <div><dt>Charge interaction</dt><dd>{signed(field.interactionPressure)} P</dd></div>
             <div><dt>Static pressure</dt><dd>{fmt(field.staticPressure, 3)} P</dd></div>
             <div><dt>Capacity q</dt><dd>{fmt(field.q, 3)}</dd></div>
             <div><dt>Vorticity Ω</dt><dd>{formatVector(field.omega)}</dd></div>
@@ -267,7 +259,7 @@ function PairPlayground() {
             <div><dt>Divergence error</dt><dd>{fmt(residual.divergence, 3)}</dd></div>
           </dl>
           <div className="pair-slider-grid">
-            <label>Yaw <strong>{fmt(selection === 'positive' ? options.positiveYaw : options.negativeYaw, 2)}</strong><input type="range" min="-1.5" max="1.5" step="0.03" value={selection === 'positive' ? options.positiveYaw : options.negativeYaw} onChange={event => changeOptions(selection === 'positive' ? { positiveYaw: Number(event.target.value) } : { negativeYaw: Number(event.target.value) })} /></label>
+            <label>Yaw <strong>{fmt(selection === 'positive' ? options.positiveYaw : options.negativeYaw, 2)}</strong><input type="range" min="-3.14" max="3.14" step="0.03" value={selection === 'positive' ? options.positiveYaw : options.negativeYaw} onChange={event => changeOptions(selection === 'positive' ? { positiveYaw: Number(event.target.value) } : { negativeYaw: Number(event.target.value) })} /></label>
             <label>Tilt <strong>{fmt(selection === 'positive' ? options.positiveTilt : options.negativeTilt, 2)}</strong><input type="range" min="-3.5" max="3.5" step="0.03" value={selection === 'positive' ? options.positiveTilt : options.negativeTilt} onChange={event => changeOptions(selection === 'positive' ? { positiveTilt: Number(event.target.value) } : { negativeTilt: Number(event.target.value) })} /></label>
           </div>
         </>}
@@ -279,7 +271,7 @@ function PairPlayground() {
         <button type="button" className="pair-secondary-button" onClick={() => { setScenario(null); changeOptions({ negativeWinding: options.negativeWinding === -1 ? 1 : -1 }); }}>Flip right winding · now {options.negativeWinding === -1 ? 'negative' : 'positive'}</button>
         <p className="pair-context">Conjugation mirrors the winding field. A camera turn or physical rotation does not switch charge.</p>
         <dl className="property-list"><div><dt>Center separation</dt><dd>{fmt(separation(state), 3)}</dd></div><div><dt>Contact</dt><dd>{contactTime === null ? 'None in 10 s' : `${fmt(contactTime, 2)} s · hold to 10 s`}</dd></div></dl>
-        <p className="pair-context">This trial Bernoulli ledger emphasizes transverse slip: toroidal circulation contributes only a small background share to pressure. Motion integrates the pressure change around each cavity relative to that cavity alone, with normalized added mass. The green tangential arrows show a separate vorticity-driven twist. Boundary flux and divergence errors expose where the field is incomplete.</p>
+        <p className="pair-context">This trial Bernoulli ledger uses the signed charge-slip channel for pressure. Local poloidal and toroidal flows remain in the displayed motion and tensor; the neighbouring vorticity can twist a cavity. Translation integrates the charge-pressure change around each boundary with normalized added mass. Boundary flux and divergence errors expose where this halo hypothesis is incomplete.</p>
       </section>
       <PlaybackPanel duration={duration} time={shownTime} playing={playing} onPlay={onPlay} onScrub={onScrub} onReset={onReset} />
       <p className="model-note">Illustrative 3D field inspired by RCCM-GfX-2 §§1–5, 10.6, 16.2. Pressure, surface forces, and motion follow this toy’s assumed field; they do not establish the physical charge dynamics or annihilation of real particles.</p>

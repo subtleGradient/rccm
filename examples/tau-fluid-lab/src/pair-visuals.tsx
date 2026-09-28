@@ -72,9 +72,9 @@ export function GapProbe({ point, state, intensity, visible }: { point: Vec3; st
   return <group>
     <mesh position={point} renderOrder={10}><sphereGeometry args={[0.052, 12, 12]} /><meshBasicMaterial color="#f2fffa" depthTest={false} /></mesh>
     {!field.inside && <>
-      <VectorArrow at={point} vector={field.positive.slip} color={state.positive.winding === 1 ? '#f9d96c' : '#bcd9ff'} scale={0.48} width={2.8} />
-      <VectorArrow at={point} vector={field.negative.slip} color={state.negative.winding === -1 ? '#bcd9ff' : '#f9d96c'} scale={0.48} width={2.8} />
-      <VectorArrow at={point} vector={field.slip} color="#effff8" scale={0.55} width={3.4} />
+      <VectorArrow at={point} vector={field.positive.chargeSlip} color={state.positive.winding === 1 ? '#f9d96c' : '#bcd9ff'} scale={0.48} width={2.8} />
+      <VectorArrow at={point} vector={field.negative.chargeSlip} color={state.negative.winding === -1 ? '#bcd9ff' : '#f9d96c'} scale={0.48} width={2.8} />
+      <VectorArrow at={point} vector={field.chargeSlip} color="#effff8" scale={0.55} width={3.4} />
     </>}
   </group>;
 }
@@ -108,7 +108,7 @@ export function FieldVectors({ state, intensity, mode }: { state: PairState; int
     const point: Vec3 = [x, y, 0.24];
     const sample = samplePairField(point, state, intensity);
     if (sample.inside) continue;
-    const value = mode === 'slip' ? sample.slip : sample.omega;
+    const value = mode === 'slip' ? sample.chargeSlip : sample.omega;
     if (length(value) > 0.08) vectors.push({ point, value });
   }
   return <>

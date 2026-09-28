@@ -26,12 +26,13 @@ export type PairOptions = {
   negativeYawRate: number;
   negativeTiltRate: number;
 };
-export type Contribution = { slip: Vec3; rotational: Vec3; omega: Vec3; entrained: Vec3 };
+export type Contribution = { slip: Vec3; chargeSlip: Vec3; poloidalSlip: Vec3; rotational: Vec3; omega: Vec3; entrained: Vec3 };
 export type FieldReading = {
   inside: CavityId | null;
   positive: Contribution;
   negative: Contribution;
   slip: Vec3;
+  chargeSlip: Vec3;
   rotational: Vec3;
   omega: Vec3;
   velocity: Vec3;
@@ -50,8 +51,9 @@ export const PAIR_FIELD = {
   macroPressure: 0.06,
   density: 0.28,
   slipScale: 0.74,
+  chargeSlipScale: 0.75,
+  chargeSlipRange: 2.1,
   spinScale: 1.12,
-  rotationalPressureWeight: 0.05,
   fieldRange: 1.6,
   entrainmentRange: 0.56,
   alpha: 0.55,
@@ -61,7 +63,7 @@ export const PAIR_FIELD = {
 } as const;
 
 const ZERO: Vec3 = [0, 0, 0];
-const EMPTY: Contribution = { slip: ZERO, rotational: ZERO, omega: ZERO, entrained: ZERO };
+const EMPTY: Contribution = { slip: ZERO, chargeSlip: ZERO, poloidalSlip: ZERO, rotational: ZERO, omega: ZERO, entrained: ZERO };
 const TAU = Math.PI * 2;
 const radialGuard = 0.18;
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
@@ -84,14 +86,19 @@ export function torusSignedDistance(point: Vec3, pose: CavityPose): number {
   return Math.hypot(Math.hypot(p[0], p[1]) - PAIR_FIELD.majorRadius, p[2]) - PAIR_FIELD.tubeRadius;
 }
 
-// A trial, divergence-free poloidal streamfunction plus toroidal circulation.
-// Proper rotation changes orientation; winding changes only the poloidal channel.
-// Full spatial inversion of a polar field preserves the toroidal channel and
-// reverses the poloidal channel in this axisymmetric construction.
+// The local vortex turns with the cavity. A separately hypothesized polar
+// charge-slip halo carries winding sign without using the cavity's axis as
+// the charge direction. This is an orientation-invariant visual closure, not
+// a derived solution of the charged-defect boundary problem.
 export function contribution(point: Vec3, pose: CavityPose, intensity: number): Contribution {
+  const offset = sub(point, pose.center);
+  const chargeRadius = Math.hypot(length(offset), 0.4);
+  const chargeGain = pose.winding * intensity * PAIR_FIELD.chargeSlipScale
+    / (chargeRadius * (1 + (chargeRadius / PAIR_FIELD.chargeSlipRange) ** 2));
+  const chargeSlip = mul(offset, chargeGain);
   const p = unrotate(sub(point, pose.center), pose.yaw, pose.tilt);
   const r = Math.hypot(p[0], p[1]);
-  if (r < 1e-6) return EMPTY;
+  if (r < 1e-6) return { ...EMPTY, slip: chargeSlip, chargeSlip };
   const s = Math.hypot(r - PAIR_FIELD.majorRadius, p[2]);
   const d = s - PAIR_FIELD.tubeRadius;
   const ell = PAIR_FIELD.fieldRange;
@@ -123,8 +130,11 @@ export function contribution(point: Vec3, pose: CavityPose, intensity: number): 
 
   const outside = Math.max(0, d);
   const entrainment = Math.exp(-outside * outside / (PAIR_FIELD.entrainmentRange ** 2));
+  const poloidalSlip = rotate(slipLocal, pose.yaw, pose.tilt);
   return {
-    slip: rotate(slipLocal, pose.yaw, pose.tilt),
+    slip: add(chargeSlip, poloidalSlip),
+    chargeSlip,
+    poloidalSlip,
     rotational: rotate(rotationalLocal, pose.yaw, pose.tilt),
     omega: rotate(omegaLocal, pose.yaw, pose.tilt),
     entrained: mul(pose.velocity, entrainment),
@@ -137,21 +147,20 @@ export function samplePairField(point: Vec3, state: PairState, intensity: number
   const positive = contribution(point, state.positive, intensity);
   const negative = contribution(point, state.negative, intensity);
   const slip = add(positive.slip, negative.slip);
+  const chargeSlip = add(positive.chargeSlip, negative.chargeSlip);
   const rotational = add(positive.rotational, negative.rotational);
   const omega = add(positive.omega, negative.omega);
   const entrained = add(positive.entrained, negative.entrained);
   const velocity = add(add(slip, rotational), entrained);
-  // Focus the charge comparison on the transverse-slip channel. The toroidal
-  // channel remains visible in particle motion and vorticity, but contributes
-  // only a small background share to this illustrative pressure closure.
-  const dynamicPressure = 0.5 * PAIR_FIELD.density * (
-    dot(slip, slip) + PAIR_FIELD.rotationalPressureWeight * dot(rotational, rotational) + dot(entrained, entrained)
-  );
+  // This teaching closure isolates charge-linked transverse slip in the
+  // pressure ledger, so rotating a cavity cannot change charge-force sign.
+  // Local poloidal, toroidal, and entrained motions remain visible separately.
+  const dynamicPressure = 0.5 * PAIR_FIELD.density * dot(chargeSlip, chargeSlip);
   const staticPressure = Math.max(0.08, PAIR_FIELD.pressureCapacity - PAIR_FIELD.macroPressure - dynamicPressure);
   return {
-    inside, positive, negative, slip, rotational, omega, velocity, dynamicPressure, staticPressure,
+    inside, positive, negative, slip, chargeSlip, rotational, omega, velocity, dynamicPressure, staticPressure,
     q: staticPressure / PAIR_FIELD.pressureCapacity,
-    interactionPressure: -PAIR_FIELD.density * dot(positive.slip, negative.slip),
+    interactionPressure: -PAIR_FIELD.density * dot(positive.chargeSlip, negative.chargeSlip),
   };
 }
 
@@ -176,9 +185,7 @@ export function boundaryPush(pose: CavityPose, state: PairState, intensity: numb
   const reading = samplePairField(point, state, intensity);
   const own = pose.id === 'positive' ? reading.positive : reading.negative;
   const other = pose.id === 'positive' ? reading.negative : reading.positive;
-  const ownDynamicPressure = 0.5 * PAIR_FIELD.density * (
-    dot(own.slip, own.slip) + PAIR_FIELD.rotationalPressureWeight * dot(own.rotational, own.rotational) + dot(own.entrained, own.entrained)
-  );
+  const ownDynamicPressure = 0.5 * PAIR_FIELD.density * dot(own.chargeSlip, own.chargeSlip);
   const ownStaticPressure = Math.max(0.08, PAIR_FIELD.pressureCapacity - PAIR_FIELD.macroPressure - ownDynamicPressure);
   // The cavity cannot propel itself. Remove its isolated pressure and twist;
   // only the neighbouring cavity's change in surface load moves the pair.
