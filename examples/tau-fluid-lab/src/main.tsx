@@ -59,9 +59,11 @@ function Nav({ study, query = '' }: { study?: Study | 'charge'; query?: string }
     <nav className="desktop-nav" aria-label="Experiments">
       {(Object.keys(STUDIES) as Study[]).map(id => <a key={id} className={study === id ? 'current' : ''} aria-current={study === id ? 'page' : undefined} href={`./${id}.html${query}`}>{STUDIES[id].number} <span>{id === 'cavities' ? 'Cavities' : id === 'tensor' ? 'Tensor' : id === 'playground' ? 'Playground' : 'Flow'}</span></a>)}
       <a className={study === 'charge' ? 'current' : ''} aria-current={study === 'charge' ? 'page' : undefined} href="./charge.html">05 <span>Charge</span></a>
+      <a href="./starfield.html">06 <span>Starfield</span></a>
+      <a href="./pair.html">07 <span>Pair field</span></a>
     </nav>
     <span className="topbar-note">A visual field studio</span>
-    <details className="mobile-nav"><summary>Experiments <span aria-hidden="true">☰</span></summary><nav aria-label="Experiments">{(Object.keys(STUDIES) as Study[]).map(id => <a key={id} href={`./${id}.html${query}`}>{STUDIES[id].number} {STUDIES[id].title}</a>)}<a href="./charge.html">05 Why cavities move</a></nav></details>
+    <details className="mobile-nav"><summary>Experiments <span aria-hidden="true">☰</span></summary><nav aria-label="Experiments">{(Object.keys(STUDIES) as Study[]).map(id => <a key={id} href={`./${id}.html${query}`}>{STUDIES[id].number} {STUDIES[id].title}</a>)}<a href="./charge.html">05 Why cavities move</a><a href="./starfield.html">06 Coasting cavity</a><a href="./pair.html">07 Conjugate cavities</a></nav></details>
   </header>;
 }
 
@@ -69,10 +71,10 @@ function Index() {
   return <>
     <Nav />
     <main className="index-shell">
-      <div className="index-intro"><div className="eyebrow">A cube of tau fluid · Five studies</div><h1>Enter the fluid.</h1><p>Two circulating cavities travel through a continuous medium. Follow the fluid, cut open the volume, read the changing tensor, and discover why the pair moves.</p></div>
+      <div className="index-intro"><div className="eyebrow">A cube of tau fluid · Seven studies</div><h1>Enter the fluid.</h1><p>Two circulating cavities travel through a continuous medium. Follow the fluid, cut open the volume, read the changing tensor, and explore what makes the pair move.</p></div>
       <div className="index-art" aria-hidden="true"><div className="art-cube"><span className="art-orbit blue"></span><span className="art-orbit gold"></span><span className="art-beam"></span></div></div>
-      <div className="study-cards">{(Object.keys(STUDIES) as Study[]).map(id => <a className="study-card" key={id} href={`./${id}.html`}><span>{STUDIES[id].number} / STUDY</span><strong>{STUDIES[id].title}</strong><p>{STUDIES[id].subtitle}</p><b aria-hidden="true">↗</b></a>)}<a className="study-card charge-feature-card" href="./charge.html"><span>05 / GUIDED STUDY</span><strong>Why cavities move</strong><p>See how circulation changes pressure, surface pushes, and the pair’s motion.</p><b aria-hidden="true">↗</b></a></div>
-      <p className="index-footnote">Authored fields for visual exploration. The charge study uses a constrained teaching fixture to connect flow, pressure, and motion.</p>
+      <div className="study-cards">{(Object.keys(STUDIES) as Study[]).map(id => <a className="study-card" key={id} href={`./${id}.html`}><span>{STUDIES[id].number} / STUDY</span><strong>{STUDIES[id].title}</strong><p>{STUDIES[id].subtitle}</p><b aria-hidden="true">↗</b></a>)}<a className="study-card charge-feature-card" href="./charge.html"><span>05 / GUIDED STUDY</span><strong>Why cavities move</strong><p>See how circulation changes pressure, surface pushes, and the pair’s motion.</p><b aria-hidden="true">↗</b></a><a className="study-card" href="./starfield.html"><span>06 / COMPONENT PLAYGROUND</span><strong>Coasting cavity</strong><p>Watch one empty tornadonut entrain the moving medium.</p><b aria-hidden="true">↗</b></a><a className="study-card charge-feature-card" href="./pair.html"><span>07 / FIELD HYPOTHESIS</span><strong>Conjugate cavities</strong><p>Inspect winding, gap pressure, boundary pushes, and calculated motion.</p><b aria-hidden="true">↗</b></a></div>
+      <p className="index-footnote">Authored fields for visual exploration. The pair field page exposes its pressure and boundary assumptions alongside the resulting motion.</p>
     </main>
   </>;
 }

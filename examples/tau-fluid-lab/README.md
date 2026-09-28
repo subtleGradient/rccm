@@ -1,6 +1,6 @@
 # Tau Fluid Lab
 
-Five standalone React Three Fiber studies use reusable field and scene components:
+Seven standalone React Three Fiber studies use reusable field and scene components:
 
 | Page | Use |
 |---|---|
@@ -9,8 +9,10 @@ Five standalone React Three Fiber studies use reusable field and scene component
 | `tensor.html` | Probe the seven local readings and complete 4×4 matrix. |
 | `playground.html` | Compose all display layers and reposition the pair. |
 | `charge.html` | Walk through circulation, gap flow, static pressure, surface pushes, and released motion. Flip the right charge in one aligned fixture. |
+| `starfield.html` | Watch one coasting cavity revealed by fluid markers and entrained medium. |
+| `pair.html` | Explore a conjugate winding field with fluid paths, gap probe, pressure slice, tensor, and calculated boundary motion. |
 
-The index at `/` links the five pages. The four original studies carry their pair settings in the URL when moving among them. The charge study starts with a separate aligned fixture.
+The index at `/` links the seven pages. The four original studies carry their pair settings in the URL when moving among them. The charge study starts with a separate aligned fixture; the single-cavity and pair-field pages are separate component playgrounds.
 
 ## Run
 
@@ -23,7 +25,7 @@ npm test
 npm run build
 ```
 
-Vite serves the index and five HTML entries. The build writes static files to `dist/`.
+Vite serves the index and seven HTML entries. The build writes static files to `dist/`.
 
 ## What the toy computes
 
@@ -61,6 +63,16 @@ The normalized teaching closure is `p = q = 0.8 − 0.1 |u_A + u_B|²`. The disp
 
 This is an in-model illustration of the pressure chain proposed in `RCCM-Condensed.tex`, “Coulomb's Law,” not a solved two-defect flow. It does not establish a charge invariant under arbitrary core rotation, mass, material constitutive law, angular dynamics, or physical time and force units. The cited [charge-rotation audit](../../docs/charge-rotation-audit.md) records the missing core-to-exterior construction. The source, surface forces, tracer paths, and release share one calculation inside this declared aligned fixture.
 
+## What the pair field playground computes
+
+`pair.html` uses a separate trial field. Each cavity is empty. In its local torus frame, a streamfunction produces a divergence-free poloidal slip tangent to its boundary; a toroidal circulation supplies a rotational channel. A smooth envelope fades both into the surrounding medium. Proper spatial rotation turns the whole field. The second cavity begins with conjugate winding: its poloidal slip reverses, while its toroidal circulation is preserved under the chosen full spatial mirror construction. The winding sign is a declared charge hypothesis, not an inferred invariant.
+
+The sampler returns each cavity's slip, their resultant, rotational flow, internal vorticity, a normalized static pressure, capacity `q`, and the §3 tensor. A probe displays the interaction term `−ρτ v⊥₁·v⊥₂` alongside the full pressure reading. The pressure slice colours static pressure only; particle count is not used as pressure. The normalized pressure closure allocates `½ρτ(|v⊥|² + |vrot|² + |ventrained|²)` to dynamic pressure, with a fixed macroscopic reserve and a floor at `q = 0.08`. This closure and the smooth velocity profiles are trial assumptions.
+
+Boundary arrows evaluate the focused tensor's spatial traction `Tn`, where `T = Pc(U−η)`. Its symmetric part gives normal push and its antisymmetric part gives tangential push. Quadrature over the torus surface gives force and torque. The trajectory integrates these using explicitly normalized added mass and rotational inertia. No approach curve is prescribed. Continuity and no-flux residuals remain visible in the inspector because superposed fields and entrained translation do not generally satisfy both cavity boundaries. Particle paths are cached at fixed steps so scrubbing returns to the same positions.
+
+If the trial predicts first contact, playback pauses there. An optional, separately labeled illustration closes the cavities and sends out a disturbance. Its timing and pattern are authored; the focused TeX also sketches possible pre-contact orbital deflection. The page does not supply a solved charged-cavity initial/boundary value problem or a physical electron–positron annihilation calculation.
+
 ## Implementation map
 
 - `src/model.ts`: pure geometry, field sampling, pressure ledger, tensor, parcel and streamline tracing.
@@ -68,6 +80,10 @@ This is an in-model illustration of the pressure chain proposed in `RCCM-Condens
 - `src/main.tsx`: four compositions, controls, inspector, responsive navigation, and URL state.
 - `src/charge-model.ts`: aligned two-source circulation, pressure, torus-surface forces, deterministic release.
 - `src/charge-scene.tsx` and `src/charge-page.tsx`: guided 3D composition, fluid tracers, pressure cut, source comparison, and narrative controls.
+- `src/starfield-cavity.ts` and `src/starfield-main.tsx`: one coasting cavity and its focused playground.
+- `src/playground-controls.tsx`: playback and scene clock shared by the component playgrounds.
+- `src/pair-field.ts`: charge winding hypothesis, field sampler, pressure and tensor, boundary traction, and deterministic motion.
+- `src/pair-particles.tsx`, `src/pair-visuals.tsx`, and `src/pair-main.tsx`: particles, probe, pressure and force views, and the pair playground.
 - `src/style.css`: luminous-fluid visual language and responsive layout.
 
 The volume uses a sampled 3D texture and ray integration, adapted conceptually from [Tau Tank](../tau-tank/README.md). Slice contours, traces, and glyphs follow visualization operations used in ParaView and OpenFOAM. The control named **Display quality** changes sampling and line density while preserving the selected path and probe's field reading.

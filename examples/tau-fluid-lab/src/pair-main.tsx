@@ -82,18 +82,14 @@ function PairPlayground() {
   const changeOptions = (patch: Partial<PairOptions>) => setOptions(value => ({ ...value, ...patch }));
   const onTick = (delta: number) => {
     if (illustrating) {
-      setIllustrationAge(value => {
-        const next = Math.min(ILLUSTRATION_DURATION, value + delta);
-        if (next >= ILLUSTRATION_DURATION) setPlaying(false);
-        return next;
-      });
+      setIllustrationAge(value => Math.min(ILLUSTRATION_DURATION, value + delta));
+      if (illustrationAge + delta >= ILLUSTRATION_DURATION) setPlaying(false);
       return;
     }
-    setTime(value => {
-      const next = value + delta;
-      if (contactTime !== null && next >= contactTime) { setPlaying(false); return contactTime; }
-      return next >= history.duration ? next % history.duration : next;
-    });
+    setTime(value => contactTime !== null
+      ? Math.min(contactTime, value + delta)
+      : (value + delta) % history.duration);
+    if (contactTime !== null && time + delta >= contactTime) setPlaying(false);
   };
   const onPlay = () => {
     if (illustrating) {
@@ -125,7 +121,7 @@ function PairPlayground() {
           {mediumVisible && <FluidStarfield time={shownTime} project={seed => samplePairField(seed, state, options.intensity).inside ? null : seed} opacity={0.42} size={0.026} />}
           <ParticleFlow history={history} intensity={options.intensity} time={shownTime} group="medium" count={340} color="#9cd9d2" visible={mediumVisible} />
           <ParticleFlow history={history} intensity={options.intensity} time={shownTime} group="positive" count={270} color="#f9d96c" visible={positiveVisible} />
-          <ParticleFlow history={history} intensity={options.intensity} time={shownTime} group="negative" count={270} color="#bcd9ff" visible={negativeVisible} />
+          <ParticleFlow history={history} intensity={options.intensity} time={shownTime} group="negative" count={270} color={options.negativeWinding === -1 ? '#bcd9ff' : '#f9d96c'} visible={negativeVisible} />
           <FieldVectors state={state} intensity={options.intensity} mode={vectorMode} />
           <BoundaryForces state={state} intensity={options.intensity} visible={forcesVisible} selected={selection === 'positive' || selection === 'negative' ? selection : null} />
           <GapProbe point={point} state={state} intensity={options.intensity} visible={probeVisible} />
@@ -146,7 +142,7 @@ function PairPlayground() {
             <label className="visibility-toggle"><input type="checkbox" aria-label="Show tau medium" checked={mediumVisible} onChange={event => setMediumVisible(event.target.checked)} /><span aria-hidden="true" /></label>
           </div>
           <LayerRow name="Tornadonut 01" detail="Positive winding · sour yellow" color="#f9d96c" selected={selection === 'positive'} visible={positiveVisible} onSelect={() => setSelection('positive')} onVisible={setPositiveVisible} />
-          <LayerRow name="Tornadonut 02" detail={`${options.negativeWinding === -1 ? 'Negative' : 'Positive'} winding · milky blue`} color="#bcd9ff" selected={selection === 'negative'} visible={negativeVisible} onSelect={() => setSelection('negative')} onVisible={setNegativeVisible} />
+          <LayerRow name="Tornadonut 02" detail={`${options.negativeWinding === -1 ? 'Negative winding · milky blue' : 'Positive winding · sour yellow'}`} color={options.negativeWinding === -1 ? '#bcd9ff' : '#f9d96c'} selected={selection === 'negative'} visible={negativeVisible} onSelect={() => setSelection('negative')} onVisible={setNegativeVisible} />
           <LayerRow name="Gap probe" detail="Two slips and resultant" color="#effff8" selected={selection === 'probe'} visible={probeVisible} onSelect={() => setSelection('probe')} onVisible={setProbeVisible} />
         </div>
         <div className="pair-display-controls">
@@ -179,7 +175,7 @@ function PairPlayground() {
           {field.inside && <p className="pair-warning">Probe is inside a cavity. Move it back into the medium.</p>}
         </>}
         {selectedPose && selectedForce && residual && <>
-          <div className="inspection-heading"><span className="inspection-mark" style={{ borderColor: selection === 'positive' ? '#f9d96c' : '#bcd9ff' }} aria-hidden="true" /><h3>Tornadonut {selection === 'positive' ? '01' : '02'}</h3></div>
+          <div className="inspection-heading"><span className="inspection-mark" style={{ borderColor: selectedPose.winding === 1 ? '#f9d96c' : '#bcd9ff' }} aria-hidden="true" /><h3>Tornadonut {selection === 'positive' ? '01' : '02'}</h3></div>
           <p className="inspection-note">A boundary in the tau medium. Rotation turns the whole field and preserves its declared charge.</p>
           <dl className="property-list">
             <div><dt>Winding</dt><dd>{selectedPose.winding > 0 ? '+1 positive' : '−1 negative'}</dd></div>

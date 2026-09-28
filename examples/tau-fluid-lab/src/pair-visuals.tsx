@@ -93,7 +93,7 @@ export function BoundaryForces({ state, intensity, visible, selected }: { state:
             <VectorArrow at={push.position} vector={push.tangentialForce} color="#73c8ad" scale={BOUNDARY_MAGNIFICATION} width={1.3} opacity={0.78} />
           </group>;
         })}
-        <VectorArrow at={pose.center} vector={integrated.force} color={id === 'positive' ? '#f9d96c' : '#bcd9ff'} scale={FORCE_MAGNIFICATION} width={3.5} />
+        <VectorArrow at={pose.center} vector={integrated.force} color={pose.winding === 1 ? '#f9d96c' : '#bcd9ff'} scale={FORCE_MAGNIFICATION} width={3.5} />
       </group>;
     })}
   </>;
