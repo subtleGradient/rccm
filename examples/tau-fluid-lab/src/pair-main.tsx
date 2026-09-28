@@ -25,12 +25,13 @@ const chargeColor = (winding: 1 | -1) => winding === 1 ? '#f9d96c' : '#bcd9ff';
 const randomOffset = (range: number) => (Math.random() * 2 - 1) * range;
 const scenarioOptions = (scenario: Scenario, intensity = 1): PairOptions => ({
   intensity,
+  startHalfSeparation: scenario === 'like' ? 1.15 : 2,
   positiveWinding: scenario === 'like' ? -1 : 1,
-  positiveYaw: randomOffset(0.32),
-  positiveTilt: randomOffset(0.27),
+  positiveYaw: randomOffset(0.18),
+  positiveTilt: randomOffset(0.18),
   negativeWinding: -1,
-  negativeYaw: randomOffset(0.32),
-  negativeTilt: Math.PI + randomOffset(0.27),
+  negativeYaw: randomOffset(0.18),
+  negativeTilt: Math.PI + randomOffset(0.18),
 });
 const cavityName = (id: CavityId, scenario: Scenario | null) => scenario === 'like'
   ? id === 'positive' ? 'fake electron 1' : 'fake electron 2'
@@ -82,7 +83,7 @@ function PairPlayground() {
   useEffect(() => { setTime(0); setPlaying(true); }, [history]);
 
   const contactTime = history.contactTime;
-  const duration = contactTime ?? history.duration;
+  const duration = history.duration;
   const shownTime = Math.min(time, duration);
   const state = pairStateAt(history, shownTime);
   const point = gapPoint(state, probeOffset);
@@ -145,18 +146,18 @@ function PairPlayground() {
       <section className="panel-section pair-scenarios" aria-labelledby="pair-scenarios-title">
         <div className="section-title"><h2 id="pair-scenarios-title">Scenarios</h2><span>STARTING STATES</span></div>
         <article className={`pair-scenario${scenario === 'like' ? ' active' : ''}`}>
-          <button type="button" aria-pressed={scenario === 'like'} onClick={() => chooseScenario('like')}><span>01 / LIKE CHARGES</span><strong>fake electron 1 + fake electron 2</strong><small>Load two negative cavities · random yaw and tilt</small></button>
+          <button type="button" aria-pressed={scenario === 'like'} onClick={() => chooseScenario('like')}><span>01 / LIKE CHARGES</span><strong>fake electron 1 + fake electron 2</strong><small>Start close · spread toward the edges · random yaw and tilt</small></button>
           <div className="pair-scenario-story">
             <p>Imagine standing in the fluid between them. Their facing slip flows oppose one another, so that patch of fluid moves less. Less motion leaves more of the local pressure budget as static pressure.</p>
             <p>That higher-pressure patch presses outward on both cavity boundaries. The fluid on their far sides does not cancel the facing flow in the same way, so the pushes are uneven: one cavity is pushed left, the other right. Watch the blue net-push arrows and the widening gap.</p>
           </div>
         </article>
         <article className={`pair-scenario${scenario === 'opposite' ? ' active' : ''}`}>
-          <button type="button" aria-pressed={scenario === 'opposite'} onClick={() => chooseScenario('opposite')}><span>02 / OPPOSITE CHARGES</span><strong>fake positron + fake electron</strong><small>Load positive and negative cavities · random yaw and tilt</small></button>
+          <button type="button" aria-pressed={scenario === 'opposite'} onClick={() => chooseScenario('opposite')}><span>02 / OPPOSITE CHARGES</span><strong>fake positron + fake electron</strong><small>Start far apart · meet before 10 s · random yaw and tilt</small></button>
           <div className="pair-scenario-story">
             <p>Now stand in the same gap. The facing slip flows run together, speeding the fluid there. In this trial pressure ledger, faster motion spends more of the budget as dynamic pressure, leaving less static pressure in the gap.</p>
             <p>The fluid outside the pair then presses harder than the fluid between them. That uneven squeeze draws both empty boundaries inward. Look for the lower-pressure violet gap and the two force arrows pointing toward each other.</p>
-            <p className="pair-scenario-footnote">If these were a real electron and positron and they met, the pair would annihilate. This page loops at its calculated contact instead of inventing an annihilation animation; the TeX also proposes a possible pre-contact orbit.</p>
+            <p className="pair-scenario-footnote">If these were a real electron and positron and they met, the pair would annihilate. This page holds at its calculated contact until the ten-second loop restarts instead of inventing an annihilation animation; the TeX also proposes a possible pre-contact orbit.</p>
           </div>
         </article>
         <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. These preset orientations make the gap comparison legible; yaw and tilt change the geometry, not the assigned charge.</p>
@@ -227,8 +228,8 @@ function PairPlayground() {
         <label className="pair-field-slider">Flow strength <strong>{fmt(options.intensity, 2)}×</strong><input type="range" min="0.5" max="1.4" step="0.02" value={options.intensity} onChange={event => changeOptions({ intensity: Number(event.target.value) })} /></label>
         <button type="button" className="pair-secondary-button" onClick={() => { setScenario(null); changeOptions({ negativeWinding: options.negativeWinding === -1 ? 1 : -1 }); }}>Flip right winding · now {options.negativeWinding === -1 ? 'negative' : 'positive'}</button>
         <p className="pair-context">Conjugation mirrors the winding field. A camera turn or physical rotation does not switch charge.</p>
-        <dl className="property-list"><div><dt>Center separation</dt><dd>{fmt(separation(state), 3)}</dd></div><div><dt>Contact</dt><dd>{contactTime === null ? 'None in 10 s' : `${fmt(contactTime, 2)} s`}</dd></div></dl>
-        <p className="pair-context">This trial Bernoulli ledger emphasizes transverse slip: toroidal circulation contributes only a small background share to pressure. Forces integrate the displayed tensor traction over each cavity; motion uses normalized added mass. Boundary flux and divergence errors expose where the field is incomplete.</p>
+        <dl className="property-list"><div><dt>Center separation</dt><dd>{fmt(separation(state), 3)}</dd></div><div><dt>Contact</dt><dd>{contactTime === null ? 'None in 10 s' : `${fmt(contactTime, 2)} s · hold to 10 s`}</dd></div></dl>
+        <p className="pair-context">This trial Bernoulli ledger emphasizes transverse slip: toroidal circulation contributes only a small background share to pressure. Motion integrates the pressure change around each cavity relative to that cavity alone, with normalized added mass. The green tangential arrows show a separate vorticity-driven twist. Boundary flux and divergence errors expose where the field is incomplete.</p>
       </section>
       <PlaybackPanel duration={duration} time={shownTime} playing={playing} onPlay={onPlay} onScrub={onScrub} onReset={onReset} />
       <p className="model-note">Illustrative 3D field inspired by RCCM-GfX-2 §§1–5, 10.6, 16.2. Pressure, surface forces, and motion follow this toy’s assumed field; they do not establish the physical charge dynamics or annihilation of real particles.</p>

@@ -12,7 +12,7 @@ export type CavityPose = {
   winding: 1 | -1;
 };
 export type PairState = { positive: CavityPose; negative: CavityPose };
-export type PairOptions = { intensity: number; positiveWinding: 1 | -1; positiveYaw: number; positiveTilt: number; negativeWinding: 1 | -1; negativeYaw: number; negativeTilt: number };
+export type PairOptions = { intensity: number; startHalfSeparation: number; positiveWinding: 1 | -1; positiveYaw: number; positiveTilt: number; negativeWinding: 1 | -1; negativeYaw: number; negativeTilt: number };
 export type Contribution = { slip: Vec3; rotational: Vec3; omega: Vec3; entrained: Vec3 };
 export type FieldReading = {
   inside: CavityId | null;
@@ -33,19 +33,18 @@ export const PAIR_FIELD = {
   frameRate: 24,
   majorRadius: 0.68,
   tubeRadius: 0.22,
-  startHalfSeparation: 1.76,
   pressureCapacity: 1,
   macroPressure: 0.06,
   density: 0.28,
   slipScale: 0.74,
   spinScale: 1.12,
   rotationalPressureWeight: 0.05,
-  fieldRange: 0.82,
+  fieldRange: 1.6,
   entrainmentRange: 0.56,
   alpha: 0.55,
   plasticTime: 0.6,
   addedMassCoefficient: 2,
-  rotationalInertiaCoefficient: 1,
+  rotationalInertiaCoefficient: 20,
 } as const;
 
 const ZERO: Vec3 = [0, 0, 0];
@@ -62,8 +61,8 @@ export function initialPairState(options: PairOptions): PairState {
     id, center: [x, 0, 0], velocity: ZERO, yaw, tilt, spin: 0, angularVelocity: ZERO, winding,
   });
   return {
-    positive: base('positive', -PAIR_FIELD.startHalfSeparation, options.positiveWinding, options.positiveYaw, options.positiveTilt),
-    negative: base('negative', PAIR_FIELD.startHalfSeparation, options.negativeWinding, options.negativeYaw, options.negativeTilt),
+    positive: base('positive', -options.startHalfSeparation, options.positiveWinding, options.positiveYaw, options.positiveTilt),
+    negative: base('negative', options.startHalfSeparation, options.negativeWinding, options.negativeYaw, options.negativeTilt),
   };
 }
 
@@ -86,10 +85,13 @@ export function contribution(point: Vec3, pose: CavityPose, intensity: number): 
   const envelope = Math.exp(-d * d / (ell * ell));
   const ringCutoff = r * r / (r * r + radialGuard * radialGuard);
   const ringCutoffPrime = 2 * r * radialGuard * radialGuard / Math.pow(r * r + radialGuard * radialGuard, 2);
-  const streamDerivative = envelope * (1 - 2 * d * d / (ell * ell));
+  // Monotone streamfunction: exterior slip fades without reversing direction
+  // far from the cavity, so the gap-flow story remains spatially readable.
+  const transition = Math.tanh(d / ell);
+  const streamDerivative = 1 - transition * transition;
   const dsdr = s > 1e-7 ? (r - PAIR_FIELD.majorRadius) / s : 0;
   const dsdz = s > 1e-7 ? p[2] / s : 0;
-  const stream = d * envelope;
+  const stream = ell * transition;
   const gain = pose.winding * intensity * PAIR_FIELD.slipScale;
   const vr = -gain * ringCutoff * streamDerivative * dsdz / r;
   const vz = gain * (ringCutoffPrime * stream + ringCutoff * streamDerivative * dsdr) / r;
@@ -159,9 +161,16 @@ export function boundaryPoint(pose: CavityPose, u: number, v: number, padding = 
 export function boundaryPush(pose: CavityPose, state: PairState, intensity: number, u: number, v: number): BoundaryPush {
   const { point, normal } = boundaryPoint(pose, u, v, 0.013);
   const reading = samplePairField(point, state, intensity);
-  const load = PAIR_FIELD.pressureCapacity * (1 / reading.q - 1);
-  const b = mul(reading.omega, PAIR_FIELD.alpha * PAIR_FIELD.plasticTime * PAIR_FIELD.pressureCapacity);
-  const normalForce = mul(normal, load);
+  const own = pose.id === 'positive' ? reading.positive : reading.negative;
+  const other = pose.id === 'positive' ? reading.negative : reading.positive;
+  const ownDynamicPressure = 0.5 * PAIR_FIELD.density * (
+    dot(own.slip, own.slip) + PAIR_FIELD.rotationalPressureWeight * dot(own.rotational, own.rotational) + dot(own.entrained, own.entrained)
+  );
+  const ownStaticPressure = Math.max(0.08, PAIR_FIELD.pressureCapacity - PAIR_FIELD.macroPressure - ownDynamicPressure);
+  // The cavity cannot propel itself. Remove its isolated pressure and twist;
+  // only the neighbouring cavity's change in surface load moves the pair.
+  const normalForce = mul(normal, ownStaticPressure - reading.staticPressure);
+  const b = mul(other.omega, PAIR_FIELD.alpha * PAIR_FIELD.plasticTime * PAIR_FIELD.pressureCapacity);
   const tangentialForce = cross(b, normal);
   return { position: point, normal, normalForce, tangentialForce, total: add(normalForce, tangentialForce) };
 }
@@ -175,7 +184,7 @@ export function integrateBoundary(pose: CavityPose, state: PairState, intensity:
     const surface = boundaryPoint(pose, u, v);
     const push = boundaryPush(pose, state, intensity, u, v);
     const differential = mul(push.total, surface.areaWeight * cellArea);
-    force = add(force, differential);
+    force = add(force, mul(push.normalForce, surface.areaWeight * cellArea));
     torque = add(torque, cross(sub(surface.point, pose.center), differential));
   }
   return { force, torque };
