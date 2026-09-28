@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { FluidStarfield } from './scene';
-import { CAVITY, advanceSceneTime, cavityProjection, makeCavityShellSeeds } from './starfield-cavity';
+import { CAVITY, advanceSceneTime, cavityCenter, cavityProjection, entrainedProjection, makeCavityShellSeeds } from './starfield-cavity';
 import '@fontsource-variable/inter';
 import './starfield.css';
 
@@ -48,19 +48,22 @@ function LayersPanel({ mediumVisible, cavityVisible, selected, onMediumVisible, 
   </section>;
 }
 
-function InspectionPanel({ selected }: { selected: boolean }) {
+function InspectionPanel({ selected, time }: { selected: boolean; time: number }) {
   return <section className="panel-section inspection" aria-labelledby="inspection-title">
     <div className="section-title"><h2 id="inspection-title">Inspection</h2><span>{selected ? '01 / 01' : '—'}</span></div>
     {selected ? <>
       <div className="inspection-heading"><span className="inspection-mark" aria-hidden="true" /><h3>Tornadonut 01</h3></div>
-      <p className="inspection-note">A void in the tau medium. Moving fluid markers reveal the boundary; there is no solid torus mesh.</p>
+      <p className="inspection-note">The core is empty. In the focused tensor model, its inertia belongs to the displaced, entrained tau medium around the boundary.</p>
       <dl className="property-list">
-        <div><dt>Type</dt><dd>Toroidal cavity</dd></div>
-        <div><dt>Center</dt><dd>{CAVITY.center.map(value => value.toFixed(1)).join(', ')}</dd></div>
+        <div><dt>Source</dt><dd>GfX-2 §5.2</dd></div>
+        <div><dt>Center</dt><dd>{cavityCenter(time).map(value => value.toFixed(1)).join(', ')}</dd></div>
+        <div><dt>Coasting speed</dt><dd>{(CAVITY.travel / CAVITY.duration).toFixed(2)} units/s</dd></div>
+        <div><dt>Intrinsic core mass</dt><dd>0</dd></div>
+        <div><dt>Added-mass model</dt><dd>m = k ρτ Vτ</dd></div>
         <div><dt>Major radius</dt><dd>{CAVITY.majorRadius.toFixed(2)}</dd></div>
         <div><dt>Tube radius</dt><dd>{CAVITY.tubeRadius.toFixed(2)}</dd></div>
       </dl>
-      <p className="units-note">Dimensions in scene units.</p>
+      <p className="units-note">Geometry and speed in scene units. Motion is prescribed.</p>
     </> : <p className="empty-inspection">Select Tornadonut 01 in Layers to inspect its geometry.</p>}
   </section>;
 }
@@ -106,23 +109,23 @@ function StarfieldPlayground() {
       <Canvas
         key={compact ? 'compact' : 'wide'}
         aria-label="Tau fluid starfield"
-        camera={{ position: compact ? [0, -1.4, 8.5] : [0, 0, 8.5], fov: 52, near: 0.1, far: 80 }}
+        camera={{ position: compact ? [0.4, -1.4, 8.5] : [0.4, 0, 8.5], fov: 52, near: 0.1, far: 80 }}
         dpr={[1, 1.75]}
         gl={{ antialias: true, alpha: false }}
       >
         <color attach="background" args={['#050a10']} />
         <SceneClock playing={playing} onTick={delta => setTime(value => advanceSceneTime(value, delta))} />
         {mediumVisible && <FluidStarfield project={cavityVisible ? cavityProjection : undefined} time={time} opacity={0.72} />}
-        {mediumVisible && cavityVisible && <FluidStarfield seeds={shellSeeds} project={cavityProjection} time={time} color={selected ? '#e0fff1' : '#b7e3d8'} size={0.057} opacity={0.96} />}
-        <OrbitControls target={compact ? [0, -1.4, 0] : [0, 0, 0]} enablePan={false} enableDamping minDistance={5} maxDistance={14} />
+        {mediumVisible && cavityVisible && <FluidStarfield seeds={shellSeeds} project={entrainedProjection} time={time} color={selected ? '#e0fff1' : '#b7e3d8'} size={0.057} opacity={0.96} />}
+        <OrbitControls target={compact ? [0.4, -1.4, 0] : [0.4, 0, 0]} autoRotate autoRotateSpeed={0.5} enablePan={false} enableDamping minDistance={5} maxDistance={14} />
       </Canvas>
     </div>
     <aside className="floating-panel" aria-label="Scene controls">
-      <header className="panel-header"><span>TAU FLUID LAB / COMPONENT PLAYGROUND</span><h1>Single cavity</h1><p>One tornadonut suspended in the medium.</p></header>
+      <header className="panel-header"><span>TAU FLUID LAB / COMPONENT PLAYGROUND</span><h1>Coasting cavity</h1><p>One tornadonut moving through the medium.</p></header>
       <LayersPanel mediumVisible={mediumVisible} cavityVisible={cavityVisible} selected={selected} onMediumVisible={setMediumVisible} onCavityVisible={setCavityVisible} onSelect={() => setSelected(value => !value)} />
-      <InspectionPanel selected={selected} />
+      <InspectionPanel selected={selected} time={time} />
       <PlaybackPanel time={time} playing={playing} onPlay={onPlay} onScrub={onScrub} onReset={onReset} />
-      <p className="model-note">Authored motion for visual exploration.</p>
+      <p className="model-note">Prescribed motion; no force or mass is solved here.</p>
     </aside>
   </main>;
 }

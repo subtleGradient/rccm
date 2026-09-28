@@ -2,7 +2,8 @@ import { add, rotate, sub, unrotate, type Vec3 } from './model';
 
 // Display geometry and motion for this visual study, not a solved fluid field.
 export const CAVITY = {
-  center: [-0.7, 0, 0] as Vec3,
+  center: [-2.3, 0, 0] as Vec3,
+  travel: 2.4,
   majorRadius: 0.94,
   tubeRadius: 0.27,
   yaw: -0.18,
@@ -14,14 +15,20 @@ export function advanceSceneTime(time: number, delta: number): number {
   return (time + delta) % CAVITY.duration;
 }
 
-export function cavityDistance(point: Vec3): number {
-  const local = unrotate(sub(point, CAVITY.center), CAVITY.yaw, CAVITY.tilt);
+export function cavityCenter(time: number): Vec3 {
+  const progress = Math.max(0, Math.min(1, time / CAVITY.duration));
+  return [CAVITY.center[0] + CAVITY.travel * progress, CAVITY.center[1], CAVITY.center[2]];
+}
+
+export function cavityDistance(point: Vec3, time = 0): number {
+  const local = unrotate(sub(point, cavityCenter(time)), CAVITY.yaw, CAVITY.tilt);
   return Math.hypot(Math.hypot(local[0], local[1]) - CAVITY.majorRadius, local[2]) - CAVITY.tubeRadius;
 }
 
 export function cavityProjection(point: Vec3, time: number): Vec3 | null {
-  if (cavityDistance(point) < 0) return null;
-  const local = unrotate(sub(point, CAVITY.center), CAVITY.yaw, CAVITY.tilt);
+  if (cavityDistance(point, time) < 0) return null;
+  const center = cavityCenter(time);
+  const local = unrotate(sub(point, center), CAVITY.yaw, CAVITY.tilt);
   const radial = Math.hypot(local[0], local[1]);
   const tubeX = radial - CAVITY.majorRadius;
   const tubeRadius = Math.hypot(tubeX, local[2]);
@@ -30,11 +37,17 @@ export function cavityProjection(point: Vec3, time: number): Vec3 | null {
   const aroundRing = Math.atan2(local[1], local[0]) + time * 0.39 * influence;
   const aroundTube = Math.atan2(local[2], tubeX) + time * 0.74 * influence;
   const movedRadial = CAVITY.majorRadius + tubeRadius * Math.cos(aroundTube);
-  return add(CAVITY.center, rotate([
+  return add(center, rotate([
     movedRadial * Math.cos(aroundRing),
     movedRadial * Math.sin(aroundRing),
     tubeRadius * Math.sin(aroundTube),
   ], CAVITY.yaw, CAVITY.tilt));
+}
+
+export function entrainedProjection(seed: Vec3, time: number): Vec3 | null {
+  const center = cavityCenter(time);
+  const carried = add(seed, sub(center, CAVITY.center));
+  return cavityProjection(carried, time);
 }
 
 export function makeCavityShellSeeds(count: number): Float32Array {

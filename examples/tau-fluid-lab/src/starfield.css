@@ -68,17 +68,17 @@ h1, h2, h3, p, dl, dd { margin: 0; }
 .visibility-toggle input:checked + span::before { transform: translateX(14px); background: #0a211e; }
 .visibility-toggle input:focus-visible + span { outline: 2px solid #b7eedc; outline-offset: 3px; }
 
-.inspection { flex: 1; min-height: 170px; }
+.inspection { flex: 1 0 auto; min-height: 170px; }
 .empty-inspection { max-width: 26ch; color: #91aeb2; font-size: 13px; line-height: 1.55; }
 .inspection-heading { display: flex; align-items: center; gap: 9px; }
 .inspection-heading h3 { font-size: 16px; font-weight: 560; }
 .inspection-mark { flex: none; width: 12px; height: 12px; border: 2px dotted #c5f8db; border-radius: 50%; }
 .inspection-note { margin-top: 9px; font-size: 13px; line-height: 1.55; color: #b6cdcc; }
-.property-list { margin-top: 17px; }
-.property-list > div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid rgba(185, 221, 217, .11); }
+.property-list { margin-top: 12px; }
+.property-list > div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid rgba(185, 221, 217, .11); }
 .property-list dt { font-size: 12px; font-weight: 540; color: #c7dcda; }
 .property-list dd { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: #9fbab8; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.units-note { margin-top: 8px; font-size: 10px; color: #77979c; }
+.units-note { margin-top: 5px; font-size: 10px; color: #77979c; }
 
 .playback { flex: none; }
 .time-readout { display: flex; align-items: baseline; gap: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; }
