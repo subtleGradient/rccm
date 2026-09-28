@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import { Line, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -256,12 +256,14 @@ function PathlineLayer({ settings, time, tagged, quality, dragging }: { settings
   </>;
 }
 
-export function FluidStarfield({ settings, timeRef, playingRef, quality = 'high', opacity = 1 }: {
+export function FluidStarfield({ settings, timeRef, playingRef, quality = 'high', opacity = 1, seeds, project, time = 0, color = '#e5fff1', size }: {
   settings?: PairSettings; timeRef?: React.RefObject<number>; playingRef?: React.RefObject<boolean>;
-  quality?: 'low' | 'high'; opacity?: number;
+  quality?: 'low' | 'high'; opacity?: number; seeds?: Float32Array;
+  project?: (point: Vec3, time: number) => Vec3 | null; time?: number; color?: string; size?: number;
 }) {
-  const count = settings ? (quality === 'high' ? 540 : 280) : (quality === 'high' ? 2400 : 1200);
+  const count = seeds ? seeds.length / 3 : settings ? (quality === 'high' ? 540 : 280) : (quality === 'high' ? 2400 : 1200);
   const initial = useMemo(() => {
+    if (seeds) return seeds;
     const data = new Float32Array(count * 3);
     let seed = 829141;
     const random = () => { seed = (1664525 * seed + 1013904223) >>> 0; return seed / 4294967296; };
@@ -276,7 +278,7 @@ export function FluidStarfield({ settings, timeRef, playingRef, quality = 'high'
       data.set(point, i * 3);
     }
     return data;
-  }, [count, settings]);
+  }, [count, settings, seeds]);
   const geometry = useMemo(() => {
     const result = new THREE.BufferGeometry();
     result.setAttribute('position', new THREE.BufferAttribute(initial.slice(), 3));
@@ -297,6 +299,21 @@ export function FluidStarfield({ settings, timeRef, playingRef, quality = 'high'
   const frames = useRef(0);
   useEffect(() => { trailOrigins.current = initial.slice(); frames.current = 0; }, [initial]);
   useEffect(() => () => { geometry.dispose(); trails?.dispose(); }, [geometry, trails]);
+  useLayoutEffect(() => {
+    if (settings) return;
+    const attribute = geometry.getAttribute('position') as THREE.BufferAttribute;
+    const output = attribute.array as Float32Array;
+    let visible = 0;
+    for (let i = 0; i < count; i++) {
+      const seed: Vec3 = [initial[i * 3], initial[i * 3 + 1], initial[i * 3 + 2]];
+      const point = project ? project(seed, time) : seed;
+      if (!point) continue;
+      output.set(point, visible * 3);
+      visible++;
+    }
+    geometry.setDrawRange(0, visible);
+    attribute.needsUpdate = true;
+  }, [count, geometry, initial, project, settings, time]);
   useFrame((_, delta) => {
     if (!settings || !timeRef || !playingRef?.current || !trails) return;
     const points = geometry.getAttribute('position') as THREE.BufferAttribute;
@@ -327,7 +344,7 @@ export function FluidStarfield({ settings, timeRef, playingRef, quality = 'high'
   });
   return <>
     {trails && <lineSegments geometry={trails} renderOrder={4}><lineBasicMaterial color="#bbf5df" transparent opacity={Math.min(0.7, opacity * 0.38)} depthWrite={false} /></lineSegments>}
-    <points geometry={geometry} renderOrder={5}><pointsMaterial color="#e5fff1" size={settings ? 0.037 : 0.034} transparent opacity={settings ? Math.min(0.94, opacity * 0.7) : opacity} depthWrite={false} /></points>
+    <points geometry={geometry} renderOrder={5}><pointsMaterial color={color} size={size ?? (settings ? 0.037 : 0.034)} transparent opacity={settings ? Math.min(0.94, opacity * 0.7) : opacity} depthWrite={false} /></points>
   </>;
 }
 
