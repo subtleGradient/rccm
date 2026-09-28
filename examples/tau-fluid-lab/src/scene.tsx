@@ -1,0 +1,313 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber';
+import { Line, OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
+import {
+  CUBE_HALF, DURATION, TORUS_MAJOR, TORUS_MINOR, corePoses, length, parcelSeeds,
+  sampleField, traceParcel, traceStreamline, type CoreId, type PairSettings, type Vec3,
+} from './model';
+
+export type Study = 'flow' | 'cavities' | 'tensor' | 'playground';
+export type Layers = { volume: boolean; paths: boolean; streamlines: boolean; slice: boolean; twist: boolean };
+
+const BACKGROUND = '#050a10';
+const ELECTRON = '#8ebfff';
+const POSITRON = '#ffd688';
+
+const volumeVertex = `
+varying vec3 vOrigin;
+varying vec3 vDirection;
+void main() {
+  vOrigin = (inverse(modelMatrix) * vec4(cameraPosition, 1.0)).xyz;
+  vDirection = position - vOrigin;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}`;
+
+const volumeFragment = `
+precision highp float;
+precision highp sampler3D;
+uniform sampler3D uData;
+uniform float uOpacity;
+uniform float uSlice;
+uniform float uSliceOffset;
+uniform float uSliceAxis;
+uniform float uMode;
+varying vec3 vOrigin;
+varying vec3 vDirection;
+vec2 hitCube(vec3 origin, vec3 dir) {
+  vec3 nearPlane = (-vec3(2.2) - origin) / dir;
+  vec3 farPlane = (vec3(2.2) - origin) / dir;
+  vec3 low = min(nearPlane, farPlane);
+  vec3 high = max(nearPlane, farPlane);
+  return vec2(max(low.x, max(low.y, low.z)), min(high.x, min(high.y, high.z)));
+}
+void main() {
+  vec3 dir = normalize(vDirection);
+  vec2 bounds = hitCube(vOrigin, dir);
+  float start = max(bounds.x, 0.0);
+  if (bounds.y <= start) discard;
+  float stepSize = (bounds.y - start) / 54.0;
+  vec4 accumulation = vec4(0.0);
+  float jitter = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+  for (int i = 0; i < 54; i++) {
+    vec3 p = vOrigin + dir * (start + (float(i) + jitter) * stepSize);
+    vec4 reading = texture(uData, (p + 2.2) / 4.4);
+    if (reading.g < 0.5) continue;
+    float capacity = reading.r;
+    float load = 1.0 - capacity;
+    vec3 neutral = vec3(0.22, 0.43, 0.50);
+    vec3 blue = vec3(0.39, 0.61, 1.0);
+    vec3 gold = vec3(1.0, 0.71, 0.36);
+    float colorWeight = min(abs(reading.a * 2.0 - 1.0) * 0.6, 0.55);
+    vec3 color = mix(neutral, reading.a > 0.5 ? gold : blue, colorWeight);
+    if (uMode > 0.5) color = mix(vec3(0.16, 0.34, 0.46), vec3(1.0, 0.72, 0.38), clamp((load - 0.04) * 2.8, 0.0, 1.0));
+    float focus = 1.0;
+    if (uSlice > 0.5) {
+      float axisValue = uSliceAxis < 0.5 ? p.z : (uSliceAxis < 1.5 ? p.x : p.y);
+      focus = mix(0.13, 1.0, 1.0 - smoothstep(0.08, 0.36, abs(axisValue - uSliceOffset)));
+    }
+    float absorption = (0.12 + 0.22 * load) * uOpacity * focus;
+    float alpha = 1.0 - exp(-absorption * stepSize);
+    accumulation.rgb += (1.0 - accumulation.a) * color * alpha;
+    accumulation.a += (1.0 - accumulation.a) * alpha;
+    if (accumulation.a > 0.86) break;
+  }
+  gl_FragColor = vec4(accumulation.rgb / max(accumulation.a, 0.00001), accumulation.a);
+}`;
+
+function ClockDriver({ timeRef, playingRef, speedRef, report }: {
+  timeRef: React.RefObject<number>; playingRef: React.RefObject<boolean>; speedRef: React.RefObject<number>; report: (time: number) => void;
+}) {
+  const lastReport = useRef(0);
+  useFrame((_, delta) => {
+    if (playingRef.current) timeRef.current = (timeRef.current + Math.min(delta, 0.05) * speedRef.current) % DURATION;
+    if (performance.now() - lastReport.current > 95) {
+      report(timeRef.current);
+      lastReport.current = performance.now();
+    }
+  });
+  return null;
+}
+
+function CubeBoundary() {
+  return <>
+    <lineSegments renderOrder={8}>
+      <edgesGeometry args={[new THREE.BoxGeometry(CUBE_HALF * 2, CUBE_HALF * 2, CUBE_HALF * 2)]} />
+      <lineBasicMaterial color="#91aebf" transparent opacity={0.35} depthWrite={false} />
+    </lineSegments>
+    <gridHelper args={[8.8, 44, '#264754', '#264754']} position={[0, -CUBE_HALF - 0.12, 0]} />
+  </>;
+}
+
+function makeVolumeData(settings: PairSettings, time: number, n: number) {
+  const data = new Uint8Array(n ** 3 * 4);
+  const poses = corePoses(settings, time);
+  for (let z = 0; z < n; z++) for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const point: Vec3 = [x, y, z].map(i => -CUBE_HALF + (i + 0.5) * CUBE_HALF * 2 / n) as unknown as Vec3;
+    const reading = sampleField(point, time, settings);
+    const i = (x + n * (y + n * z)) * 4;
+    data[i] = Math.round((reading.inside ? 1 : reading.q) * 255);
+    data[i + 1] = reading.inside ? 0 : 255;
+    data[i + 2] = reading.inside ? 0 : Math.round(Math.min(1, length(reading.twist)) * 255);
+    const d0 = Math.hypot(...point.map((v, axis) => v - poses[0].center[axis]));
+    const d1 = Math.hypot(...point.map((v, axis) => v - poses[1].center[axis]));
+    data[i + 3] = Math.round(128 + 108 * (Math.exp(-d1 * d1 / 0.8) - Math.exp(-d0 * d0 / 0.8)));
+  }
+  const texture = new THREE.Data3DTexture(data, n, n, n);
+  texture.format = THREE.RGBAFormat;
+  texture.type = THREE.UnsignedByteType;
+  texture.minFilter = THREE.NearestFilter;
+  texture.magFilter = THREE.NearestFilter;
+  texture.unpackAlignment = 1;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function TauVolume({ settings, time, opacity, layers, sliceAxis, sliceOffset, study, quality }: {
+  settings: PairSettings; time: number; opacity: number; layers: Layers; sliceAxis: number; sliceOffset: number; study: Study; quality: 'low' | 'high';
+}) {
+  const texture = useMemo(() => makeVolumeData(settings, Math.floor(time * 4) / 4, quality === 'high' ? 23 : 16), [settings, Math.floor(time * 4), quality]);
+  useEffect(() => () => texture.dispose(), [texture]);
+  const uniforms = useMemo(() => ({
+    uData: { value: texture }, uOpacity: { value: opacity }, uSlice: { value: 0 },
+    uSliceOffset: { value: sliceOffset }, uSliceAxis: { value: sliceAxis }, uMode: { value: study === 'cavities' ? 1 : 0 },
+  }), []);
+  uniforms.uData.value = texture;
+  uniforms.uOpacity.value = opacity;
+  uniforms.uSlice.value = layers.slice ? 1 : 0;
+  uniforms.uSliceOffset.value = sliceOffset;
+  uniforms.uSliceAxis.value = sliceAxis;
+  uniforms.uMode.value = study === 'cavities' ? 1 : 0;
+  if (!layers.volume) return null;
+  return <mesh renderOrder={1}>
+    <boxGeometry args={[CUBE_HALF * 2, CUBE_HALF * 2, CUBE_HALF * 2]} />
+    <shaderMaterial uniforms={uniforms} vertexShader={volumeVertex} fragmentShader={volumeFragment} side={THREE.BackSide} transparent depthWrite={false} />
+  </mesh>;
+}
+
+function makeSliceData(settings: PairSettings, time: number, axis: number, offset: number, n: number) {
+  const data = new Uint8Array(n * n * 4);
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const u = -CUBE_HALF + (x + 0.5) * CUBE_HALF * 2 / n;
+    const v = -CUBE_HALF + (y + 0.5) * CUBE_HALF * 2 / n;
+    const point: Vec3 = axis === 0 ? [u, v, offset] : axis === 1 ? [offset, v, -u] : [u, offset, v];
+    const reading = sampleField(point, time, settings);
+    const i = (x + n * y) * 4;
+    if (reading.inside) continue;
+    const load = 1 - reading.q;
+    const contour = Math.abs(load * 22 - Math.round(load * 22)) < 0.065;
+    data[i] = contour ? 220 : Math.round(37 + load * 445);
+    data[i + 1] = contour ? 235 : Math.round(86 + load * 267);
+    data[i + 2] = contour ? 238 : Math.round(117 + load * 91);
+    data[i + 3] = contour ? 230 : 170;
+  }
+  const texture = new THREE.DataTexture(data, n, n, THREE.RGBAFormat);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function SlicePlane({ settings, time, axis, offset, quality }: { settings: PairSettings; time: number; axis: number; offset: number; quality: 'low' | 'high' }) {
+  const texture = useMemo(() => makeSliceData(settings, Math.floor(time * 4) / 4, axis, offset, quality === 'high' ? 96 : 64), [settings, Math.floor(time * 4), axis, offset, quality]);
+  useEffect(() => () => texture.dispose(), [texture]);
+  const rotation: [number, number, number] = axis === 0 ? [0, 0, 0] : axis === 1 ? [0, Math.PI / 2, 0] : [Math.PI / 2, 0, 0];
+  const position: Vec3 = axis === 0 ? [0, 0, offset] : axis === 1 ? [offset, 0, 0] : [0, offset, 0];
+  return <mesh position={position} rotation={rotation} renderOrder={3}>
+    <planeGeometry args={[CUBE_HALF * 2, CUBE_HALF * 2]} />
+    <meshBasicMaterial map={texture} transparent side={THREE.DoubleSide} depthWrite={false} opacity={0.74} />
+  </mesh>;
+}
+
+function Core({ id, settings, time, selected, onSelect, onPose, setDragging }: {
+  id: CoreId; settings: PairSettings; time: number; selected: boolean;
+  onSelect: (id: CoreId) => void; onPose: (id: CoreId, offset: Vec3) => void; setDragging: (value: boolean) => void;
+}) {
+  const { camera } = useThree();
+  const pose = corePoses(settings, time).find(p => p.id === id)!;
+  const drag = useRef<{ plane: THREE.Plane; delta: THREE.Vector3 } | null>(null);
+  const color = id === 'electron' ? ELECTRON : POSITRON;
+  const onPointerDown = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation();
+    (event.target as HTMLElement | null)?.setPointerCapture(event.pointerId);
+    onSelect(id);
+    setDragging(true);
+    const origin = new THREE.Vector3(...pose.center);
+    const plane = new THREE.Plane().setFromNormalAndCoplanarPoint(camera.getWorldDirection(new THREE.Vector3()), origin);
+    const hit = event.ray.intersectPlane(plane, new THREE.Vector3()) ?? origin;
+    drag.current = { plane, delta: origin.clone().sub(hit) };
+  };
+  const onPointerMove = (event: ThreeEvent<PointerEvent>) => {
+    if (!drag.current) return;
+    event.stopPropagation();
+    const hit = event.ray.intersectPlane(drag.current.plane, new THREE.Vector3());
+    if (!hit) return;
+    const moved = hit.add(drag.current.delta);
+    const offset: Vec3 = [moved.x - (pose.center[0] - settings[id].offset[0]), moved.y - (pose.center[1] - settings[id].offset[1]), moved.z - (pose.center[2] - settings[id].offset[2])];
+    onPose(id, offset);
+  };
+  const onPointerUp = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation();
+    drag.current = null;
+    setDragging(false);
+    (event.target as HTMLElement | null)?.releasePointerCapture(event.pointerId);
+  };
+  return <group position={pose.center} rotation={[pose.tilt, pose.yaw, 0, 'YXZ']}>
+    <mesh onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}>
+      <torusGeometry args={[TORUS_MAJOR, TORUS_MINOR, 16, 80]} />
+      <meshPhysicalMaterial color={color} emissive={color} emissiveIntensity={selected ? 0.42 : 0.22} metalness={0.18} roughness={0.23} transparent opacity={0.43} side={THREE.DoubleSide} depthWrite={false} />
+    </mesh>
+    <mesh raycast={() => null} scale={1.013}>
+      <torusGeometry args={[TORUS_MAJOR, TORUS_MINOR, 12, 48]} />
+      <meshBasicMaterial color={color} transparent opacity={selected ? 0.36 : 0.19} wireframe depthWrite={false} />
+    </mesh>
+    <mesh raycast={() => null} rotation={[Math.PI / 2, 0, 0]}>
+      <ringGeometry args={[0.05, 0.065, 48]} />
+      <meshBasicMaterial color={color} transparent opacity={selected ? 0.55 : 0.26} side={THREE.DoubleSide} depthWrite={false} />
+    </mesh>
+  </group>;
+}
+
+function TornadonutPair(props: {
+  settings: PairSettings; time: number; selected: CoreId; onSelect: (id: CoreId) => void;
+  onPose: (id: CoreId, offset: Vec3) => void; setDragging: (value: boolean) => void;
+}) {
+  return <>{(['electron', 'positron'] as const).map(id => <Core key={id} settings={props.settings} time={props.time} selected={props.selected === id} onSelect={props.onSelect} onPose={props.onPose} setDragging={props.setDragging} id={id} />)}</>;
+}
+
+function PathlineLayer({ settings, time, tagged, quality, dragging }: { settings: PairSettings; time: number; tagged: number; quality: 'low' | 'high'; dragging: boolean }) {
+  const cache = useRef<Vec3[][] | null>(null);
+  const paths = useMemo(() => {
+    if (dragging && cache.current) return cache.current;
+    const next = parcelSeeds(settings).filter((_, i) => i % 2 === 0).map(seed => traceParcel(seed, settings));
+    cache.current = next;
+    return next;
+  }, [settings, dragging]);
+  const visible = Math.floor(time * 36) + 1;
+  return <>
+    {paths.map((path, i) => path.length > 1 && (quality === 'high' || i % 2 === 0 || i === tagged) && <Line key={i} points={path.slice(0, Math.max(2, Math.min(path.length, visible)))} color={i < paths.length / 2 ? ELECTRON : POSITRON} lineWidth={i === tagged ? 2.4 : 1.15} transparent opacity={i === tagged ? 0.95 : 0.43} />)}
+    {paths[tagged] && <mesh position={paths[tagged][Math.min(paths[tagged].length - 1, Math.max(0, visible - 1))]} renderOrder={7}>
+      <sphereGeometry args={[0.045, 10, 10]} />
+      <meshBasicMaterial color="#f5fff2" />
+    </mesh>}
+  </>;
+}
+
+function StreamlineLayer({ settings, time, quality }: { settings: PairSettings; time: number; quality: 'low' | 'high' }) {
+  const traces = useMemo(() => parcelSeeds(settings).filter((_, i) => i % (quality === 'high' ? 6 : 9) === 1).map(seed => traceStreamline(seed, Math.floor(time * 2) / 2, settings)), [settings, Math.floor(time * 2), quality]);
+  return <>{traces.map((points, i) => points.length > 1 && <Line key={i} points={points} color="#f0f6ec" lineWidth={0.75} transparent opacity={0.26} dashed dashSize={0.12} gapSize={0.1} />)}</>;
+}
+
+function TwistGlyphLayer({ settings, time }: { settings: PairSettings; time: number }) {
+  const arrows = useMemo(() => {
+    const poses = corePoses(settings, time);
+    return poses.flatMap(pose => Array.from({ length: 6 }, (_, i) => {
+      const angle = i * Math.PI / 3;
+      const point: Vec3 = [pose.center[0] + Math.cos(angle) * 0.82, pose.center[1] + Math.sin(angle) * 0.82, pose.center[2] + 0.1];
+      const sample = sampleField(point, time, settings);
+      if (sample.inside || length(sample.b) < 0.015) return null;
+      return { point, vector: sample.b, id: pose.id };
+    }).filter(a => a !== null));
+  }, [settings, Math.floor(time * 4)]);
+  return <>{arrows.map((arrow, i) => {
+    const from = arrow.point;
+    const to = [from[0] + arrow.vector[0] * 0.8, from[1] + arrow.vector[1] * 0.8, from[2] + arrow.vector[2] * 0.8] as Vec3;
+    return <Line key={i} points={[from, to]} color={arrow.id === 'electron' ? ELECTRON : POSITRON} lineWidth={2.1} transparent opacity={0.7} />;
+  })}</>;
+}
+
+function ProbeMark({ point, inside }: { point: Vec3; inside: boolean }) {
+  return <mesh position={point} renderOrder={9}>
+    <sphereGeometry args={[0.065, 12, 12]} />
+    <meshBasicMaterial color={inside ? '#ee9a9a' : '#e8fff6'} transparent opacity={0.9} depthTest={false} />
+  </mesh>;
+}
+
+export function FluidViewport(props: {
+  study: Study; settings: PairSettings; time: number; timeRef: React.RefObject<number>; playingRef: React.RefObject<boolean>;
+  speedRef: React.RefObject<number>; report: (time: number) => void; layers: Layers; opacity: number;
+  sliceAxis: number; sliceOffset: number; probe: Vec3; selected: CoreId; tagged: number; quality: 'low' | 'high';
+  onSelect: (id: CoreId) => void; onPose: (id: CoreId, offset: Vec3) => void;
+}) {
+  const { study, settings, time, timeRef, playingRef, speedRef, report, layers, opacity, sliceAxis, sliceOffset, probe, selected, tagged, quality, onSelect, onPose } = props;
+  const [dragging, setDragging] = useState(false);
+  const reading = sampleField(probe, time, settings);
+  return <Canvas dpr={quality === 'high' ? [1, 1.35] : 1} camera={{ position: [3.5, 2.9, 6.6], fov: 39, near: 0.1, far: 80 }} gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }} onCreated={({ gl }) => { gl.setClearColor(BACKGROUND); }}>
+    <ClockDriver timeRef={timeRef} playingRef={playingRef} speedRef={speedRef} report={report} />
+    <color attach="background" args={[BACKGROUND]} />
+    <ambientLight intensity={0.9} />
+    <directionalLight position={[4, 6, 5]} intensity={2.4} color="#b8dcff" />
+    <pointLight position={[-2, -1, 2]} intensity={14} color="#86bcff" distance={9} />
+    <pointLight position={[2, 0, -2]} intensity={10} color="#ffc582" distance={8} />
+    <OrbitControls enabled={!dragging} enablePan={false} enableDamping dampingFactor={0.07} minDistance={4.6} maxDistance={12.5} />
+    <CubeBoundary />
+    <TauVolume settings={settings} time={time} opacity={opacity} layers={layers} sliceAxis={sliceAxis} sliceOffset={sliceOffset} study={study} quality={quality} />
+    {layers.slice && <SlicePlane settings={settings} time={time} axis={sliceAxis} offset={sliceOffset} quality={quality} />}
+    {layers.paths && <PathlineLayer settings={settings} time={time} tagged={tagged} quality={quality} dragging={dragging} />}
+    {layers.streamlines && <StreamlineLayer settings={settings} time={time} quality={quality} />}
+    {layers.twist && <TwistGlyphLayer settings={settings} time={time} />}
+    <TornadonutPair settings={settings} time={time} selected={selected} onSelect={onSelect} onPose={onPose} setDragging={setDragging} />
+    <ProbeMark point={probe} inside={reading.inside} />
+  </Canvas>;
+}

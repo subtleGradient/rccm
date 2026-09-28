@@ -69,6 +69,14 @@ export function torusDistance(point: Vec3, pose: CorePose): number {
   return Math.hypot(Math.hypot(p[0], p[1]) - TORUS_MAJOR, p[2]) - TORUS_MINOR;
 }
 
+function torusNormal(point: Vec3, pose: CorePose): Vec3 {
+  const p = unrotate(sub(point, pose.center), pose.yaw, pose.tilt);
+  const radial = Math.hypot(p[0], p[1]) || 1;
+  const tubeX = radial - TORUS_MAJOR;
+  const tubeRadius = Math.hypot(tubeX, p[2]) || 1;
+  return rotate([(p[0] / radial) * tubeX / tubeRadius, (p[1] / radial) * tubeX / tubeRadius, p[2] / tubeRadius], pose.yaw, pose.tilt);
+}
+
 export function tensor(q: number, e: Vec3, b: Vec3): number[][] {
   if (!(q > 0 && q <= 1)) throw new RangeError('Capacity q must be in (0, 1].');
   return [
@@ -107,6 +115,18 @@ export function sampleField(point: Vec3, t: number, settings: PairSettings): Fie
     slip = add(slip, part.flow);
     velocity = add(velocity, add(part.flow, part.motion));
     twist = add(twist, part.twist);
+  }
+  // The moving toroidal boundary has the prescribed core velocity. Remove
+  // normal relative flow at its surface, fading the correction into the field.
+  for (const pose of poses) {
+    const distance = torusDistance(point, pose);
+    if (distance >= 0.08) continue;
+    const normal = torusNormal(point, pose);
+    const ratio = Math.max(0, Math.min(1, distance / 0.08));
+    const fade = 1 - ratio * ratio * (3 - 2 * ratio);
+    const correction = mul(normal, dot(sub(velocity, pose.velocity), normal) * fade);
+    velocity = sub(velocity, correction);
+    slip = sub(slip, correction);
   }
   // Authored normalized budget. No force equation is inferred from this allocation.
   const macro = 0.055;
