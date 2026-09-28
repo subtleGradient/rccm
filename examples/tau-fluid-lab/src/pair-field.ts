@@ -12,7 +12,7 @@ export type CavityPose = {
   winding: 1 | -1;
 };
 export type PairState = { positive: CavityPose; negative: CavityPose };
-export type PairOptions = { intensity: number; negativeWinding: 1 | -1; negativeYaw: number; negativeTilt: number };
+export type PairOptions = { intensity: number; positiveYaw: number; positiveTilt: number; negativeWinding: 1 | -1; negativeYaw: number; negativeTilt: number };
 export type Contribution = { slip: Vec3; rotational: Vec3; omega: Vec3; entrained: Vec3 };
 export type FieldReading = {
   inside: CavityId | null;
@@ -61,7 +61,7 @@ export function initialPairState(options: PairOptions): PairState {
     id, center: [x, 0, 0], velocity: ZERO, yaw, tilt, spin: 0, angularVelocity: ZERO, winding,
   });
   return {
-    positive: base('positive', -PAIR_FIELD.startHalfSeparation, 1, 0, 0),
+    positive: base('positive', -PAIR_FIELD.startHalfSeparation, 1, options.positiveYaw, options.positiveTilt),
     negative: base('negative', PAIR_FIELD.startHalfSeparation, options.negativeWinding, options.negativeYaw, options.negativeTilt),
   };
 }
