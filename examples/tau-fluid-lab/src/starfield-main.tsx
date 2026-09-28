@@ -85,7 +85,7 @@ function PlaybackPanel({ time, playing, onPlay, onScrub, onReset }: {
 function StarfieldPlayground() {
   const [compact, setCompact] = useState(() => window.matchMedia('(max-width: 700px)').matches);
   const [time, setTime] = useState(0);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const [mediumVisible, setMediumVisible] = useState(true);
   const [cavityVisible, setCavityVisible] = useState(true);
   const [selected, setSelected] = useState(false);
