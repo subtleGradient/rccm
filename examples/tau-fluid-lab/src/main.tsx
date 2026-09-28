@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/inter';
 import './style.css';
 import { FluidViewport, type Layers, type Study } from './scene';
+import { ChargePage } from './charge-page';
 import { DURATION, DEFAULT_SETTINGS, admissible, parcelSeeds, sampleField, traceParcel, type CoreId, type PairSettings, type Vec3 } from './model';
 
 const STUDIES: Record<Study, { number: string; title: string; subtitle: string; question: string; layers: Layers }> = {
@@ -52,14 +53,15 @@ function settingsFromUrl(): PairSettings {
   }
 }
 
-function Nav({ study, query = '' }: { study?: Study; query?: string }) {
+function Nav({ study, query = '' }: { study?: Study | 'charge'; query?: string }) {
   return <header className="topbar">
     <a className="brand" href="./" aria-label="Homepage"><span className="brand-mark">τ</span><span>Tau Fluid Lab</span></a>
     <nav className="desktop-nav" aria-label="Experiments">
       {(Object.keys(STUDIES) as Study[]).map(id => <a key={id} className={study === id ? 'current' : ''} aria-current={study === id ? 'page' : undefined} href={`./${id}.html${query}`}>{STUDIES[id].number} <span>{id === 'cavities' ? 'Cavities' : id === 'tensor' ? 'Tensor' : id === 'playground' ? 'Playground' : 'Flow'}</span></a>)}
+      <a className={study === 'charge' ? 'current' : ''} aria-current={study === 'charge' ? 'page' : undefined} href="./charge.html">05 <span>Charge</span></a>
     </nav>
     <span className="topbar-note">A visual field studio</span>
-    <details className="mobile-nav"><summary>Experiments <span aria-hidden="true">☰</span></summary><nav aria-label="Experiments">{(Object.keys(STUDIES) as Study[]).map(id => <a key={id} href={`./${id}.html${query}`}>{STUDIES[id].number} {STUDIES[id].title}</a>)}</nav></details>
+    <details className="mobile-nav"><summary>Experiments <span aria-hidden="true">☰</span></summary><nav aria-label="Experiments">{(Object.keys(STUDIES) as Study[]).map(id => <a key={id} href={`./${id}.html${query}`}>{STUDIES[id].number} {STUDIES[id].title}</a>)}<a href="./charge.html">05 Why cavities move</a></nav></details>
   </header>;
 }
 
@@ -67,10 +69,10 @@ function Index() {
   return <>
     <Nav />
     <main className="index-shell">
-      <div className="index-intro"><div className="eyebrow">A cube of tau fluid · Four studies</div><h1>Enter the fluid.</h1><p>Two circulating cavities travel through a continuous medium. Follow the fluid, cut open the volume, and read the changing tensor one point at a time.</p></div>
+      <div className="index-intro"><div className="eyebrow">A cube of tau fluid · Five studies</div><h1>Enter the fluid.</h1><p>Two circulating cavities travel through a continuous medium. Follow the fluid, cut open the volume, read the changing tensor, and discover why the pair moves.</p></div>
       <div className="index-art" aria-hidden="true"><div className="art-cube"><span className="art-orbit blue"></span><span className="art-orbit gold"></span><span className="art-beam"></span></div></div>
-      <div className="study-cards">{(Object.keys(STUDIES) as Study[]).map(id => <a className="study-card" key={id} href={`./${id}.html`}><span>{STUDIES[id].number} / STUDY</span><strong>{STUDIES[id].title}</strong><p>{STUDIES[id].subtitle}</p><b aria-hidden="true">↗</b></a>)}</div>
-      <p className="index-footnote">Authored fields for visual exploration. The fluid paths and tensor readings share one source; pair formation and interaction forces are future experiments.</p>
+      <div className="study-cards">{(Object.keys(STUDIES) as Study[]).map(id => <a className="study-card" key={id} href={`./${id}.html`}><span>{STUDIES[id].number} / STUDY</span><strong>{STUDIES[id].title}</strong><p>{STUDIES[id].subtitle}</p><b aria-hidden="true">↗</b></a>)}<a className="study-card charge-feature-card" href="./charge.html"><span>05 / GUIDED STUDY</span><strong>Why cavities move</strong><p>See how circulation changes pressure, surface pushes, and the pair’s motion.</p><b aria-hidden="true">↗</b></a></div>
+      <p className="index-footnote">Authored fields for visual exploration. The charge study uses a constrained teaching fixture to connect flow, pressure, and motion.</p>
     </main>
   </>;
 }
@@ -185,4 +187,4 @@ function Experiment({ study }: { study: Study }) {
 }
 
 const study = document.body.dataset.study;
-createRoot(document.getElementById('root')!).render(study && study in STUDIES ? <Experiment study={study as Study} /> : <Index />);
+createRoot(document.getElementById('root')!).render(study === 'charge' ? <><Nav study="charge" /><ChargePage /></> : study && study in STUDIES ? <Experiment study={study as Study} /> : <Index />);

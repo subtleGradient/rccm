@@ -67,11 +67,11 @@ function sourceFlow(point: Vec3, center: number, sign: 1 | -1): { flow: Vec3; ga
   return { flow, gain };
 }
 
-function chargeField(point: Vec3, state: ChargeState, scenario: ChargeCase) {
+function chargeField(point: Vec3, state: ChargeState, scenario: ChargeCase, active: 'left' | 'both' = 'both') {
   const left = sourceFlow(point, state.left, 1);
-  const right = sourceFlow(point, state.right, scenario === 'opposite' ? -1 : 1);
+  const right = active === 'both' ? sourceFlow(point, state.right, scenario === 'opposite' ? -1 : 1) : { flow: [0, 0, 0] as Vec3, gain: 0 };
   let leftFlow = left.flow, rightFlow = right.flow;
-  for (const center of [state.left, state.right]) {
+  for (const center of active === 'both' ? [state.left, state.right] : [state.left]) {
     const distance = chargeDistance(point, center);
     if (distance >= SURFACE_BAND || distance < -A * 0.5) continue;
     const ratio = Math.max(0, Math.min(1, distance / SURFACE_BAND));
@@ -88,12 +88,12 @@ function chargeField(point: Vec3, state: ChargeState, scenario: ChargeCase) {
   return { leftFlow, rightFlow, slip, leftDynamic, rightDynamic, interaction, pressure, leftGain: left.gain, rightGain: right.gain };
 }
 
-export function chargeSample(point: Vec3, state: ChargeState, scenario: ChargeCase): ChargeReading {
+export function chargeSample(point: Vec3, state: ChargeState, scenario: ChargeCase, active: 'left' | 'both' = 'both'): ChargeReading {
   if (chargeDistance(point, state.left) < 0) return { inside: true, core: 'left' };
-  if (chargeDistance(point, state.right) < 0) return { inside: true, core: 'right' };
-  const field = chargeField(point, state, scenario);
+  if (active === 'both' && chargeDistance(point, state.right) < 0) return { inside: true, core: 'right' };
+  const field = chargeField(point, state, scenario, active);
   let velocity = add(field.slip, [state.leftVelocity * field.leftGain + state.rightVelocity * field.rightGain, 0, 0]);
-  for (const [center, bodyVelocity] of [[state.left, state.leftVelocity], [state.right, state.rightVelocity]]) {
+  for (const [center, bodyVelocity] of active === 'both' ? [[state.left, state.leftVelocity], [state.right, state.rightVelocity]] : [[state.left, state.leftVelocity]]) {
     const distance = chargeDistance(point, center);
     if (distance >= SURFACE_BAND) continue;
     const ratio = Math.max(0, Math.min(1, distance / SURFACE_BAND));
@@ -166,20 +166,20 @@ export function stateAt(frames: ChargeState[], time: number): ChargeState {
   return frames[Math.min(frames.length - 1, Math.max(0, Math.round(time / CHARGE_DT)))];
 }
 
-export function chargeStreamline(seed: Vec3, state: ChargeState, scenario: ChargeCase, steps = 135): Vec3[] {
+export function chargeStreamline(seed: Vec3, state: ChargeState, scenario: ChargeCase, steps = 135, active: 'left' | 'both' = 'both'): Vec3[] {
   const points: Vec3[] = [seed];
   let point = seed;
   for (let i = 0; i < steps; i++) {
-    const sample = chargeSample(point, state, scenario);
+    const sample = chargeSample(point, state, scenario, active);
     if (sample.inside) break;
     const speed = Math.sqrt(dot(sample.velocity, sample.velocity));
     if (speed < 0.004) break;
     const midpoint = add(point, mul(sample.velocity, 0.018 / speed));
-    const nextReading = chargeSample(midpoint, state, scenario);
+    const nextReading = chargeSample(midpoint, state, scenario, active);
     if (nextReading.inside) break;
     const midSpeed = Math.sqrt(dot(nextReading.velocity, nextReading.velocity)) || 1;
     const next = add(point, mul(nextReading.velocity, 0.036 / midSpeed));
-    if (next.some(v => Math.abs(v) >= CUBE_HALF) || chargeSample(next, state, scenario).inside) break;
+    if (next.some(v => Math.abs(v) >= CUBE_HALF) || chargeSample(next, state, scenario, active).inside) break;
     points.push(next);
     point = next;
   }

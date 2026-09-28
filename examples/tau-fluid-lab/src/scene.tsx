@@ -89,7 +89,7 @@ function ClockDriver({ timeRef, playingRef, speedRef, report }: {
   return null;
 }
 
-function CubeBoundary() {
+export function CubeBoundary() {
   return <>
     <lineSegments renderOrder={8}>
       <edgesGeometry args={[new THREE.BoxGeometry(CUBE_HALF * 2, CUBE_HALF * 2, CUBE_HALF * 2)]} />
@@ -254,9 +254,35 @@ function PathlineLayer({ settings, time, tagged, quality, dragging }: { settings
   </>;
 }
 
+export function FlowRibbon({ points, color = '#f0fff5', width = 2.8, opacity = 0.86, arrowCount = 2 }: {
+  points: Vec3[]; color?: string; width?: number; opacity?: number; arrowCount?: number;
+}) {
+  if (points.length < 3) return null;
+  return <>
+    <Line points={points} color={color} lineWidth={width} transparent opacity={opacity} depthWrite={false} />
+    {Array.from({ length: arrowCount }, (_, i) => {
+      const index = Math.min(points.length - 2, Math.max(1, Math.floor(points.length * (i + 1) / (arrowCount + 1))));
+      const a = new THREE.Vector3(...points[index - 1]);
+      const b = new THREE.Vector3(...points[index + 1]);
+      const direction = b.sub(a).normalize();
+      const tip = new THREE.Vector3(...points[index]);
+      const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+      return <mesh key={i} position={tip} quaternion={quaternion} renderOrder={8}>
+        <coneGeometry args={[0.065, 0.16, 8]} />
+        <meshBasicMaterial color={color} depthTest={false} transparent opacity={opacity} />
+      </mesh>;
+    })}
+  </>;
+}
+
 function StreamlineLayer({ settings, time, quality }: { settings: PairSettings; time: number; quality: 'low' | 'high' }) {
-  const traces = useMemo(() => parcelSeeds(settings).filter((_, i) => i % (quality === 'high' ? 6 : 9) === 1).map(seed => traceStreamline(seed, Math.floor(time * 2) / 2, settings)), [settings, Math.floor(time * 2), quality]);
-  return <>{traces.map((points, i) => points.length > 1 && <Line key={i} points={points} color="#f0f6ec" lineWidth={0.75} transparent opacity={0.26} dashed dashSize={0.12} gapSize={0.1} />)}</>;
+  const traces = useMemo(() => {
+    const gapSeeds: Vec3[] = [];
+    for (const y of [-0.75, -0.42, 0, 0.42, 0.75]) for (const z of [-0.38, 0.2]) gapSeeds.push([0, y, z]);
+    return [...parcelSeeds(settings).filter((_, i) => i % (quality === 'high' ? 4 : 8) === 1), ...gapSeeds]
+      .map(seed => traceStreamline(seed, Math.floor(time * 2) / 2, settings, 140));
+  }, [settings, Math.floor(time * 2), quality]);
+  return <>{traces.map((points, i) => <FlowRibbon key={i} points={points} color={i >= traces.length - 10 ? '#d9fff0' : '#c3e6fa'} width={i >= traces.length - 10 ? 3 : 2.4} opacity={0.85} />)}</>;
 }
 
 function TwistGlyphLayer({ settings, time }: { settings: PairSettings; time: number }) {
@@ -264,16 +290,32 @@ function TwistGlyphLayer({ settings, time }: { settings: PairSettings; time: num
     const poses = corePoses(settings, time);
     return poses.flatMap(pose => Array.from({ length: 6 }, (_, i) => {
       const angle = i * Math.PI / 3;
-      const point: Vec3 = [pose.center[0] + Math.cos(angle) * 0.82, pose.center[1] + Math.sin(angle) * 0.82, pose.center[2] + 0.1];
+      const point: Vec3 = [pose.center[0] + Math.cos(angle) * 0.82, pose.center[1] + Math.sin(angle) * 0.82, pose.center[2] + 0.13];
       const sample = sampleField(point, time, settings);
       if (sample.inside || length(sample.b) < 0.015) return null;
       return { point, vector: sample.b, id: pose.id };
     }).filter(a => a !== null));
   }, [settings, Math.floor(time * 4)]);
   return <>{arrows.map((arrow, i) => {
+    const direction = normalize(arrow.vector);
+    const color = arrow.id === 'electron' ? ELECTRON : POSITRON;
     const from = arrow.point;
-    const to = [from[0] + arrow.vector[0] * 0.8, from[1] + arrow.vector[1] * 0.8, from[2] + arrow.vector[2] * 0.8] as Vec3;
-    return <Line key={i} points={[from, to]} color={arrow.id === 'electron' ? ELECTRON : POSITRON} lineWidth={2.1} transparent opacity={0.7} />;
+    const to = add(from, mul(direction, 0.34));
+    const ringCenter = new THREE.Vector3(...from);
+    const ringRotation = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), new THREE.Vector3(...direction));
+    const tip = add(from, mul(direction, 0.39));
+    const tipRotation = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(...direction));
+    return <group key={i}>
+      <mesh position={ringCenter} quaternion={ringRotation} renderOrder={7}>
+        <ringGeometry args={[0.105, 0.12, 32]} />
+        <meshBasicMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.85} depthTest={false} />
+      </mesh>
+      <Line points={[from, to]} color={color} lineWidth={3.5} transparent opacity={0.92} depthTest={false} />
+      <mesh position={tip} quaternion={tipRotation} renderOrder={8}>
+        <coneGeometry args={[0.067, 0.15, 8]} />
+        <meshBasicMaterial color={color} depthTest={false} />
+      </mesh>
+    </group>;
   })}</>;
 }
 
