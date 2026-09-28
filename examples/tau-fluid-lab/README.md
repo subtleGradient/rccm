@@ -28,6 +28,8 @@ npm run build
 
 Vite serves the index and eight study HTML entries. The build writes static files to `dist/`.
 
+The production export opens the proton/electron playground at `/`, with the complete study gallery retained at `/lab.html` and the original page routes preserved. Sites configuration lives in `.openai/hosting.json`; publish from an isolated checkout of this directory, not the encompassing RCCM repository.
+
 ## What the toy computes
 
 `src/model.ts` defines an authored moving-pair fixture. Each core is an oriented toroidal signed-distance cavity. Toroidal and poloidal flow around the cavities, plus their prescribed slow translation, define a material velocity at each fluid point. The field fades away from the pair. Near each moving cavity surface, its relative normal flow is removed. Tagged parcels integrate this velocity at fixed steps; streamlines follow the velocity frozen at the selected instant. A parcel path can end at a cavity or at the viewing cube's edge.

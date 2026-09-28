@@ -114,7 +114,7 @@ function AtomPlayground() {
     </div>
 
     <div className="atom-hud">
-      <a href="./">τ / FLUID LAB</a>
+      <a href={import.meta.env.PROD ? './lab.html' : './'}>τ / FLUID LAB</a>
       <div className="atom-run-status"><i className={playing && !sim.fault ? 'running' : ''} />{sim.fault ? 'NUMERICAL STOP' : playing ? 'LIVE EXPERIMENT' : 'PAUSED'}<span>{fixed(sim.time, 1)} s</span></div>
       <p>Following the moving proton · drag to orbit · scroll to approach</p>
       <div className="atom-view-switch" aria-label="Scene view"><button className={view === 'field' ? 'active' : ''} onClick={() => setView('field')}>Field anatomy</button><button className={view === 'residence' ? 'active' : ''} onClick={() => { setView('residence'); setShowCloud(true); }}>Where electrons go</button></div>
