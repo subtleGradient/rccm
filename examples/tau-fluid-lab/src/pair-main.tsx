@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
@@ -21,17 +21,22 @@ import './pair.css';
 type Selection = CavityId | 'probe' | null;
 type VectorMode = 'none' | 'slip' | 'vorticity';
 type Scenario = 'like' | 'opposite';
+type PoseAngles = Pick<PairOptions, 'positiveYaw' | 'positiveTilt' | 'negativeYaw' | 'negativeTilt'>;
+const PRESET_POSE: PoseAngles = { positiveYaw: 0, positiveTilt: 0, negativeYaw: 0, negativeTilt: Math.PI };
 const chargeColor = (winding: 1 | -1) => winding === 1 ? '#f9d96c' : '#bcd9ff';
 const randomOffset = (range: number) => (Math.random() * 2 - 1) * range;
+const randomizePose = (base: PoseAngles): PoseAngles => ({
+  positiveYaw: base.positiveYaw + randomOffset(0.18),
+  positiveTilt: base.positiveTilt + randomOffset(0.18),
+  negativeYaw: base.negativeYaw + randomOffset(0.18),
+  negativeTilt: base.negativeTilt + randomOffset(0.18),
+});
 const scenarioOptions = (scenario: Scenario, intensity = 1): PairOptions => ({
   intensity,
   startHalfSeparation: scenario === 'like' ? 1.15 : 2,
   positiveWinding: scenario === 'like' ? -1 : 1,
-  positiveYaw: randomOffset(0.18),
-  positiveTilt: randomOffset(0.18),
   negativeWinding: -1,
-  negativeYaw: randomOffset(0.18),
-  negativeTilt: Math.PI + randomOffset(0.18),
+  ...randomizePose(PRESET_POSE),
 });
 const cavityName = (id: CavityId, scenario: Scenario | null) => scenario === 'like'
   ? id === 'positive' ? 'fake electron 1' : 'fake electron 2'
@@ -62,6 +67,8 @@ function PairPlayground() {
   const [scenario, setScenario] = useState<Scenario | null>('opposite');
   const history = useMemo(() => solvePairHistory(options), [options]);
   const [time, setTime] = useState(0);
+  const timeRef = useRef(0);
+  const poseBase = useRef<PoseAngles>({ ...PRESET_POSE });
   const [playing, setPlaying] = useState(true);
   const [selection, setSelection] = useState<Selection>('probe');
   const [mediumVisible, setMediumVisible] = useState(true);
@@ -80,7 +87,7 @@ function PairPlayground() {
     query.addEventListener('change', onChange);
     return () => query.removeEventListener('change', onChange);
   }, []);
-  useEffect(() => { setTime(0); setPlaying(true); }, [history]);
+  useEffect(() => { timeRef.current = 0; setTime(0); setPlaying(true); }, [history]);
 
   const contactTime = history.contactTime;
   const duration = history.duration;
@@ -93,10 +100,25 @@ function PairPlayground() {
   const selectedForce = selectedPose ? integrateBoundary(selectedPose, state, options.intensity) : null;
   const residual = selectedPose ? localResiduals(selectedPose, state, options.intensity) : null;
 
-  const changeOptions = (patch: Partial<PairOptions>) => setOptions(value => ({ ...value, ...patch }));
+  const changeOptions = (patch: Partial<PairOptions>) => {
+    poseBase.current = {
+      positiveYaw: patch.positiveYaw ?? poseBase.current.positiveYaw,
+      positiveTilt: patch.positiveTilt ?? poseBase.current.positiveTilt,
+      negativeYaw: patch.negativeYaw ?? poseBase.current.negativeYaw,
+      negativeTilt: patch.negativeTilt ?? poseBase.current.negativeTilt,
+    };
+    setOptions(value => ({ ...value, ...patch }));
+  };
+  const rerollPose = () => {
+    const angles = randomizePose(poseBase.current);
+    setOptions(current => ({ ...current, ...angles }));
+  };
   const chooseScenario = (next: Scenario) => {
+    poseBase.current = { ...PRESET_POSE };
     setScenario(next);
     setOptions(current => scenarioOptions(next, current.intensity));
+    timeRef.current = 0;
+    setTime(0);
     setSelection('probe');
     setProbeOffset([0, 0, 0]);
     setPositiveVisible(true);
@@ -106,14 +128,26 @@ function PairPlayground() {
     setProbeVisible(true);
   };
   const onTick = (delta: number) => {
-    setTime(value => (value + delta) % duration);
+    const next = timeRef.current + delta;
+    if (next >= duration) {
+      timeRef.current = 0;
+      setTime(0);
+      rerollPose();
+      return;
+    }
+    timeRef.current = next;
+    setTime(next);
   };
   const onPlay = () => {
-    if (!playing && shownTime >= duration - 1e-4) setTime(0);
+    if (!playing && shownTime >= duration - 1e-4) {
+      timeRef.current = 0;
+      setTime(0);
+      rerollPose();
+    }
     setPlaying(value => !value);
   };
-  const onScrub = (value: number) => { setPlaying(false); setTime(value); };
-  const onReset = () => { setPlaying(false); setTime(0); };
+  const onScrub = (value: number) => { setPlaying(false); timeRef.current = value; setTime(value); };
+  const onReset = () => { setPlaying(false); timeRef.current = 0; setTime(0); };
   const probeAxis = (axis: number, value: number) => setProbeOffset(current => current.map((old, i) => i === axis ? value : old) as unknown as Vec3);
 
   return <main className="playground pair-playground">
@@ -146,21 +180,21 @@ function PairPlayground() {
       <section className="panel-section pair-scenarios" aria-labelledby="pair-scenarios-title">
         <div className="section-title"><h2 id="pair-scenarios-title">Scenarios</h2><span>STARTING STATES</span></div>
         <article className={`pair-scenario${scenario === 'like' ? ' active' : ''}`}>
-          <button type="button" aria-pressed={scenario === 'like'} onClick={() => chooseScenario('like')}><span>01 / LIKE CHARGES</span><strong>fake electron 1 + fake electron 2</strong><small>Start close · spread toward the edges · random yaw and tilt</small></button>
+          <button type="button" aria-pressed={scenario === 'like'} onClick={() => chooseScenario('like')}><span>01 / LIKE CHARGES</span><strong>fake electron 1 + fake electron 2</strong><small>Start close · spread toward the edges · new angles each loop</small></button>
           <div className="pair-scenario-story">
             <p>Imagine standing in the fluid between them. Their facing slip flows oppose one another, so that patch of fluid moves less. Less motion leaves more of the local pressure budget as static pressure.</p>
             <p>That higher-pressure patch presses outward on both cavity boundaries. The fluid on their far sides does not cancel the facing flow in the same way, so the pushes are uneven: one cavity is pushed left, the other right. Watch the blue net-push arrows and the widening gap.</p>
           </div>
         </article>
         <article className={`pair-scenario${scenario === 'opposite' ? ' active' : ''}`}>
-          <button type="button" aria-pressed={scenario === 'opposite'} onClick={() => chooseScenario('opposite')}><span>02 / OPPOSITE CHARGES</span><strong>fake positron + fake electron</strong><small>Start far apart · meet before 10 s · random yaw and tilt</small></button>
+          <button type="button" aria-pressed={scenario === 'opposite'} onClick={() => chooseScenario('opposite')}><span>02 / OPPOSITE CHARGES</span><strong>fake positron + fake electron</strong><small>Start far apart · meet before 10 s · new angles each loop</small></button>
           <div className="pair-scenario-story">
             <p>Now stand in the same gap. The facing slip flows run together, speeding the fluid there. In this trial pressure ledger, faster motion spends more of the budget as dynamic pressure, leaving less static pressure in the gap.</p>
             <p>The fluid outside the pair then presses harder than the fluid between them. That uneven squeeze draws both empty boundaries inward. Look for the lower-pressure violet gap and the two force arrows pointing toward each other.</p>
             <p className="pair-scenario-footnote">If these were a real electron and positron and they met, the pair would annihilate. This page holds at its calculated contact until the ten-second loop restarts instead of inventing an annihilation animation; the TeX also proposes a possible pre-contact orbit.</p>
           </div>
         </article>
-        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. These preset orientations make the gap comparison legible; yaw and tilt change the geometry, not the assigned charge.</p>
+        <p className="pair-scenario-caveat">Illustrative RCCM field sketch, not a solved electron–positron flow. Each loop rerolls both cavities’ yaw and tilt near the selected face-to-face arrangement. Orientation changes the geometry, not the assigned charge.</p>
       </section>
       <section className="panel-section" aria-labelledby="pair-layers-title">
         <div className="section-title"><h2 id="pair-layers-title">Layers</h2><span>FIELD / DISPLAY</span></div>
