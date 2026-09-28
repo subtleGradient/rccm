@@ -10,7 +10,7 @@ const STUDIES: Record<Study, { number: string; title: string; subtitle: string; 
   flow: {
     number: '01', title: 'Follow the fluid', subtitle: 'A parcel has its own route through a travelling pattern.',
     question: 'Follow the white bead as the pair moves. Does the bead travel with the hole?',
-    layers: { volume: true, paths: true, streamlines: false, slice: false, twist: false },
+    layers: { volume: true, paths: true, streamlines: true, slice: false, twist: false },
   },
   cavities: {
     number: '02', title: 'Open the cavity', subtitle: 'Cut across the pair to see where the medium ends.',
@@ -144,14 +144,14 @@ function Experiment({ study }: { study: Study }) {
   return <>
     <Nav study={study} query={query} />
     <main className="experiment-shell">
-      <div className="experiment-heading"><div><span className="eyebrow">EXPERIMENT {info.number} / 04</span><h1>{info.title}</h1><p>{info.subtitle}</p></div><div className="study-status"><span className="status-pulse"></span> AUTHORED FIELD · LIVE</div></div>
+      <div className="experiment-heading"><div><span className="eyebrow">EXPERIMENT {info.number} / 05</span><h1>{info.title}</h1><p>{info.subtitle}</p></div><div className="study-status"><span className="status-pulse"></span> AUTHORED FIELD · LIVE</div></div>
       <div className="lab-layout">
         <div className="scene-column">
           <div className="viewport-frame">
             <FluidViewport key={viewKey} study={study} settings={settings} time={time} timeRef={timeRef} playingRef={playingRef} speedRef={speedRef} report={setTime} layers={layers} opacity={opacity} sliceAxis={sliceAxis} sliceOffset={sliceOffset} probe={probePoint} selected={selected} tagged={tagged} quality={quality} onSelect={setSelected} onPose={(id, offset) => updateCore(id, { offset })} />
             <div className="viewport-label top-left"><span className="crosshair">⌁</span> TAU CONTINUUM <small>01 / PAIR</small></div>
             <div className="viewport-label top-right">X ±{2.2} &nbsp; Y ±{2.2} &nbsp; Z ±{2.2}</div>
-            <div className="viewport-caption"><span className="key-pair"><i className="legend-dot blue"></i> Electron</span><span className="key-pair"><i className="legend-dot gold"></i> Positron</span><span className="caption-separator"></span><span>{layers.paths ? 'Moving lines = tagged fluid' : layers.slice ? 'Colored plane = capacity cut' : 'Orbit to inspect depth'}</span></div>
+            <div className="viewport-caption"><span className="key-pair"><i className="legend-dot blue"></i> Electron</span><span className="key-pair"><i className="legend-dot gold"></i> Positron</span><span className="caption-separator"></span><span>{layers.paths ? 'Moving lines = tagged fluid' : layers.slice ? 'Colored plane = capacity cut' : 'Orbit to inspect depth'}</span>{layers.twist && <span>Ring + shaft = local internal twist axis</span>}</div>
             {hudReading && <div className="tensor-hud"><span>PROBE / TENSOR</span>{hudReading.inside ? <strong>VOID</strong> : <><strong>{Math.round(hudReading.q * 100)}% capacity</strong><div className="hud-matrix">{hudReading.U.flatMap((row, i) => row.map((value, j) => <span key={`${i}-${j}`} className={i === j ? 'bulk' : i === 0 || j === 0 ? 'slip' : 'twist'}>{value >= 0 ? '+' : ''}{value.toFixed(2)}</span>))}</div></>}</div>}
             <button className="view-reset" type="button" onClick={() => setViewKey(value => value + 1)}>Reset view</button>
           </div>
@@ -172,7 +172,7 @@ function Experiment({ study }: { study: Study }) {
               <Slider label="Flow strength" value={settings.intensity} min={0.3} max={1.4} step={0.01} onChange={value => changeSettings(current => ({ ...current, intensity: value }))} />
               <button type="button" className="text-button" onClick={() => { setSettings(DEFAULT_SETTINGS); setLayers(info.layers); setProbe([-0.1, 0.4, 0.1]); resetTime(); }}>Reset experiment</button>
             </section>
-            <section className="control-section"><div className="section-heading"><span>02 / LOOK</span><strong>Choose what the cube shows</strong></div><div className="layer-list"><LayerSwitch label="Tau medium" checked={layers.volume} onChange={value => setLayer('volume', value)} /><LayerSwitch label="Material paths" checked={layers.paths} onChange={value => setLayer('paths', value)} /><LayerSwitch label="Streamlines" checked={layers.streamlines} onChange={value => setLayer('streamlines', value)} /><LayerSwitch label="Capacity slice" checked={layers.slice} onChange={value => setLayer('slice', value)} /><LayerSwitch label="Twist marks" checked={layers.twist} onChange={value => setLayer('twist', value)} /></div>
+            <section className="control-section"><div className="section-heading"><span>02 / LOOK</span><strong>Choose what the cube shows</strong></div><div className="layer-list"><LayerSwitch label="Tau medium" checked={layers.volume} onChange={value => setLayer('volume', value)} /><LayerSwitch label="Material paths" checked={layers.paths} onChange={value => setLayer('paths', value)} /><LayerSwitch label="Streamlines" checked={layers.streamlines} onChange={value => setLayer('streamlines', value)} /><LayerSwitch label="Capacity slice" checked={layers.slice} onChange={value => setLayer('slice', value)} /><LayerSwitch label="Internal twist axes" checked={layers.twist} onChange={value => setLayer('twist', value)} /></div>
               {layers.slice && <><div className="segmented" role="group" aria-label="Slice axis">{['Z', 'X', 'Y'].map((axis, i) => <button type="button" key={axis} className={sliceAxis === i ? 'active' : ''} onClick={() => setSliceAxis(i)}>{axis} plane</button>)}</div><Slider label="Slice position" value={sliceOffset} min={-2.1} max={2.1} step={0.02} onChange={setSliceOffset} /></>}
               <Slider label="Medium presence" value={opacity} min={0.1} max={1.8} step={0.01} onChange={setOpacity} />
               <div className="quality-control"><label htmlFor="render-quality">Display quality</label><select id="render-quality" name="render-quality" value={quality} onChange={event => setQuality(event.target.value as 'low' | 'high')}><option value="high">Fine</option><option value="low">Light</option></select></div>

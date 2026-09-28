@@ -122,20 +122,22 @@ const SURFACE_POINTS = (() => {
   return points;
 })();
 
-export function chargeSurfaceForces(state: ChargeState, scenario: ChargeCase): [Vec3, Vec3] {
-  const forces: Vec3[] = [];
-  for (const center of [state.left, state.right]) {
-    let fx = 0, fy = 0, fz = 0;
-    for (const patch of SURFACE_POINTS) {
-      const point: Vec3 = [center + patch.local[0], patch.local[1], patch.local[2]];
-      const pressure = chargeField(point, state, scenario).pressure;
-      fx -= pressure * patch.normal[0] * patch.area;
-      fy -= pressure * patch.normal[1] * patch.area;
-      fz -= pressure * patch.normal[2] * patch.area;
-    }
-    forces.push([fx, fy, fz]);
+export function integrateTorusPressure(center: number, pressureAt: (point: Vec3) => number): Vec3 {
+  let fx = 0, fy = 0, fz = 0;
+  for (const patch of SURFACE_POINTS) {
+    const point: Vec3 = [center + patch.local[0], patch.local[1], patch.local[2]];
+    const pressure = pressureAt(point);
+    fx -= pressure * patch.normal[0] * patch.area;
+    fy -= pressure * patch.normal[1] * patch.area;
+    fz -= pressure * patch.normal[2] * patch.area;
   }
-  return forces as [Vec3, Vec3];
+  return [fx, fy, fz];
+}
+
+export function chargeSurfaceForces(state: ChargeState, scenario: ChargeCase): [Vec3, Vec3] {
+  return [state.left, state.right].map(center =>
+    integrateTorusPressure(center, point => chargeField(point, state, scenario).pressure)
+  ) as [Vec3, Vec3];
 }
 
 export function chargeTimeline(separation: number, scenario: ChargeCase): ChargeState[] {

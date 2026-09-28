@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { TORUS_MAJOR, TORUS_MINOR, type Vec3 } from './model';
 import { ChargeScene } from './charge-scene';
 import {
@@ -39,6 +39,8 @@ export function ChargePage() {
   const [quality, setQuality] = useState<'high' | 'low'>('high');
   const [showPressure, setShowPressure] = useState(true);
   const [viewKey, setViewKey] = useState(0);
+  const guideRef = useRef<HTMLElement>(null);
+  const mobileCueRef = useRef<HTMLDivElement>(null);
 
   const frames = useMemo(() => chargeTimeline(separation, scenario), [separation, scenario]);
   const state = step === 5 ? stateAt(frames, elapsed) : initialChargeState(separation);
@@ -68,6 +70,10 @@ export function ChargePage() {
     setStep(next);
     setElapsed(0);
     setPlaying(true);
+    requestAnimationFrame(() => {
+      if (window.matchMedia('(max-width: 860px)').matches) mobileCueRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else guideRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   };
   const chooseScenario = (next: ChargeCase) => {
     if (scenario === next) return;
@@ -85,7 +91,8 @@ export function ChargePage() {
   const rightFace = pressureAt([state.right - TORUS_MAJOR - TORUS_MINOR - 0.004, 0, 0], state, scenario);
   const rightOutside = pressureAt([state.right + TORUS_MAJOR + TORUS_MINOR + 0.004, 0, 0], state, scenario);
   const centerReading = chargeSample([0, 0, 0], state, scenario);
-  const force = step >= 4 ? chargeSurfaceForces(state, scenario) : null;
+  const force = useMemo(() => step >= 4 ? chargeSurfaceForces(state, scenario) : null,
+    [step, scenario, state.left, state.right]);
   const selected = STEPS[step - 1];
 
   return <main className="charge-shell">
@@ -102,8 +109,9 @@ export function ChargePage() {
           </div>
           <span>Change B. Keep the geometry and scale.</span>
         </div>
+        <div className="charge-mobile-step" ref={mobileCueRef}><span>{String(step).padStart(2, '0')} / 05</span><h2>{selected.title}</h2><p>{selected.cue}</p></div>
         <div className="charge-viewport">
-          <ChargeScene key={viewKey} state={state} scenario={scenario} step={step} visualTime={elapsed} playing={playing} quality={quality} showPressure={showPressure} />
+          <ChargeScene key={viewKey} state={state} startSeparation={separation} scenario={scenario} step={step} visualTime={elapsed} playing={playing} quality={quality} showPressure={showPressure} />
           <div className="charge-viewport-top"><span>τ MEDIUM / ALIGNED PAIR</span><span>{step < 5 ? 'POSITIONS HELD' : state.stopped ? 'RANGE LIMIT' : 'X TRANSLATION RELEASED'}</span></div>
           <div className="charge-viewport-bottom"><span><i className="medium-dot" /> moving fluid</span><span><i className="stream-mark" /> frozen flow direction</span>
             {step >= 3 && <><span><i className="pressure-low" /> lower static pressure</span><span><i className="pressure-high" /> higher static pressure</span></>}
@@ -120,12 +128,18 @@ export function ChargePage() {
           <label className="charge-checkbox"><input type="checkbox" checked={showPressure} onChange={event => setShowPressure(event.target.checked)} /> Pressure cut</label>
           <label>Detail <select value={quality} onChange={event => setQuality(event.target.value as 'high' | 'low')}><option value="high">Fine</option><option value="low">Light</option></select></label></div>
       </section>
-      <aside className="charge-guide">
+      <aside className="charge-guide" ref={guideRef}>
         <span className="eyebrow">{String(step).padStart(2, '0')} / 05 · CAUSAL WALKTHROUGH</span>
         <h2>{selected.title}</h2>
         <p className="charge-cue">{selected.cue}</p>
         <p className="charge-focus">{selected.focus}</p>
-        {step === 1 && <div className="charge-explain-key"><span><i className="charge-key-line white" /> around the ring</span><span><i className="charge-key-line green" /> around the tube</span><span><i className="charge-key-wheel" /> small fluid wheel at a sampled place</span></div>}
+        {step === 1 && <><svg className="charge-cycle-inset" viewBox="0 0 300 124" role="img" aria-label="One fluid route circles the whole ring; a second circles a cross-section of its tube">
+          <defs><marker id="cycle-arrow-white" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L6 3.5L0 7" fill="none" stroke="#e6f6ff" strokeWidth="1.5" /></marker><marker id="cycle-arrow-green" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0L6 3.5L0 7" fill="none" stroke="#a6ffd0" strokeWidth="1.5" /></marker></defs>
+          <text x="70" y="20" fill="#c7dfe8" textAnchor="middle">whole ring</text><text x="226" y="20" fill="#baf5d0" textAnchor="middle">tube cut</text>
+          <ellipse cx="70" cy="72" rx="42" ry="25" fill="none" stroke="#99c8fb" strokeWidth="17" /><ellipse cx="70" cy="72" rx="63" ry="39" fill="none" stroke="#e6f6ff" strokeWidth="3" strokeDasharray="210 50" markerEnd="url(#cycle-arrow-white)" />
+          <circle cx="226" cy="72" r="26" fill="#9bc9fa" fillOpacity=".72" /><circle cx="226" cy="72" r="39" fill="none" stroke="#a6ffd0" strokeWidth="4" strokeDasharray="162 83" markerEnd="url(#cycle-arrow-green)" />
+          <text x="150" y="76" fill="#88abb4" textAnchor="middle" fontSize="22">→</text>
+        </svg><div className="charge-explain-key"><span><i className="charge-key-line white" /> around the ring</span><span><i className="charge-key-line green" /> around the tube</span><span><i className="charge-key-wheel" /> small fluid wheel at a sampled place</span></div></>}
         {step === 2 && !centerReading.inside && <div className="charge-readout"><span>AT THE WHITE GAP PROBE</span><div><label>A contributes</label><strong>{Math.abs(centerReading.leftFlow[1]).toFixed(2)} {centerReading.leftFlow[1] >= 0 ? '↑' : '↓'}</strong></div><div><label>B contributes</label><strong>{Math.abs(centerReading.rightFlow[1]).toFixed(2)} {centerReading.rightFlow[1] >= 0 ? '↑' : '↓'}</strong></div><div className="charge-total"><label>One medium moves</label><strong>{Math.abs(centerReading.slip[1]).toFixed(2)} {centerReading.slip[1] >= 0 ? '↑' : '↓'}</strong></div></div>}
         {step >= 3 && <div className="charge-gauges"><span className="charge-readout-title">STATIC PRESSURE / FRACTION OF FULL BUDGET</span>
           <PressureGauge title="A · outside" value={leftOutside} /><PressureGauge title="A · facing gap" value={leftFace} />

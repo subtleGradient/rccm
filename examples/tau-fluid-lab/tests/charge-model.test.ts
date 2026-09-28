@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { chargeSample, chargeSurfaceForces, chargeTimeline, initialChargeState, type ChargeCase } from '../src/charge-model';
+import { chargeNormal, chargeSample, chargeSurfaceForces, chargeTimeline, initialChargeState, integrateTorusPressure, type ChargeCase } from '../src/charge-model';
+import { TORUS_MAJOR, TORUS_MINOR, add, dot, mul, sub, type Vec3 } from '../src/model';
 
 describe('aligned charge teaching fixture', () => {
   it('turns reinforcing gap flow into a lower static pressure', () => {
@@ -48,6 +49,25 @@ describe('aligned charge teaching fixture', () => {
       if (reading.inside) continue;
       expect(reading.pressure).toBeGreaterThan(0);
       expect(reading.pressure).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it('balances uniform squeeze and moves fluid tangentially to each moving surface', () => {
+    for (const center of [-0.94, 0.94]) {
+      const force = integrateTorusPressure(center, () => 0.7);
+      expect(Math.hypot(...force)).toBeLessThan(1e-12);
+    }
+    const moving = chargeTimeline(1.88, 'opposite')[30];
+    for (const center of [moving.left, moving.right]) for (const angle of [0, 0.8, 2.3, 3.7]) {
+      const surface: Vec3 = [center + (TORUS_MAJOR + TORUS_MINOR) * Math.cos(angle),
+        (TORUS_MAJOR + TORUS_MINOR) * Math.sin(angle), 0];
+      const normal = chargeNormal(surface, center);
+      const point = add(surface, mul(normal, 1e-6));
+      const reading = chargeSample(point, moving, 'opposite');
+      expect(reading.inside).toBe(false);
+      if (reading.inside) continue;
+      const bodyVelocity: Vec3 = [center === moving.left ? moving.leftVelocity : moving.rightVelocity, 0, 0];
+      expect(Math.abs(dot(sub(reading.velocity, bodyVelocity), normal))).toBeLessThan(2e-4);
     }
   });
 });

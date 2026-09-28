@@ -3,7 +3,7 @@ import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import { Line, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import {
-  CUBE_HALF, DURATION, TORUS_MAJOR, TORUS_MINOR, corePoses, length, parcelSeeds,
+  CUBE_HALF, DURATION, TORUS_MAJOR, TORUS_MINOR, add, corePoses, length, mul, normalize, parcelSeeds,
   sampleField, traceParcel, traceStreamline, type CoreId, type PairSettings, type Vec3,
 } from './model';
 
@@ -66,7 +66,9 @@ void main() {
       float axisValue = uSliceAxis < 0.5 ? p.z : (uSliceAxis < 1.5 ? p.x : p.y);
       focus = mix(0.13, 1.0, 1.0 - smoothstep(0.08, 0.36, abs(axisValue - uSliceOffset)));
     }
-    float absorption = (0.12 + 0.22 * load) * uOpacity * focus;
+    // Amplify modeled variation around the ambient load without changing q.
+    float activeLoad = max(0.0, load - 0.055);
+    float absorption = (0.09 + 2.4 * activeLoad) * uOpacity * focus;
     float alpha = 1.0 - exp(-absorption * stepSize);
     accumulation.rgb += (1.0 - accumulation.a) * color * alpha;
     accumulation.a += (1.0 - accumulation.a) * alpha;
@@ -246,7 +248,7 @@ function PathlineLayer({ settings, time, tagged, quality, dragging }: { settings
   }, [settings, dragging]);
   const visible = Math.floor(time * 36) + 1;
   return <>
-    {paths.map((path, i) => path.length > 1 && (quality === 'high' || i % 2 === 0 || i === tagged) && <Line key={i} points={path.slice(0, Math.max(2, Math.min(path.length, visible)))} color={i < paths.length / 2 ? ELECTRON : POSITRON} lineWidth={i === tagged ? 2.4 : 1.15} transparent opacity={i === tagged ? 0.95 : 0.43} />)}
+    {paths.map((path, i) => path.length > 1 && (i === tagged || i % (quality === 'high' ? 6 : 12) === 0) && <Line key={i} points={path.slice(0, Math.max(2, Math.min(path.length, visible)))} color={i < paths.length / 2 ? ELECTRON : POSITRON} lineWidth={i === tagged ? 3.5 : 1.4} transparent opacity={i === tagged ? 1 : 0.4} />)}
     {paths[tagged] && <mesh position={paths[tagged][Math.min(paths[tagged].length - 1, Math.max(0, visible - 1))]} renderOrder={7}>
       <sphereGeometry args={[0.045, 10, 10]} />
       <meshBasicMaterial color="#f5fff2" />
@@ -254,12 +256,84 @@ function PathlineLayer({ settings, time, tagged, quality, dragging }: { settings
   </>;
 }
 
-export function FlowRibbon({ points, color = '#f0fff5', width = 2.8, opacity = 0.86, arrowCount = 2 }: {
-  points: Vec3[]; color?: string; width?: number; opacity?: number; arrowCount?: number;
+function MediumTracers({ settings, timeRef, playingRef, quality, opacity }: {
+  settings: PairSettings; timeRef: React.RefObject<number>; playingRef: React.RefObject<boolean>;
+  quality: 'low' | 'high'; opacity: number;
+}) {
+  const count = quality === 'high' ? 540 : 280;
+  const initial = useMemo(() => {
+    const data = new Float32Array(count * 3);
+    let seed = 829141;
+    const random = () => { seed = (1664525 * seed + 1013904223) >>> 0; return seed / 4294967296; };
+    for (let i = 0; i < count; i++) {
+      let point: Vec3 = [0, 0, 0];
+      for (let attempt = 0; attempt < 12; attempt++) {
+        point = [(random() * 2 - 1) * 2.06, (random() * 2 - 1) * 1.55, (random() * 2 - 1) * 1.2];
+        if (!sampleField(point, 0, settings).inside) break;
+      }
+      data.set(point, i * 3);
+    }
+    return data;
+  }, [count, settings]);
+  const geometry = useMemo(() => {
+    const result = new THREE.BufferGeometry();
+    result.setAttribute('position', new THREE.BufferAttribute(initial.slice(), 3));
+    return result;
+  }, [initial]);
+  const trails = useMemo(() => {
+    const result = new THREE.BufferGeometry();
+    const segments = new Float32Array(count * 6);
+    for (let i = 0; i < count; i++) {
+      segments.set(initial.subarray(i * 3, i * 3 + 3), i * 6);
+      segments.set(initial.subarray(i * 3, i * 3 + 3), i * 6 + 3);
+    }
+    result.setAttribute('position', new THREE.BufferAttribute(segments, 3));
+    return result;
+  }, [initial, count]);
+  const trailOrigins = useRef<Float32Array>(initial.slice());
+  const frames = useRef(0);
+  useEffect(() => { trailOrigins.current = initial.slice(); frames.current = 0; }, [initial]);
+  useEffect(() => () => { geometry.dispose(); trails.dispose(); }, [geometry, trails]);
+  useFrame((_, delta) => {
+    if (!playingRef.current) return;
+    const points = geometry.getAttribute('position') as THREE.BufferAttribute;
+    const pointData = points.array as Float32Array;
+    const lines = trails.getAttribute('position') as THREE.BufferAttribute;
+    const lineData = lines.array as Float32Array;
+    const dt = Math.min(delta, 0.033);
+    const refresh = ++frames.current % 7 === 0;
+    for (let i = 0; i < count; i++) {
+      const p: Vec3 = [pointData[i * 3], pointData[i * 3 + 1], pointData[i * 3 + 2]];
+      const sample = sampleField(p, timeRef.current, settings);
+      if (sample.inside) {
+        pointData.set(initial.subarray(i * 3, i * 3 + 3), i * 3);
+        trailOrigins.current.set(initial.subarray(i * 3, i * 3 + 3), i * 3);
+      } else {
+        const next = add(p, mul(sample.velocity, dt));
+        if (next.some(axis => Math.abs(axis) >= CUBE_HALF - 0.06) || sampleField(next, timeRef.current, settings).inside) {
+          pointData.set(initial.subarray(i * 3, i * 3 + 3), i * 3);
+          trailOrigins.current.set(initial.subarray(i * 3, i * 3 + 3), i * 3);
+        } else pointData.set(next, i * 3);
+      }
+      if (refresh) trailOrigins.current.set(pointData.subarray(i * 3, i * 3 + 3), i * 3);
+      lineData.set(trailOrigins.current.subarray(i * 3, i * 3 + 3), i * 6);
+      lineData.set(pointData.subarray(i * 3, i * 3 + 3), i * 6 + 3);
+    }
+    points.needsUpdate = true;
+    lines.needsUpdate = true;
+  });
+  return <>
+    <lineSegments geometry={trails} renderOrder={4}><lineBasicMaterial color="#bbf5df" transparent opacity={Math.min(0.7, opacity * 0.38)} depthWrite={false} /></lineSegments>
+    <points geometry={geometry} renderOrder={5}><pointsMaterial color="#e5fff1" size={0.037} transparent opacity={Math.min(0.94, opacity * 0.7)} depthWrite={false} /></points>
+  </>;
+}
+
+export function FlowRibbon({ points, color = '#f0fff5', width = 2.8, opacity = 0.86, arrowCount = 2, onTop = false }: {
+  points: Vec3[]; color?: string; width?: number; opacity?: number; arrowCount?: number; onTop?: boolean;
 }) {
   if (points.length < 3) return null;
   return <>
-    <Line points={points} color={color} lineWidth={width} transparent opacity={opacity} depthWrite={false} />
+    <Line points={points} color={color} lineWidth={width} transparent opacity={opacity} depthWrite={false} depthTest={!onTop} renderOrder={onTop ? 8 : 0} />
     {Array.from({ length: arrowCount }, (_, i) => {
       const index = Math.min(points.length - 2, Math.max(1, Math.floor(points.length * (i + 1) / (arrowCount + 1))));
       const a = new THREE.Vector3(...points[index - 1]);
@@ -279,7 +353,7 @@ function StreamlineLayer({ settings, time, quality }: { settings: PairSettings; 
   const traces = useMemo(() => {
     const gapSeeds: Vec3[] = [];
     for (const y of [-0.75, -0.42, 0, 0.42, 0.75]) for (const z of [-0.38, 0.2]) gapSeeds.push([0, y, z]);
-    return [...parcelSeeds(settings).filter((_, i) => i % (quality === 'high' ? 4 : 8) === 1), ...gapSeeds]
+    return [...parcelSeeds(settings).filter((_, i) => i % (quality === 'high' ? 8 : 12) === 1), ...gapSeeds]
       .map(seed => traceStreamline(seed, Math.floor(time * 2) / 2, settings, 140));
   }, [settings, Math.floor(time * 2), quality]);
   return <>{traces.map((points, i) => <FlowRibbon key={i} points={points} color={i >= traces.length - 10 ? '#d9fff0' : '#c3e6fa'} width={i >= traces.length - 10 ? 3 : 2.4} opacity={0.85} />)}</>;
@@ -300,14 +374,15 @@ function TwistGlyphLayer({ settings, time }: { settings: PairSettings; time: num
     const direction = normalize(arrow.vector);
     const color = arrow.id === 'electron' ? ELECTRON : POSITRON;
     const from = arrow.point;
-    const to = add(from, mul(direction, 0.34));
+    const extent = Math.max(0.24, Math.min(0.52, length(arrow.vector) * 2));
+    const to = add(from, mul(direction, extent));
     const ringCenter = new THREE.Vector3(...from);
     const ringRotation = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), new THREE.Vector3(...direction));
-    const tip = add(from, mul(direction, 0.39));
+    const tip = add(from, mul(direction, extent + 0.06));
     const tipRotation = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(...direction));
     return <group key={i}>
       <mesh position={ringCenter} quaternion={ringRotation} renderOrder={7}>
-        <ringGeometry args={[0.105, 0.12, 32]} />
+        <ringGeometry args={[0.155, 0.175, 32]} />
         <meshBasicMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.85} depthTest={false} />
       </mesh>
       <Line points={[from, to]} color={color} lineWidth={3.5} transparent opacity={0.92} depthTest={false} />
@@ -345,6 +420,7 @@ export function FluidViewport(props: {
     <OrbitControls enabled={!dragging} enablePan={false} enableDamping dampingFactor={0.07} minDistance={4.6} maxDistance={12.5} />
     <CubeBoundary />
     <TauVolume settings={settings} time={time} opacity={opacity} layers={layers} sliceAxis={sliceAxis} sliceOffset={sliceOffset} study={study} quality={quality} />
+    {layers.volume && <MediumTracers settings={settings} timeRef={timeRef} playingRef={playingRef} quality={quality} opacity={opacity} />}
     {layers.slice && <SlicePlane settings={settings} time={time} axis={sliceAxis} offset={sliceOffset} quality={quality} />}
     {layers.paths && <PathlineLayer settings={settings} time={time} tagged={tagged} quality={quality} dragging={dragging} />}
     {layers.streamlines && <StreamlineLayer settings={settings} time={time} quality={quality} />}

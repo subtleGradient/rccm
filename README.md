@@ -194,9 +194,11 @@ ledger instrument, **not yet a cavitation or CFD solver**. Run
 The larger [end-goal brief](docs/asymmetric-tensor-graphics.md#L1) remains open.
 
 The [Tau Fluid Lab](examples/tau-fluid-lab/README.md) is a React Three Fiber
-visual prototype with four standalone views of one moving tornadonut pair:
-fluid paths, cavity slices, a tensor probe, and a combined playground. Its
-authored field and model boundary are documented beside the app. Run
+visual prototype with five standalone views: fluid paths, cavity slices,
+a tensor probe, a combined playground, and a guided charge-interaction study.
+The fifth view uses an aligned authored fixture to connect facing flow,
+pressure over each torus surface, and resulting translation. Its core-to-field
+and arbitrary-rotation boundaries are documented beside the app. Run
 `npm ci` and `npm run dev` in `examples/tau-fluid-lab/` to explore it locally.
 
 ## Run the executable experiment

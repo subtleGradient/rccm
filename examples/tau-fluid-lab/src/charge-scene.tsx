@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Html, OrbitControls } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { CUBE_HALF, TORUS_MAJOR, TORUS_MINOR, add, dot, mul, normalize, type Vec3 } from './model';
 import { CubeBoundary, FlowRibbon } from './scene';
@@ -8,6 +8,7 @@ import { chargeSample, chargeStreamline, chargeSurfaceForces, type ChargeCase, t
 
 type ChargeSceneProps = {
   state: ChargeState;
+  startSeparation: number;
   scenario: ChargeCase;
   step: number;
   visualTime: number;
@@ -52,11 +53,11 @@ function makePressureTexture(state: ChargeState, scenario: ChargeCase, resolutio
   return texture;
 }
 
-function PressureSlice({ state, scenario, timeBucket, quality }: {
-  state: ChargeState; scenario: ChargeCase; timeBucket: number; quality: 'high' | 'low';
+function PressureSlice({ state, scenario, fieldKey, quality }: {
+  state: ChargeState; scenario: ChargeCase; fieldKey: string; quality: 'high' | 'low';
 }) {
   const texture = useMemo(() => makePressureTexture(state, scenario, quality === 'high' ? 144 : 88),
-    [scenario, timeBucket, quality]);
+    [scenario, fieldKey, quality]);
   useEffect(() => () => texture.dispose(), [texture]);
   return <mesh position={[0, 0, -0.36]} renderOrder={0}>
     <planeGeometry args={[CUBE_HALF * 2, CUBE_HALF * 2]} />
@@ -93,14 +94,38 @@ function CoreShape({ x, side, scenario, step }: { x: number; side: 'left' | 'rig
       <torusGeometry args={[TORUS_MAJOR, TORUS_MINOR, 12, 72]} />
       <meshBasicMaterial color={color} transparent opacity={0.32} wireframe depthWrite={false} />
     </mesh>
-    <Html position={[0, -0.93, 0.3]} center distanceFactor={9} occlude={false}>
-      <div className={`charge-core-tag ${negative ? 'negative' : 'positive'}`}><b>{side === 'left' ? 'A' : 'B'}</b> {negative ? 'electron −' : 'positron +'}</div>
-    </Html>
+    <CoreMarker side={side} negative={negative} />
     {step < 5 && <mesh position={[0, -1.12, -0.22]}>
       <boxGeometry args={[1.28, 0.017, 0.017]} />
       <meshBasicMaterial color="#609195" transparent opacity={0.6} />
     </mesh>}
   </group>;
+}
+
+function CoreMarker({ side, negative }: { side: 'left' | 'right'; negative: boolean }) {
+  const texture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 160;
+    canvas.height = 80;
+    const context = canvas.getContext('2d')!;
+    context.fillStyle = '#071820';
+    context.fillRect(1, 1, 158, 78);
+    context.strokeStyle = negative ? '#9ac9ff' : '#ffdb8d';
+    context.lineWidth = 4;
+    context.strokeRect(3, 3, 154, 74);
+    context.fillStyle = negative ? '#c4e1ff' : '#ffe5ad';
+    context.font = 'bold 48px ui-monospace, monospace';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(`${side === 'left' ? 'A' : 'B'} ${negative ? '−' : '+'}`, 80, 42);
+    const result = new THREE.CanvasTexture(canvas);
+    result.colorSpace = THREE.SRGBColorSpace;
+    return result;
+  }, [side, negative]);
+  useEffect(() => () => texture.dispose(), [texture]);
+  return <sprite position={[0, -0.99, 0.3]} scale={[0.62, 0.31, 1]} renderOrder={10}>
+    <spriteMaterial map={texture} transparent depthTest={false} depthWrite={false} />
+  </sprite>;
 }
 
 function ringPath(center: number, direction: number): Vec3[] {
@@ -125,8 +150,8 @@ function CirculationGuides({ state, scenario, step }: { state: ChargeState; scen
   if (step > 2) return null;
   const cores = step === 1 ? [state.left] : [state.left, state.right];
   return <>{cores.map((x, i) => <group key={i}>
-    <FlowRibbon points={ringPath(x, i === 0 || scenario === 'like' ? 1 : -1)} color={i === 0 ? '#e4f5ff' : '#ffe5a9'} width={4.5} opacity={0.96} arrowCount={4} />
-    <FlowRibbon points={tubePath(x)} color="#b7f4cf" width={3.1} opacity={0.86} arrowCount={2} />
+    <FlowRibbon points={ringPath(x, i === 0 || scenario === 'like' ? 1 : -1)} color={i === 0 ? '#e4f5ff' : '#ffe5a9'} width={4.5} opacity={0.96} arrowCount={4} onTop />
+    <FlowRibbon points={tubePath(x)} color="#a6ffd0" width={5.5} opacity={1} arrowCount={3} onTop />
   </group>)}</>;
 }
 
@@ -140,24 +165,23 @@ function seededLines(state: ChargeState, scenario: ChargeCase, step: number, qua
     }
   }
   if (step > 1) {
-    for (const y of [-0.65, -0.35, 0, 0.35, 0.65]) for (const z of [0, 0.3])
-      seeds.push({ point: [0, y, z], kind: 'gap' });
+    seeds.push({ point: [0, -0.45, 0.12], kind: 'gap' });
     for (const x of [-1.65, 1.65]) for (const y of [-0.65, 0, 0.65])
       seeds.push({ point: [x, y, 0.18], kind: 'outer' });
   }
-  return seeds.map(seed => ({ ...seed, path: chargeStreamline(seed.point, state, scenario, 140, step === 1 ? 'left' : 'both') }));
+  return seeds.map(seed => ({ ...seed, path: chargeStreamline(seed.point, state, scenario, seed.kind === 'gap' ? 30 : 120, step === 1 ? 'left' : 'both') }));
 }
 
-function FlowLines({ state, scenario, step, quality, timeBucket }: {
-  state: ChargeState; scenario: ChargeCase; step: number; quality: 'high' | 'low'; timeBucket: number;
+function FlowLines({ state, scenario, step, quality, fieldKey }: {
+  state: ChargeState; scenario: ChargeCase; step: number; quality: 'high' | 'low'; fieldKey: string;
 }) {
-  const lines = useMemo(() => seededLines(state, scenario, step, quality), [scenario, step, quality, timeBucket]);
+  const lines = useMemo(() => seededLines(state, scenario, step, quality), [scenario, step, quality, fieldKey]);
   return <>{lines.map((line, i) => <FlowRibbon key={i} points={line.path}
     color={line.kind === 'gap' ? '#effff6' : line.kind === 'outer' ? '#b7efe0' : '#b2dafa'}
-    width={line.kind === 'gap' ? 3.3 : 2.4} opacity={line.kind === 'gap' ? 0.98 : 0.75} arrowCount={line.kind === 'gap' ? 2 : 1} />)}</>;
+    width={line.kind === 'gap' ? 3.3 : 2.4} opacity={line.kind === 'gap' ? 0.98 : 0.75} arrowCount={1} />)}</>;
 }
 
-function FluidTracers({ state, scenario, step, playing, quality }: ChargeSceneProps) {
+function FluidTracers({ state, startSeparation, scenario, step, playing, quality }: ChargeSceneProps) {
   const count = quality === 'high' ? 800 : 420;
   const base = useMemo(() => {
     const values = new Float32Array(count * 3);
@@ -172,33 +196,63 @@ function FluidTracers({ state, scenario, step, playing, quality }: ChargeScenePr
       values.set(point, i * 3);
     }
     return values;
-  }, [count, step, scenario]);
+  }, [count, step, scenario, startSeparation]);
   const geometry = useMemo(() => {
     const result = new THREE.BufferGeometry();
     result.setAttribute('position', new THREE.BufferAttribute(base.slice(), 3));
     return result;
   }, [base]);
-  useEffect(() => () => geometry.dispose(), [geometry]);
+  const trailGeometry = useMemo(() => {
+    const result = new THREE.BufferGeometry();
+    const segments = new Float32Array(count * 6);
+    for (let i = 0; i < count; i++) {
+      segments.set(base.subarray(i * 3, i * 3 + 3), i * 6);
+      segments.set(base.subarray(i * 3, i * 3 + 3), i * 6 + 3);
+    }
+    result.setAttribute('position', new THREE.BufferAttribute(segments, 3));
+    return result;
+  }, [base, count]);
+  const trailOrigins = useRef<Float32Array>(base.slice());
+  const trailFrame = useRef(0);
+  useEffect(() => { trailOrigins.current = base.slice(); trailFrame.current = 0; }, [base]);
+  useEffect(() => () => { geometry.dispose(); trailGeometry.dispose(); }, [geometry, trailGeometry]);
   useFrame((_, delta) => {
     if (!playing) return;
     const positions = geometry.getAttribute('position') as THREE.BufferAttribute;
     const data = positions.array as Float32Array;
+    const trails = trailGeometry.getAttribute('position') as THREE.BufferAttribute;
+    const segments = trails.array as Float32Array;
     const dt = Math.min(delta, 0.034);
+    const refreshTrail = ++trailFrame.current % 7 === 0;
     for (let i = 0; i < count; i++) {
       const p: Vec3 = [data[i * 3], data[i * 3 + 1], data[i * 3 + 2]];
       const sample = chargeSample(p, state, scenario, step === 1 ? 'left' : 'both');
-      if (sample.inside) { data.set(base.subarray(i * 3, i * 3 + 3), i * 3); continue; }
+      if (sample.inside) {
+        data.set(base.subarray(i * 3, i * 3 + 3), i * 3);
+        trailOrigins.current.set(base.subarray(i * 3, i * 3 + 3), i * 3);
+        segments.set(base.subarray(i * 3, i * 3 + 3), i * 6);
+        segments.set(base.subarray(i * 3, i * 3 + 3), i * 6 + 3);
+        continue;
+      }
       const next = add(p, mul(sample.velocity, dt));
       if (Math.abs(next[0]) > 2.05 || Math.abs(next[1]) > 1.4 || Math.abs(next[2]) > 0.65 ||
         chargeSample(next, state, scenario, step === 1 ? 'left' : 'both').inside) {
         data.set(base.subarray(i * 3, i * 3 + 3), i * 3);
+        trailOrigins.current.set(base.subarray(i * 3, i * 3 + 3), i * 3);
       } else data.set(next, i * 3);
+      if (refreshTrail) trailOrigins.current.set(data.subarray(i * 3, i * 3 + 3), i * 3);
+      segments.set(trailOrigins.current.subarray(i * 3, i * 3 + 3), i * 6);
+      segments.set(data.subarray(i * 3, i * 3 + 3), i * 6 + 3);
     }
     positions.needsUpdate = true;
+    trails.needsUpdate = true;
   });
-  return <points geometry={geometry} renderOrder={4}>
-    <pointsMaterial color="#dffff0" size={0.037} sizeAttenuation transparent opacity={0.84} depthWrite={false} />
-  </points>;
+  return <>
+    <lineSegments geometry={trailGeometry} renderOrder={3}><lineBasicMaterial color="#bdf8d7" transparent opacity={0.58} depthWrite={false} /></lineSegments>
+    <points geometry={geometry} renderOrder={4}>
+      <pointsMaterial color="#dffff0" size={0.037} sizeAttenuation transparent opacity={0.9} depthWrite={false} />
+    </points>
+  </>;
 }
 
 function GapVectors({ state, scenario }: { state: ChargeState; scenario: ChargeCase }) {
@@ -235,8 +289,7 @@ function PressureArrows({ state, scenario }: { state: ChargeState; scenario: Cha
 }
 
 function NetForceArrows({ state, scenario, step }: { state: ChargeState; scenario: ChargeCase; step: number }) {
-  if (step < 4) return null;
-  const forces = chargeSurfaceForces(state, scenario);
+  const forces = useMemo(() => chargeSurfaceForces(state, scenario), [state.left, state.right, scenario]);
   return <>{[state.left, state.right].map((x, i) => <group key={i}>
     <VectorArrow from={[x, 0, 0.7]} vector={mul(forces[i], 19)} color="#ffffff" width={6} head={0.24} />
     {step === 5 && <VectorArrow from={[x, -0.53, 0.7]}
@@ -246,7 +299,7 @@ function NetForceArrows({ state, scenario, step }: { state: ChargeState; scenari
 }
 
 function SpinProbe({ state, scenario, time }: { state: ChargeState; scenario: ChargeCase; time: number }) {
-  const point: Vec3 = [state.left + 0.86, 0.06, 0.33];
+  const point: Vec3 = [state.left + 1.01, 0.06, 0.38];
   const h = 0.018;
   const p1 = chargeSample([point[0] + h, point[1], point[2]], state, scenario, 'left');
   const p2 = chargeSample([point[0] - h, point[1], point[2]], state, scenario, 'left');
@@ -255,21 +308,21 @@ function SpinProbe({ state, scenario, time }: { state: ChargeState; scenario: Ch
   if (p1.inside || p2.inside || p3.inside || p4.inside) return null;
   const spin = ((p1.velocity[1] - p2.velocity[1]) - (p3.velocity[0] - p4.velocity[0])) / (4 * h);
   const angle = spin * time;
-  const spoke: Vec3 = [point[0] + 0.13 * Math.cos(angle), point[1] + 0.13 * Math.sin(angle), point[2] + 0.02];
+  const spoke: Vec3 = [point[0] + 0.20 * Math.cos(angle), point[1] + 0.20 * Math.sin(angle), point[2] + 0.02];
   return <group>
     <mesh position={point}>
-      <ringGeometry args={[0.15, 0.17, 48]} />
+      <ringGeometry args={[0.22, 0.245, 48]} />
       <meshBasicMaterial color="#f1fff1" side={THREE.DoubleSide} transparent opacity={0.92} />
     </mesh>
-    <FlowRibbon points={[point, add(point, mul([Math.cos(angle), Math.sin(angle), 0], 0.07)), spoke]}
+    <FlowRibbon points={[point, add(point, mul([Math.cos(angle), Math.sin(angle), 0], 0.10)), spoke]}
       color="#f1fff1" width={4} arrowCount={0} />
     <mesh position={spoke}><sphereGeometry args={[0.044, 12, 12]} /><meshBasicMaterial color="#f1fff1" /></mesh>
   </group>;
 }
 
-export function ChargeScene({ state, scenario, step, visualTime, playing, quality, showPressure }: ChargeSceneProps) {
-  const timeBucket = step === 5 ? Math.floor(visualTime * 8) : 0;
-  return <Canvas dpr={quality === 'high' ? [1, 1.5] : 1} camera={{ position: [0, 0.55, 7.1], fov: 42, near: 0.1, far: 40 }}
+export function ChargeScene({ state, startSeparation, scenario, step, visualTime, playing, quality, showPressure }: ChargeSceneProps) {
+  const fieldKey = `${startSeparation}-${step === 5 ? Math.floor(visualTime * 8) : 0}`;
+  return <Canvas dpr={quality === 'high' ? [1, 1.5] : 1} camera={{ position: [0, 3.8, 6.8], fov: 42, near: 0.1, far: 40 }}
     gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}>
     <color attach="background" args={['#061017']} />
     <ambientLight intensity={1.25} />
@@ -278,9 +331,9 @@ export function ChargeScene({ state, scenario, step, visualTime, playing, qualit
     <pointLight color="#ffcf80" intensity={11} distance={8} position={[2, 0.5, 2]} />
     <OrbitControls enablePan={false} enableDamping minDistance={4.4} maxDistance={11} />
     <CubeBoundary />
-    {showPressure && step >= 3 && <PressureSlice state={state} scenario={scenario} timeBucket={timeBucket} quality={quality} />}
-    <FluidTracers state={state} scenario={scenario} step={step} visualTime={visualTime} playing={playing} quality={quality} showPressure={showPressure} />
-    <FlowLines state={state} scenario={scenario} step={step} quality={quality} timeBucket={timeBucket} />
+    {showPressure && step >= 3 && <PressureSlice state={state} scenario={scenario} fieldKey={fieldKey} quality={quality} />}
+    <FluidTracers state={state} startSeparation={startSeparation} scenario={scenario} step={step} visualTime={visualTime} playing={playing} quality={quality} showPressure={showPressure} />
+    <FlowLines state={state} scenario={scenario} step={step} quality={quality} fieldKey={fieldKey} />
     <CirculationGuides state={state} scenario={scenario} step={step} />
     <CoreShape x={state.left} side="left" scenario={scenario} step={step} />
     {step > 1 && <CoreShape x={state.right} side="right" scenario={scenario} step={step} />}
