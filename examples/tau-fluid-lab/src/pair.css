@@ -1,4 +1,10 @@
-.pair-playground .floating-panel { width: 390px; }
+.pair-playground .floating-panel {
+  width: 390px;
+  background: linear-gradient(145deg, rgba(7, 19, 27, .64), rgba(7, 19, 27, .48));
+  backdrop-filter: blur(14px) saturate(1.25);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  box-shadow: 0 18px 50px rgba(1, 8, 13, .28);
+}
 .pair-playground .panel-header { padding-bottom: 17px; }
 .pair-playground .panel-header h1 { color: #f0fbf5; }
 .pair-playground .panel-header p { max-width: 37ch; }

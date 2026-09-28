@@ -151,7 +151,7 @@ function PairPlayground() {
     <div className="scene" aria-label="3D pair of fluid cavities with a sampled tau field">
       <Canvas
         key={compact ? 'compact' : 'wide'}
-        camera={{ position: compact ? [0, -0.7, 10.3] : [0, 0.35, 9.5], fov: 51, near: 0.1, far: 80 }}
+        camera={{ position: compact ? [0, -0.7, 10.3] : [0, 0.35, 9.5], fov: 51, filmOffset: compact ? 0 : 7.5, near: 0.1, far: 80 }}
         dpr={[1, 1.75]}
         gl={{ antialias: true, alpha: false }}
       >
