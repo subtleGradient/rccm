@@ -10,6 +10,10 @@ export const CAVITY = {
   duration: 18,
 };
 
+export function advanceSceneTime(time: number, delta: number): number {
+  return (time + delta) % CAVITY.duration;
+}
+
 export function cavityDistance(point: Vec3): number {
   const local = unrotate(sub(point, CAVITY.center), CAVITY.yaw, CAVITY.tilt);
   return Math.hypot(Math.hypot(local[0], local[1]) - CAVITY.majorRadius, local[2]) - CAVITY.tubeRadius;

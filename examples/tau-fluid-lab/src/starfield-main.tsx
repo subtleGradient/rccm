@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { FluidStarfield } from './scene';
-import { CAVITY, cavityProjection, makeCavityShellSeeds } from './starfield-cavity';
+import { CAVITY, advanceSceneTime, cavityProjection, makeCavityShellSeeds } from './starfield-cavity';
 import '@fontsource-variable/inter';
 import './starfield.css';
 
@@ -94,8 +94,6 @@ function StarfieldPlayground() {
     query.addEventListener('change', onChange);
     return () => query.removeEventListener('change', onChange);
   }, []);
-  useEffect(() => { if (time >= CAVITY.duration) setPlaying(false); }, [time]);
-
   const onPlay = () => {
     if (!playing && time >= CAVITY.duration) setTime(0);
     setPlaying(value => !value);
@@ -113,7 +111,7 @@ function StarfieldPlayground() {
         gl={{ antialias: true, alpha: false }}
       >
         <color attach="background" args={['#050a10']} />
-        <SceneClock playing={playing} onTick={delta => setTime(value => Math.min(CAVITY.duration, value + delta))} />
+        <SceneClock playing={playing} onTick={delta => setTime(value => advanceSceneTime(value, delta))} />
         {mediumVisible && <FluidStarfield project={cavityVisible ? cavityProjection : undefined} time={time} opacity={0.72} />}
         {mediumVisible && cavityVisible && <FluidStarfield seeds={shellSeeds} project={cavityProjection} time={time} color={selected ? '#e0fff1' : '#b7e3d8'} size={0.057} opacity={0.96} />}
         <OrbitControls target={compact ? [0, -1.4, 0] : [0, 0, 0]} enablePan={false} enableDamping minDistance={5} maxDistance={14} />

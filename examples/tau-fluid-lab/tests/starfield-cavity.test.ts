@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { CAVITY, cavityDistance, cavityProjection, makeCavityShellSeeds } from '../src/starfield-cavity';
+import { CAVITY, advanceSceneTime, cavityDistance, cavityProjection, makeCavityShellSeeds } from '../src/starfield-cavity';
 
 describe('single-cavity visual study', () => {
+  it('wraps playback to the start and retains the elapsed fraction', () => {
+    expect(advanceSceneTime(CAVITY.duration - 0.1, 0.25)).toBeCloseTo(0.15);
+    expect(advanceSceneTime(CAVITY.duration, 0.25)).toBeCloseTo(0.25);
+  });
+
   it('leaves the toroidal interior empty at every playhead position', () => {
     const interior: [number, number, number] = [CAVITY.center[0] + CAVITY.majorRadius, CAVITY.center[1], 0];
     expect(cavityDistance(interior)).toBeLessThan(0);
