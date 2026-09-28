@@ -52,9 +52,9 @@ function makeBody(kind: AtomBody['kind'], serial: number, center: Vec3): AtomBod
   };
 }
 
-export function createAtomSimulation(electrons = 1, initialMotion = 1): AtomSimulation {
+export function createAtomSimulation(electrons = 1, initialMotion = 1, intensity = 1): AtomSimulation {
   const sim: AtomSimulation = {
-    time: 0, bodies: [makeBody('proton', 0, ZERO)], loads: {}, intensity: 1,
+    time: 0, bodies: [makeBody('proton', 0, ZERO)], loads: {}, intensity,
     initialMotion, elasticContacts: true, contacts: 0, nextId: 1, revision: 0,
     observation: newObservation(), fault: null,
   };
@@ -65,6 +65,7 @@ export function createAtomSimulation(electrons = 1, initialMotion = 1): AtomSimu
 
 export function clearObservation(sim: AtomSimulation) {
   sim.observation = newObservation();
+  sim.observation.lastTrace = sim.time;
   sim.revision++;
 }
 
@@ -146,7 +147,7 @@ function resolveContacts(sim: AtomSimulation) {
 function observe(sim: AtomSimulation, dt: number) {
   const observation = sim.observation, n = ATOM.gridSize, extent = ATOM.halfSize;
   const origin = sim.bodies[0].pose.center;
-  const traceNow = sim.time - observation.lastTrace >= ATOM.traceStep;
+  const traceNow = sim.time - observation.lastTrace >= ATOM.traceStep - 1e-9;
   observation.time += dt;
   for (const body of sim.bodies.slice(1)) {
     const point = sub(body.pose.center, origin);
@@ -166,7 +167,7 @@ function observe(sim: AtomSimulation, dt: number) {
       trace.count = Math.min(ATOM.traceLength, trace.count + 1);
     }
   }
-  if (traceNow) observation.lastTrace = sim.time;
+  if (traceNow) observation.lastTrace += ATOM.traceStep;
   observation.revision++;
 }
 

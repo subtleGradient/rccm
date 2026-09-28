@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, type RefObject } from 'react';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { Html, Line } from '@react-three/drei';
 import * as THREE from 'three';
-import { add, length, mul, rotate, sub, type Vec3 } from './model';
+import { add, mul, rotate, sub, type Vec3 } from './model';
 import { PAIR_FIELD } from './pair-field';
 import { VectorArrow } from './pair-visuals';
 import { ATOM, cavityAt, chargeColor, sampleAtomField, sampleAtomPressure, type AtomBody } from './atom-field';
@@ -170,8 +170,8 @@ export function LiveFluidTracers({ simulation, sourceId, count = 260, color = '#
     positions.needsUpdate = lines.needsUpdate = true;
   });
   return <>
-    <lineSegments geometry={trails} renderOrder={2}><lineBasicMaterial color={color} transparent opacity={sourceId ? 0.46 : 0.14} depthWrite={false} /></lineSegments>
-    <points geometry={geometry} renderOrder={3}><pointsMaterial color={color} size={sourceId ? 0.055 : 0.026} transparent opacity={sourceId ? 0.95 : 0.42} depthWrite={false} /></points>
+    <lineSegments geometry={trails} renderOrder={2} frustumCulled={false}><lineBasicMaterial color={color} transparent opacity={sourceId ? 0.46 : 0.14} depthWrite={false} /></lineSegments>
+    <points geometry={geometry} renderOrder={3} frustumCulled={false}><pointsMaterial color={color} size={sourceId ? 0.055 : 0.026} transparent opacity={sourceId ? 0.95 : 0.42} depthWrite={false} /></points>
   </>;
 }
 
@@ -180,6 +180,7 @@ export function OccupancyCloud({ simulation, opacity }: { simulation: Simulation
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(ATOM.gridSize ** 3 * 3), 3));
     g.setAttribute('strength', new THREE.BufferAttribute(new Float32Array(ATOM.gridSize ** 3), 1));
+    g.setDrawRange(0, 0);
     return g;
   }, []);
   const material = useMemo(() => new THREE.ShaderMaterial({
@@ -218,7 +219,7 @@ export function OccupancyCloud({ simulation, opacity }: { simulation: Simulation
     }
     geometry.setDrawRange(0, count); positions.needsUpdate = weights.needsUpdate = true;
   });
-  return <points geometry={geometry} material={material} renderOrder={1} />;
+  return <points geometry={geometry} material={material} renderOrder={1} frustumCulled={false} />;
 }
 
 export function ElectronTrails({ simulation }: { simulation: SimulationRef }) {
@@ -243,14 +244,14 @@ export function ElectronTrails({ simulation }: { simulation: SimulationRef }) {
     }
     geometry.setDrawRange(0, index); positions.needsUpdate = colors.needsUpdate = true;
   });
-  return <lineSegments geometry={geometry} renderOrder={4}><lineBasicMaterial vertexColors transparent opacity={0.68} depthWrite={false} /></lineSegments>;
+  return <lineSegments geometry={geometry} renderOrder={4} frustumCulled={false}><lineBasicMaterial vertexColors transparent opacity={0.68} depthWrite={false} /></lineSegments>;
 }
 
 export function BodyIndicator({ simulation, body, selected, showForce, onSelect }: {
   simulation: SimulationRef; body: AtomBody; selected: boolean; showForce: boolean; onSelect: () => void;
 }) {
   const group = useRef<THREE.Group>(null);
-  const force = simulation.current.loads[body.id]?.force ?? [0, 0, 0];
+  const force: Vec3 = simulation.current.loads[body.id]?.force ?? [0, 0, 0];
   useFrame(() => {
     const live = simulation.current.bodies.find(item => item.id === body.id);
     if (live && group.current) group.current.position.set(...sub(live.pose.center, simulation.current.bodies[0].pose.center));

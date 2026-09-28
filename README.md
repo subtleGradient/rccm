@@ -194,11 +194,13 @@ ledger instrument, **not yet a cavitation or CFD solver**. Run
 The larger [end-goal brief](docs/asymmetric-tensor-graphics.md#L1) remains open.
 
 The [Tau Fluid Lab](examples/tau-fluid-lab/README.md) is a React Three Fiber
-visual prototype with five standalone views: fluid paths, cavity slices,
-a tensor probe, a combined playground, and a guided charge-interaction study.
-The fifth view uses an aligned authored fixture to connect facing flow,
-pressure over each torus surface, and resulting translation. Its core-to-field
-and arbitrary-rotation boundaries are documented beside the app. Run
+visual prototype with eight standalone views: fluid paths, cavity slices,
+a tensor probe, a combined playground, a guided charge study, a coasting
+cavity, a pair encounter, and a continuous proton/electron experiment.
+The new `atom.html` page uses `RCCM-GfX-2.tex` as its current formal reference
+and exposes three tensor slices plus measured electron residence. Its trial
+field and pressure-driven boundary motion do not yet solve atomic orbital
+quantization. Each page documents its implementation boundary. Run
 `npm ci` and `npm run dev` in `examples/tau-fluid-lab/` to explore it locally.
 
 ## Run the executable experiment

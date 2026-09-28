@@ -1,6 +1,6 @@
 # Tau Fluid Lab
 
-Seven standalone React Three Fiber studies use reusable field and scene components:
+Eight standalone React Three Fiber studies use reusable field and scene components:
 
 | Page | Use |
 |---|---|
@@ -11,8 +11,9 @@ Seven standalone React Three Fiber studies use reusable field and scene componen
 | `charge.html` | Walk through circulation, gap flow, static pressure, surface pushes, and released motion. Flip the right charge in one aligned fixture. |
 | `starfield.html` | Watch one coasting cavity revealed by fluid markers and entrained medium. |
 | `pair.html` | Explore a conjugate winding field with fluid paths, gap probe, pressure slice, tensor, and calculated boundary motion. |
+| `atom.html` | Run one proton proxy and 0–8 electrons continuously; inspect three perpendicular tensor slices, recent paths, and measured residence. |
 
-The index at `/` links the seven pages. The four original studies carry their pair settings in the URL when moving among them. The charge study starts with a separate aligned fixture; the single-cavity and pair-field pages are separate component playgrounds.
+The index at `/` links all eight pages. The four original studies carry their pair settings in the URL when moving among them. The charge study starts with a separate aligned fixture; the single-cavity, pair-field, and proton/electron pages are separate component playgrounds.
 
 ## Run
 
@@ -25,7 +26,7 @@ npm test
 npm run build
 ```
 
-Vite serves the index and seven HTML entries. The build writes static files to `dist/`.
+Vite serves the index and eight study HTML entries. The build writes static files to `dist/`.
 
 ## What the toy computes
 
@@ -73,6 +74,28 @@ Boundary arrows show the local change in static-pressure push relative to each i
 
 Playback loops at ten seconds. The first page load and each later loop independently randomize both cavities' starting directions over 3D space, plus small initial yaw and tilt angular velocities. The orientation then evolves through its own angular inertia and the calculated boundary torque. Winding signs and initial separation stay fixed for the selected scenario. The panel displays the starting angles and rates used for the current loop. If the trial predicts first contact before ten seconds, the pair holds its contact pose until the loop restarts. The focused TeX also sketches possible pre-contact orbital deflection. The page does not supply a solved charged-cavity initial/boundary value problem or a physical electron–positron annihilation calculation.
 
+## Continuous proton and electron experiment
+
+`atom.html` leaves the existing pair page unchanged. For this experiment, the user identifies `RCCM-GfX-2.tex` as the newer formal source. Its §§2–3 supply the pressure ledger and comoving matrix, §5 the stress-divergence route, and §16.2 the proposed orbital confinement and standing-wave/action constraints. The older condensed document's proton-topology description is not used to complete this branch.
+
+The page starts with one freely moving +1 proton proxy and one electron. Add/remove controls cover the proton alone, one electron, two electrons, and up to eight electrons without restarting the clock. Each insertion and new run independently randomizes position, yaw, tilt, angular velocity, and the plane and magnitude of its initial tangential velocity. The starting-motion slider includes release from rest. A 1× starting kick estimates local turning balance from the isolated proton's calculated inward pressure force; it does not constrain the subsequent trajectory. The illustrative proton inertia is 32 times the electron's, with equally enlarged torus geometry. The view follows the translating proton, while its world velocity remains visible in the inspector.
+
+The field extends the pair's radial charge-slip hypothesis to N sources. It sums all signed charge-slip vectors before computing `P_static = max(0.08, P_c − ΔP_macro − ½ρτ |Σv_charge|²)`. Translation and rotation advance with pressure traction integrated around each boundary after subtracting its isolated load. A fixed 1/120 scene-second kick–drift–kick step runs continuously; slow rendering slows simulated time instead of taking arbitrarily large steps. There is no outer wall, periodic wrap, forced return, damping, ongoing random forcing, or prescribed orbital curve. An optional elastic impulse and overlap correction at sampled torus contact is an explicit prototype contact rule, not a model of quantum scattering, annihilation, or the proposed helicity-confinement mechanism. A non-finite numerical state stops with a visible notice instead of silently resetting.
+
+The pressure closure remains selective: local poloidal/rotational flow appears in tracers and tensor readings, but only charge slip consumes the pressure budget used for motion. The three independently movable cuts sample this same current state:
+
+| Plane | Reading | Palette and range |
+|---|---|---|
+| XY | `q = P_static/P_c = −S00` | Violet → purple → teal; current fluid-pixel minimum to maximum. |
+| XZ | `A0y = −α v⊥,y` in normalized units | Blue → gray → yellow; symmetric range about zero. |
+| YZ | `Ayz = −α t_p Ωx` | Mint → gray → coral; symmetric range about zero. |
+
+Zero stays gray on signed maps; those colors are component signs, not charge identity. Slice legends report their live ranges. Cavities mask the textures, and clicking a slice inspects the full local matrix. The figures use the existing torus geometry, vortex sampler, starfield, vector arithmetic, tensor adapter, and force-arrow component. The N-source sampler, incremental integrator, observation recorder, and live slices are isolated in new modules.
+
+The visit cloud accumulates measured electron-center residence on a 36³ grid in the translating, non-rotating proton frame. Brightness uses log-scaled residence; blank cells are unvisited, not inferred forbidden regions. A radial profile divides dwell time by shell volume. Recent paths retain approximately 20 scene seconds per electron; the residence totals persist for the current observation session in fixed-size arrays. Electron population, flow-strength, and contact-rule edits clear observations to avoid blending different experiments; manually clearing observations preserves motion and scene time. Escaped electrons remain simulated and their time outside the observation cube is reported. The camera can zoom out to see them.
+
+This is an exploratory dynamical field toy, not a completed atomic RCCM solver. It has no solved full fluid PDE, proton boundary state, no-flux enforcement, full fluid/defect momentum exchange, helicity confinement, or quantized standing waves. No s/p/d shapes or shell radii are encoded. A familiar-looking visit cloud would be a result of this trial model, not an independently recovered atomic orbital. Per the prototype instructions, this addition was not subjected to tests or browser/layout QA.
+
 ## Implementation map
 
 - `src/model.ts`: pure geometry, field sampling, pressure ledger, tensor, parcel and streamline tracing.
@@ -84,6 +107,8 @@ Playback loops at ten seconds. The first page load and each later loop independe
 - `src/playground-controls.tsx`: playback and scene clock shared by the component playgrounds.
 - `src/pair-field.ts`: charge winding hypothesis, field sampler, pressure and tensor, boundary traction, and deterministic motion.
 - `src/pair-particles.tsx`, `src/pair-visuals.tsx`, and `src/pair-main.tsx`: particles, probe, pressure and force views, and the pair playground.
+- `src/atom-field.ts` and `src/atom-simulation.ts`: N-source field, continuous boundary motion, explicit contact rule, and bounded residence recording.
+- `src/atom-visuals.tsx`, `src/atom-main.tsx`, and `src/atom.css`: live tracers, three signed/scalar slices, observed cloud, and proton/electron controls.
 - `src/style.css`: luminous-fluid visual language and responsive layout.
 
 The volume uses a sampled 3D texture and ray integration, adapted conceptually from [Tau Tank](../tau-tank/README.md). Slice contours, traces, and glyphs follow visualization operations used in ParaView and OpenFOAM. The control named **Display quality** changes sampling and line density while preserving the selected path and probe's field reading.
