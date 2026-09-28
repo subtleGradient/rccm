@@ -5,7 +5,7 @@ export default defineConfig({
   server: { watch: { usePolling: true, interval: 300 } },
   build: {
     rollupOptions: {
-      input: Object.fromEntries(['index', 'flow', 'cavities', 'tensor', 'playground', 'charge'].map(name => [name, resolve(import.meta.dirname, `${name}.html`)])),
+      input: Object.fromEntries(['index', 'flow', 'cavities', 'tensor', 'playground', 'charge', 'starfield'].map(name => [name, resolve(import.meta.dirname, `${name}.html`)])),
     },
   },
 });

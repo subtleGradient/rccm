@@ -256,11 +256,11 @@ function PathlineLayer({ settings, time, tagged, quality, dragging }: { settings
   </>;
 }
 
-function MediumTracers({ settings, timeRef, playingRef, quality, opacity }: {
-  settings: PairSettings; timeRef: React.RefObject<number>; playingRef: React.RefObject<boolean>;
-  quality: 'low' | 'high'; opacity: number;
+export function FluidStarfield({ settings, timeRef, playingRef, quality = 'high', opacity = 1 }: {
+  settings?: PairSettings; timeRef?: React.RefObject<number>; playingRef?: React.RefObject<boolean>;
+  quality?: 'low' | 'high'; opacity?: number;
 }) {
-  const count = quality === 'high' ? 540 : 280;
+  const count = settings ? (quality === 'high' ? 540 : 280) : (quality === 'high' ? 2400 : 1200);
   const initial = useMemo(() => {
     const data = new Float32Array(count * 3);
     let seed = 829141;
@@ -268,8 +268,10 @@ function MediumTracers({ settings, timeRef, playingRef, quality, opacity }: {
     for (let i = 0; i < count; i++) {
       let point: Vec3 = [0, 0, 0];
       for (let attempt = 0; attempt < 12; attempt++) {
-        point = [(random() * 2 - 1) * 2.06, (random() * 2 - 1) * 1.55, (random() * 2 - 1) * 1.2];
-        if (!sampleField(point, 0, settings).inside) break;
+        point = settings
+          ? [(random() * 2 - 1) * 2.06, (random() * 2 - 1) * 1.55, (random() * 2 - 1) * 1.2]
+          : [(random() * 2 - 1) * 3.6, (random() * 2 - 1) * 2.4, (random() * 2 - 1) * 2.8];
+        if (!settings || !sampleField(point, 0, settings).inside) break;
       }
       data.set(point, i * 3);
     }
@@ -281,6 +283,7 @@ function MediumTracers({ settings, timeRef, playingRef, quality, opacity }: {
     return result;
   }, [initial]);
   const trails = useMemo(() => {
+    if (!settings) return null;
     const result = new THREE.BufferGeometry();
     const segments = new Float32Array(count * 6);
     for (let i = 0; i < count; i++) {
@@ -289,13 +292,13 @@ function MediumTracers({ settings, timeRef, playingRef, quality, opacity }: {
     }
     result.setAttribute('position', new THREE.BufferAttribute(segments, 3));
     return result;
-  }, [initial, count]);
+  }, [initial, count, settings]);
   const trailOrigins = useRef<Float32Array>(initial.slice());
   const frames = useRef(0);
   useEffect(() => { trailOrigins.current = initial.slice(); frames.current = 0; }, [initial]);
-  useEffect(() => () => { geometry.dispose(); trails.dispose(); }, [geometry, trails]);
+  useEffect(() => () => { geometry.dispose(); trails?.dispose(); }, [geometry, trails]);
   useFrame((_, delta) => {
-    if (!playingRef.current) return;
+    if (!settings || !timeRef || !playingRef?.current || !trails) return;
     const points = geometry.getAttribute('position') as THREE.BufferAttribute;
     const pointData = points.array as Float32Array;
     const lines = trails.getAttribute('position') as THREE.BufferAttribute;
@@ -323,8 +326,8 @@ function MediumTracers({ settings, timeRef, playingRef, quality, opacity }: {
     lines.needsUpdate = true;
   });
   return <>
-    <lineSegments geometry={trails} renderOrder={4}><lineBasicMaterial color="#bbf5df" transparent opacity={Math.min(0.7, opacity * 0.38)} depthWrite={false} /></lineSegments>
-    <points geometry={geometry} renderOrder={5}><pointsMaterial color="#e5fff1" size={0.037} transparent opacity={Math.min(0.94, opacity * 0.7)} depthWrite={false} /></points>
+    {trails && <lineSegments geometry={trails} renderOrder={4}><lineBasicMaterial color="#bbf5df" transparent opacity={Math.min(0.7, opacity * 0.38)} depthWrite={false} /></lineSegments>}
+    <points geometry={geometry} renderOrder={5}><pointsMaterial color="#e5fff1" size={settings ? 0.037 : 0.034} transparent opacity={settings ? Math.min(0.94, opacity * 0.7) : opacity} depthWrite={false} /></points>
   </>;
 }
 
@@ -420,7 +423,7 @@ export function FluidViewport(props: {
     <OrbitControls enabled={!dragging} enablePan={false} enableDamping dampingFactor={0.07} minDistance={4.6} maxDistance={12.5} />
     <CubeBoundary />
     <TauVolume settings={settings} time={time} opacity={opacity} layers={layers} sliceAxis={sliceAxis} sliceOffset={sliceOffset} study={study} quality={quality} />
-    {layers.volume && <MediumTracers settings={settings} timeRef={timeRef} playingRef={playingRef} quality={quality} opacity={opacity} />}
+    {layers.volume && <FluidStarfield settings={settings} timeRef={timeRef} playingRef={playingRef} quality={quality} opacity={opacity} />}
     {layers.slice && <SlicePlane settings={settings} time={time} axis={sliceAxis} offset={sliceOffset} quality={quality} />}
     {layers.paths && <PathlineLayer settings={settings} time={time} tagged={tagged} quality={quality} dragging={dragging} />}
     {layers.streamlines && <StreamlineLayer settings={settings} time={time} quality={quality} />}
