@@ -165,6 +165,11 @@ signed normal electric flux and its local divergence, keeping physical
 electric-field calibration distinct from dimensionless e and material
 transport. GfX §10.6 names boundary winding as polarity but still owes its
 calculation and connection to that enclosing electrical measurement.
+Tom then proposes paired left/right samples around each of two cavities.
+This advances to comparing spatial patterns: for a radial field dominated
+by the nearby cavity, positive gives outward readings on both sides and
+negative gives inward readings. Four isolated samples still need justified
+symmetry to stand in for a closed-surface measurement.
 
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
