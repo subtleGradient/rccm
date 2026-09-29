@@ -1,149 +1,128 @@
-import { add, dot, length, mul, normalize, rotate, sub, unrotate, type Vec3 } from './model';
-import { boundaryPoint, PAIR_FIELD, torusSignedDistance } from './pair-field';
-import { ATOM, cross, integrateAtomLoads, ZERO, type AtomBody, type BodyLoad } from './atom-field';
+import { add, length, mul, normalize, sub, type Vec3 } from './model';
+import { ATOM, ZERO, type AtomBody, type BodyLoad } from './atom-field';
+import { orbitalGradient, sampleOrbital, type Orbital } from './atom-orbitals';
 
 export type VisitTrace = { points: Vec3[]; head: number; count: number };
 export type Observation = {
-  cells: Float64Array;
-  radial: Float64Array;
-  traces: Record<string, VisitTrace>;
-  time: number;
-  insideTime: number;
-  outsideTime: number;
-  occupied: number;
-  revision: number;
-  lastTrace: number;
+  cells: Float64Array; radial: Float64Array; traces: Record<string, VisitTrace>;
+  time: number; insideTime: number; outsideTime: number; occupied: number; revision: number; lastTrace: number;
 };
 export type AtomSimulation = {
-  time: number;
-  bodies: AtomBody[];
-  loads: Record<string, BodyLoad>;
-  intensity: number;
-  initialMotion: number;
-  elasticContacts: boolean;
-  contacts: number;
-  nextId: number;
-  revision: number;
-  observation: Observation;
-  fault: string | null;
+  time: number; bodies: AtomBody[]; loads: Record<string, BodyLoad>; intensity: number;
+  motionRate: number; avoidance: number; interpretation: number; nextId: number;
+  revision: number; observation: Observation; fault: string | null;
 };
-
 const randomDirection = (): Vec3 => {
-  const z = Math.random() * 2 - 1, azimuth = Math.random() * Math.PI * 2, r = Math.sqrt(1 - z * z);
-  return [r * Math.cos(azimuth), r * Math.sin(azimuth), z];
+  const z = Math.random() * 2 - 1, phi = Math.random() * Math.PI * 2, r = Math.sqrt(1 - z * z);
+  return [r * Math.cos(phi), r * Math.sin(phi), z];
 };
+const gaussian = () => Math.sqrt(-2 * Math.log(Math.max(1e-10, Math.random()))) * Math.cos(Math.random() * Math.PI * 2);
+const limited = (v: Vec3, max: number) => mul(v, Math.min(1, max / Math.max(length(v), 1e-8)));
 const newObservation = (): Observation => ({
   cells: new Float64Array(ATOM.gridSize ** 3), radial: new Float64Array(ATOM.radialBins),
   traces: {}, time: 0, insideTime: 0, outsideTime: 0, occupied: 0, revision: 0, lastTrace: 0,
 });
-
-function makeBody(kind: AtomBody['kind'], serial: number, center: Vec3): AtomBody {
-  const massRatio = kind === 'proton' ? ATOM.protonMassRatio : 1;
+function makeBody(kind: AtomBody['kind'], serial: number, center: Vec3, orbital: Orbital = '1s'): AtomBody {
+  const ratio = kind === 'proton' ? ATOM.protonMassRatio : 1;
   return {
     id: kind === 'proton' ? 'proton' : `electron-${serial}`,
-    name: kind === 'proton' ? 'Proton proxy' : `Electron ${serial}`,
-    kind, mass: ATOM.electronMass * massRatio, inertia: ATOM.electronInertia * massRatio,
-    pose: {
-      id: kind === 'proton' ? 'positive' : 'negative', winding: kind === 'proton' ? 1 : -1,
-      center, velocity: ZERO, yaw: (Math.random() * 2 - 1) * Math.PI,
-      tilt: Math.asin(Math.random() * 2 - 1), spin: Math.random() * 2 * Math.PI,
-      angularVelocity: mul(randomDirection(), 0.045 + Math.random() * 0.04),
-    },
+    name: kind === 'proton' ? 'Proton · trefoil cavity' : `Electron ${serial}`, kind, orbital,
+    mass: ATOM.electronMass * ratio, inertia: ATOM.electronInertia * ratio,
+    pose: { id: kind === 'proton' ? 'positive' : 'negative', winding: kind === 'proton' ? 1 : -1,
+      center, velocity: kind === 'proton' ? ZERO : mul(randomDirection(), 0.7),
+      yaw: (Math.random() * 2 - 1) * Math.PI, tilt: Math.asin(Math.random() * 2 - 1), spin: Math.random() * 2 * Math.PI,
+      angularVelocity: mul(randomDirection(), 0.08 + Math.random() * 0.16) },
   };
 }
-
-export function createAtomSimulation(electrons = 1, initialMotion = 1, intensity = 1): AtomSimulation {
-  const sim: AtomSimulation = {
-    time: 0, bodies: [makeBody('proton', 0, ZERO)], loads: {}, intensity,
-    initialMotion, elasticContacts: true, contacts: 0, nextId: 1, revision: 0,
-    observation: newObservation(), fault: null,
-  };
+function initialPosition(orbital: Orbital, sim: AtomSimulation): Vec3 {
+  let point: Vec3 = [3, 0, 0];
+  for (let attempt = 0; attempt < 300; attempt++) {
+    point = sampleOrbital(orbital);
+    if (length(point) < 1.7 || point.some(v => Math.abs(v) > ATOM.halfSize * 0.88)) continue;
+    if (sim.bodies.slice(1).every(body => length(sub(add(point, sim.bodies[0].pose.center), body.pose.center)) > 1.5)) break;
+  }
+  return add(point, sim.bodies[0].pose.center);
+}
+export function createAtomSimulation(electrons = 2, motionRate = 1, intensity = 1): AtomSimulation {
+  const sim: AtomSimulation = { time: 0, bodies: [makeBody('proton', 0, ZERO)], loads: { proton: { force: ZERO, torque: ZERO } },
+    intensity, motionRate, avoidance: 0.8, interpretation: 0.65, nextId: 1, revision: 0, observation: newObservation(), fault: null };
   for (let i = 0; i < electrons; i++) addElectron(sim);
-  sim.loads = integrateAtomLoads(sim.bodies, sim.intensity);
   return sim;
 }
-
 export function clearObservation(sim: AtomSimulation) {
-  sim.observation = newObservation();
-  sim.observation.lastTrace = sim.time;
-  sim.revision++;
+  sim.observation = newObservation(); sim.observation.lastTrace = sim.time; sim.revision++;
 }
-
-export function addElectron(sim: AtomSimulation): string | null {
+export function addElectron(sim: AtomSimulation, orbital: Orbital = '1s'): string | null {
   if (sim.bodies.length > ATOM.maxElectrons) return null;
-  const proton = sim.bodies[0];
-  let position: Vec3 = ZERO;
-  let placed = false;
-  for (let attempt = 0; attempt < 160; attempt++) {
-    const radius = 2.25 + Math.random() * (attempt < 100 ? 0.75 : 1.7);
-    position = add(proton.pose.center, mul(randomDirection(), radius));
-    if (sim.bodies.every(body => length(sub(position, body.pose.center)) > 1.9)) { placed = true; break; }
-  }
-  if (!placed) return null;
-  const body = makeBody('electron', sim.nextId++, position);
-  const radial = normalize(sub(position, proton.pose.center));
-  const pairForce = integrateAtomLoads([proton, body], sim.intensity)[body.id].force;
-  const acceleration = Math.max(0, -dot(pairForce, radial) / body.mass);
-  // A randomized tangential starting kick, chosen from the current inward
-  // pressure acceleration. This is an initial condition, not an orbit track.
-  let tangent = cross(radial, randomDirection());
-  if (length(tangent) < 0.01) tangent = cross(radial, Math.abs(radial[0]) < 0.8 ? [1, 0, 0] : [0, 1, 0]);
-  const speed = Math.sqrt(acceleration * length(sub(position, proton.pose.center)))
-    * sim.initialMotion * (0.85 + Math.random() * 0.3);
-  body.pose.velocity = add(proton.pose.velocity, mul(normalize(tangent), speed));
-  // The laboratory insertion supplies a paired impulse; the proton is free.
-  proton.pose.velocity = sub(proton.pose.velocity, mul(sub(body.pose.velocity, proton.pose.velocity), body.mass / proton.mass));
-  sim.bodies.push(body);
-  sim.loads = integrateAtomLoads(sim.bodies, sim.intensity);
-  clearObservation(sim);
-  return body.id;
+  const body = makeBody('electron', sim.nextId++, initialPosition(orbital, sim), orbital);
+  sim.bodies.push(body); sim.loads[body.id] = { force: ZERO, torque: ZERO };
+  clearObservation(sim); return body.id;
 }
-
 export function removeElectron(sim: AtomSimulation, id?: string) {
   const target = id ?? sim.bodies.at(-1)?.id;
   if (!target || target === 'proton') return;
-  sim.bodies = sim.bodies.filter(body => body.id !== target);
-  sim.loads = integrateAtomLoads(sim.bodies, sim.intensity);
+  sim.bodies = sim.bodies.filter(body => body.id !== target); delete sim.loads[target]; clearObservation(sim);
+}
+export function setOrbital(sim: AtomSimulation, id: string, orbital: Orbital) {
+  const body = sim.bodies.find(item => item.id === id);
+  if (!body || body.kind !== 'electron') return;
+  body.orbital = orbital; body.pose.center = initialPosition(orbital, sim); body.pose.velocity = mul(randomDirection(), 0.7);
   clearObservation(sim);
 }
 
-function boundaryNormal(point: Vec3, body: AtomBody): Vec3 {
-  const local = unrotate(sub(point, body.pose.center), body.pose.yaw, body.pose.tilt);
-  const radius = Math.hypot(local[0], local[1]) || 1e-8;
-  return normalize(rotate([
-    local[0] / radius * (radius - PAIR_FIELD.majorRadius),
-    local[1] / radius * (radius - PAIR_FIELD.majorRadius), local[2],
-  ], body.pose.yaw, body.pose.tilt));
-}
-
-function resolveContacts(sim: AtomSimulation) {
-  // Explicit elastic contact rule for this prototype, not electron scattering
-  // or the TeX's proposed helicity mechanism. There are no outer box walls.
-  for (let i = 0; i < sim.bodies.length; i++) for (let j = i + 1; j < sim.bodies.length; j++) {
-    const a = sim.bodies[i], b = sim.bodies[j];
-    if (length(sub(a.pose.center, b.pose.center)) > 1.84) continue;
-    let penetration = 0, normal: Vec3 = ZERO;
-    for (const [source, target, sign] of [[a, b, 1], [b, a, -1]] as const) {
-      for (let u = 0; u < 16; u++) for (let v = 0; v < 8; v++) {
-        const point = boundaryPoint(source.pose, u * Math.PI / 8, v * Math.PI / 4).point;
-        const depth = 0.012 - torusSignedDistance(point, target.pose);
-        if (depth > penetration) { penetration = depth; normal = mul(boundaryNormal(point, target), sign); }
-      }
+export function stepAtomSimulation(sim: AtomSimulation, dt = ATOM.step) {
+  if (sim.fault) return;
+  const previous = sim.bodies.map(body => ({ ...body, pose: { ...body.pose } }));
+  const proton = sim.bodies[0], electrons = sim.bodies.slice(1), h = dt * sim.motionRate;
+  const relative = electrons.map(body => sub(body.pose.center, proton.pose.center));
+  const velocities = electrons.map(body => sub(body.pose.velocity, proton.pose.velocity));
+  const forces = relative.map((point, i) => {
+    let force = mul(orbitalGradient(point, electrons[i].orbital), 0.9);
+    const r = Math.max(length(point), 0.01);
+    // Clearance around the deliberately enlarged knot; a visual constraint.
+    if (r < 1.65) force = add(force, mul(point, (1.65 - r) * 24 / r));
+    for (let j = 0; j < relative.length; j++) if (i !== j) {
+      const difference = sub(point, relative[j]), distance = Math.max(0.08, length(difference));
+      force = add(force, mul(difference, sim.avoidance * 2.2 * Math.exp(-distance * distance / 5) / (distance * distance + 0.18)));
+      if (distance < 1.3) force = add(force, mul(difference, (1.3 - distance) * 14 / distance));
     }
-    if (penetration <= 0) continue;
-    const inverseA = 1 / a.mass, inverseB = 1 / b.mass, inverseSum = inverseA + inverseB;
-    a.pose.center = add(a.pose.center, mul(normal, penetration * inverseA / inverseSum));
-    b.pose.center = sub(b.pose.center, mul(normal, penetration * inverseB / inverseSum));
-    const approaching = dot(sub(a.pose.velocity, b.pose.velocity), normal);
-    if (approaching < 0) {
-      const impulse = -2 * approaching / inverseSum;
-      a.pose.velocity = add(a.pose.velocity, mul(normal, impulse * inverseA));
-      b.pose.velocity = sub(b.pose.velocity, mul(normal, impulse * inverseB));
-      sim.contacts++;
-    }
+    return limited(force, 10);
+  });
+  // Langevin-style, orbitally guided wandering. Its friction/noise are an
+  // animation mechanism, not thermal electron collisions. No prescribed ring.
+  const damping = Math.exp(-1.05 * h), noise = Math.sqrt(0.9 * (1 - damping * damping));
+  for (let i = 0; i < electrons.length; i++) {
+    const velocity = add(mul(add(velocities[i], mul(forces[i], h)), damping), [gaussian() * noise, gaussian() * noise, gaussian() * noise]);
+    velocities[i] = limited(velocity, 3.8);
+    relative[i] = add(relative[i], mul(velocities[i], h));
+    sim.loads[electrons[i].id] = { force: mul(forces[i], electrons[i].mass), torque: ZERO };
   }
+  // Draw both species around their common center of mass. The enlarged 32:1
+  // ratio makes recoil visible; it is not the measured proton/electron ratio.
+  const mass = sim.bodies.reduce((sum, body) => sum + body.mass, 0);
+  let moment: Vec3 = ZERO, meanVelocity: Vec3 = ZERO;
+  for (let i = 0; i < electrons.length; i++) {
+    moment = add(moment, mul(relative[i], electrons[i].mass));
+    meanVelocity = add(meanVelocity, mul(velocities[i], electrons[i].mass));
+  }
+  proton.pose.center = mul(moment, -1 / mass); proton.pose.velocity = mul(meanVelocity, -1 / mass);
+  let reaction: Vec3 = ZERO;
+  for (let i = 0; i < electrons.length; i++) {
+    electrons[i].pose.center = add(proton.pose.center, relative[i]);
+    electrons[i].pose.velocity = add(proton.pose.velocity, velocities[i]);
+    reaction = sub(reaction, sim.loads[electrons[i].id].force);
+  }
+  sim.loads.proton = { force: reaction, torque: ZERO };
+  for (const body of sim.bodies) {
+    body.pose.tilt += body.pose.angularVelocity[0] * h;
+    body.pose.yaw += body.pose.angularVelocity[1] * h;
+    body.pose.spin += body.pose.angularVelocity[2] * h;
+  }
+  if (sim.bodies.some(body => [...body.pose.center, ...body.pose.velocity].some(value => !Number.isFinite(value)))) {
+    sim.bodies = previous; sim.fault = 'The animation state stopped. Start a new run to continue.'; return;
+  }
+  sim.time += dt; sim.revision++; observe(sim, dt);
 }
-
 function observe(sim: AtomSimulation, dt: number) {
   const observation = sim.observation, n = ATOM.gridSize, extent = ATOM.halfSize;
   const origin = sim.bodies[0].pose.center;
@@ -171,36 +150,6 @@ function observe(sim: AtomSimulation, dt: number) {
   observation.revision++;
 }
 
-export function stepAtomSimulation(sim: AtomSimulation, dt = ATOM.step) {
-  if (sim.fault) return;
-  const previous = sim.bodies.map(body => ({ ...body, pose: { ...body.pose } }));
-  // Kick–drift–kick keeps free motion and pressure impulses separate. All
-  // loads come from the shared instantaneous field, with no shell presets.
-  for (const body of sim.bodies) {
-    const load = sim.loads[body.id];
-    body.pose.velocity = add(body.pose.velocity, mul(load.force, dt / (2 * body.mass)));
-    body.pose.angularVelocity = add(body.pose.angularVelocity, mul(load.torque, dt / (2 * body.inertia)));
-    body.pose.center = add(body.pose.center, mul(body.pose.velocity, dt));
-    body.pose.tilt += body.pose.angularVelocity[0] * dt;
-    body.pose.yaw += body.pose.angularVelocity[1] * dt;
-    body.pose.spin += body.pose.angularVelocity[2] * dt;
-  }
-  if (sim.elasticContacts) resolveContacts(sim);
-  const loads = integrateAtomLoads(sim.bodies, sim.intensity);
-  for (const body of sim.bodies) {
-    body.pose.velocity = add(body.pose.velocity, mul(loads[body.id].force, dt / (2 * body.mass)));
-    body.pose.angularVelocity = add(body.pose.angularVelocity, mul(loads[body.id].torque, dt / (2 * body.inertia)));
-  }
-  if (sim.bodies.some(body => [...body.pose.center, ...body.pose.velocity, ...body.pose.angularVelocity, body.pose.yaw, body.pose.tilt].some(value => !Number.isFinite(value)))) {
-    sim.bodies = previous;
-    sim.fault = 'The numerical state became non-finite. Start a new run to continue.';
-    return;
-  }
-  sim.loads = loads;
-  sim.time += dt;
-  sim.revision++;
-  observe(sim, dt);
-}
 
 export function orderedTrace(trace: VisitTrace): Vec3[] {
   const first = (trace.head - trace.count + ATOM.traceLength) % ATOM.traceLength;
