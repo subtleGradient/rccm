@@ -100,6 +100,17 @@ connect a conserved cavity winding to a nonzero electric flux while keeping
 the total material flux balanced. The [September 29 notes](log/2026-09/2026-09-29-log.md)
 record the boundary conditions and source-definition conflicts.
 
+Tom's familiar matrix bridge is **CSS transforms**: a shear preserves volume,
+and its inverse cancels it when composed on the same object. Use this as the
+next entrance to continuum deformation: a full 3D block with a shared grid,
+local deformation gradients and compatible adjoining cells. Distinguish
+sequential inverse transforms from opposite shears in separate places;
+zero average shear does not imply zero local deformation or stored energy.
+Then separate the material deformation matrix from GfX's local state tensor:
+CSS's homogeneous fourth coordinate is not time, and ordinary simple shear
+contains both symmetric deformation and an antisymmetric rotation part at
+small strain. Local skew signs are not the global charge winding.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
