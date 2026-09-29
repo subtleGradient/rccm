@@ -156,6 +156,16 @@ snapshots supply the next time bridge: worldline slope records velocity,
 changing slope records coordinate acceleration in a fixed local inertial
 chart, and a steady field can still contain accelerating circulating parcels.
 
+The current charge question separates local components from an enclosed
+quantity. Tom expects charge sign to survive observer changes, but proposes
+assigning opposite charges to patches with opposite slip vectors. Use one
+positive cavity with oppositely directed electric readings on its opposite
+sides, then surround a region with a sampling surface. The next skill is
+signed normal electric flux and its local divergence, keeping physical
+electric-field calibration distinct from dimensionless e and material
+transport. GfX §10.6 names boundary winding as polarity but still owes its
+calculation and connection to that enclosing electrical measurement.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
