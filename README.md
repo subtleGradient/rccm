@@ -111,6 +111,16 @@ CSS's homogeneous fourth coordinate is not time, and ordinary simple shear
 contains both symmetric deformation and an antisymmetric rotation part at
 small strain. Local skew signs are not the global charge winding.
 
+The next observed step is Tom's recognition that the highlighted electric
+slip entries pair time with space, so a frozen CSS deformation is incomplete.
+Use the same 3D shape reached at different animation speeds to distinguish
+displacement from slip velocity. The electric entries track normalized slip
+velocity; the magnetic entries pair spatial directions and track vorticity.
+A steady field value can encode ongoing steady motion. Keep this distinct
+from clock rate: the antisymmetric entries cancel in the same-displacement
+interval contraction, while the shared pressure budget can couple their
+kinematic loads back into the symmetric capacity q.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
