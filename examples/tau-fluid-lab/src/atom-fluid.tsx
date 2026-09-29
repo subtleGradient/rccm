@@ -53,7 +53,7 @@ export function FluidVolume({ simulation, count = 10000, opacity = 0.45 }: { sim
       state.current = { sim, time: sim.time, points: Array.from({ length: count }, (_, i) => {
         // Stratified throughout the entire volume, with no empty outer shell.
         const p: Vec3 = [(i % side + Math.random()) / side, (Math.floor(i / side) % side + Math.random()) / side, (Math.floor(i / (side * side)) + Math.random()) / Math.ceil(count / (side * side))];
-        return add(origin, p.map(v => (v * 2 - 1) * extent) as Vec3);
+        return add(origin, [(p[0] * 2 - 1) * extent, (p[1] * 2 - 1) * extent, (p[2] * 2 - 1) * extent]);
       }) };
     }
     const dt = Math.min(0.08, Math.max(0, sim.time - state.current.time)); state.current.time = sim.time;
@@ -68,11 +68,12 @@ export function FluidVolume({ simulation, count = 10000, opacity = 0.45 }: { sim
       velocity = add(velocity, [0.024 * Math.sin(point[1] * 0.35 + sim.time * 0.1), 0.018 * Math.cos(point[2] * 0.3), 0.022 * Math.sin(point[0] * 0.3)]);
       point = add(point, mul(velocity, dt));
       if (field.inside || cavityAt(point, sim.bodies)) {
-        point = add(origin, [Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1].map(v => v * extent) as Vec3);
+        point = add(origin, [(Math.random() * 2 - 1) * extent, (Math.random() * 2 - 1) * extent, (Math.random() * 2 - 1) * extent]);
       }
       // Tracer replenishment at the viewing boundary is not a fluid wall.
-      const local = sub(point, origin);
-      for (let axis = 0; axis < 3; axis++) local[axis] = ((local[axis] + extent) % (2 * extent) + 2 * extent) % (2 * extent) - extent;
+      const relative = sub(point, origin);
+      const wrap = (value: number) => ((value + extent) % (2 * extent) + 2 * extent) % (2 * extent) - extent;
+      const local: Vec3 = [wrap(relative[0]), wrap(relative[1]), wrap(relative[2])];
       point = state.current.points[i] = add(origin, local);
       if (cavityAt(point, sim.bodies)) continue;
       fluidColor(point, sim, color);

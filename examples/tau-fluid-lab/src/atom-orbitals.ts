@@ -33,8 +33,8 @@ export function orbitalGradient(point: Vec3, orbital: Orbital): Vec3 {
     return mul(point, (-1 / a + 2 * d / (d * d + 0.045)) / r);
   }
   const i = axis(orbital), d = point[i];
-  gradient[i] += 2 * d / (d * d + 0.045);
-  return gradient;
+  const correction = 2 * d / (d * d + 0.045);
+  return [gradient[0] + (i === 0 ? correction : 0), gradient[1] + (i === 1 ? correction : 0), gradient[2] + (i === 2 ? correction : 0)];
 }
 
 // A proposed visual interpretation of avoided regions, deliberately kept
