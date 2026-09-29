@@ -89,3 +89,43 @@
 .atom-plane-label.electric { color: #e3cf9b; }.atom-plane-label.twist { color: #edac9d; }
 .atom-body-label { padding: 3px 6px; border: 1px solid transparent; background: #07132177; border-radius: 4px; font: 10px ui-monospace, monospace; white-space: nowrap; }
 .atom-body-label.selected { border-color: #b1cde64a; background: #102337ad; }
+
+/* The larger volume and its controls share a restrained, translucent surface. */
+.atom-panel { width: 380px; background: rgba(9, 17, 29, .49); }
+.atom-panel .panel-header h1 { font-size: 30px; font-weight: 510; }
+.atom-prototype-tag { display: inline-block; margin-top: 15px; padding: 5px 7px; border: 1px solid #b7c5d526; border-radius: 4px; color: #a3b2c9; font: 9px ui-monospace, monospace; }
+.atom-panel select { max-width: 100%; padding: 6px 8px; color: #cbdbea; background: #172330; border: 1px solid #afc6d526; border-radius: 5px; font-size: 10px; }
+.atom-population-actions select { min-width: 0; flex: 1; }
+.atom-population-actions .atom-primary { flex: none; }
+.atom-body-card { border: 1px solid #afcde11e; border-radius: 7px; background: #96bade04; }
+.atom-body-card.selected { border-color: #b6d8f152; background: #96bade0a; }
+.atom-body-card .atom-body-row { border: 0; background: none; }
+.atom-body-row i.knot { border-radius: 35% 70% 35% 70%; transform: rotate(-30deg); }
+.atom-orbital-select { display: flex; align-items: center; justify-content: space-between; margin: 0 11px 9px 36px; gap: 8px; color: #91a7b7; font-size: 10px; }
+.atom-orbital-select select { flex: 1; min-width: 0; }
+.atom-quick-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 14px; }
+.atom-quick-presets > span { width: 100%; margin-bottom: 2px; color: #859dac; font-size: 9px; }
+.atom-quick-presets button { padding: 6px 9px; border: 1px solid #c5b5ed28; background: #b499e90a; color: #c7bce0; border-radius: 4px; font-size: 10px; }
+.atom-quick-presets button:hover { background: #b499e922; }
+.atom-panel .atom-text-button { padding: 2px 0; border: 0; background: none; color: #a8c7dc; font-size: 10px; cursor: pointer; }
+.atom-slice-control { margin-top: 10px; padding: 12px; border: 1px solid #adc9e01c; border-radius: 7px; background: #829cc909; }
+.atom-slice-control:first-of-type { padding-top: 12px; }
+.atom-slice-control.is-off { background: transparent; }
+.atom-slice-control.is-off > p, .atom-slice-control.is-off > label { opacity: .5; }
+.atom-slice-heading { display: flex; align-items: center; gap: 7px; }
+.atom-axis-badge { font: 11px ui-monospace, monospace; color: #c2cfe0; letter-spacing: .05em; }
+.atom-slice-heading select { flex: 1; min-width: 0; }
+.atom-toggle { border: 1px solid #abbdd229; color: #7e8fa4; background: #53658211; border-radius: 12px; padding: 5px 7px; width: 40px; font: 9px ui-monospace, monospace; }
+.atom-toggle.on { color: #bde8d9; border-color: #82d8b843; background: #58b9991a; }
+.atom-slice-offset { font-size: 10px; }
+.atom-slice-offset output { width: 36px; color: #b6cede; }
+.atom-slice-offset button { padding: 0 3px; border: 0; background: none; color: #9cb6c8; font-size: 15px; }
+.atom-fluid-ramp { display: flex; justify-content: space-between; gap: 4px; padding-top: 13px; background: linear-gradient(90deg, #327bff, #92959f, #ffd347) top / 100% 5px no-repeat; color: #a5b4c3; font-size: 9px; }
+.atom-hypothesis { margin-top: 15px; line-height: 1.5; }
+.atom-mini-legend { display: flex; gap: 12px; margin-top: 13px; color: #94a1b6; font-size: 9px; }
+.atom-mini-legend span { display: flex; gap: 5px; align-items: center; }
+.atom-mini-legend i { width: 5px; height: 5px; border-radius: 50%; }
+.atom-mini-legend .positive { background: #ffd347; }.atom-mini-legend .neutral { background: #92959f; }.atom-mini-legend .negative { background: #327bff; }
+.atom-legends { max-width: calc(100% - 450px); }
+.atom-model-details a { color: #c6b6ee; }
+.atom-body-label { font-size: 11px; }

@@ -26,13 +26,16 @@ export function cavityFrame(point: Vec3, body: AtomBody) {
     center = [ELECTRON_RADIUS * Math.cos(angle), ELECTRON_RADIUS * Math.sin(angle), 0];
     tangent = [-Math.sin(angle), Math.cos(angle), 0];
   } else {
-    let best = Infinity;
+    let best = Infinity, bestX = 0, bestY = 0, bestZ = 0;
     center = segments[0].p; tangent = segments[0].v;
     for (const segment of segments) {
-      const t = Math.max(0, Math.min(1, dot(sub(p, segment.p), segment.v) / segment.v2));
-      const c = add(segment.p, mul(segment.v, t)), d = sub(p, c), d2 = dot(d, d);
-      if (d2 < best) { best = d2; center = c; tangent = normalize(segment.v); }
+      const dx = p[0] - segment.p[0], dy = p[1] - segment.p[1], dz = p[2] - segment.p[2];
+      const t = Math.max(0, Math.min(1, (dx * segment.v[0] + dy * segment.v[1] + dz * segment.v[2]) / segment.v2));
+      const x = segment.p[0] + segment.v[0] * t, y = segment.p[1] + segment.v[1] * t, z = segment.p[2] + segment.v[2] * t;
+      const d2 = (p[0] - x) ** 2 + (p[1] - y) ** 2 + (p[2] - z) ** 2;
+      if (d2 < best) { best = d2; bestX = x; bestY = y; bestZ = z; tangent = segment.v; }
     }
+    center = [bestX, bestY, bestZ]; tangent = normalize(tangent);
   }
   const radial = sub(p, center), distance = length(radial);
   return {

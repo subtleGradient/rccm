@@ -198,9 +198,11 @@ visual prototype with eight standalone views: fluid paths, cavity slices,
 a tensor probe, a combined playground, a guided charge study, a coasting
 cavity, a pair encounter, and a continuous proton/electron experiment.
 The new `atom.html` page uses `RCCM-GfX-2.tex` as its current formal reference
-and exposes three tensor slices plus measured electron residence. Its trial
-field and pressure-driven boundary motion do not yet solve atomic orbital
-quantization. Each page documents its implementation boundary. Run
+and now combines a knotted cavity, a full charge-colored fluid volume, three
+movable slices, and supplied hydrogenic 1s/2s/2p guides. Its wandering motion
+and optional blue avoided-region tint are explicit design assumptions; a
+separate visit cloud records the animated paths. Each page documents its
+implementation boundary. Run
 `npm ci` and `npm run dev` in `examples/tau-fluid-lab/` to explore it locally.
 
 ## Run the executable experiment

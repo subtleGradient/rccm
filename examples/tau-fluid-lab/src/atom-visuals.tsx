@@ -2,19 +2,24 @@ import { useEffect, useMemo, useRef, type RefObject } from 'react';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { Html, Line } from '@react-three/drei';
 import * as THREE from 'three';
-import { add, mul, rotate, sub, type Vec3 } from './model';
+import { add, sub, type Vec3 } from './model';
 import { PAIR_FIELD } from './pair-field';
 import { VectorArrow } from './pair-visuals';
-import { ATOM, cavityAt, chargeColor, sampleAtomField, sampleAtomPressure, type AtomBody } from './atom-field';
+import { ATOM, cavityAt, chargeColor, referenceDensity, sampleAtomField, sampleAtomPressure, slipAppearance, type AtomBody } from './atom-field';
 import { orderedTrace, stepAtomSimulation, type AtomSimulation } from './atom-simulation';
 
 export type SimulationRef = RefObject<AtomSimulation>;
 export type SliceKind = 'pressure' | 'electric' | 'twist';
+export type SliceMetric = 'capacity' | 'slip' | 'twist' | 'orbital';
 export type SliceRange = { low: number; high: number };
 export const SLICES = {
-  pressure: { plane: 'XY', title: 'Remaining pressure', symbol: 'q = −S₀₀', low: '#d737eb', mid: '#6341af', high: '#13d5c0', axis: 'Z', note: 'Violet: less capacity. Teal: more. Rescaled within this slice.' },
-  electric: { plane: 'XZ', title: 'Electric slip', symbol: 'A₀y', low: '#719dff', mid: '#69717e', high: '#f6cf58', axis: 'Y', note: 'Blue / yellow: negative / positive tensor component across this plane. Gray is zero.' },
-  twist: { plane: 'YZ', title: 'Rotational twist', symbol: 'Ayz', low: '#54e6af', mid: '#666676', high: '#ff795f', axis: 'X', note: 'Mint / coral: opposite senses of twist through this plane. Gray is zero.' },
+  pressure: { plane: 'XY', axis: 'Z' }, electric: { plane: 'XZ', axis: 'Y' }, twist: { plane: 'YZ', axis: 'X' },
+} as const;
+export const METRICS = {
+  capacity: { title: 'Remaining capacity', symbol: 'q = −S₀₀', low: '#c33cec', mid: '#47589b', high: '#16d1ae', note: 'Violet is spent capacity; teal is available. Ambient capacity fades clear.' },
+  slip: { title: 'Charge-linked slip', symbol: '− / 0 / +', low: '#327bff', mid: '#92959f', high: '#ffd347', note: 'Blue / gray / yellow: negative influence, balance, positive influence. The same color language as the fluid.' },
+  twist: { title: 'Rotational twist', symbol: 'Ayz', low: '#55dfb0', mid: '#69717e', high: '#fc825e', note: 'Mint and coral show opposite signs of the local Ayz tensor component. Near-zero twist fades clear.' },
+  orbital: { title: 'Orbital reference', symbol: '|ψ|²', low: '#182235', mid: '#836ac2', high: '#e4c7ff', note: 'The supplied hydrogenic probability density. Nodes are empty; this is separate from fluid color.' },
 } as const;
 
 export function AtomClock({ simulation, playing, speed, onUpdate }: {
@@ -37,59 +42,54 @@ export function AtomClock({ simulation, playing, speed, onUpdate }: {
 
 const square: Vec3[] = [[-ATOM.halfSize, -ATOM.halfSize, 0], [ATOM.halfSize, -ATOM.halfSize, 0], [ATOM.halfSize, ATOM.halfSize, 0], [-ATOM.halfSize, ATOM.halfSize, 0], [-ATOM.halfSize, -ATOM.halfSize, 0]];
 
-export function AtomSlice({ simulation, kind, offset, opacity, onProbe, ranges }: {
-  simulation: SimulationRef; kind: SliceKind; offset: number; opacity: number;
+export function AtomSlice({ simulation, kind, metric, offset, opacity, ambient, onProbe, ranges }: {
+  simulation: SimulationRef; kind: SliceKind; metric: SliceMetric; offset: number; opacity: number; ambient: number;
   onProbe: (point: Vec3) => void; ranges: RefObject<Record<SliceKind, SliceRange>>;
 }) {
-  const resolution = kind === 'pressure' ? 96 : 64;
-  const data = useMemo(() => new Uint8Array(resolution ** 2 * 4), [resolution]);
-  const values = useMemo(() => new Float64Array(resolution ** 2), [resolution]);
+  const resolution = 112, design = METRICS[metric];
+  const data = useMemo(() => new Uint8Array(resolution ** 2 * 4), []);
+  const values = useMemo(() => new Float64Array(resolution ** 2), []);
   const texture = useMemo(() => {
-    const result = new THREE.DataTexture(data, resolution, resolution, THREE.RGBAFormat);
-    result.colorSpace = THREE.SRGBColorSpace;
-    result.minFilter = result.magFilter = THREE.LinearFilter;
-    return result;
-  }, [data, resolution]);
+    const t = new THREE.DataTexture(data, resolution, resolution, THREE.RGBAFormat);
+    t.colorSpace = THREE.SRGBColorSpace; t.minFilter = t.magFilter = THREE.LinearFilter; return t;
+  }, [data]);
   useEffect(() => () => texture.dispose(), [texture]);
-  const palette = useMemo(() => [SLICES[kind].low, SLICES[kind].mid, SLICES[kind].high].map(hex => {
-    const packed = parseInt(hex.slice(1), 16);
-    return [packed >> 16, (packed >> 8) & 255, packed & 255];
-  }), [kind]);
-  const elapsed = useRef(1), last = useRef({ sim: null as AtomSimulation | null, revision: -1, offset: NaN });
+  const palette = useMemo(() => [design.low, design.mid, design.high].map(hex => {
+    const packed = parseInt(hex.slice(1), 16); return [packed >> 16, (packed >> 8) & 255, packed & 255];
+  }), [metric]);
+  const elapsed = useRef(1), last = useRef({ sim: null as AtomSimulation | null, revision: -1, settings: '' });
   useFrame((_, delta) => {
     elapsed.current += delta;
-    const sim = simulation.current;
-    const changed = last.current.sim !== sim || last.current.offset !== offset;
-    if (!changed && (elapsed.current < 0.125 || last.current.revision === sim.revision)) return;
-    elapsed.current = 0;
-    last.current = { sim, revision: sim.revision, offset };
+    const sim = simulation.current, settings = `${metric}:${offset}:${ambient}:${sim.intensity}:${sim.interpretation}`;
+    const changed = last.current.sim !== sim || last.current.settings !== settings;
+    if (!changed && (elapsed.current < 0.16 || last.current.revision === sim.revision)) return;
+    elapsed.current = 0; last.current = { sim, revision: sim.revision, settings };
     const origin = sim.bodies[0].pose.center;
     let low = Infinity, high = -Infinity;
     for (let y = 0; y < resolution; y++) for (let x = 0; x < resolution; x++) {
-      const u = ((x + 0.5) / resolution * 2 - 1) * ATOM.halfSize;
-      const v = ((y + 0.5) / resolution * 2 - 1) * ATOM.halfSize;
+      const u = ((x + 0.5) / resolution * 2 - 1) * ATOM.halfSize, v = ((y + 0.5) / resolution * 2 - 1) * ATOM.halfSize;
       const local: Vec3 = kind === 'pressure' ? [u, v, offset] : kind === 'electric' ? [u, offset, -v] : [offset, v, -u];
       const point = add(origin, local), index = x + y * resolution;
       if (cavityAt(point, sim.bodies)) { values[index] = NaN; continue; }
-      let value: number;
-      if (kind === 'pressure') value = sampleAtomPressure(point, sim.bodies, sim.intensity) / PAIR_FIELD.pressureCapacity;
-      else {
-        const field = sampleAtomField(point, sim.bodies, sim.intensity);
-        value = kind === 'electric' ? -field.e[1] : -field.b[0];
-      }
-      values[index] = value;
-      low = Math.min(low, value); high = Math.max(high, value);
+      const value = metric === 'capacity' ? sampleAtomPressure(point, sim.bodies, sim.intensity) / PAIR_FIELD.pressureCapacity
+        : metric === 'slip' ? slipAppearance(point, sim.bodies, sim.intensity, sim.interpretation).balance
+        : metric === 'orbital' ? referenceDensity(point, sim.bodies) : -sampleAtomField(point, sim.bodies, sim.intensity).b[0];
+      values[index] = value; low = Math.min(low, value); high = Math.max(high, value);
     }
     if (!Number.isFinite(low)) { low = 0; high = 0; }
-    if (kind !== 'pressure') { high = Math.max(Math.abs(low), Math.abs(high)); low = -high; }
+    if (metric === 'slip' || metric === 'twist') { high = Math.max(Math.abs(low), Math.abs(high)); low = -high; }
     ranges.current[kind] = { low, high };
+    const baseline = 1 - PAIR_FIELD.macroPressure / PAIR_FIELD.pressureCapacity;
     for (let i = 0; i < values.length; i++) {
       const value = values[i], base = i * 4;
       if (!Number.isFinite(value)) { data.fill(0, base, base + 4); continue; }
-      const t = high > low ? (value - low) / (high - low) : 0.5;
+      let t = high > low ? (value - low) / (high - low) : 0.5;
+      if (metric === 'orbital') t = Math.sqrt(Math.max(0, value) / Math.max(high, 1e-12));
       const half = t < 0.5 ? 0 : 1, blend = half === 0 ? t * 2 : t * 2 - 1;
       for (let c = 0; c < 3; c++) data[base + c] = Math.round(palette[half][c] + (palette[half + 1][c] - palette[half][c]) * blend);
-      data[base + 3] = kind === 'pressure' ? 195 : Math.round(38 + Math.abs(t - 0.5) * 400);
+      const activity = Math.min(1, metric === 'capacity' ? Math.max(0, baseline - value) / Math.max(0.025, baseline - low)
+        : metric === 'orbital' ? t : Math.abs(value) / Math.max(metric === 'slip' ? 0.5 : 0.18, high));
+      data[base + 3] = Math.round(255 * (ambient + (1 - ambient) * Math.pow(activity, 0.65)));
     }
     texture.needsUpdate = true;
   });
@@ -97,82 +97,10 @@ export function AtomSlice({ simulation, kind, offset, opacity, onProbe, ranges }
   const rotation: [number, number, number] = kind === 'pressure' ? [0, 0, 0] : kind === 'electric' ? [-Math.PI / 2, 0, 0] : [0, Math.PI / 2, 0];
   const select = (event: ThreeEvent<MouseEvent>) => { event.stopPropagation(); onProbe([event.point.x, event.point.y, event.point.z]); };
   return <group position={position} rotation={rotation}>
-    <mesh onClick={select} renderOrder={-2}>
-      <planeGeometry args={[ATOM.halfSize * 2, ATOM.halfSize * 2]} />
-      <meshBasicMaterial map={texture} transparent opacity={opacity} depthWrite={false} side={THREE.DoubleSide} toneMapped={false} />
-    </mesh>
-    <Line points={square} color={SLICES[kind].high} transparent opacity={0.32} lineWidth={1} depthWrite={false} />
-    <Html position={[-ATOM.halfSize, ATOM.halfSize + 0.12, 0]} style={{ pointerEvents: 'none' }}><span className={`atom-plane-label ${kind}`}>{SLICES[kind].plane} / {SLICES[kind].symbol}</span></Html>
+    <mesh onClick={select} renderOrder={-2}><planeGeometry args={[ATOM.halfSize * 2, ATOM.halfSize * 2]} /><meshBasicMaterial map={texture} transparent opacity={opacity} depthWrite={false} side={THREE.DoubleSide} toneMapped={false} /></mesh>
+    <Line points={square} color={design.high} transparent opacity={0.17} lineWidth={1} depthWrite={false} />
+    <Html position={[-ATOM.halfSize, ATOM.halfSize + 0.15, 0]} style={{ pointerEvents: 'none' }}><span className={`atom-plane-label ${kind}`}>{SLICES[kind].plane} / {design.symbol}</span></Html>
   </group>;
-}
-
-function spawnTracer(sim: AtomSimulation, sourceId?: string): Vec3 {
-  const body = sim.bodies.find(body => body.id === sourceId);
-  for (let attempt = 0; attempt < 20; attempt++) {
-    let point: Vec3;
-    if (body) {
-      const u = Math.random() * 2 * Math.PI, v = Math.random() * 2 * Math.PI;
-      const tube = PAIR_FIELD.tubeRadius + 0.025 + Math.random() ** 2 * 0.2;
-      const radius = PAIR_FIELD.majorRadius + tube * Math.cos(v);
-      point = add(body.pose.center, rotate([radius * Math.cos(u), radius * Math.sin(u), tube * Math.sin(v)], body.pose.yaw, body.pose.tilt));
-    } else point = add(sim.bodies[0].pose.center, [(Math.random() * 2 - 1) * ATOM.halfSize, (Math.random() * 2 - 1) * ATOM.halfSize, (Math.random() * 2 - 1) * ATOM.halfSize]);
-    if (!cavityAt(point, sim.bodies)) return point;
-  }
-  return add(sim.bodies[0].pose.center, [ATOM.halfSize, ATOM.halfSize, ATOM.halfSize]);
-}
-
-export function LiveFluidTracers({ simulation, sourceId, count = 260, color = '#9abebf' }: {
-  simulation: SimulationRef; sourceId?: string; count?: number; color?: string;
-}) {
-  const geometry = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
-    return g;
-  }, [count]);
-  const trails = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 6), 3));
-    return g;
-  }, [count]);
-  const particles = useRef<{ point: Vec3; tail: Vec3; age: number; life: number; tailAge: number }[]>([]);
-  const last = useRef({ sim: null as AtomSimulation | null, time: 0 });
-  useEffect(() => () => { geometry.dispose(); trails.dispose(); }, [geometry, trails]);
-  useFrame(() => {
-    const sim = simulation.current, origin = sim.bodies[0].pose.center;
-    if (last.current.sim !== sim || particles.current.length !== count) {
-      particles.current = Array.from({ length: count }, () => {
-        const point = spawnTracer(sim, sourceId);
-        return { point, tail: point, age: Math.random() * 3, life: 2 + Math.random() * 5, tailAge: 0 };
-      });
-      last.current = { sim, time: sim.time };
-    }
-    const dt = Math.min(0.08, Math.max(0, sim.time - last.current.time));
-    last.current.time = sim.time;
-    const positions = geometry.getAttribute('position') as THREE.BufferAttribute;
-    const lines = trails.getAttribute('position') as THREE.BufferAttribute;
-    let shown = 0;
-    for (const particle of particles.current) {
-      if (dt > 0) {
-        particle.age += dt; particle.tailAge += dt;
-        if (particle.tailAge > 0.24) { particle.tail = particle.point; particle.tailAge = 0; }
-        const field = sampleAtomField(particle.point, sim.bodies, sim.intensity);
-        particle.point = add(particle.point, mul(field.velocity, dt));
-        if (particle.age > particle.life || field.inside || cavityAt(particle.point, sim.bodies) || sub(particle.point, origin).some(axis => Math.abs(axis) > ATOM.halfSize)) {
-          particle.point = spawnTracer(sim, sourceId); particle.tail = particle.point; particle.age = 0; particle.tailAge = 0;
-        }
-      }
-      if (cavityAt(particle.point, sim.bodies)) continue;
-      const p = sub(particle.point, origin), tail = sub(particle.tail, origin);
-      positions.setXYZ(shown, ...p); lines.setXYZ(shown * 2, ...tail); lines.setXYZ(shown * 2 + 1, ...p);
-      shown++;
-    }
-    geometry.setDrawRange(0, shown); trails.setDrawRange(0, shown * 2);
-    positions.needsUpdate = lines.needsUpdate = true;
-  });
-  return <>
-    <lineSegments geometry={trails} renderOrder={2} frustumCulled={false}><lineBasicMaterial color={color} transparent opacity={sourceId ? 0.46 : 0.14} depthWrite={false} /></lineSegments>
-    <points geometry={geometry} renderOrder={3} frustumCulled={false}><pointsMaterial color={color} size={sourceId ? 0.055 : 0.026} transparent opacity={sourceId ? 0.95 : 0.42} depthWrite={false} /></points>
-  </>;
 }
 
 export function OccupancyCloud({ simulation, opacity }: { simulation: SimulationRef; opacity: number }) {

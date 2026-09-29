@@ -63,7 +63,9 @@ export const atomTensor = (field: AtomField) => field.inside ? null : tensor(fie
 
 export function referenceDensity(point: Vec3, bodies: AtomBody[]): number {
   const relative = sub(point, bodies[0].pose.center);
-  return bodies.slice(1).reduce((sum, body) => sum + orbitalDensity(relative, body.orbital), 0);
+  let density = 0;
+  for (let i = 1; i < bodies.length; i++) density += orbitalDensity(relative, bodies[i].orbital);
+  return density;
 }
 
 // Source-weighted hue is deliberately separate from q and signed Cartesian
