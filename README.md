@@ -121,6 +121,20 @@ from clock rate: the antisymmetric entries cancel in the same-displacement
 interval contraction, while the shared pressure budget can couple their
 kinematic loads back into the symmetric capacity q.
 
+Tom's ring-and-finger scene supplies a stronger bridge: identical relative
+positions can accompany insertion, withdrawal, rotation or vibration. He
+independently distinguishes a geometry snapshot from an instantaneous
+dynamical state, and predicts that reversing either sliding or rotation
+changes a screw motion's handedness while reversing both preserves it.
+Continue through **graphics pose → physics-engine save state → local tensor
+state → whole-field topology**. A pause preserves velocity; exporting only
+geometry discards it. GfX's q, electric slip and magnetic vorticity are selected
+local state readings, not the complete state of a resonating, heating ring.
+Keep the ring's relative rigid motion distinct from the manuscript's
+transverse slip and Clebsch rotational field. The handedness of that screw
+motion does not yet establish a conserved cavity winding or charge. Next
+probe: preserve rotation while reducing axial sliding to zero.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
