@@ -135,6 +135,16 @@ transverse slip and Clebsch rotational field. The handedness of that screw
 motion does not yet establish a conserved cavity winding or charge. Next
 probe: preserve rotation while reducing axial sliding to zero.
 
+Tom next replaces the finger with two circulation directions on a torus:
+around its main hole (toroidal) and around its tube (poloidal). He also
+independently redirects attention from an isolated vortex to the fluid
+between cavities. Place both motions in fluid outside the empty boundary,
+then follow the shared tensor field through the surrounding volume. This
+gives a candidate handed flow; ordinary reorientation, dynamical persistence
+and conserved charge remain separate questions. GfX §13.1 supplies the weak
+source-free propagation piece. The cavity-to-exterior source/boundary law
+remains the next connection to construct.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
@@ -327,6 +337,12 @@ that RCCM is correct or incorrect.
 The two TeX documents have different jobs. Neither HTML file is an independent
 source, and the OpenFOAM file is an implementation sketch rather than a third
 formal specification.
+
+Tom explicitly clarified on 2026-09-29 that `RCCM-GfX-2.tex` is newer.
+Use its definitions for the current asymmetric-tensor, charge and slip/twist
+discussion. Treat overlapping passages in `RCCM-Condensed.tex` as earlier
+context, and record differences without importing an older construction to
+fill a gap in the newer document.
 
 | Artifact | Read it when | Why read it | Boundary |
 |---|---|---|---|
