@@ -44,7 +44,7 @@
         <button class="tab" type="button" role="tab" aria-selected="false" data-variant="left" style="--tone:var(--blue)"><span>03</span>Left-hand screw</button>
       </div>
       <div class="explorer" id="body-explorer" data-variant="smooth">
-        <div class="stage" id="body-stage" role="img" aria-label="Rotatable 3D model of the selected driver and moving fluid tracers"><span class="stage-tag">TIP → forward along the local axis</span><span class="stage-hint">Drag to rotate the whole view<br>Scroll to zoom</span><div class="stage-error" id="body-error" hidden>3D rendering is unavailable here. The text and helix rule below still explain the geometry.</div></div>
+        <div class="stage" id="body-stage" role="img" aria-label="Rotatable 3D model of the selected driver and moving fluid tracers"><span class="stage-tag">Driver: tipward · fluid: headward</span><span class="stage-hint">Bright beads: moving fluid<br>Pointed markers: flow direction<br>Drag to rotate · scroll to zoom</span><div class="stage-error" id="body-error" hidden>3D rendering is unavailable here. The text and helix rule below still explain the geometry.</div></div>
         <div class="info"><div class="case" id="body-case">01 / unthreaded</div><h3 id="body-name">Smooth nail</h3><p id="body-copy">It can move tip first without choosing a clockwise or counterclockwise twist. Fluid must still part and slip along the surface, but the smooth shape has no built-in handedness.</p><dl class="facts"><div class="fact"><dt>Head</dt><dd id="body-head">Plain round</dd></div><div class="fact"><dt>Spin viewed from head</dt><dd id="body-spin">None required</dd></div><div class="fact"><dt>Helix sign</dt><dd id="body-sign">0 · no thread</dd></div></dl><a class="jump" href="#passages">See the passage in the fluid ↓</a></div>
       </div>
       <div class="tools"><button class="tool" type="button" id="motion-toggle" aria-pressed="true">Pause motion</button><button class="tool" type="button" id="view-tumble">Tumble view</button><button class="tool" type="button" id="view-reset">Reset view</button></div>
@@ -62,7 +62,7 @@
         <button class="tab" type="button" role="tab" aria-selected="false" data-variant="right" style="--tone:var(--yellow)"><span>03</span>Right-hand passage</button>
       </div>
       <div class="explorer" id="hole-explorer" data-variant="smooth">
-        <div class="stage" id="hole-stage" role="img" aria-label="Rotatable 3D cutaway of the selected fluid passage, showing its inner wall and flowing surrounding fluid"><span class="stage-tag">VOID / fluid surrounds it</span><span class="stage-hint">A wedge is cut away to reveal<br>the inner fluid wall</span><div class="stage-error" id="hole-error" hidden>3D rendering is unavailable here. The text and helix rule below still explain the geometry.</div></div>
+        <div class="stage" id="hole-stage" role="img" aria-label="Rotatable 3D cutaway of the selected fluid passage, showing its inner wall and flowing surrounding fluid"><span class="stage-tag">VOID / fluid surrounds it</span><span class="stage-hint">Bright beads: moving fluid<br>Pointed markers: flow direction<br>Wedge reveals the inner fluid wall</span><div class="stage-error" id="hole-error" hidden>3D rendering is unavailable here. The text and helix rule below still explain the geometry.</div></div>
         <div class="info"><div class="case" id="hole-case">01 / neutral passage</div><h3 id="hole-name">Smooth bore</h3><p id="hole-copy">The displaced fluid wraps a smooth empty channel. There is motion and drag, but the boundary does not select a winding sign.</p><dl class="facts"><div class="fact"><dt>Boundary shape</dt><dd id="hole-boundary">Smooth around axis</dd></div><div class="fact"><dt>Fluid slip</dt><dd id="hole-slip">Axial / no chosen twist</dd></div><div class="fact"><dt>View rotation</dt><dd>Sign stays the same</dd></div></dl></div>
       </div>
     </section>
@@ -153,17 +153,41 @@
         const particles=new THREE.BufferGeometry(),count=type==='body'?660:780,seed=[],positions=new Float32Array(count*3);
         let rng=type==='body'?1679:9381;const random=()=>{rng=(Math.imul(rng,1664525)+1013904223)>>>0;return rng/4294967296;};
         for(let i=0;i<count;i++)seed.push({r:type==='body' ? .68+random()*.72 : .72+random()*.38,angle:random()*Math.PI*2,z:(random()-.5)*4.55});
-        particles.setAttribute('position',new THREE.BufferAttribute(positions,3));const points=new THREE.Points(particles,new THREE.PointsMaterial({color:css.smooth,size:.023,transparent:true,opacity:.53,depthWrite:false}));world.add(points);
+        particles.setAttribute('position',new THREE.BufferAttribute(positions,3));const points=new THREE.Points(particles,new THREE.PointsMaterial({color:css.smooth,size:.065,transparent:true,opacity:.92,depthWrite:false}));world.add(points);
+        // Each bright bead is the leading end of a short trail. Together with
+        // the 3D arrowheads, this shows the fluid's direction even when paused.
+        const trailStep=6,trailPositions=new Float32Array(Math.ceil(count/trailStep)*6),trails=new THREE.BufferGeometry();
+        trails.setAttribute('position',new THREE.BufferAttribute(trailPositions,3));
+        const trailMaterial=new THREE.LineBasicMaterial({color:css.smooth,transparent:true,opacity:.58,depthWrite:false});
+        world.add(new THREE.LineSegments(trails,trailMaterial));
+        const flowSeeds=Array.from({length:5},(_,i)=>({r:type==='body' ? .91 : .83,angle:i*2*Math.PI/5,z:-1.48+i*.74}));
+        const flowArrows=flowSeeds.map(()=>{const arrow=new THREE.ArrowHelper(new THREE.Vector3(0,0,-1),new THREE.Vector3(),.55,css.smooth,.15,.105);world.add(arrow);return arrow;});
         let active='smooth',metal=null,t=0,drag=null;
         function disposeItem(obj){obj.traverse(child=>{child.geometry?.dispose?.();if(child.material){for(const m of Array.isArray(child.material)?child.material:[child.material])m.dispose?.();}});}
         function setVariant(key){
           if(shape.children.length){shape.children.forEach(disposeItem);shape.clear();}
-          active=key;t=0;metal=type==='body'?buildBody(shape,key):(buildHole(shape,key),null);points.material.color.setHex(css[key]);draw();
+          active=key;t=0;metal=type==='body'?buildBody(shape,key):(buildHole(shape,key),null);points.material.color.setHex(css[key]);trailMaterial.color.setHex(css[key]);flowArrows.forEach(arrow=>arrow.setColor(css[key]));draw();
         }
         function draw(){
           const h=hand(active),extent=4.55;
-          for(let i=0;i<count;i++){const s=seed[i],z=((s.z-TRAVEL*t+extent/2)%extent+extent)%extent-extent/2,twist=h*SPIN*t*.13*Math.exp(-Math.max(0,s.r-.56)*4),a=s.angle+twist;positions[3*i]=s.r*Math.cos(a);positions[3*i+1]=s.r*Math.sin(a);positions[3*i+2]=z;}
+          for(let i=0;i<count;i++){
+            const s=seed[i],z=((s.z-TRAVEL*t+extent/2)%extent+extent)%extent-extent/2;
+            const swirl=h*SPIN*.13*Math.exp(-Math.max(0,s.r-.56)*4),a=s.angle+swirl*t;
+            const x=s.r*Math.cos(a),y=s.r*Math.sin(a);positions[3*i]=x;positions[3*i+1]=y;positions[3*i+2]=z;
+            if(i%trailStep===0){const offset=i/trailStep*6,past=.66,pastAngle=a-swirl*past;
+              trailPositions[offset]=x;trailPositions[offset+1]=y;trailPositions[offset+2]=z;
+              trailPositions[offset+3]=z+TRAVEL*past<extent/2?s.r*Math.cos(pastAngle):x;
+              trailPositions[offset+4]=z+TRAVEL*past<extent/2?s.r*Math.sin(pastAngle):y;
+              trailPositions[offset+5]=Math.min(z+TRAVEL*past,extent/2);
+            }
+          }
           particles.attributes.position.needsUpdate=true;
+          trails.attributes.position.needsUpdate=true;
+          flowSeeds.forEach((s,i)=>{const z=((s.z-TRAVEL*t+extent/2)%extent+extent)%extent-extent/2;
+            const swirl=h*SPIN*.13*Math.exp(-Math.max(0,s.r-.56)*4),a=s.angle+swirl*t;
+            const arrow=flowArrows[i],direction=new THREE.Vector3(-s.r*Math.sin(a)*swirl,s.r*Math.cos(a)*swirl,-TRAVEL).normalize();
+            arrow.position.set(s.r*Math.cos(a),s.r*Math.sin(a),z);arrow.setDirection(direction);
+          });
           if(metal)metal.rotation.z=h*SPIN*t;
         }
         function resetView(){world.quaternion.setFromEuler(new THREE.Euler(-.13,-.31,.08));camera.position.set(0,2.7,-7.35);camera.lookAt(0,0,0);}
