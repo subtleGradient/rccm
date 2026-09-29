@@ -1,0 +1,405 @@
+- main [ref=f2e2]:
+  - generic [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - link "← The tensor field guide" [ref=f2e5] [cursor=pointer]:
+        - /url: asymmetric-tensor-cheat-sheet.html
+      - button "Print this sheet" [ref=f2e6] [cursor=pointer]
+    - paragraph [ref=f2e7]: RCCM / Visual field guide / 02
+    - heading "Pressure shove. Slip shove." [level=1] [ref=f2e8]: Pressure shove.Slip shove.
+    - paragraph [ref=f2e9]:
+      - text: The surrounding fluid presses on a tornadonut.
+      - strong [ref=f2e10]: A pressure slope gives one direction to fall. Overlapping slip flows can reshape that pressure.
+      - text: The electric sign lives in the interaction.
+    - paragraph [ref=f2e11]: Imagine being the cavity in a paused world. Feel the normal squeeze on your whole skin. Give sideways slip a separate silk-on-skin cue. Keep your existing drift as a faint ghost ahead of you. When time resumes, the net force changes that drift.
+    - paragraph [ref=f2e12]:
+      - strong [ref=f2e13]: Reading agreement.
+      - text: This sheet explains RCCM in-model. Equations taken from the TeX, algebra worked out here, and conventional comparison laws are identified below. The illustrations teach those stated rules; they do not validate the model. GfX §16 labels its orbital proposals as future work.
+    - generic "Visual legend" [ref=f2e14]:
+      - generic [ref=f2e15]: "Green: remaining static pressure"
+      - generic [ref=f2e17]: "Purple arrows: v, or E where labelled"
+      - generic [ref=f2e19]: "Yellow +: positive charge"
+      - generic [ref=f2e21]: "Blue −: negative charge"
+    - navigation "On this sheet" [ref=f2e23]:
+      - link "The two shoves" [ref=f2e24] [cursor=pointer]:
+        - /url: "#two-shoves"
+      - link "Turn the slip" [ref=f2e25] [cursor=pointer]:
+        - /url: "#overlap"
+      - link "Equal surroundings" [ref=f2e26] [cursor=pointer]:
+        - /url: "#uniform"
+      - link "Available work" [ref=f2e27] [cursor=pointer]:
+        - /url: "#work"
+      - link "The orbital step" [ref=f2e28] [cursor=pointer]:
+        - /url: "#orbitals"
+      - link "Source & units" [ref=f2e29] [cursor=pointer]:
+        - /url: "#source-audit"
+  - generic [ref=f2e30]:
+    - region [ref=f2e31]:
+      - paragraph [ref=f2e32]: 01 / Pressure shove
+      - heading "The harder squeeze wins." [level=2] [ref=f2e33]
+      - paragraph [ref=f2e34]: The circulating and moving medium occupies part of the pressure budget. Less static pressure remains near the mass. At the pictured instant, the fluid above your cavity presses harder than the fluid below. The net shove points down.
+      - figure "Arrow sizes exaggerate the pressure difference. Green reads physical static pressure; the cavity’s effective displaced volume enters the force law." [ref=f2e35]:
+        - img "A cavity between unequal pressures Stronger downward pressure arrows above the cavity beat weaker upward pressure arrows below. The net force points downward; existing sideways drift remains." [ref=f2e36]:
+          - generic [ref=f2e39]: "Above: more pressure"
+          - generic [ref=f2e40]: "Below: less pressure"
+          - generic [ref=f2e45]: existing drift
+          - generic [ref=f2e46]: shove
+          - generic [ref=f2e47]: One local snapshot · all sources remain free to move
+      - generic "Change the vertical pressure slope" [ref=f2e49]:
+        - button "More above" [pressed] [ref=f2e50] [cursor=pointer]
+        - button "Equal" [ref=f2e51] [cursor=pointer]
+        - button "More below" [ref=f2e52] [cursor=pointer]
+      - paragraph [ref=f2e53]: ↓ 8.99 m/s² downward
+      - paragraph [ref=f2e54]: "Numerical example: upward is +z; ∂q/∂z = 2 × 10⁻¹⁶ m⁻¹, in a weak, nearly full-capacity region. This is acceleration, not velocity."
+      - generic [ref=f2e55]:
+        - generic [ref=f2e56]:
+          - generic [ref=f2e57]:
+            - text: q = P
+            - subscript [ref=f2e58]: static
+            - text: / P
+            - subscript [ref=f2e59]: c
+          - generic [ref=f2e60]:
+            - text: a
+            - subscript [ref=f2e61]: g
+            - text: ≈ −(c²/2) ∇q
+          - generic [ref=f2e62]:
+            - text: F
+            - subscript [ref=f2e63]: g
+            - text: ≈ −V
+            - subscript [ref=f2e64]: eff
+            - text: ∇P
+            - subscript [ref=f2e65]: static
+        - paragraph [ref=f2e66]:
+          - text: "GfX §5.3: static, weak field; slow test body; constant P"
+          - subscript [ref=f2e67]: c
+          - text: = ½ρ
+          - subscript [ref=f2e68]: τ
+          - text: c². Here V
+          - subscript [ref=f2e69]: eff
+          - text: = m
+          - subscript [ref=f2e70]: τ
+          - text: /ρ
+          - subscript [ref=f2e71]: τ
+          - text: .
+      - paragraph [ref=f2e72]:
+        - strong [ref=f2e73]: Your gravity picture fits this route.
+        - text: "“Used up” means stored as kinematic load, not energy destroyed. The model’s remaining capacity q is a scalar: 0 < q ≤ 1 on the regular branch. At q = 0 the spatial weight 1/q becomes singular."
+    - region [ref=f2e74]:
+      - paragraph [ref=f2e75]: 02 / Slip shove
+      - heading "The overlap changes the squeeze." [level=2] [ref=f2e76]
+      - paragraph [ref=f2e77]: Place two charged tornadonuts beside each other. In the TeX’s facing-flow picture, opposite charges reinforce the slip in the gap. Faster combined flow consumes more of the budget there. Static pressure drops, so the surrounding fluid drives the pair together.
+      - figure "A facing-flow cartoon. The sign-to-flow assignment comes from the TeX; these net-force arrows do not come from a computed surface-stress integral." [ref=f2e78]:
+        - img "Opposite charges, reinforcing gap flows, attraction A positive yellow cavity and negative blue cavity flank a low-pressure gap. Two parallel purple slip arrows point upward in the gap. The two net-force arrows point toward each other." [ref=f2e79]:
+          - generic [ref=f2e82]: "Gap: lower static pressure"
+          - generic [ref=f2e85]: +
+          - generic [ref=f2e88]: −
+          - generic [ref=f2e89]: v₁
+          - generic [ref=f2e90]: v₂
+          - generic [ref=f2e91]: Both accelerate inward
+          - generic [ref=f2e92]: Charge colour belongs to the cavity, not to pressure
+      - generic "Change only the right charge" [ref=f2e94]:
+        - button "Opposite charges" [pressed] [ref=f2e95] [cursor=pointer]
+        - button "Like charges" [ref=f2e96] [cursor=pointer]
+      - paragraph [ref=f2e97]: → ← Reinforcing flow · attraction
+      - paragraph [ref=f2e98]: "Reverse only the right charge to compare the proposed like-charge case: facing flows cancel and static pressure recovers in the gap."
+      - generic [ref=f2e99]:
+        - generic [ref=f2e100]:
+          - generic [ref=f2e101]:
+            - text: e
+            - subscript [ref=f2e102]: i
+            - text: = α v
+            - subscript [ref=f2e103]: ⊥,i
+            - text: / c
+          - generic [ref=f2e104]:
+            - text: Û
+            - subscript [ref=f2e105]: 0i
+            - text: = −e
+            - subscript [ref=f2e106]: i
+            - text: · Û
+            - subscript [ref=f2e107]: i0
+            - text: = +e
+            - subscript [ref=f2e108]: i
+          - generic [ref=f2e109]:
+            - text: P
+            - subscript [ref=f2e110]: dyn,⊥
+            - text: = ½ρ
+            - subscript [ref=f2e111]: τ
+            - text: "|v₁ + v₂|²"
+        - paragraph [ref=f2e112]: GfX §§2–3 gives the ledger and matrix entries; §16.2 sketches Coulomb attraction. Condensed’s “Coulomb’s Law” gives the pair cross-term and repulsion account.
+      - paragraph [ref=f2e113]:
+        - strong [ref=f2e114]: The signed seesaw belongs to the overlap.
+        - text: e
+        - subscript [ref=f2e115]: i
+        - text: is a signed, dimensionless velocity component. Charge Q labels the defect’s polarity. Neither is a −50% to +50% static-pressure meter. A negative component can simply mean “toward −x.”
+  - region [ref=f2e116]:
+    - paragraph [ref=f2e117]: Keep the magnitudes / Turn one arrow
+    - heading "A signed cross-term inside a positive budget." [level=2] [ref=f2e118]
+    - paragraph [ref=f2e119]: At one point in the gap, add the two velocity arrows first. Then square the length of their sum. Each flow contributes a positive self-term. Their dot product contributes a term that can be positive, zero, or negative.
+    - generic [ref=f2e120]:
+      - generic [ref=f2e121]:
+        - text: ½ρ
+        - subscript [ref=f2e122]: τ
+        - text: "|v₁ + v₂|²"
+      - generic [ref=f2e123]:
+        - text: = ½ρ
+        - subscript [ref=f2e124]: τ
+        - text: "|v₁|² + ½ρ"
+        - subscript [ref=f2e125]: τ
+        - text: "|v₂|² + ρ"
+        - subscript [ref=f2e126]: τ
+        - text: v₁ · v₂
+    - paragraph [ref=f2e127]:
+      - text: Holding the other loads fixed, the corresponding
+      - emphasis [ref=f2e128]: change
+      - text: in static pressure is
+      - strong [ref=f2e129]:
+        - text: ΔP
+        - subscript [ref=f2e130]: static,int
+        - text: = −ρ
+        - subscript [ref=f2e131]: τ
+        - text: v₁ · v₂
+      - text: . A negative change means less pressure than the sum-of-self-terms reference. It does not make the total pressure negative.
+    - generic [ref=f2e132]:
+      - generic [ref=f2e133]:
+        - img "Two equal slip velocities at one point The two purple velocity arrows start at the same point. Their relative angle controls the cross-term. The dashed black arrow is their vector sum." [ref=f2e134]:
+          - generic [ref=f2e138]: v₁
+          - generic [ref=f2e139]: v₂
+          - generic [ref=f2e140]: Same point · same speed · new direction
+        - generic [ref=f2e141]:
+          - generic [ref=f2e142]:
+            - text: Relative flow angle
+            - status [ref=f2e143]: 0°
+          - slider "Relative flow angle" [ref=f2e144]: "0"
+          - generic [ref=f2e145]:
+            - generic [ref=f2e146]: 0° · reinforce
+            - generic [ref=f2e147]: 180° · cancel
+        - paragraph [ref=f2e148]: This turns a local velocity arrow. Rotating an actual charged tornadonut does not change its charge sign.
+      - generic [ref=f2e149]:
+        - paragraph [ref=f2e150]: Exact local ledger / illustrative amplitudes
+        - paragraph [ref=f2e151]:
+          - text: Both speeds are 20% of c. Set all other loads to zero and hold ρ
+          - subscript [ref=f2e152]: τ
+          - text: ", c and P"
+          - subscript [ref=f2e153]: c
+          - text: fixed.
+        - img "Dynamic pressure uses 16 percent of the budget; static pressure has 84 percent remaining" [ref=f2e154]
+        - generic [ref=f2e157]:
+          - generic [ref=f2e158]:
+            - paragraph [ref=f2e159]: 16%
+            - paragraph [ref=f2e160]:
+              - text: dynamic pressure / P
+              - subscript [ref=f2e161]: c
+          - generic [ref=f2e162]:
+            - paragraph [ref=f2e163]: 84%
+            - paragraph [ref=f2e164]:
+              - text: remaining static pressure / P
+              - subscript [ref=f2e165]: c
+        - paragraph [ref=f2e166]:
+          - text: "Self-terms:"
+          - strong [ref=f2e167]:
+            - text: 8% of P
+            - subscript [ref=f2e168]: c
+          - text: "Dynamic cross-term:"
+          - strong [ref=f2e169]:
+            - text: +8% of P
+            - subscript [ref=f2e170]: c
+          - text: "Static-pressure change:"
+          - strong [ref=f2e171]:
+            - text: −8% of P
+            - subscript [ref=f2e172]: c
+        - paragraph [ref=f2e173]: Reinforcement lowers the remaining pressure.
+        - paragraph [ref=f2e174]: At 90° the cross-term vanishes. At 180° the velocities cancel and 100% remains at this point. These values describe a local overlap, not the pressure everywhere around two particles.
+    - paragraph [ref=f2e175]:
+      - text: "The ledger preserves your “capacity to do stuff” picture: P"
+      - subscript [ref=f2e176]: static
+      - text: + all counted loads = P
+      - subscript [ref=f2e177]: c
+      - text: . Each load is counted once. The diagonal weights are −q and 1/q; 1/q is a spatial metric coefficient, not a second physical pressure.
+  - region [ref=f2e178]:
+    - paragraph [ref=f2e179]: The boundary matters
+    - heading "Equal squeeze cancels. A uniform electric field can still shove." [level=2] [ref=f2e180]
+    - generic [ref=f2e181]:
+      - generic [ref=f2e182]:
+        - img "Equal inward pressure arrows around a cavity cancel in the net force" [ref=f2e183]:
+          - generic [ref=f2e187]: same normal squeeze on every side
+        - heading "Add the pushes over the whole skin." [level=3] [ref=f2e188]
+        - paragraph [ref=f2e189]: For a closed boundary, uniform isotropic pressure gives zero net translation. An imposed spatially constant mechanical stress also has zero net surface force. Internal loading or torque needs its own check.
+        - generic [ref=f2e190]:
+          - text: F
+          - subscript [ref=f2e191]: pressure
+          - text: = −∮
+          - subscript [ref=f2e192]: ∂V
+          - text: P n dA= −∫
+          - subscript [ref=f2e193]: V
+          - text: ∇P dV
+        - paragraph [ref=f2e194]:
+          - text: n is the outward unit normal. Opposite surface normals make equal pushes cancel. This is the continuum surface-force identity; using the defect’s V
+          - subscript [ref=f2e195]: eff
+          - text: adds GfX’s mass/displacement identification.
+      - generic [ref=f2e196]:
+        - img "A charge responds to a uniform external electric field All external electric-field arrows point right with equal length. A positive charge is pushed right; reversing its charge reverses the force without changing the external field." [ref=f2e197]:
+          - generic [ref=f2e201]: +
+          - generic [ref=f2e202]: same external E at every point
+        - heading "Keep the field. Change the receiver." [level=3] [ref=f2e203]
+        - paragraph [ref=f2e204]: A positive test charge follows the applied E arrow; a negative charge goes against it. The field is already a direction for force per charge. It can stay constant while electric potential changes across the room.
+        - generic "Charge of the test object" [ref=f2e205]:
+          - button "Yellow +" [pressed] [ref=f2e206] [cursor=pointer]
+          - button "Blue −" [ref=f2e207] [cursor=pointer]
+          - button "Neutral 0" [ref=f2e208] [cursor=pointer]
+        - paragraph [ref=f2e209]: → Same E · positive charge · force right
+        - generic [ref=f2e210]:
+          - text: F
+          - subscript [ref=f2e211]: e
+          - text: = Q E · E = −∇φ
+        - paragraph [ref=f2e212]:
+          - text: Conventional electrostatic comparison, in SI units. The neutral option is an ideal test object with no induced response. The external field omits the object’s own field; the full interacting stress around a charge need not be uniform.
+          - link "Feynman I–14" [ref=f2e213] [cursor=pointer]:
+            - /url: https://www.feynmanlectures.caltech.edu/I_14.html
+          - text: .
+    - paragraph [ref=f2e214]:
+      - strong [ref=f2e215]: So narrow the “same tensor all around” rule.
+      - text: Zero net shove requires the relevant surface pushes or force contributions to cancel. Equal applied-field readings alone do not guarantee that. The charged object and its coupling belong in the calculation.
+  - region [ref=f2e216]:
+    - paragraph [ref=f2e217]: Your common thread
+    - heading "Available work belongs to a change of configuration." [level=2] [ref=f2e218]
+    - paragraph [ref=f2e219]:
+      - text: Move the chosen object a little. If the configuration’s potential energy drops, that energy can become motion. In a conservative, quasistatic description, the force points down the
+      - emphasis [ref=f2e220]: object’s potential-energy slope
+      - text: ":"
+    - generic [ref=f2e221]:
+      - text: F = −∇E
+      - subscript [ref=f2e222]: pot
+      - text: · δW = F · δx = −δE
+      - subscript [ref=f2e223]: pot
+    - generic [ref=f2e224]:
+      - generic [ref=f2e225]:
+        - 'heading "Gravity: one slope for both charge signs." [level=3] [ref=f2e226]'
+        - paragraph [ref=f2e227]:
+          - text: With m
+          - subscript [ref=f2e228]: τ
+          - text: ", ρ"
+          - subscript [ref=f2e229]: τ
+          - text: "and the background fixed, GfX §5.3 gives the pressure route. Integrating its force gives:"
+        - generic [ref=f2e230]:
+          - text: E
+          - subscript [ref=f2e231]: pot,g
+          - text: = V
+          - subscript [ref=f2e232]: eff
+          - text: P
+          - subscript [ref=f2e233]: static
+          - text: + constant
+        - paragraph [ref=f2e234]: This is a derived effective potential for the stated small-body, weak-field law. Changing yellow to blue while preserving mass does not reverse its gravitational force.
+      - generic [ref=f2e235]:
+        - 'heading "Electricity: the charge signs change the slope." [level=3] [ref=f2e236]'
+        - paragraph [ref=f2e237]: "In the standard point-charge comparison, the interaction energy and force on body 2 are:"
+        - generic [ref=f2e238]:
+          - text: E
+          - subscript [ref=f2e239]: pot,e
+          - text: (r) = k
+          - subscript [ref=f2e240]: e
+          - text: Q₁Q₂ / rF₂ = (k
+          - subscript [ref=f2e241]: e
+          - text: Q₁Q₂ / r²) r̂
+        - paragraph [ref=f2e242]:
+          - text: r̂ points from body 1 toward body 2; k
+          - subscript [ref=f2e243]: e
+          - text: = 1/(4πε₀). Like signs lower energy by separating; opposite signs lower it by approaching. Both free bodies respond. These are conventional comparison laws, not a derivation from the GfX matrix.
+          - link "Feynman I–12" [ref=f2e244] [cursor=pointer]:
+            - /url: https://www.feynmanlectures.caltech.edu/I_12.html
+          - text: ","
+          - link "I–14" [ref=f2e245] [cursor=pointer]:
+            - /url: https://www.feynmanlectures.caltech.edu/I_14.html
+          - text: .
+    - paragraph [ref=f2e246]:
+      - text: "Pressure has units of energy per volume. That makes pressure and work closely connected, but a local q reading alone is not a quantity of extractable work. Specify the object, its displacement, its coupling and the allowed process. For electric response, even the word “higher potential” needs the charge sign: E"
+      - subscript [ref=f2e247]: pot
+      - text: = Qφ.
+    - paragraph [ref=f2e248]: The stronger electric force also needs its coupling and scale. A signed axis versus an unsigned axis does not determine their strength ratio.
+  - region [ref=f2e249]:
+    - paragraph [ref=f2e250]: Three separate steps
+    - heading "Attraction is a start. Orbitals require more." [level=2] [ref=f2e251]
+    - paragraph [ref=f2e252]: A yellow knot surrounded by blue knots has many interacting fields. In the linear electrostatic comparison, potentials and field vectors add; blue–blue repulsion also contributes. In the fluid ledger, velocities add before the square. “More blue overlap” does not by itself specify a stable motion or an allowed atomic state.
+    - generic [ref=f2e253]:
+      - generic [ref=f2e254]:
+        - paragraph [ref=f2e255]: 01 / Net shove
+        - heading "Which way does it accelerate?" [level=3] [ref=f2e256]
+        - paragraph [ref=f2e257]: The pressure and field patterns, together with the object’s response, give the initial shove. More sources require the whole combined field.
+        - generic [ref=f2e258]:
+          - text: "|Σv"
+          - subscript [ref=f2e259]: i
+          - text: "|² = Σ|v"
+          - subscript [ref=f2e260]: i
+          - text: "|²+ 2Σ"
+          - subscript [ref=f2e261]: i<j
+          - text: v
+          - subscript [ref=f2e262]: i
+          - text: · v
+          - subscript [ref=f2e263]: j
+      - generic [ref=f2e264]:
+        - paragraph [ref=f2e265]: 02 / Bounded motion
+        - heading "What prevents collision or escape?" [level=3] [ref=f2e266]
+        - paragraph [ref=f2e267]: Existing velocity, angular momentum, energy transfer and boundary dynamics decide the path. An inward force can bend sideways motion; attraction alone does not supply that motion.
+        - paragraph [ref=f2e268]: GfX §16.2 proposes advection–vorticity coupling and a sideways deflection for positronium. The closed evolution and stability calculation remain to be supplied.
+      - generic [ref=f2e269]:
+        - paragraph [ref=f2e270]: 03 / Quantized states
+        - heading "Which patterns are allowed?" [level=3] [ref=f2e271]
+        - paragraph [ref=f2e272]: "GfX adds a standing-wave and circulation constraint. It proposes discrete radii and binding energies:"
+        - generic [ref=f2e273]:
+          - text: ∮ v
+          - subscript [ref=f2e274]: ⊥
+          - text: · dl = n h/m
+          - subscript [ref=f2e275]: e
+          - text: r
+          - subscript [ref=f2e276]: "n"
+          - text: ∝ n² · |E
+          - subscript [ref=f2e277]: "n"
+          - text: "| ∝ n⁻²"
+        - paragraph [ref=f2e278]: These appear in §16’s future-work roadmap. A field/boundary solution, stable modes and their observed distribution are further obligations.
+    - paragraph [ref=f2e279]:
+      - text: An atomic orbital denotes a quantum state with a spatial amplitude and probability distribution. A curved track or a dense residence cloud is a different output. Connecting a fluid trajectory model to measured orbital patterns needs the corresponding state and measurement rule.
+      - 'link "Feynman III–19: hydrogen states" [ref=f2e280] [cursor=pointer]':
+        - /url: https://www.feynmanlectures.caltech.edu/III_19.html
+      - text: .
+  - region [ref=f2e281]:
+    - paragraph [ref=f2e282]: Keep the bridges visible
+    - heading "What the TeX supports." [level=2] [ref=f2e283]
+    - region "Claim and source comparison" [ref=f2e284]:
+      - table [ref=f2e285]:
+        - rowgroup [ref=f2e286]:
+          - row [ref=f2e287]:
+            - columnheader "Part of the picture" [ref=f2e288]
+            - columnheader "Source" [ref=f2e289]
+            - columnheader "What follows" [ref=f2e290]
+        - rowgroup [ref=f2e291]:
+          - row [ref=f2e292]:
+            - cell "Circulation occupies capacity" [ref=f2e293]
+            - cell "GfX §§2–3" [ref=f2e294]
+            - cell "Kinematic loads reduce the remaining scalar pressure; signed slip entries record direction." [ref=f2e295]
+          - row [ref=f2e296]:
+            - cell "Pressure imbalance gives gravity" [ref=f2e297]
+            - cell "GfX §5.3" [ref=f2e298]
+            - cell [ref=f2e299]:
+              - text: a ≈ −∇P
+              - subscript [ref=f2e300]: static
+              - text: /ρ
+              - subscript [ref=f2e301]: τ
+              - text: in its static, weak, slow limit.
+          - row [ref=f2e302]:
+            - cell "Slip overlap changes pressure" [ref=f2e303]
+            - cell "Condensed, “Coulomb’s Law”; GfX §16.2" [ref=f2e304]
+            - cell "The squared-sum identity is exact. Relating charge signs to full surrounding flows requires the charged-defect construction." [ref=f2e305]
+          - row [ref=f2e306]:
+            - cell "Measured atomic orbitals" [ref=f2e307]
+            - cell "GfX §16, especially §16.2" [ref=f2e308]
+            - cell "A proposed research route with added dynamical and quantization constraints, not a completed consequence of overlap." [ref=f2e309]
+    - group [ref=f2e310]:
+      - generic "Read the stress bridge, units, and remaining construction" [ref=f2e311] [cursor=pointer]
+  - region [ref=f2e312]:
+    - heading "One change to carry back into the world." [level=2] [ref=f2e313]
+    - paragraph [ref=f2e314]:
+      - text: You are a yellow test knot. A pressure slope gives you a downward shove; a uniform electric field gives you a rightward shove. Pause, keep the surroundings and your mass fixed, and change only your charge to blue.
+      - strong [ref=f2e315]: Which shove reverses, and which stays?
+  - paragraph [ref=f2e317]:
+    - text: One file, no network required for the illustrations or controls. Readings are local; arrows show the stated instantaneous forces. The canonical TeX remains the reference.
+    - link "Return to the full tensor guide" [ref=f2e318] [cursor=pointer]:
+      - /url: asymmetric-tensor-cheat-sheet.html
+    - text: .

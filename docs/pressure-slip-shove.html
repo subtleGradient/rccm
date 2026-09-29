@@ -37,7 +37,7 @@
 <div class="pair-grid" id="two-shoves">
 <section class="channel" aria-labelledby="pressure-title">
 <p class="eyebrow">01 / Pressure shove</p><h2 id="pressure-title">The harder squeeze wins.</h2>
-<p>The circulating and moving medium occupies part of the pressure budget. Less static pressure remains near the mass. At the pictured instant, the fluid above your cavity presses harder than the fluid below. The net shove points down.</p>
+<p id="pressure-story">The circulating and moving medium occupies part of the pressure budget. Less static pressure remains near the mass. At the pictured instant, the fluid above your cavity presses harder than the fluid below. The net shove points down.</p>
 <figure>
 <svg class="scene" viewBox="0 0 480 302" role="img" aria-labelledby="pressure-svg-title pressure-svg-desc">
 <title id="pressure-svg-title">A cavity between unequal pressures</title><desc id="pressure-svg-desc">Stronger downward pressure arrows above the cavity beat weaker upward pressure arrows below. The net force points downward; existing sideways drift remains.</desc>
@@ -66,7 +66,7 @@
 
 <section class="channel slip" aria-labelledby="slip-title">
 <p class="eyebrow">02 / Slip shove</p><h2 id="slip-title">The overlap changes the squeeze.</h2>
-<p>Place two charged tornadonuts beside each other. In the TeX’s facing-flow picture, opposite charges reinforce the slip in the gap. Faster combined flow consumes more of the budget there. Static pressure drops, so the surrounding fluid drives the pair together.</p>
+<p id="pair-story">Place two charged tornadonuts beside each other. In the TeX’s facing-flow picture, opposite charges reinforce the slip in the gap. Faster combined flow consumes more of the budget there. Static pressure drops, so the surrounding fluid drives the pair together.</p>
 <figure>
 <svg class="scene" viewBox="0 0 480 302" role="img" aria-labelledby="pair-svg-title pair-svg-desc">
 <title id="pair-svg-title">Opposite charges, reinforcing gap flows, attraction</title><desc id="pair-svg-desc">A positive yellow cavity and negative blue cavity flank a low-pressure gap. Two parallel purple slip arrows point upward in the gap. The two net-force arrows point toward each other.</desc>
@@ -236,6 +236,7 @@ function percent(value, signed = false) {
 document.querySelectorAll('[data-slope]').forEach(button => button.addEventListener('click', () => {
   choose('[data-slope]', button);
   const sign = Number(button.dataset.slope), acceleration = ShoveModel.gravity(sign * 2e-16);
+  text('pressure-story', sign === 0 ? 'The circulating and moving medium occupies part of the pressure budget. In this changed local scene, both sides press equally. The pressure-gradient force cancels. The cavity keeps its existing drift unless another force changes it.' : `The circulating and moving medium occupies part of the pressure budget. In this local snapshot, the fluid ${sign > 0 ? 'above' : 'below'} your cavity presses harder than the fluid ${sign > 0 ? 'below' : 'above'}. The net pressure shove points ${sign > 0 ? 'down' : 'up'}. Its existing drift is a separate input.`);
   text('upper-label', sign === 0 ? 'Above: equal pressure' : `Above: ${sign > 0 ? 'more' : 'less'} pressure`);
   text('lower-label', sign === 0 ? 'Below: equal pressure' : `Below: ${sign > 0 ? 'less' : 'more'} pressure`);
   attr('upper-pressure', 'fill', sign > 0 ? '#bdd9c7' : sign < 0 ? '#eaf2ec' : '#dcece1');
@@ -253,6 +254,7 @@ document.querySelectorAll('[data-slope]').forEach(button => button.addEventListe
 document.querySelectorAll('[data-pair]').forEach(button => button.addEventListener('click', () => {
   choose('[data-pair]', button);
   const right = Number(button.dataset.pair), state = ShoveModel.pair(1, right);
+  text('pair-story', state.aligned ? 'Place two charged tornadonuts beside each other. In the TeX’s facing-flow picture, opposite charges reinforce the slip in the gap. Faster combined flow consumes more of the budget there. Static pressure drops, so the surrounding fluid drives the pair together.' : 'Keep the left tornadonut positive and change the right one to positive. In the TeX’s facing-flow picture, their slip flows now oppose in the gap. The combined speed falls and static pressure recovers there. The stronger gap pressure drives the pair apart.');
   attr('right-core', 'data-sign', right); text('right-charge', right < 0 ? '−' : '+');
   attr('right-hole', 'stroke', right < 0 ? 'var(--blue-ink)' : 'var(--yellow-ink)');
   attr('gap-fill', 'fill', state.aligned ? '#f5f8f2' : '#b2d2be');
