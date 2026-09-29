@@ -145,6 +145,17 @@ and conserved charge remain separate questions. GfX §13.1 supplies the weak
 source-free propagation piece. The cavity-to-exterior source/boundary law
 remains the next connection to construct.
 
+Tom's next question identifies the missing reference in “transverse”: wave
+propagation, a parcel's trajectory and the local continuum rest frame must
+be distinguished. Use a shear wave travelling left-to-right while marked
+parcels move up-and-down. In GfX §3 the slip is spatial relative to the
+continuum four-velocity; in §13.1 its solenoidal condition gives transverse
+polarization for a plane wave. A parcel-following frame does not select
+unique spatial axes or eliminate orientation comparisons. His stacked
+snapshots supply the next time bridge: worldline slope records velocity,
+changing slope records coordinate acceleration in a fixed local inertial
+chart, and a steady field can still contain accelerating circulating parcels.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
