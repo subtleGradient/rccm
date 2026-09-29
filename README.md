@@ -88,6 +88,18 @@ the fluid around and between cavities. This new document uses a full-volume
 mental scene evolving through time, followed by the mathematical export.
 It has no flat illustrations, tests or QA, as requested.
 
+For charge topology, continue from the [chiral screw model](docs/chiral-shear.html)
+to a closed circulation around a cavity. Tom explicitly requires conservation
+of the medium and a charge sign that survives physical reorientation. Keep
+material transport, relative slip, local vorticity, and the winding of the
+whole field distinct. A helical circulation can close without a material
+source; its handedness alone does not supply the electric source equation.
+GfX §3 encodes local slip and vorticity, §10.6 assigns polarity to winding,
+and §13.1 treats source-free transverse waves. The next construction must
+connect a conserved cavity winding to a nonzero electric flux while keeping
+the total material flux balanced. The [September 29 notes](log/2026-09/2026-09-29-log.md)
+record the boundary conditions and source-definition conflicts.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
@@ -1470,6 +1482,18 @@ These are the present highest-value unknowns:
     defines the verification gates. Supporting an asymmetric spatial tensor
     is already possible; specifying its physical evolution and material
     observables remains a separate job.
+18. What explicit cavity solution and boundary coupling turn closed chiral
+    circulation into electric charge? Specify material continuity and cavity
+    motion, the physical phase/framing that carries winding, its conservation
+    law, the full exterior field, and the electric source integral. A regular
+    solenoidal slip field with zero normal slip at a stationary cavity and a
+    constant pointwise electric-field conversion has zero enclosing electric
+    flux. A completion must specify which premise changes or how component
+    fluxes balance in the total material flow. Keep GfX §3's bare slip mapping,
+    §7.5's dressed slip-plus-gradient mapping, and Condensed's closed curl-flux
+    expression distinct. Derive the orientation-independent leading charge
+    interaction from the whole field; a chosen pair of facing vortices does
+    not establish it.
 
 ## Falsifiers and Redraw Conditions
 
