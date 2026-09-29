@@ -1483,7 +1483,8 @@ These are the present highest-value unknowns:
     is already possible; specifying its physical evolution and material
     observables remains a separate job.
 18. What explicit cavity solution and boundary coupling turn closed chiral
-    circulation into electric charge? Specify material continuity and cavity
+    circulation into electric charge? Tracked in [issue #3](https://github.com/subtleGradient/rccm/issues/3).
+    Specify material continuity and cavity
     motion, the physical phase/framing that carries winding, its conservation
     law, the full exterior field, and the electric source integral. A regular
     solenoidal slip field with zero normal slip at a stationary cavity and a
