@@ -78,6 +78,21 @@ full-fluid implementation.
 
 ## Graphical lessons: destination before dependency route
 
+Start with [The fluid does all the doing](docs/the-fluid-does-the-doing.md).
+Tom explicitly makes the universal fluid axiomatic for this project. The
+fluid maintains the voids, carries the surrounding pressure/slip pattern,
+and transfers momentum through the shared medium. A planet is a persistent
+frothing storm in that fluid; electron and proton name different maintained
+patterns with negative and positive electrical polarity. Keep attention on
+the fluid around and between cavities. This new document uses a full-volume
+mental scene evolving through time, followed by the mathematical export.
+It has no flat illustrations, tests or QA, as requested.
+
+The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
+contains interactive algebra examples, but Tom rejected its explanatory
+emphasis: it made the cavities the actors and treated the fluid as background.
+Use the new document's medium-first narrative for subsequent explanations.
+
 The [Asymmetric Metric-Tensor visual cheat sheet](docs/asymmetric-tensor-cheat-sheet.html)
 places the complete local matrix above five paired visual examples: watches
 belonging to you and your twin, a charged bead, a compass, falling, and static
@@ -677,6 +692,34 @@ single-photon quantization and detection. Keep wave propagation and a
 localized quantum absorption event as distinct descriptions to connect,
 rather than a claimed alternation of substance. Next use a real beam
 splitter with a detector at each exit and ask what one photon produces.
+
+On 2026-09-29, Tom independently restated the gravity mechanism as circulating
+load reducing static pressure, leaving unequal surrounding pushes. That is
+evidence of a working qualitative pressure-budget/gradient picture. He then
+proposed a signed electric-pressure meter, used available work as the common
+mechanism, and inferred orbitals from multiple opposite-charge overlaps.
+The next boundary is **scalar capacity vs signed flow interaction vs charged
+response**: reversing a velocity leaves its squared self-load unchanged, but
+reversing one contribution can reverse the pair cross-term. A uniform applied
+electric field can still push a charge. Attraction, bounded motion and
+quantized orbital states need separate dynamical steps; GfX §16 explicitly
+leaves those atomic mappings unfinished. The new
+[pressure/slip guide](docs/pressure-slip-shove.html) supplies the comparison.
+Next probe: preserve an imposed downward pressure shove and rightward electric
+field, change only the test knot's charge, and ask which shove reverses.
+No response to that corrective probe has yet established mastery.
+
+Tom then rejects the pressure/slip page's narrative frame. His correction is
+ontological and representational: begin with the universe fluid as the
+project axiom, locate every action in that fluid, and treat particle names
+as persistent cavity-maintaining processes. Keep the surrounding and shared
+fluid in the foreground. Do not infer a learning deficit from this rejection.
+He explicitly rules out 2D illustrations as explanations of 4D reality.
+Scenes must survive arbitrary viewing orientations and independent physical
+reorientation of patterns: polarity persists, while detailed nearby flow
+and torque can change. Follow a volume through time and place the equations
+after that scene. The new [fluid document](docs/the-fluid-does-the-doing.md)
+records this route; its creation deliberately excludes tests and QA.
 
 ### Mathematical spine
 
