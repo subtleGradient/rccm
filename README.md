@@ -171,6 +171,19 @@ by the nearby cavity, positive gives outward readings on both sides and
 negative gives inward readings. Four isolated samples still need justified
 symmetry to stand in for a closed-surface measurement.
 
+The new [Field Samples & Electric Charge cheat sheet](docs/field-samples-and-charge.html)
+collects this route in a self-contained, printable document with ten
+illustrations. It distinguishes a tensor at one fluid event from an object
+record, then moves from paired arrows to signed flux across a complete
+three-dimensional surface. One calibrated radial reading can suffice under
+known spherical symmetry; no fixed finite number guarantees exact charge for
+an unrestricted field. An explicit displaced-source calculation shows why
+the required numerical sampling depends on the surrounding pattern. The
+guide also connects the time, transverse-wave, toroidal/poloidal and observer
+frame pictures, and keeps the GfX cavity-to-electric-source construction open.
+Use its final moved-surface probe to test the distinction between a local
+field reading and the charge enclosed by a region.
+
 The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
 contains interactive algebra examples, but Tom rejected its explanatory
 emphasis: it made the cavities the actors and treated the fluid as background.
