@@ -172,8 +172,9 @@ negative gives inward readings. Four isolated samples still need justified
 symmetry to stand in for a closed-surface measurement.
 
 The new [Field Samples & Electric Charge cheat sheet](docs/field-samples-and-charge.html)
-collects this route in a self-contained, printable document with ten
-illustrations. It distinguishes a tensor at one fluid event from an object
+is also available as a [public site](https://field-samples-and-charge.subtlegradient.chatgpt.site).
+It collects this route in a self-contained, printable document with eleven
+SVG figures. It distinguishes a tensor at one fluid event from an object
 record, then moves from paired arrows to signed flux across a complete
 three-dimensional surface. One calibrated radial reading can suffice under
 known spherical symmetry; no fixed finite number guarantees exact charge for

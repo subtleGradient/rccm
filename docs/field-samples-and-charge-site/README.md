@@ -1,5 +1,7 @@
 # Field Samples & Electric Charge publication
 
+[Public site](https://field-samples-and-charge.subtlegradient.chatgpt.site)
+
 The authoring document is [`../field-samples-and-charge.html`](../field-samples-and-charge.html).
 Run `python3 docs/field-samples-and-charge-site/export.py` from the RCCM root to
 export its public copy to the ignored `.sites/field-samples-and-charge/`
