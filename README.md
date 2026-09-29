@@ -78,6 +78,118 @@ full-fluid implementation.
 
 ## Graphical lessons: destination before dependency route
 
+Start with [The fluid does all the doing](docs/the-fluid-does-the-doing.md).
+Tom explicitly makes the universal fluid axiomatic for this project. The
+fluid maintains the voids, carries the surrounding pressure/slip pattern,
+and transfers momentum through the shared medium. A planet is a persistent
+frothing storm in that fluid; electron and proton name different maintained
+patterns with negative and positive electrical polarity. Keep attention on
+the fluid around and between cavities. This new document uses a full-volume
+mental scene evolving through time, followed by the mathematical export.
+It has no flat illustrations, tests or QA, as requested.
+
+For charge topology, continue from the [chiral screw model](docs/chiral-shear.html)
+to a closed circulation around a cavity. Tom explicitly requires conservation
+of the medium and a charge sign that survives physical reorientation. Keep
+material transport, relative slip, local vorticity, and the winding of the
+whole field distinct. A helical circulation can close without a material
+source; its handedness alone does not supply the electric source equation.
+GfX §3 encodes local slip and vorticity, §10.6 assigns polarity to winding,
+and §13.1 treats source-free transverse waves. The next construction must
+connect a conserved cavity winding to a nonzero electric flux while keeping
+the total material flux balanced. The [September 29 notes](log/2026-09/2026-09-29-log.md)
+record the boundary conditions and source-definition conflicts.
+
+Tom's familiar matrix bridge is **CSS transforms**: a shear preserves volume,
+and its inverse cancels it when composed on the same object. Use this as the
+next entrance to continuum deformation: a full 3D block with a shared grid,
+local deformation gradients and compatible adjoining cells. Distinguish
+sequential inverse transforms from opposite shears in separate places;
+zero average shear does not imply zero local deformation or stored energy.
+Then separate the material deformation matrix from GfX's local state tensor:
+CSS's homogeneous fourth coordinate is not time, and ordinary simple shear
+contains both symmetric deformation and an antisymmetric rotation part at
+small strain. Local skew signs are not the global charge winding.
+
+The next observed step is Tom's recognition that the highlighted electric
+slip entries pair time with space, so a frozen CSS deformation is incomplete.
+Use the same 3D shape reached at different animation speeds to distinguish
+displacement from slip velocity. The electric entries track normalized slip
+velocity; the magnetic entries pair spatial directions and track vorticity.
+A steady field value can encode ongoing steady motion. Keep this distinct
+from clock rate: the antisymmetric entries cancel in the same-displacement
+interval contraction, while the shared pressure budget can couple their
+kinematic loads back into the symmetric capacity q.
+
+Tom's ring-and-finger scene supplies a stronger bridge: identical relative
+positions can accompany insertion, withdrawal, rotation or vibration. He
+independently distinguishes a geometry snapshot from an instantaneous
+dynamical state, and predicts that reversing either sliding or rotation
+changes a screw motion's handedness while reversing both preserves it.
+Continue through **graphics pose → physics-engine save state → local tensor
+state → whole-field topology**. A pause preserves velocity; exporting only
+geometry discards it. GfX's q, electric slip and magnetic vorticity are selected
+local state readings, not the complete state of a resonating, heating ring.
+Keep the ring's relative rigid motion distinct from the manuscript's
+transverse slip and Clebsch rotational field. The handedness of that screw
+motion does not yet establish a conserved cavity winding or charge. Next
+probe: preserve rotation while reducing axial sliding to zero.
+
+Tom next replaces the finger with two circulation directions on a torus:
+around its main hole (toroidal) and around its tube (poloidal). He also
+independently redirects attention from an isolated vortex to the fluid
+between cavities. Place both motions in fluid outside the empty boundary,
+then follow the shared tensor field through the surrounding volume. This
+gives a candidate handed flow; ordinary reorientation, dynamical persistence
+and conserved charge remain separate questions. GfX §13.1 supplies the weak
+source-free propagation piece. The cavity-to-exterior source/boundary law
+remains the next connection to construct.
+
+Tom's next question identifies the missing reference in “transverse”: wave
+propagation, a parcel's trajectory and the local continuum rest frame must
+be distinguished. Use a shear wave travelling left-to-right while marked
+parcels move up-and-down. In GfX §3 the slip is spatial relative to the
+continuum four-velocity; in §13.1 its solenoidal condition gives transverse
+polarization for a plane wave. A parcel-following frame does not select
+unique spatial axes or eliminate orientation comparisons. His stacked
+snapshots supply the next time bridge: worldline slope records velocity,
+changing slope records coordinate acceleration in a fixed local inertial
+chart, and a steady field can still contain accelerating circulating parcels.
+
+The current charge question separates local components from an enclosed
+quantity. Tom expects charge sign to survive observer changes, but proposes
+assigning opposite charges to patches with opposite slip vectors. Use one
+positive cavity with oppositely directed electric readings on its opposite
+sides, then surround a region with a sampling surface. The next skill is
+signed normal electric flux and its local divergence, keeping physical
+electric-field calibration distinct from dimensionless e and material
+transport. GfX §10.6 names boundary winding as polarity but still owes its
+calculation and connection to that enclosing electrical measurement.
+Tom then proposes paired left/right samples around each of two cavities.
+This advances to comparing spatial patterns: for a radial field dominated
+by the nearby cavity, positive gives outward readings on both sides and
+negative gives inward readings. Four isolated samples still need justified
+symmetry to stand in for a closed-surface measurement.
+
+The new [Field Samples & Electric Charge cheat sheet](docs/field-samples-and-charge.html)
+is also available as a [public site](https://field-samples-and-charge.subtlegradient.chatgpt.site).
+It collects this route in a self-contained, printable document with eleven
+SVG figures. It distinguishes a tensor at one fluid event from an object
+record, then moves from paired arrows to signed flux across a complete
+three-dimensional surface. One calibrated radial reading can suffice under
+known spherical symmetry; no fixed finite number guarantees exact charge for
+an unrestricted field. An explicit displaced-source calculation shows why
+the required numerical sampling depends on the surrounding pattern. The
+guide also connects the time, transverse-wave, toroidal/poloidal and observer
+frame pictures, and keeps the GfX cavity-to-electric-source construction open.
+Use its final moved-surface probe to test the distinction between a local
+field reading and the charge enclosed by a region.
+
+The earlier [Pressure shove · Slip shove page](docs/pressure-slip-shove.html)
+contains interactive algebra examples, but Tom rejected its explanatory
+emphasis: it made the cavities the actors and treated the fluid as background.
+Use the new document's medium-first narrative for subsequent explanations.
+
 The [Asymmetric Metric-Tensor visual cheat sheet](docs/asymmetric-tensor-cheat-sheet.html)
 places the complete local matrix above five paired visual examples: watches
 belonging to you and your twin, a charged bead, a compass, falling, and static
@@ -117,6 +229,13 @@ The initial ruler drawing exposed a representation gap: Tom read the nearby
 view draws complete tapes between fixed map pins, with the first metre green,
 the remainder striped and the total at the far pin. Keep the size of a counted
 unit visually distinct from the number of units across the whole interval.
+
+The [chiral shear screw-and-passage lesson](docs/chiral-shear.html) gives a
+single forward direction to a smooth nail, a right-hand screw and a left-hand
+screw, then removes the props to show the corresponding fluid passages. Its
+thread and hole meshes share one signed helix rule. Rotating the scene does
+not reverse that sign; reflecting the pattern does. The metal is an analogy
+for slip around a maintained void, not a charge calculation.
 
 The [3D winding comparison](docs/asymmetric-tensor-cheat-sheet.html#charge-rotation)
 addresses Tom's next counterexample: a planar circulation picture can reverse
@@ -193,6 +312,18 @@ ledger instrument, **not yet a cavitation or CFD solver**. Run
 `make -C bend/foam-lab run`; screenshots and verification live with the toy.
 The larger [end-goal brief](docs/asymmetric-tensor-graphics.md#L1) remains open.
 
+The [Tau Fluid Lab](examples/tau-fluid-lab/README.md) is a React Three Fiber
+visual prototype with eight standalone views: fluid paths, cavity slices,
+a tensor probe, a combined playground, a guided charge study, a coasting
+cavity, a pair encounter, and a continuous proton/electron experiment.
+The new `atom.html` page uses `RCCM-GfX-2.tex` as its current formal reference
+and now combines a knotted cavity, a full charge-colored fluid volume, three
+movable slices, and supplied hydrogenic 1s/2s/2p guides. Its wandering motion
+and optional blue avoided-region tint are explicit design assumptions; a
+separate visit cloud records the animated paths. Each page documents its
+implementation boundary. Run
+`npm ci` and `npm run dev` in `examples/tau-fluid-lab/` to explore it locally.
+
 ## Run the executable experiment
 
 On macOS with CMake 3.25 or newer and a C++23 compiler:
@@ -246,6 +377,12 @@ that RCCM is correct or incorrect.
 The two TeX documents have different jobs. Neither HTML file is an independent
 source, and the OpenFOAM file is an implementation sketch rather than a third
 formal specification.
+
+Tom explicitly clarified on 2026-09-29 that `RCCM-GfX-2.tex` is newer.
+Use its definitions for the current asymmetric-tensor, charge and slip/twist
+discussion. Treat overlapping passages in `RCCM-Condensed.tex` as earlier
+context, and record differences without importing an older construction to
+fill a gap in the newer document.
 
 | Artifact | Read it when | Why read it | Boundary |
 |---|---|---|---|
@@ -665,6 +802,34 @@ single-photon quantization and detection. Keep wave propagation and a
 localized quantum absorption event as distinct descriptions to connect,
 rather than a claimed alternation of substance. Next use a real beam
 splitter with a detector at each exit and ask what one photon produces.
+
+On 2026-09-29, Tom independently restated the gravity mechanism as circulating
+load reducing static pressure, leaving unequal surrounding pushes. That is
+evidence of a working qualitative pressure-budget/gradient picture. He then
+proposed a signed electric-pressure meter, used available work as the common
+mechanism, and inferred orbitals from multiple opposite-charge overlaps.
+The next boundary is **scalar capacity vs signed flow interaction vs charged
+response**: reversing a velocity leaves its squared self-load unchanged, but
+reversing one contribution can reverse the pair cross-term. A uniform applied
+electric field can still push a charge. Attraction, bounded motion and
+quantized orbital states need separate dynamical steps; GfX §16 explicitly
+leaves those atomic mappings unfinished. The new
+[pressure/slip guide](docs/pressure-slip-shove.html) supplies the comparison.
+Next probe: preserve an imposed downward pressure shove and rightward electric
+field, change only the test knot's charge, and ask which shove reverses.
+No response to that corrective probe has yet established mastery.
+
+Tom then rejects the pressure/slip page's narrative frame. His correction is
+ontological and representational: begin with the universe fluid as the
+project axiom, locate every action in that fluid, and treat particle names
+as persistent cavity-maintaining processes. Keep the surrounding and shared
+fluid in the foreground. Do not infer a learning deficit from this rejection.
+He explicitly rules out 2D illustrations as explanations of 4D reality.
+Scenes must survive arbitrary viewing orientations and independent physical
+reorientation of patterns: polarity persists, while detailed nearby flow
+and torque can change. Follow a volume through time and place the equations
+after that scene. The new [fluid document](docs/the-fluid-does-the-doing.md)
+records this route; its creation deliberately excludes tests and QA.
 
 ### Mathematical spine
 
@@ -1408,6 +1573,19 @@ These are the present highest-value unknowns:
     defines the verification gates. Supporting an asymmetric spatial tensor
     is already possible; specifying its physical evolution and material
     observables remains a separate job.
+18. What explicit cavity solution and boundary coupling turn closed chiral
+    circulation into electric charge? Tracked in [issue #3](https://github.com/subtleGradient/rccm/issues/3).
+    Specify material continuity and cavity
+    motion, the physical phase/framing that carries winding, its conservation
+    law, the full exterior field, and the electric source integral. A regular
+    solenoidal slip field with zero normal slip at a stationary cavity and a
+    constant pointwise electric-field conversion has zero enclosing electric
+    flux. A completion must specify which premise changes or how component
+    fluxes balance in the total material flow. Keep GfX §3's bare slip mapping,
+    §7.5's dressed slip-plus-gradient mapping, and Condensed's closed curl-flux
+    expression distinct. Derive the orientation-independent leading charge
+    interaction from the whole field; a chosen pair of facing vortices does
+    not establish it.
 
 ## Falsifiers and Redraw Conditions
 

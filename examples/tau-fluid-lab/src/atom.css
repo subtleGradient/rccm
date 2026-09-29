@@ -1,0 +1,131 @@
+.atom-playground { background: #040a12; }
+.atom-playground .scene { z-index: 0; }
+.atom-panel { width: 360px; background: rgba(8, 19, 29, .56); backdrop-filter: blur(24px) saturate(115%); -webkit-backdrop-filter: blur(24px) saturate(115%); box-shadow: 0 15px 65px #0004; }
+.atom-panel .panel-header { padding-bottom: 22px; }
+.atom-panel .panel-header h1 { font-size: 28px; letter-spacing: -.055em; }
+.atom-panel .section-title { gap: 8px; }
+.atom-panel .section-title > span { font-size: 8px; letter-spacing: .055em; }
+.atom-panel .panel-section { padding: 18px 18px 20px; }
+.atom-panel button, .atom-panel select { transition: background .15s, border-color .15s; }
+.atom-panel button:disabled { opacity: .32; cursor: default; }
+.atom-primary, .atom-button { min-height: 34px; padding: 7px 12px; border: 1px solid #b0d4e22c; border-radius: 6px; font-size: 12px; }
+.atom-primary { color: #122531; font-weight: 630; background: #c5ddef; border-color: #c5ddef; }
+.atom-primary:hover:not(:disabled) { background: #e2f2ff; }
+.atom-button { color: #c7dce7; background: #adc9e00b; }
+.atom-button:hover:not(:disabled) { background: #adc9e021; border-color: #b0d4e25c; }
+.atom-wide { width: 100%; margin-top: 14px; }
+.atom-population-actions, .atom-control-row { display: flex; gap: 7px; }
+.atom-population-actions .atom-primary { flex: 1; }
+.atom-control-row > button { flex: 1; }
+.atom-body-list { display: grid; gap: 6px; margin-top: 13px; }
+.atom-body-row { display: flex; min-height: 50px; border: 1px solid #afcde119; border-radius: 6px; background: #96bade06; }
+.atom-body-row.selected { border-color: #b6d8f14a; background: #96bade0e; }
+.atom-body-row > button:first-child { display: flex; flex: 1; min-width: 0; align-items: center; gap: 10px; padding: 8px 11px; border: 0; background: none; color: #d6e6f2; text-align: left; }
+.atom-body-row i { flex: none; width: 15px; height: 15px; border: 2px dotted; border-radius: 50%; }
+.atom-body-row strong { display: block; font-size: 12px; font-weight: 550; }
+.atom-body-row small { display: block; margin-top: 3px; color: #87a4b5; font-size: 10px; }
+.atom-body-row .atom-remove { width: 32px; border: 0; background: none; color: #99b1c2; font-size: 17px; }
+.atom-body-row .atom-remove:hover { color: #ffbcad; }
+.atom-note, .atom-radial p { margin-top: 10px; color: #91a9b6; font-size: 11px; line-height: 1.6; }
+.atom-notice { margin-top: 11px; padding: 10px; border-left: 2px solid #dbb977; color: #decdad; background: #bb903e10; font-size: 11px; line-height: 1.5; }
+.atom-time { display: flex; align-items: baseline; gap: 10px; margin: -2px 0 14px; }
+.atom-time strong { font: 31px ui-monospace, monospace; color: #e5f2fe; font-variant-numeric: tabular-nums; letter-spacing: -.065em; }
+.atom-time span { color: #839eaf; font-size: 11px; }
+.atom-inline { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; font-size: 12px; color: #b7cbd7; }
+.atom-inline select { min-width: 66px; padding: 5px 8px; border-radius: 5px; color: #dbeefa; border: 1px solid #a8c4d432; background: #14242f; }
+.atom-slider { display: grid; grid-template-columns: 1fr auto; gap: 6px; margin-top: 17px; color: #adc4d2; font-size: 11px; }
+.atom-slider strong { color: #c6dced; font: 10px ui-monospace, monospace; }
+.atom-slider input { grid-column: 1 / -1; width: 100%; height: 18px; margin: 0; accent-color: #aacde8; }
+.atom-check { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #c3d9e4; }
+.atom-check input, .atom-check-grid input { margin: 0; accent-color: #adcfe9; }
+.atom-check strong { font-size: 12px; font-weight: 520; }
+.atom-check > span { margin-left: auto; color: #8baaba; font: 9px ui-monospace, monospace; }
+.atom-check > i { width: 10px; height: 10px; border-radius: 2px; }
+.atom-check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 8px; color: #b6ccd9; font-size: 11px; }
+.atom-check-grid label { display: flex; gap: 7px; align-items: center; }
+.atom-slice-control { padding: 13px 0; border-bottom: 1px solid #adc9e019; }
+.atom-slice-control:first-of-type { padding-top: 0; }
+.atom-slice-control p { margin-top: 7px; color: #90a5b3; font-size: 10px; line-height: 1.5; }
+.atom-slice-offset { display: flex; align-items: center; gap: 8px; margin-top: 9px; font: 9px ui-monospace, monospace; color: #91b0c1; }
+.atom-slice-offset input { flex: 1; min-width: 0; height: 12px; accent-color: #a2c3d5; }
+.atom-slice-offset output { width: 29px; text-align: right; }
+.atom-caption { color: #b0c6d3; font-size: 10px; }
+.atom-radial { margin-top: 17px; }
+.atom-radial svg { display: block; width: 100%; margin-top: 7px; }
+.atom-radial svg text { fill: #82a1b5; font: 9px ui-monospace, monospace; }
+.atom-radial p { margin-top: 5px; font-size: 10px; }
+.atom-panel .property-list dt { font-size: 10px; }
+.atom-panel .property-list dd { font-size: 9px; }
+.atom-inspection-name { color: #dbe9f5; font-size: 14px; font-weight: 550; }
+.atom-matrix { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 16px; font: 11px ui-monospace, monospace; }
+.atom-matrix span { padding: 8px 3px; background: #9ebfcb0a; border-radius: 3px; text-align: center; }
+.atom-matrix .symmetric { color: #93d9c4; }.atom-matrix .electric { color: #e5cd86; }.atom-matrix .twist { color: #e8a596; }
+.atom-model-details { padding: 18px; color: #98aebb; font-size: 11px; line-height: 1.6; border-bottom: 1px solid #adc9e019; }
+.atom-model-details summary { cursor: pointer; color: #c3d5e3; }
+.atom-model-details p { margin-top: 12px; }
+.atom-footer { display: grid; gap: 7px; padding: 16px 18px; font-size: 10px; color: #728d9d; }
+.atom-footer a { color: #9fbace; text-decoration: none; }
+.atom-hud { position: absolute; z-index: 1; top: 26px; left: 28px; pointer-events: none; }
+.atom-hud > a { color: #bfd1e0; font: 10px ui-monospace, monospace; text-decoration: none; letter-spacing: .13em; pointer-events: auto; }
+.atom-run-status { display: flex; align-items: center; gap: 8px; margin-top: 20px; color: #b2c9d6; font: 9px ui-monospace, monospace; letter-spacing: .1em; }
+.atom-run-status i { width: 5px; height: 5px; background: #627788; border-radius: 50%; }
+.atom-run-status i.running { background: #9de4bf; box-shadow: 0 0 11px #9de4bf80; }
+.atom-run-status > span { margin-left: 8px; color: #e8f4ff; font-variant-numeric: tabular-nums; }
+.atom-hud > p { margin-top: 8px; color: #7e9dac; font-size: 10px; }
+.atom-view-switch { display: flex; gap: 3px; width: fit-content; margin-top: 15px; padding: 3px; border: 1px solid #a6ccdf26; border-radius: 7px; background: #08162488; backdrop-filter: blur(14px); pointer-events: auto; }
+.atom-view-switch button { border: 0; padding: 7px 10px; border-radius: 4px; background: none; color: #89a6bb; font-size: 10px; }
+.atom-view-switch button.active { background: #adc9e01b; color: #d9e8f6; }
+.atom-legends { position: absolute; bottom: 26px; left: 28px; display: flex; flex-wrap: wrap; gap: 10px; max-width: calc(100% - 430px); pointer-events: none; }
+.atom-legend { width: 185px; padding: 11px 12px; border: 1px solid #a6ccdf21; border-radius: 6px; background: #08142099; backdrop-filter: blur(12px); }
+.atom-legend > div:first-child { display: flex; justify-content: space-between; gap: 8px; font-size: 9px; color: #c2d6e1; }
+.atom-legend b { font: 9px ui-monospace, monospace; color: #88a7ba; white-space: nowrap; }
+.atom-ramp { height: 5px; margin: 9px 0 7px; border-radius: 2px; }
+.atom-legend-values { display: flex; justify-content: space-between; gap: 6px; color: #93afc3; font: 8px ui-monospace, monospace; }
+.atom-legend-values > span:nth-child(2) { color: #7c99ad; font-size: 7px; }
+.atom-residence-legend { max-width: 380px; padding: 13px 15px; background: #08142099; backdrop-filter: blur(12px); border: 1px solid #a6ccdf21; border-radius: 7px; }
+.atom-residence-legend span { font: 9px ui-monospace, monospace; color: #c5def1; letter-spacing: .08em; }
+.atom-residence-legend p { margin-top: 8px; font-size: 11px; line-height: 1.6; color: #94afc2; }
+.atom-plane-label { white-space: nowrap; font: 8px ui-monospace, monospace; letter-spacing: .05em; padding: 4px 6px; border-radius: 3px; color: #b6d2c9; background: #09132099; }
+.atom-plane-label.electric { color: #e3cf9b; }.atom-plane-label.twist { color: #edac9d; }
+.atom-body-label { padding: 3px 6px; border: 1px solid transparent; background: #07132177; border-radius: 4px; font: 10px ui-monospace, monospace; white-space: nowrap; }
+.atom-body-label.selected { border-color: #b1cde64a; background: #102337ad; }
+
+/* The larger volume and its controls share a restrained, translucent surface. */
+.atom-panel { width: 380px; background: rgba(9, 17, 29, .49); }
+.atom-panel .panel-header h1 { font-size: 30px; font-weight: 510; }
+.atom-prototype-tag { display: inline-block; margin-top: 15px; padding: 5px 7px; border: 1px solid #b7c5d526; border-radius: 4px; color: #a3b2c9; font: 9px ui-monospace, monospace; }
+.atom-panel select { max-width: 100%; padding: 6px 8px; color: #cbdbea; background: #172330; border: 1px solid #afc6d526; border-radius: 5px; font-size: 10px; }
+.atom-population-actions select { min-width: 0; flex: 1; }
+.atom-population-actions .atom-primary { flex: none; }
+.atom-body-card { border: 1px solid #afcde11e; border-radius: 7px; background: #96bade04; }
+.atom-body-card.selected { border-color: #b6d8f152; background: #96bade0a; }
+.atom-body-card .atom-body-row { border: 0; background: none; }
+.atom-body-row i.knot { border-radius: 35% 70% 35% 70%; transform: rotate(-30deg); }
+.atom-orbital-select { display: flex; align-items: center; justify-content: space-between; margin: 0 11px 9px 36px; gap: 8px; color: #91a7b7; font-size: 10px; }
+.atom-orbital-select select { flex: 1; min-width: 0; }
+.atom-quick-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 14px; }
+.atom-quick-presets > span { width: 100%; margin-bottom: 2px; color: #859dac; font-size: 9px; }
+.atom-quick-presets button { padding: 6px 9px; border: 1px solid #c5b5ed28; background: #b499e90a; color: #c7bce0; border-radius: 4px; font-size: 10px; }
+.atom-quick-presets button:hover { background: #b499e922; }
+.atom-panel .atom-text-button { padding: 2px 0; border: 0; background: none; color: #a8c7dc; font-size: 10px; cursor: pointer; }
+.atom-slice-control { margin-top: 10px; padding: 12px; border: 1px solid #adc9e01c; border-radius: 7px; background: #829cc909; }
+.atom-slice-control:first-of-type { padding-top: 12px; }
+.atom-slice-control.is-off { background: transparent; }
+.atom-slice-control.is-off > p, .atom-slice-control.is-off > label { opacity: .5; }
+.atom-slice-heading { display: flex; align-items: center; gap: 7px; }
+.atom-axis-badge { font: 11px ui-monospace, monospace; color: #c2cfe0; letter-spacing: .05em; }
+.atom-slice-heading select { flex: 1; min-width: 0; }
+.atom-toggle { border: 1px solid #abbdd229; color: #7e8fa4; background: #53658211; border-radius: 12px; padding: 5px 7px; width: 40px; font: 9px ui-monospace, monospace; }
+.atom-toggle.on { color: #bde8d9; border-color: #82d8b843; background: #58b9991a; }
+.atom-slice-offset { font-size: 10px; }
+.atom-slice-offset output { width: 36px; color: #b6cede; }
+.atom-slice-offset button { padding: 0 3px; border: 0; background: none; color: #9cb6c8; font-size: 15px; }
+.atom-fluid-ramp { display: flex; justify-content: space-between; gap: 4px; padding-top: 13px; background: linear-gradient(90deg, #327bff, #92959f, #ffd347) top / 100% 5px no-repeat; color: #a5b4c3; font-size: 9px; }
+.atom-hypothesis { margin-top: 15px; line-height: 1.5; }
+.atom-mini-legend { display: flex; gap: 12px; margin-top: 13px; color: #94a1b6; font-size: 9px; }
+.atom-mini-legend span { display: flex; gap: 5px; align-items: center; }
+.atom-mini-legend i { width: 5px; height: 5px; border-radius: 50%; }
+.atom-mini-legend .positive { background: #ffd347; }.atom-mini-legend .neutral { background: #92959f; }.atom-mini-legend .negative { background: #327bff; }
+.atom-legends { max-width: calc(100% - 450px); }
+.atom-model-details a { color: #c6b6ee; }
+.atom-body-label { font-size: 11px; }

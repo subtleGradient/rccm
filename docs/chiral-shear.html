@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09141c">
+  <meta name="description" content="A rotatable 3D explanation of smooth and oppositely wound fluid passages, with precisely constructed right- and left-hand threads.">
+  <title>Chiral shear · RCCM fluid field notes</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2309141c'/%3E%3Cpath d='M12 32c10-22 30-22 40 0M12 32c10 22 30 22 40 0' fill='none' stroke='%23f8cf55' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%238bc6f4'/%3E%3C/svg%3E">
+  <style>
+    :root{color-scheme:dark;--bg:#09141c;--surface:#10212a;--surface2:#132832;--line:#28404b;--ink:#f0f3f1;--muted:#a8bdc5;--gray:#d1d8d9;--yellow:#f8cf55;--blue:#8bc6f4;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 85% 52% at 85% 4%,#1b3842 0%,transparent 74%),var(--bg);color:var(--ink);line-height:1.55}
+    button,a{font:inherit}button{cursor:pointer}a{color:inherit}a:focus-visible,button:focus-visible,canvas:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+    .wrap{max-width:1220px;margin:auto;padding:0 clamp(18px,4vw,52px)}
+    header{border-bottom:1px solid var(--line)}.topline{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;min-height:72px;padding-block:14px}
+    .mark{font-size:.86rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700}.mark b{font-weight:800;color:var(--yellow)}.topline nav{display:flex;gap:clamp(14px,3vw,28px);color:var(--muted);font-size:.92rem}.topline nav a{text-decoration:none}.topline nav a:hover{color:var(--ink)}
+    .hero{padding:clamp(32px,5vw,64px) 0 28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.58fr);gap:30px;align-items:end}.eyebrow{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);font-weight:700;margin:0 0 11px}h1{font-size:clamp(2.5rem,5.6vw,5.15rem);letter-spacing:-.055em;line-height:1.04;margin:0;max-width:920px}h1 em{font-style:normal;color:var(--yellow)}.hero p{font-size:1.05rem;color:var(--muted);margin:0;max-width:410px}.status-note{font-size:.86rem;color:var(--muted);margin:0 0 24px}
+    section{scroll-margin-top:24px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:22px;flex-wrap:wrap;margin:30px 0 18px}.section-head h2{margin:0;font-size:clamp(1.65rem,2.5vw,2.25rem);letter-spacing:-.035em;line-height:1.13}.section-head p{margin:0;color:var(--muted);max-width:520px}.step{font-size:.79rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px;font-weight:700}
+    .tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:16px}.tab{background:transparent;border:1px solid var(--line);border-radius:999px;color:var(--muted);padding:10px 16px;min-height:44px;text-align:left;font-size:.94rem}.tab:hover{border-color:var(--muted);color:var(--ink)}.tab[aria-selected=true]{background:var(--surface2);border-color:var(--tone);color:var(--ink);box-shadow:inset 3px 0 var(--tone)}.tab span{display:inline-block;color:var(--tone);font-weight:750;margin-right:8px;font-variant-numeric:tabular-nums}
+    .explorer{--tone:var(--gray);display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden}.explorer[data-variant=right]{--tone:var(--yellow)}.explorer[data-variant=left]{--tone:var(--blue)}
+    .stage{height:clamp(360px,46vw,530px);position:relative;overflow:hidden;background:radial-gradient(circle at 52% 42%,#1d3a43 0%,#10242d 50%,#0b1a22 100%);touch-action:none}.stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}.stage canvas:active{cursor:grabbing}.stage:after{content:"";position:absolute;inset:0;pointer-events:none;border-right:1px solid var(--line)}
+    .stage-tag,.stage-hint{position:absolute;z-index:2;pointer-events:none;color:var(--muted);font-size:.83rem;letter-spacing:.03em}.stage-tag{left:18px;top:16px;background:#0b1a22c9;border:1px solid var(--line);padding:6px 10px;border-radius:8px}.stage-hint{right:18px;bottom:16px;text-align:right}.stage-error{position:absolute;inset:0;display:grid;place-items:center;padding:28px;text-align:center;color:var(--muted);pointer-events:none}.stage-error[hidden]{display:none}
+    .info{padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;align-items:flex-start}.info .case{font-size:.8rem;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:var(--tone);margin-bottom:13px}.info h3{font-size:clamp(1.75rem,2.5vw,2.5rem);line-height:1.13;letter-spacing:-.045em;margin:0 0 16px}.info p{font-size:1rem;color:var(--muted);margin:0 0 20px}.facts{display:grid;gap:0;width:100%;margin:auto 0 0}.fact{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-top:1px solid var(--line);font-size:.88rem}.fact dt{color:var(--muted)}.fact dd{margin:0;color:var(--ink);text-align:right;font-weight:600}.info .jump{display:inline-block;text-decoration:none;margin-top:25px;border-bottom:1px solid var(--tone);color:var(--tone);font-size:.92rem;font-weight:700}
+    .tools{display:flex;gap:9px;flex-wrap:wrap;margin:13px 0 0}.tool{background:transparent;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:9px 13px;min-height:42px;font-size:.9rem}.tool:hover{background:var(--surface2)}
+    .bridge{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:50px 0 62px}.bridge article{border-top:2px solid var(--line);padding-top:17px}.bridge article[data-variant=right]{border-color:var(--yellow)}.bridge article[data-variant=left]{border-color:var(--blue)}.bridge strong{display:block;font-size:1rem;margin-bottom:6px}.bridge p{color:var(--muted);margin:0;font-size:.94rem}
+    .passage{padding:26px 0 70px;border-top:1px solid var(--line)}.passage .explorer{margin-top:16px}.passage .stage{height:clamp(360px,42vw,490px)}
+    .equations{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px;margin-top:60px;border-top:1px solid var(--line);padding:35px 0 45px}.equations h2{font-size:clamp(1.55rem,2.4vw,2.15rem);letter-spacing:-.035em;margin:0 0 15px}.equations p{color:var(--muted);margin:0 0 13px}.math{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:clamp(.93rem,1.6vw,1.1rem);color:var(--ink);display:block;white-space:normal;background:var(--surface);padding:14px 18px;border-left:3px solid var(--yellow);border-radius:0 8px 8px 0;margin:8px 0 12px}.math.blue{border-color:var(--blue)}
+    footer{border-top:1px solid var(--line);padding:25px 0 40px;color:var(--muted);font-size:.86rem}footer .wrap{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}footer a{text-decoration:underline;text-underline-offset:3px}
+    @media(max-width:860px){.hero{grid-template-columns:1fr}.hero p{max-width:720px}.explorer{grid-template-columns:1fr}.stage:after{border-right:0;border-bottom:1px solid var(--line)}.info{min-height:310px}.bridge{grid-template-columns:1fr;gap:20px}.equations{grid-template-columns:1fr;gap:12px}}
+    @media(max-width:520px){.topline nav{font-size:.82rem}.hero{padding-top:30px}.section-head{margin-top:20px}.tab{font-size:.85rem;padding:9px 12px}.stage,.passage .stage{height:375px}.stage-tag{left:10px;top:10px}.stage-hint{right:10px;bottom:10px}.bridge{margin:36px 0 46px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <header><div class="wrap topline"><div class="mark">RCCM <b>·</b> Fluid field notes</div><nav aria-label="On this page"><a href="#bodies">The drivers</a><a href="#passages">The passages</a><a href="#rule">The rule</a></nav></div></header>
+  <main class="wrap">
+    <div class="hero"><div><p class="eyebrow">A 3D thought experiment in moving fluid</p><h1>Same advance.<br><em>Different slip.</em></h1></div><p>Imagine three shapes moving tip first through one continuous medium. The difference to watch is the motion they demand from the fluid around them.</p></div>
+    <p class="status-note">In-model illustration: the metal shapes are handles for seeing flow. In RCCM, a persistent “particle” would be a cavity maintained by the fluid itself.</p>
+    <section id="bodies" aria-labelledby="bodies-title">
+      <div class="section-head"><div><span class="step">01 · What crosses the fluid</span><h2 id="bodies-title">Three drivers, one forward direction</h2></div><p>The view travels with the driver. Fluid tracers stream past it toward the head; the driver advances toward its tip.</p></div>
+      <div class="tabs" role="tablist" aria-label="Choose a driver">
+        <button class="tab" type="button" role="tab" aria-selected="true" data-variant="smooth" style="--tone:var(--gray)"><span>01</span>Smooth nail</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-variant="right" style="--tone:var(--yellow)"><span>02</span>Right-hand screw</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-variant="left" style="--tone:var(--blue)"><span>03</span>Left-hand screw</button>
+      </div>
+      <div class="explorer" id="body-explorer" data-variant="smooth">
+        <div class="stage" id="body-stage" role="img" aria-label="Rotatable 3D model of the selected driver and moving fluid tracers"><span class="stage-tag">Driver: tipward · fluid: headward</span><span class="stage-hint">Bright beads: moving fluid<br>Pointed markers: flow direction<br>Drag to rotate · scroll to zoom</span><div class="stage-error" id="body-error" hidden>3D rendering is unavailable here. The text and helix rule below still explain the geometry.</div></div>
+        <div class="info"><div class="case" id="body-case">01 / unthreaded</div><h3 id="body-name">Smooth nail</h3><p id="body-copy">It can move tip first without choosing a clockwise or counterclockwise twist. Fluid must still part and slip along the surface, but the smooth shape has no built-in handedness.</p><dl class="facts"><div class="fact"><dt>Head</dt><dd id="body-head">Plain round</dd></div><div class="fact"><dt>Spin viewed from head</dt><dd id="body-spin">None required</dd></div><div class="fact"><dt>Helix sign</dt><dd id="body-sign">0 · no thread</dd></div></dl><a class="jump" href="#passages">See the passage in the fluid ↓</a></div>
+      </div>
+      <div class="tools"><button class="tool" type="button" id="motion-toggle" aria-pressed="true">Pause motion</button><button class="tool" type="button" id="view-tumble">Tumble view</button><button class="tool" type="button" id="view-reset">Reset view</button></div>
+    </section>
+    <div class="bridge" aria-label="What changes in the surrounding fluid">
+      <article data-variant="smooth"><strong>Smooth · gray</strong><p>Axial displacement and surface drag have no preferred winding direction.</p></article>
+      <article data-variant="right"><strong>Right-hand · yellow</strong><p>Clockwise turning from the head advances toward the tip; near fluid receives one sense of helical slip.</p></article>
+      <article data-variant="left"><strong>Left-hand · blue</strong><p>Counterclockwise turning from the head gives the same advance; the helical slip is the mirror sense.</p></article>
+    </div>
+    <section id="passages" class="passage" aria-labelledby="passages-title">
+      <div class="section-head"><div><span class="step">02 · What the fluid carries</span><h2 id="passages-title">Remove the driver. Keep the passage.</h2></div><p>The hollow centre is a void. The translucent wall and moving tracers are the surrounding fluid. Threaded walls show mirrored chiral shear.</p></div>
+      <div class="tabs" role="tablist" aria-label="Choose a fluid passage">
+        <button class="tab" type="button" role="tab" aria-selected="true" data-variant="smooth" style="--tone:var(--gray)"><span>01</span>Smooth passage</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-variant="left" style="--tone:var(--blue)"><span>02</span>Left-hand passage</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-variant="right" style="--tone:var(--yellow)"><span>03</span>Right-hand passage</button>
+      </div>
+      <div class="explorer" id="hole-explorer" data-variant="smooth">
+        <div class="stage" id="hole-stage" role="img" aria-label="Rotatable 3D cutaway of the selected fluid passage, showing its inner wall and flowing surrounding fluid"><span class="stage-tag">VOID / fluid surrounds it</span><span class="stage-hint">Bright beads: moving fluid<br>Pointed markers: flow direction<br>Wedge reveals the inner fluid wall</span><div class="stage-error" id="hole-error" hidden>3D rendering is unavailable here. The text and helix rule below still explain the geometry.</div></div>
+        <div class="info"><div class="case" id="hole-case">01 / neutral passage</div><h3 id="hole-name">Smooth bore</h3><p id="hole-copy">The displaced fluid wraps a smooth empty channel. There is motion and drag, but the boundary does not select a winding sign.</p><dl class="facts"><div class="fact"><dt>Boundary shape</dt><dd id="hole-boundary">Smooth around axis</dd></div><div class="fact"><dt>Fluid slip</dt><dd id="hole-slip">Axial / no chosen twist</dd></div><div class="fact"><dt>View rotation</dt><dd>Sign stays the same</dd></div></dl></div>
+      </div>
+    </section>
+    <section id="rule" class="equations" aria-label="The helix rule and its physical limit">
+      <div><span class="step">03 · One signed geometry</span><h2>The pattern sets its own axis.</h2><p>Call tipward distance <em>z</em>, thread pitch <em>p</em> (positive), and the winding sign <em>h</em>. A right-hand thread has <em>h</em> = +1; its mirror has <em>h</em> = −1. The smooth case has no thread sign.</p><span class="math">thread ridge: θ(z) = h · 2πz / p</span><span class="math blue">constrained advance: v<sub>z</sub> = h · pω / 2π</span><p>Here positive angular speed <em>ω</em> means clockwise viewed from the head toward the tip. Thus right-hand clockwise and left-hand counterclockwise both give positive tipward travel.</p></div>
+      <div><span class="step">04 · Orientation survives</span><h2>Turning the whole scene changes the view.</h2><p>Rotate the driver, passage, fluid, and observer together. Their local relationships stay intact. A reflected winding changes the pattern itself, so the fluid’s chiral shear reverses.</p><p>The metal props illustrate a geometric possibility. The page does not calculate charge from a cavity’s fluid equations. The RCCM text proposes that charge polarity tracks the winding of a stable fluid-supported cavity; the screw analogy makes that proposal spatially legible.</p><p>One useful next move: pick the blue passage and tumble it until it looks yellow from a particular angle. Check whether any actual thread crossing has reversed.</p></div>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>RCCM · fluid-field teaching model</span><span>Sources: RCCM-GfX-2 §10.6 · RCCM-Condensed “Coulomb’s Law”</span></div></footer>
+  <script type="module">
+    const controls=[...document.querySelectorAll('[data-variant]')].filter(el=>el.classList.contains('tab'));
+    const content={
+      smooth:{bodyCase:'01 / unthreaded',bodyName:'Smooth nail',bodyCopy:'It can move tip first without choosing a clockwise or counterclockwise twist. Fluid must still part and slip along the surface, but the smooth shape has no built-in handedness.',head:'Plain round',spin:'None required',sign:'0 · no thread',holeCase:'01 / neutral passage',holeName:'Smooth bore',holeCopy:'The displaced fluid wraps a smooth empty channel. There is motion and drag, but the boundary does not select a winding sign.',boundary:'Smooth around axis',slip:'Axial / no chosen twist'},
+      right:{bodyCase:'02 / positive winding',bodyName:'Right-hand screw',bodyCopy:'A normal thread with a Phillips head. From the head, turn it clockwise and it advances toward its tip. The nearby fluid has to accommodate a right-hand helical relative motion.',head:'Phillips cross',spin:'Clockwise ↻',sign:'+1 · right-hand',holeCase:'02 / positive winding',holeName:'Right-hand passage',holeCopy:'With the metal removed, the wall’s ridges and dyed fluid paths keep the right-hand winding. Yellow marks the proposed positive chiral slip in this analogy.',boundary:'Right-hand helical',slip:'Clockwise / tipward'},
+      left:{bodyCase:'03 / negative winding',bodyName:'Left-hand screw',bodyCopy:'A reverse thread with a slotted head. From the head, turn it counterclockwise and it advances toward its tip. The nearby fluid accommodates the mirror helical relative motion.',head:'Single slot',spin:'Counterclockwise ↺',sign:'−1 · left-hand',holeCase:'03 / negative winding',holeName:'Left-hand passage',holeCopy:'With the metal removed, the wall’s ridges and dyed fluid paths keep the mirror winding. Blue marks the proposed negative chiral slip in this analogy.',boundary:'Left-hand helical',slip:'Counterclockwise / tipward'}
+    };
+    const $=id=>document.getElementById(id);
+    let variant='smooth',motion=!matchMedia('(prefers-reduced-motion: reduce)').matches,bodyView,holeView;
+    function select(key){
+      variant=key;const d=content[key];
+      for(const [id,value] of Object.entries({'body-case':d.bodyCase,'body-name':d.bodyName,'body-copy':d.bodyCopy,'body-head':d.head,'body-spin':d.spin,'body-sign':d.sign,'hole-case':d.holeCase,'hole-name':d.holeName,'hole-copy':d.holeCopy,'hole-boundary':d.boundary,'hole-slip':d.slip}))$(id).textContent=value;
+      $('body-explorer').dataset.variant=key;$('hole-explorer').dataset.variant=key;
+      controls.forEach(button=>button.setAttribute('aria-selected',String(button.dataset.variant===key)));
+      bodyView?.setVariant(key);holeView?.setVariant(key);
+    }
+    controls.forEach(button=>button.addEventListener('click',()=>select(button.dataset.variant)));
+    $('motion-toggle').addEventListener('click',()=>{motion=!motion;$('motion-toggle').textContent=motion?'Pause motion':'Play motion';$('motion-toggle').setAttribute('aria-pressed',String(motion));});
+    if(!motion){$('motion-toggle').textContent='Play motion';$('motion-toggle').setAttribute('aria-pressed','false');}
+    $('view-reset').addEventListener('click',()=>{bodyView?.resetView();holeView?.resetView();});
+    $('view-tumble').addEventListener('click',()=>{bodyView?.tumble();holeView?.tumble();});
+
+    try{
+      const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js');
+      const PITCH=.46,CORE=.42,HEIGHT=.12,INNER=.46,OUTER=1.08,TRAVEL=.26,SPIN=2*Math.PI*TRAVEL/PITCH;
+      const css={smooth:0xd1d8d9,right:0xf8cf55,left:0x8bc6f4};
+      const hand=key=>key==='right'?1:key==='left'?-1:0;
+      const crest=phase=>Math.pow(.5+.5*Math.cos(phase),5);
+      // θ increases clockwise to a viewer behind the head looking tipward.
+      // The body and its empty fluid passage use exactly the same signed phase.
+      const phase=(theta,z,h)=>theta-h*2*Math.PI*z/PITCH;
+      const radius=(theta,z,h,hole)=>hole?INNER+HEIGHT*crest(phase(theta,z,h)):CORE+HEIGHT*crest(phase(theta,z,h));
+      function surface(h,hole,color){
+        const A=104,Z=188,start=hole?Math.PI/2+.58:0,span=hole?2*Math.PI-1.16:2*Math.PI;
+        const points=[],indices=[],colors=[],base=new THREE.Color(color),shade=new THREE.Color(hole?0x263b44:0x778a90);
+        for(let j=0;j<=Z;j++){const z=-1.48+2.94*j/Z;
+          for(let i=0;i<=A;i++){const theta=start+span*i/A,profile=h?crest(phase(theta,z,h)):0,r=h?radius(theta,z,h,hole):(hole?INNER:CORE);
+            points.push(r*Math.cos(theta),r*Math.sin(theta),z);const c=shade.clone().lerp(base,hole ? .32+.5*profile : .66+.34*profile);colors.push(c.r,c.g,c.b);
+            if(i<A&&j<Z){const a=j*(A+1)+i,b=a+A+1;indices.push(a,b,a+1,a+1,b,b+1);}
+          }
+        }
+        const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(points,3));g.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));g.setIndex(indices);g.computeVertexNormals();
+        return new THREE.Mesh(g,new THREE.MeshStandardMaterial({vertexColors:true,side:THREE.DoubleSide,metalness:hole ? .08 : .7,roughness:hole ? .54 : .3,transparent:hole,opacity:hole ? .76 : 1}));
+      }
+      function cylinder(radiusTop,radiusBottom,length,z,color,metalness=.65){const m=new THREE.Mesh(new THREE.CylinderGeometry(radiusTop,radiusBottom,length,56),new THREE.MeshStandardMaterial({color,metalness,roughness:.32}));m.rotation.x=Math.PI/2;m.position.z=z;return m;}
+      function addHead(parent,key){
+        parent.add(cylinder(.64,.64,.27,-1.71,css[key]));
+        if(key==='smooth')return;
+        const dark=new THREE.MeshStandardMaterial({color:0x203039,metalness:.25,roughness:.85});
+        const slot=new THREE.Mesh(new THREE.BoxGeometry(1.02,.14,.027),dark);slot.position.z=-1.858;parent.add(slot);
+        if(key==='right'){const cross=slot.clone();cross.rotation.z=Math.PI/2;parent.add(cross);}
+      }
+      function buildBody(group,key){
+        const h=hand(key),metal=new THREE.Group();group.add(metal);
+        if(h===0)metal.add(cylinder(CORE,CORE,2.95,-.01,css[key]));else metal.add(surface(h,false,css[key]));
+        const tip=cylinder(0,CORE,.62,1.77,css[key]);metal.add(tip);addHead(metal,key);
+        // The arrow belongs to the local pattern, not a world compass.
+        const arrow=new THREE.ArrowHelper(new THREE.Vector3(0,0,1),new THREE.Vector3(1.22,0,-1.37),2.68,0xd2e3e8,.26,.15);group.add(arrow);
+        return metal;
+      }
+      function buildHole(group,key){
+        const h=hand(key),color=css[key],start=Math.PI/2+.58,span=2*Math.PI-1.16;
+        group.add(surface(h,true,color));
+        const outer=new THREE.Mesh(new THREE.CylinderGeometry(OUTER,OUTER,3.55,80,1,true,start,span),new THREE.MeshStandardMaterial({color:0x38515b,transparent:true,opacity:.19,depthWrite:false,side:THREE.DoubleSide,roughness:.9}));outer.rotation.x=Math.PI/2;group.add(outer);
+        const lineMaterial=new THREE.LineBasicMaterial({color,transparent:true,opacity:.79,depthWrite:false});
+        for(let k=0;k<4;k++){
+          const points=[];for(let j=0;j<=180;j++){const z=-1.46+2.92*j/180,theta=h?(h*2*Math.PI*z/PITCH+k*Math.PI/2):k*Math.PI/2;const r=INNER+.2;points.push(new THREE.Vector3(r*Math.cos(theta),r*Math.sin(theta),z));}
+          group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),lineMaterial));
+        }
+        const ringMaterial=new THREE.LineBasicMaterial({color:0x8fa8ae,transparent:true,opacity:.55});
+        for(const z of [-1.49,1.47]){const points=[];for(let i=0;i<=100;i++){const theta=start+span*i/100,r=h?radius(theta,z,h,true):INNER;points.push(new THREE.Vector3(r*Math.cos(theta),r*Math.sin(theta),z));}group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points),ringMaterial));}
+        const arrow=new THREE.ArrowHelper(new THREE.Vector3(0,0,1),new THREE.Vector3(1.39,0,-1.36),2.72,0xd2e3e8,.26,.15);group.add(arrow);
+      }
+      function viewer(id,type){
+        const host=$(id),scene=new THREE.Scene(),world=new THREE.Group(),shape=new THREE.Group();scene.add(world);world.add(shape);
+        const camera=new THREE.PerspectiveCamera(39,1,.1,35);camera.position.set(0,2.7,-7.35);camera.lookAt(0,0,0);
+        const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setClearAlpha(0);renderer.outputColorSpace=THREE.SRGBColorSpace;host.prepend(renderer.domElement);
+        scene.add(new THREE.HemisphereLight(0xe4f6ff,0x15242c,2.0));const keyLight=new THREE.DirectionalLight(0xffffff,2.7);keyLight.position.set(-3,5,-3);scene.add(keyLight);const fill=new THREE.DirectionalLight(0x83bed8,1.2);fill.position.set(3,-2,5);scene.add(fill);
+        const particles=new THREE.BufferGeometry(),count=type==='body'?660:780,seed=[],positions=new Float32Array(count*3);
+        let rng=type==='body'?1679:9381;const random=()=>{rng=(Math.imul(rng,1664525)+1013904223)>>>0;return rng/4294967296;};
+        for(let i=0;i<count;i++)seed.push({r:type==='body' ? .68+random()*.72 : .72+random()*.38,angle:random()*Math.PI*2,z:(random()-.5)*4.55});
+        particles.setAttribute('position',new THREE.BufferAttribute(positions,3));const points=new THREE.Points(particles,new THREE.PointsMaterial({color:css.smooth,size:.065,transparent:true,opacity:.92,depthWrite:false}));world.add(points);
+        // Each bright bead is the leading end of a short trail. Together with
+        // the 3D arrowheads, this shows the fluid's direction even when paused.
+        const trailStep=6,trailPositions=new Float32Array(Math.ceil(count/trailStep)*6),trails=new THREE.BufferGeometry();
+        trails.setAttribute('position',new THREE.BufferAttribute(trailPositions,3));
+        const trailMaterial=new THREE.LineBasicMaterial({color:css.smooth,transparent:true,opacity:.58,depthWrite:false});
+        world.add(new THREE.LineSegments(trails,trailMaterial));
+        const flowSeeds=Array.from({length:5},(_,i)=>({r:type==='body' ? .91 : .83,angle:i*2*Math.PI/5,z:-1.48+i*.74}));
+        const flowArrows=flowSeeds.map(()=>{const arrow=new THREE.ArrowHelper(new THREE.Vector3(0,0,-1),new THREE.Vector3(),.55,css.smooth,.15,.105);world.add(arrow);return arrow;});
+        let active='smooth',metal=null,t=0,drag=null;
+        function disposeItem(obj){obj.traverse(child=>{child.geometry?.dispose?.();if(child.material){for(const m of Array.isArray(child.material)?child.material:[child.material])m.dispose?.();}});}
+        function setVariant(key){
+          if(shape.children.length){shape.children.forEach(disposeItem);shape.clear();}
+          active=key;t=0;metal=type==='body'?buildBody(shape,key):(buildHole(shape,key),null);points.material.color.setHex(css[key]);trailMaterial.color.setHex(css[key]);flowArrows.forEach(arrow=>arrow.setColor(css[key]));draw();
+        }
+        function draw(){
+          const h=hand(active),extent=4.55;
+          for(let i=0;i<count;i++){
+            const s=seed[i],z=((s.z-TRAVEL*t+extent/2)%extent+extent)%extent-extent/2;
+            const swirl=h*SPIN*.13*Math.exp(-Math.max(0,s.r-.56)*4),a=s.angle+swirl*t;
+            const x=s.r*Math.cos(a),y=s.r*Math.sin(a);positions[3*i]=x;positions[3*i+1]=y;positions[3*i+2]=z;
+            if(i%trailStep===0){const offset=i/trailStep*6,past=.66,pastAngle=a-swirl*past;
+              trailPositions[offset]=x;trailPositions[offset+1]=y;trailPositions[offset+2]=z;
+              trailPositions[offset+3]=z+TRAVEL*past<extent/2?s.r*Math.cos(pastAngle):x;
+              trailPositions[offset+4]=z+TRAVEL*past<extent/2?s.r*Math.sin(pastAngle):y;
+              trailPositions[offset+5]=Math.min(z+TRAVEL*past,extent/2);
+            }
+          }
+          particles.attributes.position.needsUpdate=true;
+          trails.attributes.position.needsUpdate=true;
+          flowSeeds.forEach((s,i)=>{const z=((s.z-TRAVEL*t+extent/2)%extent+extent)%extent-extent/2;
+            const swirl=h*SPIN*.13*Math.exp(-Math.max(0,s.r-.56)*4),a=s.angle+swirl*t;
+            const arrow=flowArrows[i],direction=new THREE.Vector3(-s.r*Math.sin(a)*swirl,s.r*Math.cos(a)*swirl,-TRAVEL).normalize();
+            arrow.position.set(s.r*Math.cos(a),s.r*Math.sin(a),z);arrow.setDirection(direction);
+          });
+          if(metal)metal.rotation.z=h*SPIN*t;
+        }
+        function resetView(){world.quaternion.setFromEuler(new THREE.Euler(-.13,-.31,.08));camera.position.set(0,2.7,-7.35);camera.lookAt(0,0,0);}
+        function tumble(){const a=Math.random(),b=2*Math.PI*Math.random(),c=2*Math.PI*Math.random();world.quaternion.set(Math.sqrt(1-a)*Math.sin(b),Math.sqrt(1-a)*Math.cos(b),Math.sqrt(a)*Math.sin(c),Math.sqrt(a)*Math.cos(c));}
+        resetView();setVariant(variant);
+        let previous=performance.now(),inView=true;const intersection=new IntersectionObserver(entries=>inView=entries[0].isIntersecting);intersection.observe(host);
+        function frame(now){const dt=Math.min((now-previous)/1000,.06);previous=now;if(motion)t+=dt;if(motion&&inView)draw();if(inView)renderer.render(scene,camera);requestAnimationFrame(frame);}requestAnimationFrame(frame);
+        const resize=new ResizeObserver(()=>{const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();});resize.observe(host);
+        const xAxis=new THREE.Vector3(1,0,0),yAxis=new THREE.Vector3(0,1,0),qx=new THREE.Quaternion(),qy=new THREE.Quaternion();
+        renderer.domElement.addEventListener('pointerdown',e=>{drag={id:e.pointerId,x:e.clientX,y:e.clientY};renderer.domElement.setPointerCapture(e.pointerId);});
+        renderer.domElement.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;qx.setFromAxisAngle(xAxis,(e.clientY-drag.y)*.006);qy.setFromAxisAngle(yAxis,(e.clientX-drag.x)*.006);world.quaternion.premultiply(qy).premultiply(qx).normalize();drag.x=e.clientX;drag.y=e.clientY;});
+        renderer.domElement.addEventListener('pointerup',()=>drag=null);renderer.domElement.addEventListener('pointercancel',()=>drag=null);
+        renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();camera.position.multiplyScalar(e.deltaY>0?1.08:.92);camera.position.clampLength(4.6,13);camera.lookAt(0,0,0);},{passive:false});
+        return{setVariant,resetView,tumble};
+      }
+      bodyView=viewer('body-stage','body');holeView=viewer('hole-stage','hole');
+    }catch(error){$('body-error').hidden=false;$('hole-error').hidden=false;console.error('3D view unavailable',error);}
+  </script>
+</body>
+</html>

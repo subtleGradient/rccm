@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A visual RCCM cheat sheet: pressure gradients, signed slip interactions, charge response, available work, and the remaining bridge to atomic orbitals.">
+<link rel="icon" href="data:,">
+<title>Pressure shove · Slip shove | RCCM</title>
+<style>
+:root{color-scheme:light;--paper:#fcfbf7;--ink:#242b28;--muted:#58635d;--line:#242b2824;--green:#236952;--green-soft:#dcece1;--purple:#684e84;--purple-soft:#ede6f3;--yellow:#f4dd55;--yellow-ink:#6e5800;--blue:#b9dcee;--blue-ink:#285c77;--grey:#e1e2dc}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}main{max-width:1192px;margin:auto;padding:38px 36px 64px;isolation:isolate}h1,h2,h3{font-weight:600;letter-spacing:-.035em;text-wrap:balance}h1{font-size:clamp(42px,6.5vw,76px);line-height:1.05;margin:20px 0}h2{font-size:clamp(26px,3.2vw,38px);line-height:1.18;margin:12px 0 20px}h3{font-size:22px;line-height:1.3;margin:0 0 12px}p{max-width:74ch;text-wrap:pretty;margin:0 0 16px}a{color:inherit;text-underline-offset:4px}a:hover{color:var(--green)}strong{font-weight:650}sub,sup{font-size:.7em}button,input{font:inherit}button{background:transparent;border:1px solid var(--line);border-radius:6px;padding:9px 12px;min-height:46px;color:var(--ink);cursor:pointer;font-size:15px}button:hover{background:#242b2808}button[aria-pressed=true]{border-color:currentColor;background:#242b2806;box-shadow:inset 0 -2px currentColor}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #167ca5;outline-offset:4px}input:focus-visible{outline:3px solid #167ca5;outline-offset:0}button[hidden],[hidden]{display:none!important}section{scroll-margin-top:24px}figure{margin:0}figcaption,.small{font-size:14px;color:var(--muted)}.eyebrow{font:13px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.topline{display:flex;align-items:center;justify-content:space-between;gap:20px}.topline a{font-size:14px}.deck{font-size:21px;max-width:65ch}.opening{max-width:95ch;border-top:1px solid var(--line);padding-top:16px;margin-top:24px}.legend{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:24px;font-size:14px}.legend-item{display:flex;gap:8px;align-items:center}.swatch{width:14px;height:14px;border-radius:50%;flex-shrink:0}.swatch.green{background:var(--green)}.swatch.purple{background:var(--purple)}.swatch.yellow{background:var(--yellow);border:1px solid var(--yellow-ink)}.swatch.blue{background:var(--blue);border:1px solid var(--blue-ink)}.jump{display:flex;gap:10px 24px;flex-wrap:wrap;padding:20px 0 28px;font-size:15px}.pair-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}.channel{border-top:3px solid var(--green);padding-top:24px}.channel.slip{border-top-color:var(--purple)}.channel .eyebrow{color:var(--green)}.channel.slip .eyebrow{color:var(--purple)}.scene{width:100%;height:auto;display:block;margin:10px 0 4px}.scene text,.vectors text,.uniform-diagram text,.route-svg text{font:15px system-ui,sans-serif;fill:var(--ink)}.scene .tiny{font-size:13px}.scene .large{font-size:28px;font-weight:600}.scene .soft-text{fill:var(--muted)}.line{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.pressure-arrow{fill:none;stroke:var(--green);stroke-width:5;stroke-linecap:round}.slip-arrow{fill:none;stroke:var(--purple);stroke-width:3;stroke-linecap:round}.force-arrow{fill:none;stroke:var(--ink);stroke-width:3.5;stroke-linecap:round}.green-fill{fill:var(--green)}.purple-fill{fill:var(--purple)}.ink-fill{fill:var(--ink)}.charge-fill[data-sign="1"]{fill:var(--yellow);stroke:var(--yellow-ink)}.charge-fill[data-sign="-1"]{fill:var(--blue);stroke:var(--blue-ink)}.charge-fill[data-sign="0"]{fill:var(--grey);stroke:var(--muted)}.torus{stroke-width:1.7}.controls{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.readout{font-size:19px;font-weight:600;min-height:32px;font-variant-numeric:tabular-nums}.caption-space{min-height:48px}.math{font:22px/1.6 Georgia,'Times New Roman',serif;margin:16px 0;overflow-wrap:anywhere}.math-line{display:block}.math .operator{font-family:system-ui,sans-serif}.equation-box{padding:16px 18px;border-left:3px solid var(--green);background:#23695207;margin:24px 0}.equation-box.slip{border-left-color:var(--purple);background:#684e8407}.equation-box .math{margin:0}.equation-box p:last-child{margin-bottom:0}.aside{font-size:15px;color:var(--muted)}.section{margin-top:52px;padding-top:28px;border-top:1px solid var(--line)}.section-lead{max-width:78ch}.lab{display:grid;grid-template-columns:2fr 3fr;gap:40px;align-items:start;margin-top:26px;padding:26px;border:1px solid var(--line);border-radius:8px}.vectors{width:100%;max-width:340px;height:auto;display:block}.lab label{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-weight:600}.lab input{width:100%;margin:12px 0;accent-color:var(--purple);min-height:28px}.scale{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);gap:12px}.budget{height:32px;display:flex;border-radius:4px;overflow:hidden;margin:20px 0 12px;background:var(--green-soft)}.used{background:var(--purple);width:16%}.remaining{background:var(--green-soft);flex:1}.numbers{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:20px}.metric p{margin:0}.metric .value{font-size:34px;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1.2}.metric .value.capacity{color:var(--green)}.metric .value.dynamic{color:var(--purple)}.interaction-line{border-top:1px solid var(--line);padding-top:16px;font-variant-numeric:tabular-nums}.route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:28px 0}.route>div{border-top:2px solid var(--line);padding-top:16px}.route .number{color:var(--muted);font:14px ui-monospace,monospace;margin-bottom:10px}.uniform{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:24px}.uniform-diagram{width:100%;max-width:460px;display:block;margin-bottom:16px}.work{display:grid;grid-template-columns:1fr 1fr;gap:40px}.work .math{font-size:25px}.pill{font:13px ui-monospace,monospace;letter-spacing:.04em;color:var(--purple);margin-bottom:8px}.route-svg{width:100%;max-width:500px;display:block;margin:0 0 24px}.audit{margin-top:26px;border-top:1px solid var(--line);padding:18px 0}.audit summary{cursor:pointer;font-weight:600;font-size:19px}.audit-content{padding-top:20px}.audit p{max-width:85ch}.table-scroll{overflow:auto;margin:0 -4px;padding:0 4px}.table-scroll:focus-visible{outline:2px solid #167ca5}table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:12px 18px 12px 0}th{white-space:nowrap;font-weight:600}td:first-child{min-width:150px}td:nth-child(2){min-width:220px}.probe{background:var(--green-soft);padding:26px;margin-top:36px;border-radius:6px}.probe h2{font-size:26px;margin-top:0}.probe p{margin:0;max-width:85ch}footer{border-top:1px solid var(--line);margin-top:36px;padding-top:22px;font-size:14px;color:var(--muted)}.no-js{background:var(--purple-soft);padding:14px}.js-only{display:none}.js .js-only{display:flex}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.equation-box .small{margin-top:8px}.symbol-list{display:grid;grid-template-columns:max-content 1fr;gap:8px 18px;font-size:15px}.symbol-list dt{font-weight:600}.symbol-list dd{margin:0}.source-list{padding-left:22px}.source-list li{margin-bottom:10px}.constant-note{margin-bottom:0}.print-button{white-space:nowrap}
+.js #angle-controls{display:block}.header-label{margin-top:30px}.ledger-note{margin-top:18px}
+@media(max-width:780px){main{padding:24px 20px 42px}.pair-grid,.lab,.uniform,.work{grid-template-columns:1fr;gap:28px}.channel.slip{margin-top:12px}.topline{align-items:flex-start}.topline a{font-size:16px}.print-button{display:none}.deck{font-size:20px}.legend,.jump,.small,figcaption,.aside,.scale,.symbol-list,footer,table,button{font-size:16px}.eyebrow,.pill{font-size:14px}.route{grid-template-columns:1fr;gap:16px}.route>div{padding-top:12px}.lab{padding:20px}.lab .vectors{max-width:280px;margin:auto}.caption-space{min-height:0}.math{font-size:21px}.section{margin-top:36px}.probe{padding:22px}.symbol-list{grid-template-columns:1fr;gap:3px}.symbol-list dd{margin-bottom:12px}.scene .tiny{font-size:15px}.scene text{font-size:17px}.uniform-diagram text{font-size:17px}.topline{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:white;font-size:10pt}main{max-width:none;padding:0}h1{font-size:34pt}h2{font-size:23pt}.deck{font-size:13pt}.topline,.jump,.controls,.print-button,.js-only,.no-js{display:none!important}.pair-grid,.uniform,.work{grid-template-columns:1fr 1fr;gap:20px}.lab{grid-template-columns:2fr 3fr;gap:20px;padding:16px}.route{grid-template-columns:1fr 1fr 1fr}.small,figcaption,.aside,footer,.scale,table{font-size:9pt}.math{font-size:14pt}.section{margin-top:24px;padding-top:18px}.scene{max-height:240px}.probe,.lab,figure,.equation-box,.route>div{break-inside:avoid}.channel{padding-top:16px}.metric .value{font-size:24pt}*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="topline"><a href="asymmetric-tensor-cheat-sheet.html">← The tensor field guide</a><button type="button" class="print-button js-only" id="print-page">Print this sheet</button></div>
+<p class="eyebrow header-label">RCCM / Visual field guide / 02</p>
+<h1>Pressure shove.<br>Slip shove.</h1>
+<p class="deck">The surrounding fluid presses on a tornadonut. <strong>A pressure slope gives one direction to fall. Overlapping slip flows can reshape that pressure.</strong> The electric sign lives in the interaction.</p>
+<p>Imagine being the cavity in a paused world. Feel the normal squeeze on your whole skin. Give sideways slip a separate silk-on-skin cue. Keep your existing drift as a faint ghost ahead of you. When time resumes, the net force changes that drift.</p>
+<p class="small opening"><strong>Reading agreement.</strong> This sheet explains RCCM in-model. Equations taken from the TeX, algebra worked out here, and conventional comparison laws are identified below. The illustrations teach those stated rules; they do not validate the model. GfX §16 labels its orbital proposals as future work.</p>
+<div class="legend" aria-label="Visual legend">
+<div class="legend-item"><span class="swatch green"></span>Green: remaining static pressure</div>
+<div class="legend-item"><span class="swatch purple"></span>Purple arrows: v, or E where labelled</div>
+<div class="legend-item"><span class="swatch yellow"></span>Yellow +: positive charge</div>
+<div class="legend-item"><span class="swatch blue"></span>Blue −: negative charge</div>
+</div>
+<nav class="jump" aria-label="On this sheet"><a href="#two-shoves">The two shoves</a><a href="#overlap">Turn the slip</a><a href="#uniform">Equal surroundings</a><a href="#work">Available work</a><a href="#orbitals">The orbital step</a><a href="#source-audit">Source &amp; units</a></nav>
+</header>
+<noscript><p class="no-js">The opening examples and all equations work without JavaScript. Interactive comparisons require JavaScript.</p></noscript>
+
+<div class="pair-grid" id="two-shoves">
+<section class="channel" aria-labelledby="pressure-title">
+<p class="eyebrow">01 / Pressure shove</p><h2 id="pressure-title">The harder squeeze wins.</h2>
+<p id="pressure-story">The circulating and moving medium occupies part of the pressure budget. Less static pressure remains near the mass. At the pictured instant, the fluid above your cavity presses harder than the fluid below. The net shove points down.</p>
+<figure>
+<svg class="scene" viewBox="0 0 480 302" role="img" aria-labelledby="pressure-svg-title pressure-svg-desc">
+<title id="pressure-svg-title">A cavity between unequal pressures</title><desc id="pressure-svg-desc">Stronger downward pressure arrows above the cavity beat weaker upward pressure arrows below. The net force points downward; existing sideways drift remains.</desc>
+<defs><marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" class="green-fill"/></marker><marker id="arrow-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" class="ink-fill"/></marker><marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" class="purple-fill"/></marker></defs>
+<rect id="upper-pressure" x="18" y="14" width="444" height="125" rx="8" fill="#bdd9c7"/>
+<rect id="lower-pressure" x="18" y="147" width="444" height="128" rx="8" fill="#eaf2ec"/>
+<text id="upper-label" x="36" y="43">Above: more pressure</text><text id="lower-label" x="36" y="251">Below: less pressure</text>
+<g id="upper-arrows" class="pressure-arrow" marker-end="url(#arrow-green)"><path d="M175 53V111"/><path d="M235 45V103"/><path d="M295 53V111"/></g>
+<g id="lower-arrows" class="pressure-arrow" marker-end="url(#arrow-green)"><path d="M175 204V176"/><path d="M235 213V185"/><path d="M295 204V176"/></g>
+<ellipse cx="235" cy="145" rx="55" ry="34" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><ellipse cx="235" cy="145" rx="25" ry="12" fill="#dcece1" stroke="var(--ink)" stroke-width="1.5"/>
+<path d="M300 147H365" class="line" stroke-dasharray="4 5" marker-end="url(#arrow-ink)"/><text x="320" y="130" class="tiny soft-text">existing drift</text>
+<path id="gravity-force" d="M401 170V223" class="force-arrow" marker-end="url(#arrow-ink)"/><text id="gravity-force-label" x="380" y="242">shove</text>
+<text x="240" y="296" text-anchor="middle" class="tiny soft-text">One local snapshot · all sources remain free to move</text>
+</svg>
+<figcaption>Arrow sizes exaggerate the pressure difference. Green reads physical static pressure; the cavity’s effective displaced volume enters the force law.</figcaption>
+</figure>
+<div class="controls js-only" aria-label="Change the vertical pressure slope"><button type="button" data-slope="1" aria-pressed="true">More above</button><button type="button" data-slope="0" aria-pressed="false">Equal</button><button type="button" data-slope="-1" aria-pressed="false">More below</button></div>
+<p id="gravity-readout" class="readout" aria-live="polite">↓ 8.99 m/s² downward</p>
+<p id="gravity-caption" class="small caption-space">Numerical example: upward is +z; ∂q/∂z = 2 × 10⁻¹⁶ m⁻¹, in a weak, nearly full-capacity region. This is acceleration, not velocity.</p>
+<div class="equation-box">
+<div class="math"><span class="math-line">q = P<sub>static</sub> / P<sub>c</sub></span><span class="math-line">a<sub>g</sub> ≈ −(c²/2) ∇q</span><span class="math-line">F<sub>g</sub> ≈ −V<sub>eff</sub> ∇P<sub>static</sub></span></div>
+<p class="small">GfX §5.3: static, weak field; slow test body; constant P<sub>c</sub> = ½ρ<sub>τ</sub>c². Here V<sub>eff</sub> = m<sub>τ</sub>/ρ<sub>τ</sub>.</p>
+</div>
+<p><strong>Your gravity picture fits this route.</strong> “Used up” means stored as kinematic load, not energy destroyed. The model’s remaining capacity q is a scalar: 0 &lt; q ≤ 1 on the regular branch. At q = 0 the spatial weight 1/q becomes singular.</p>
+</section>
+
+<section class="channel slip" aria-labelledby="slip-title">
+<p class="eyebrow">02 / Slip shove</p><h2 id="slip-title">The overlap changes the squeeze.</h2>
+<p id="pair-story">Place two charged tornadonuts beside each other. In the TeX’s facing-flow picture, opposite charges reinforce the slip in the gap. Faster combined flow consumes more of the budget there. Static pressure drops, so the surrounding fluid drives the pair together.</p>
+<figure>
+<svg class="scene" viewBox="0 0 480 302" role="img" aria-labelledby="pair-svg-title pair-svg-desc">
+<title id="pair-svg-title">Opposite charges, reinforcing gap flows, attraction</title><desc id="pair-svg-desc">A positive yellow cavity and negative blue cavity flank a low-pressure gap. Two parallel purple slip arrows point upward in the gap. The two net-force arrows point toward each other.</desc>
+<rect x="18" y="14" width="444" height="261" rx="8" fill="var(--green-soft)"/>
+<rect id="gap-fill" x="187" y="60" width="106" height="136" rx="16" fill="#f5f8f2"/>
+<text id="gap-label" x="240" y="43" text-anchor="middle">Gap: lower static pressure</text>
+<ellipse cx="108" cy="137" rx="54" ry="41" class="charge-fill torus" data-sign="1"/><ellipse cx="108" cy="137" rx="23" ry="16" fill="var(--paper)" stroke="var(--yellow-ink)" stroke-width="1.7"/><text x="108" y="146" text-anchor="middle" class="large">+</text>
+<ellipse id="right-core" cx="372" cy="137" rx="54" ry="41" class="charge-fill torus" data-sign="-1"/><ellipse id="right-hole" cx="372" cy="137" rx="23" ry="16" fill="var(--paper)" stroke="var(--blue-ink)" stroke-width="1.7"/><text id="right-charge" x="372" y="146" text-anchor="middle" class="large">−</text>
+<path d="M218 162V96" class="slip-arrow" marker-end="url(#arrow-purple)"/><path id="pair-slip-b" d="M262 162V96" class="slip-arrow" marker-end="url(#arrow-purple)"/>
+<text x="218" y="184" text-anchor="middle" class="tiny">v₁</text><text x="262" y="184" text-anchor="middle" class="tiny">v₂</text>
+<path id="left-pair-force" d="M91 224H153" class="force-arrow" marker-end="url(#arrow-ink)"/><path id="right-pair-force" d="M389 224H327" class="force-arrow" marker-end="url(#arrow-ink)"/>
+<text id="pair-motion" x="240" y="254" text-anchor="middle">Both accelerate inward</text><text x="240" y="296" text-anchor="middle" class="tiny soft-text">Charge colour belongs to the cavity, not to pressure</text>
+</svg>
+<figcaption>A facing-flow cartoon. The sign-to-flow assignment comes from the TeX; these net-force arrows do not come from a computed surface-stress integral.</figcaption>
+</figure>
+<div class="controls js-only" aria-label="Change only the right charge"><button type="button" data-pair="-1" aria-pressed="true">Opposite charges</button><button type="button" data-pair="1" aria-pressed="false">Like charges</button></div>
+<p id="pair-readout" class="readout" aria-live="polite">→ ← Reinforcing flow · attraction</p>
+<p id="pair-caption" class="small caption-space">Reverse only the right charge to compare the proposed like-charge case: facing flows cancel and static pressure recovers in the gap.</p>
+<div class="equation-box slip">
+<div class="math"><span class="math-line">e<sub>i</sub> = α v<sub>⊥,i</sub> / c</span><span class="math-line">Û<sub>0i</sub> = −e<sub>i</sub> &nbsp; · &nbsp; Û<sub>i0</sub> = +e<sub>i</sub></span><span class="math-line">P<sub>dyn,⊥</sub> = ½ρ<sub>τ</sub>|v₁ + v₂|²</span></div>
+<p class="small">GfX §§2–3 gives the ledger and matrix entries; §16.2 sketches Coulomb attraction. Condensed’s “Coulomb’s Law” gives the pair cross-term and repulsion account.</p>
+</div>
+<p><strong>The signed seesaw belongs to the overlap.</strong> e<sub>i</sub> is a signed, dimensionless velocity component. Charge Q labels the defect’s polarity. Neither is a −50% to +50% static-pressure meter. A negative component can simply mean “toward −x.”</p>
+</section>
+</div>
+
+<section class="section" id="overlap" aria-labelledby="overlap-title">
+<p class="eyebrow">Keep the magnitudes / Turn one arrow</p><h2 id="overlap-title">A signed cross-term inside a positive budget.</h2>
+<p class="section-lead">At one point in the gap, add the two velocity arrows first. Then square the length of their sum. Each flow contributes a positive self-term. Their dot product contributes a term that can be positive, zero, or negative.</p>
+<div class="math"><span class="math-line">½ρ<sub>τ</sub>|v₁ + v₂|²</span><span class="math-line">= ½ρ<sub>τ</sub>|v₁|² + ½ρ<sub>τ</sub>|v₂|² + ρ<sub>τ</sub>v₁ · v₂</span></div>
+<p>Holding the other loads fixed, the corresponding <em>change</em> in static pressure is <strong>ΔP<sub>static,int</sub> = −ρ<sub>τ</sub>v₁ · v₂</strong>. A negative change means less pressure than the sum-of-self-terms reference. It does not make the total pressure negative.</p>
+<div class="lab">
+<div>
+<svg class="vectors" viewBox="0 0 340 250" role="img" aria-labelledby="vectors-title vectors-desc"><title id="vectors-title">Two equal slip velocities at one point</title><desc id="vectors-desc">The two purple velocity arrows start at the same point. Their relative angle controls the cross-term. The dashed black arrow is their vector sum.</desc>
+<circle cx="134" cy="131" r="84" fill="none" stroke="var(--line)" stroke-dasharray="4 5"/><path d="M35 131H316 M134 25V230" fill="none" stroke="var(--line)"/>
+<path id="vector-sum" d="M134 131L302 131" class="line" stroke-dasharray="5 6" marker-end="url(#arrow-ink)"/>
+<path d="M134 131L218 131" class="slip-arrow" marker-end="url(#arrow-purple)"/><path id="vector-b" d="M134 131L218 131" class="slip-arrow" marker-end="url(#arrow-purple)"/>
+<circle cx="134" cy="131" r="5" class="ink-fill"/><text x="201" y="157">v₁</text><text id="vector-b-label" x="210" y="114">v₂</text><text x="170" y="246" text-anchor="middle">Same point · same speed · new direction</text>
+</svg>
+<div class="js-only" id="angle-controls"><label for="overlap-angle">Relative flow angle <output id="angle-value" for="overlap-angle">0°</output></label><input type="range" id="overlap-angle" name="overlap-angle" min="0" max="180" step="1" value="0" aria-describedby="angle-help"><div class="scale"><span>0° · reinforce</span><span>180° · cancel</span></div></div>
+<p class="small" id="angle-help">This turns a local velocity arrow. Rotating an actual charged tornadonut does not change its charge sign.</p>
+</div>
+<div>
+<p class="pill">Exact local ledger / illustrative amplitudes</p><p>Both speeds are 20% of c. Set all other loads to zero and hold ρ<sub>τ</sub>, c and P<sub>c</sub> fixed.</p>
+<div class="budget" role="img" id="budget-bar" aria-label="Dynamic pressure uses 16 percent of the budget; static pressure has 84 percent remaining"><div class="used" id="budget-used"></div><div class="remaining"></div></div>
+<div class="numbers" aria-live="polite"><div class="metric"><p class="value dynamic" id="dynamic-value">16%</p><p>dynamic pressure / P<sub>c</sub></p></div><div class="metric"><p class="value capacity" id="capacity-value">84%</p><p>remaining static pressure / P<sub>c</sub></p></div></div>
+<p class="interaction-line">Self-terms: <strong>8% of P<sub>c</sub></strong><br>Dynamic cross-term: <strong id="cross-value">+8% of P<sub>c</sub></strong><br>Static-pressure change: <strong id="static-change">−8% of P<sub>c</sub></strong></p>
+<p id="overlap-result" class="readout" aria-live="polite">Reinforcement lowers the remaining pressure.</p>
+<p class="small constant-note">At 90° the cross-term vanishes. At 180° the velocities cancel and 100% remains at this point. These values describe a local overlap, not the pressure everywhere around two particles.</p>
+</div>
+</div>
+<p class="aside ledger-note">The ledger preserves your “capacity to do stuff” picture: P<sub>static</sub> + all counted loads = P<sub>c</sub>. Each load is counted once. The diagonal weights are −q and 1/q; 1/q is a spatial metric coefficient, not a second physical pressure.</p>
+</section>
+
+<section class="section" id="uniform" aria-labelledby="uniform-title">
+<p class="eyebrow">The boundary matters</p><h2 id="uniform-title">Equal squeeze cancels. A uniform electric field can still shove.</h2>
+<div class="uniform">
+<div>
+<svg class="uniform-diagram" viewBox="0 0 460 215" role="img" aria-label="Equal inward pressure arrows around a cavity cancel in the net force"><rect x="10" y="10" width="440" height="175" rx="8" fill="var(--green-soft)"/><circle cx="230" cy="98" r="37" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><g class="pressure-arrow" marker-end="url(#arrow-green)"><path d="M130 98H184"/><path d="M330 98H276"/><path d="M230 17V51"/><path d="M230 179V145"/></g><text x="230" y="209" text-anchor="middle">same normal squeeze on every side</text></svg>
+<h3>Add the pushes over the whole skin.</h3><p>For a closed boundary, uniform isotropic pressure gives zero net translation. An imposed spatially constant mechanical stress also has zero net surface force. Internal loading or torque needs its own check.</p>
+<div class="math">F<sub>pressure</sub> = −∮<sub>∂V</sub> P n dA<br>= −∫<sub>V</sub> ∇P dV</div>
+<p class="small">n is the outward unit normal. Opposite surface normals make equal pushes cancel. This is the continuum surface-force identity; using the defect’s V<sub>eff</sub> adds GfX’s mass/displacement identification.</p>
+</div>
+<div>
+<svg class="uniform-diagram" viewBox="0 0 460 215" role="img" aria-labelledby="uniform-title-svg uniform-desc-svg"><title id="uniform-title-svg">A charge responds to a uniform external electric field</title><desc id="uniform-desc-svg">All external electric-field arrows point right with equal length. A positive charge is pushed right; reversing its charge reverses the force without changing the external field.</desc><rect x="10" y="10" width="440" height="175" rx="8" fill="var(--purple-soft)"/>
+<g class="slip-arrow" marker-end="url(#arrow-purple)"><path d="M40 45H111"/><path d="M185 45H256"/><path d="M330 45H401"/><path d="M40 143H111"/><path d="M185 143H256"/><path d="M330 143H401"/></g><circle id="test-charge-body" cx="220" cy="94" r="24" class="charge-fill" data-sign="1" stroke-width="1.5"/><text id="test-charge-symbol" x="220" y="101" text-anchor="middle">+</text><path id="test-charge-force" d="M253 94H313" class="force-arrow" marker-end="url(#arrow-ink)"/><text x="230" y="209" text-anchor="middle">same external E at every point</text></svg>
+<h3>Keep the field. Change the receiver.</h3><p>A positive test charge follows the applied E arrow; a negative charge goes against it. The field is already a direction for force per charge. It can stay constant while electric potential changes across the room.</p>
+<div class="controls js-only" aria-label="Charge of the test object"><button type="button" data-test-charge="1" aria-pressed="true">Yellow +</button><button type="button" data-test-charge="-1" aria-pressed="false">Blue −</button><button type="button" data-test-charge="0" aria-pressed="false">Neutral 0</button></div>
+<p class="readout" id="uniform-readout" aria-live="polite">→ Same E · positive charge · force right</p>
+<div class="math">F<sub>e</sub> = Q E &nbsp; · &nbsp; E = −∇φ</div>
+<p class="small">Conventional electrostatic comparison, in SI units. The neutral option is an ideal test object with no induced response. The external field omits the object’s own field; the full interacting stress around a charge need not be uniform. <a href="https://www.feynmanlectures.caltech.edu/I_14.html">Feynman I–14</a>.</p>
+</div>
+</div>
+<p><strong>So narrow the “same tensor all around” rule.</strong> Zero net shove requires the relevant surface pushes or force contributions to cancel. Equal applied-field readings alone do not guarantee that. The charged object and its coupling belong in the calculation.</p>
+</section>
+
+<section class="section" id="work" aria-labelledby="work-title">
+<p class="eyebrow">Your common thread</p><h2 id="work-title">Available work belongs to a change of configuration.</h2>
+<p>Move the chosen object a little. If the configuration’s potential energy drops, that energy can become motion. In a conservative, quasistatic description, the force points down the <em>object’s potential-energy slope</em>:</p>
+<div class="math">F = −∇E<sub>pot</sub> &nbsp; · &nbsp; δW = F · δx = −δE<sub>pot</sub></div>
+<div class="work">
+<div><h3>Gravity: one slope for both charge signs.</h3><p>With m<sub>τ</sub>, ρ<sub>τ</sub> and the background fixed, GfX §5.3 gives the pressure route. Integrating its force gives:</p><div class="math">E<sub>pot,g</sub> = V<sub>eff</sub>P<sub>static</sub> + constant</div><p class="small">This is a derived effective potential for the stated small-body, weak-field law. Changing yellow to blue while preserving mass does not reverse its gravitational force.</p></div>
+<div><h3>Electricity: the charge signs change the slope.</h3><p>In the standard point-charge comparison, the interaction energy and force on body 2 are:</p><div class="math">E<sub>pot,e</sub>(r) = k<sub>e</sub> Q₁Q₂ / r<br>F₂ = (k<sub>e</sub> Q₁Q₂ / r²) r̂</div><p class="small">r̂ points from body 1 toward body 2; k<sub>e</sub> = 1/(4πε₀). Like signs lower energy by separating; opposite signs lower it by approaching. Both free bodies respond. These are conventional comparison laws, not a derivation from the GfX matrix. <a href="https://www.feynmanlectures.caltech.edu/I_12.html">Feynman I–12</a>, <a href="https://www.feynmanlectures.caltech.edu/I_14.html">I–14</a>.</p></div>
+</div>
+<p>Pressure has units of energy per volume. That makes pressure and work closely connected, but a local q reading alone is not a quantity of extractable work. Specify the object, its displacement, its coupling and the allowed process. For electric response, even the word “higher potential” needs the charge sign: E<sub>pot</sub> = Qφ.</p>
+<p class="aside">The stronger electric force also needs its coupling and scale. A signed axis versus an unsigned axis does not determine their strength ratio.</p>
+</section>
+
+<section class="section" id="orbitals" aria-labelledby="orbitals-title">
+<p class="eyebrow">Three separate steps</p><h2 id="orbitals-title">Attraction is a start. Orbitals require more.</h2>
+<p>A yellow knot surrounded by blue knots has many interacting fields. In the linear electrostatic comparison, potentials and field vectors add; blue–blue repulsion also contributes. In the fluid ledger, velocities add before the square. “More blue overlap” does not by itself specify a stable motion or an allowed atomic state.</p>
+<div class="route">
+<div><p class="number">01 / Net shove</p><h3>Which way does it accelerate?</h3><p>The pressure and field patterns, together with the object’s response, give the initial shove. More sources require the whole combined field.</p><div class="math">|Σv<sub>i</sub>|² = Σ|v<sub>i</sub>|²<br>+ 2Σ<sub>i&lt;j</sub>v<sub>i</sub> · v<sub>j</sub></div></div>
+<div><p class="number">02 / Bounded motion</p><h3>What prevents collision or escape?</h3><p>Existing velocity, angular momentum, energy transfer and boundary dynamics decide the path. An inward force can bend sideways motion; attraction alone does not supply that motion.</p><p class="small">GfX §16.2 proposes advection–vorticity coupling and a sideways deflection for positronium. The closed evolution and stability calculation remain to be supplied.</p></div>
+<div><p class="number">03 / Quantized states</p><h3>Which patterns are allowed?</h3><p>GfX adds a standing-wave and circulation constraint. It proposes discrete radii and binding energies:</p><div class="math">∮ v<sub>⊥</sub> · dl = n h/m<sub>e</sub><br>r<sub>n</sub> ∝ n² &nbsp; · &nbsp; |E<sub>n</sub>| ∝ n⁻²</div><p class="small">These appear in §16’s future-work roadmap. A field/boundary solution, stable modes and their observed distribution are further obligations.</p></div>
+</div>
+<p>An atomic orbital denotes a quantum state with a spatial amplitude and probability distribution. A curved track or a dense residence cloud is a different output. Connecting a fluid trajectory model to measured orbital patterns needs the corresponding state and measurement rule. <a href="https://www.feynmanlectures.caltech.edu/III_19.html">Feynman III–19: hydrogen states</a>.</p>
+</section>
+
+<section class="section" id="source-audit" aria-labelledby="source-title">
+<p class="eyebrow">Keep the bridges visible</p><h2 id="source-title">What the TeX supports.</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Claim and source comparison"><table><thead><tr><th>Part of the picture</th><th>Source</th><th>What follows</th></tr></thead><tbody>
+<tr><td>Circulation occupies capacity</td><td>GfX §§2–3</td><td>Kinematic loads reduce the remaining scalar pressure; signed slip entries record direction.</td></tr>
+<tr><td>Pressure imbalance gives gravity</td><td>GfX §5.3</td><td>a ≈ −∇P<sub>static</sub>/ρ<sub>τ</sub> in its static, weak, slow limit.</td></tr>
+<tr><td>Slip overlap changes pressure</td><td>Condensed, “Coulomb’s Law”; GfX §16.2</td><td>The squared-sum identity is exact. Relating charge signs to full surrounding flows requires the charged-defect construction.</td></tr>
+<tr><td>Measured atomic orbitals</td><td>GfX §16, especially §16.2</td><td>A proposed research route with added dynamical and quantization constraints, not a completed consequence of overlap.</td></tr>
+</tbody></table></div>
+<details class="audit"><summary>Read the stress bridge, units, and remaining construction</summary><div class="audit-content">
+<h3>Pressure and shear meet at a boundary.</h3>
+<p>In ordinary continuum notation, let σ be the <em>mechanical traction stress</em> and n the outward surface normal. Splitting σ = −P I + σ<sub>shear</sub> gives:</p>
+<div class="math">F = ∮<sub>∂V</sub> σn dA<br>= ∫<sub>V</sub> [−∇P + ∇·σ<sub>shear</sub>] dV</div>
+<p>This is the precise sense in which both normal squeeze and tangential traction can add up to a shove. A shear tensor supplies directional tractions, not a second scalar pressure. Net torque and spin need an additional angular-momentum balance.</p>
+<p>GfX §4 defines a four-dimensional stress deviation T̂<sub>μν</sub> = P<sub>c</sub>(Û<sub>μν</sub> − η<sub>μν</sub>). Its §5.1 compatible-flow balance includes ½ factors and ρ<sub>dyn</sub>; §5.2 uses a different defect inertia; §5.3 gives the restricted gravity law used here. The time–space electric entries are not, just by their position, a three-dimensional tangential surface traction. Translating these into σ and a force on a charged boundary needs the stated conventions and constitutive/source rules.</p>
+<h3>Four readings, four different types.</h3>
+<dl class="symbol-list"><dt>q, e<sub>i</sub>, α</dt><dd>Dimensionless. q is the remaining pressure fraction; e<sub>i</sub> is a signed slip entry; α is GfX’s transverse coupling ratio.</dd><dt>P, ρ<sub>τ</sub>, v</dt><dd>P: Pa = J/m³. ρ<sub>τ</sub>: kg/m³. v: m/s. Therefore ρ<sub>τ</sub>v₁·v₂ has pressure units.</dd><dt>Q, E, φ</dt><dd>In the conventional comparisons: charge in C, field in N/C, potential in J/C. e<sub>i</sub> is not an SI E component; q is not electric charge.</dd><dt>Force and acceleration</dt><dd>V<sub>eff</sub>∇P: m³ × N/m³ = N. c²∇q: m²/s² × 1/m = m/s². QE: C × N/C = N. ∇E<sub>pot</sub>: J/m = N.</dd><dt>Circulation constraint</dt><dd>∮v·dl and h/m<sub>e</sub> both have units m²/s. That dimensional match does not by itself solve the allowed modes.</dd></dl>
+<h3>The sign assignment still needs its whole field.</h3>
+<p>Condensed assigns reinforcing facing flows to opposite chiralities and opposing flows to identical chiralities. That assignment is used in the pair cartoon. The local overlap slider independently demonstrates the algebra. Turning that into a general Coulomb derivation requires a three-dimensional charged-core solution, its exterior field, boundary tractions, normalization and invariance under independent rotations of the cores. The scalar radial integration in Condensed does not supply all of those data.</p>
+<p>GfX’s α and Condensed’s α<sub>↻⊥</sub> are cited in their own roles; this page does not equate them numerically or use an empirical electric law to fill a missing tensor derivation. The <a href="charge-rotation-audit.md">charge-rotation audit</a> records the earlier orientation and source boundary.</p>
+<h3>Canonical reading route</h3>
+<ol class="source-list" role="list"><li><a href="../RCCM-GfX-2.tex">RCCM-GfX-2.tex</a>: §§1–3 for state and ledger; §5.3 for gravity; §10.6 for winding polarity; §16’s opening scope statement and §16.2 for Coulomb/positronium and atomic proposals. <a href="../RCCM-GfX-2.html">Generated reading copy</a>.</li><li><a href="../RCCM-Condensed.tex">RCCM-Condensed.tex</a>: “Coulomb’s Law (Spherical Bernoulli &amp; Phase Flux),” especially the binomial energy and the two chirality assignments. <a href="../RCCM-Condensed.html#sec:deriv_coulomb_bernoulli">Generated reading copy</a>.</li><li>Conventional comparisons: <a href="https://www.feynmanlectures.caltech.edu/I_12.html">force and field</a>, <a href="https://www.feynmanlectures.caltech.edu/I_14.html">work and potential</a>, <a href="https://www.feynmanlectures.caltech.edu/III_19.html">hydrogen states</a>. They set the comparison target; they do not validate the fluid identification.</li></ol>
+</div></details>
+</section>
+
+<section class="probe" aria-labelledby="probe-title"><h2 id="probe-title">One change to carry back into the world.</h2><p>You are a yellow test knot. A pressure slope gives you a downward shove; a uniform electric field gives you a rightward shove. Pause, keep the surroundings and your mass fixed, and change only your charge to blue. <strong>Which shove reverses, and which stays?</strong></p></section>
+<footer><p>One file, no network required for the illustrations or controls. Readings are local; arrows show the stated instantaneous forces. The canonical TeX remains the reference. <a href="asymmetric-tensor-cheat-sheet.html">Return to the full tensor guide</a>.</p></footer>
+</main>
+<script id="shove-model">
+'use strict';
+globalThis.ShoveModel = (() => {
+  const C = 299792458;
+  function velocityBudget(a, b) {
+    if (![a, b].every(v => Array.isArray(v) && v.length === 3 && v.every(Number.isFinite))) throw new RangeError('Two finite three-component velocities are required.');
+    // Velocities are fractions of c; dividing ½ρv² by Pc = ½ρc² gives |v/c|².
+    const self = a.reduce((sum, v, i) => sum + v*v + b[i]*b[i], 0);
+    const interaction = 2 * a.reduce((sum, v, i) => sum + v*b[i], 0);
+    const dynamic = a.reduce((sum, v, i) => sum + (v + b[i]) ** 2, 0);
+    if (dynamic >= 1) throw new RangeError('The regular capacity branch requires positive remaining pressure.');
+    return {self, interaction, dynamic, capacity: 1 - dynamic};
+  }
+  function overlap(angle) {
+    if (!Number.isFinite(angle) || angle < 0 || angle > 180) throw new RangeError('Angle must be in [0,180].');
+    const radians = angle * Math.PI / 180;
+    return velocityBudget([.2, 0, 0], [.2*Math.cos(radians), .2*Math.sin(radians), 0]);
+  }
+  function gravity(slope) { return -C*C*slope/2; }
+  function electricForce(charge, field) { return charge*field; }
+  function pair(left, right) {
+    // Declared charge-to-facing-flow assignment, not a solved boundary field.
+    const aligned = left !== right;
+    return {...overlap(aligned ? 0 : 180), aligned, rightForce: left*right, leftForce: -left*right};
+  }
+  return {velocityBudget, overlap, gravity, electricForce, pair};
+})();
+</script>
+<script>
+'use strict';
+document.documentElement.classList.add('js');
+const byId = id => document.getElementById(id);
+const text = (id, value) => { byId(id).textContent = value; };
+const attr = (id, name, value) => byId(id).setAttribute(name, String(value));
+function choose(selector, chosen) { document.querySelectorAll(selector).forEach(b => b.setAttribute('aria-pressed', String(b === chosen))); }
+function percent(value, signed = false) {
+  const rounded = Math.round(value * 1000) / 10;
+  const sign = rounded < 0 ? '−' : signed && rounded > 0 ? '+' : '';
+  return sign + Math.abs(rounded).toLocaleString('en-US', {maximumFractionDigits: 1}) + '%';
+}
+document.querySelectorAll('[data-slope]').forEach(button => button.addEventListener('click', () => {
+  choose('[data-slope]', button);
+  const sign = Number(button.dataset.slope), acceleration = ShoveModel.gravity(sign * 2e-16);
+  text('pressure-story', sign === 0 ? 'The circulating and moving medium occupies part of the pressure budget. In this changed local scene, both sides press equally. The pressure-gradient force cancels. The cavity keeps its existing drift unless another force changes it.' : `The circulating and moving medium occupies part of the pressure budget. In this local snapshot, the fluid ${sign > 0 ? 'above' : 'below'} your cavity presses harder than the fluid ${sign > 0 ? 'below' : 'above'}. The net pressure shove points ${sign > 0 ? 'down' : 'up'}. Its existing drift is a separate input.`);
+  text('upper-label', sign === 0 ? 'Above: equal pressure' : `Above: ${sign > 0 ? 'more' : 'less'} pressure`);
+  text('lower-label', sign === 0 ? 'Below: equal pressure' : `Below: ${sign > 0 ? 'less' : 'more'} pressure`);
+  attr('upper-pressure', 'fill', sign > 0 ? '#bdd9c7' : sign < 0 ? '#eaf2ec' : '#dcece1');
+  attr('lower-pressure', 'fill', sign < 0 ? '#bdd9c7' : sign > 0 ? '#eaf2ec' : '#dcece1');
+  const topLength = sign > 0 ? 58 : sign < 0 ? 28 : 42;
+  const bottomLength = sign < 0 ? 58 : sign > 0 ? 28 : 42;
+  [...byId('upper-arrows').children].forEach((path, i) => { const x = [175,235,295][i], end = [111,103,111][i]; path.setAttribute('d', `M${x} ${end-topLength}V${end}`); });
+  [...byId('lower-arrows').children].forEach((path, i) => { const x = [175,235,295][i], end = [176,185,176][i]; path.setAttribute('d', `M${x} ${end+bottomLength}V${end}`); });
+  attr('gravity-force', 'd', sign > 0 ? 'M401 170V223' : sign < 0 ? 'M401 223V170' : '');
+  text('gravity-force-label', sign ? 'shove' : 'zero');
+  text('gravity-readout', sign ? `${sign > 0 ? '↓' : '↑'} ${Math.abs(acceleration).toFixed(2)} m/s² ${sign > 0 ? 'downward' : 'upward'}` : '0 m/s² · no pressure-gradient acceleration');
+  text('gravity-caption', `Numerical example: upward is +z; ∂q/∂z = ${sign === 0 ? '0' : (sign < 0 ? '−' : '') + '2 × 10⁻¹⁶'} m⁻¹, in a weak, nearly full-capacity region. This is acceleration, not velocity.`);
+  text('pressure-svg-desc', sign ? `The ${sign > 0 ? 'upper' : 'lower'} pressure is greater. The net pressure shove points ${sign > 0 ? 'down' : 'up'}. Existing sideways drift remains.` : 'Equal pressure pushes cancel. There is no pressure-gradient acceleration. Existing sideways drift remains.');
+}));
+document.querySelectorAll('[data-pair]').forEach(button => button.addEventListener('click', () => {
+  choose('[data-pair]', button);
+  const right = Number(button.dataset.pair), state = ShoveModel.pair(1, right);
+  text('pair-story', state.aligned ? 'Place two charged tornadonuts beside each other. In the TeX’s facing-flow picture, opposite charges reinforce the slip in the gap. Faster combined flow consumes more of the budget there. Static pressure drops, so the surrounding fluid drives the pair together.' : 'Keep the left tornadonut positive and change the right one to positive. In the TeX’s facing-flow picture, their slip flows now oppose in the gap. The combined speed falls and static pressure recovers there. The stronger gap pressure drives the pair apart.');
+  attr('right-core', 'data-sign', right); text('right-charge', right < 0 ? '−' : '+');
+  attr('right-hole', 'stroke', right < 0 ? 'var(--blue-ink)' : 'var(--yellow-ink)');
+  attr('gap-fill', 'fill', state.aligned ? '#f5f8f2' : '#b2d2be');
+  text('gap-label', state.aligned ? 'Gap: lower static pressure' : 'Gap: recovered static pressure');
+  attr('pair-slip-b', 'd', state.aligned ? 'M262 162V96' : 'M262 96V162');
+  attr('left-pair-force', 'd', state.aligned ? 'M91 224H153' : 'M137 224H75');
+  attr('right-pair-force', 'd', state.aligned ? 'M389 224H327' : 'M343 224H405');
+  text('pair-motion', state.aligned ? 'Both accelerate inward' : 'Both accelerate outward');
+  text('pair-readout', state.aligned ? '→ ← Reinforcing flow · attraction' : '← → Cancelling flow · repulsion');
+  text('pair-caption', state.aligned ? 'Opposite charges: the proposed facing flows reinforce, lowering gap pressure relative to the surroundings.' : 'Like charges: the proposed facing flows oppose, recovering gap pressure. Recovery stays within the pressure budget.');
+  text('pair-svg-title', state.aligned ? 'Opposite charges, reinforcing gap flows, attraction' : 'Like charges, opposing gap flows, repulsion');
+  text('pair-svg-desc', state.aligned ? 'Opposite charges flank a lower-pressure gap. Parallel slip arrows reinforce; both force arrows point inward.' : 'Like charges flank a gap with recovered pressure. Opposing slip arrows cancel; both force arrows point outward.');
+}));
+byId('overlap-angle').addEventListener('input', event => {
+  const angle = Number(event.target.value), state = ShoveModel.overlap(angle), radians = angle * Math.PI / 180;
+  const x = 84 * Math.cos(radians), y = -84 * Math.sin(radians);
+  text('angle-value', `${angle}°`);
+  attr('vector-b', 'd', `M134 131L${134+x} ${131+y}`);
+  attr('vector-sum', 'd', angle === 180 ? '' : `M134 131L${218+x} ${131+y}`);
+  attr('vector-b-label', 'x', 126+x); attr('vector-b-label', 'y', 114+y);
+  byId('budget-used').style.width = `${state.dynamic * 100}%`;
+  text('dynamic-value', percent(state.dynamic)); text('capacity-value', percent(state.capacity));
+  text('cross-value', `${percent(state.interaction, true)} of P꜀`); text('static-change', `${percent(-state.interaction, true)} of P꜀`);
+  text('overlap-result', angle === 90 ? 'Orthogonal flows have zero cross-term.' : angle < 90 ? 'Reinforcement lowers the remaining pressure.' : 'Cancellation restores remaining pressure.');
+  attr('budget-bar', 'aria-label', `Dynamic pressure uses ${percent(state.dynamic)} of the budget; static pressure has ${percent(state.capacity)} remaining.`);
+  text('vectors-desc', `The two equal slip velocity arrows meet at ${angle} degrees. Their sum uses ${percent(state.dynamic)} of the pressure budget. ${angle === 180 ? 'The sum is zero.' : 'The dashed arrow shows their vector sum.'}`);
+});
+document.querySelectorAll('[data-test-charge]').forEach(button => button.addEventListener('click', () => {
+  choose('[data-test-charge]', button);
+  const charge = Number(button.dataset.testCharge), force = ShoveModel.electricForce(charge, 1);
+  attr('test-charge-body', 'data-sign', charge); text('test-charge-symbol', charge > 0 ? '+' : charge < 0 ? '−' : '0');
+  attr('test-charge-force', 'd', force > 0 ? 'M253 94H313' : force < 0 ? 'M187 94H127' : '');
+  const description = force > 0 ? '→ Same E · positive charge · force right' : force < 0 ? '← Same E · negative charge · force left' : 'Same E · ideal neutral test object · zero QE force';
+  text('uniform-readout', description); text('uniform-desc-svg', description + '. All external electric-field arrows retain the same length and rightward direction.');
+}));
+byId('print-page').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
