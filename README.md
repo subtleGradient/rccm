@@ -133,6 +133,13 @@ view draws complete tapes between fixed map pins, with the first metre green,
 the remainder striped and the total at the far pin. Keep the size of a counted
 unit visually distinct from the number of units across the whole interval.
 
+The [chiral shear screw-and-passage lesson](docs/chiral-shear.html) gives a
+single forward direction to a smooth nail, a right-hand screw and a left-hand
+screw, then removes the props to show the corresponding fluid passages. Its
+thread and hole meshes share one signed helix rule. Rotating the scene does
+not reverse that sign; reflecting the pattern does. The metal is an analogy
+for slip around a maintained void, not a charge calculation.
+
 The [3D winding comparison](docs/asymmetric-tensor-cheat-sheet.html#charge-rotation)
 addresses Tom's next counterexample: a planar circulation picture can reverse
 its apparent spin when turned over, although electric charge cannot change
